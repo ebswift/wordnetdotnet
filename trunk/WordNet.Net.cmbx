@@ -1,0 +1,14 @@
+<Combine fileversion="1.0" name="WordNet.Net" description="Converted Visual Studio.NET Solution">
+  <StartMode startupentry="WordNet.Net" single="True" />
+  <Entries>
+    <Entry filename=".\WordNet.Net.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="WordNet.Net" configurationname="Release" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="WordNet.Net" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>
