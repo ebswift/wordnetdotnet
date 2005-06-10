@@ -1,9 +1,9 @@
-<Combine fileversion="1.0" name="WordNetDT" description="">
+<Combine fileversion="1.0" name="WordNet.Net Sample" description="">
   <StartMode startupentry="WordNet.Net Sample" single="True">
     <Execute entry="WordNet.Net Sample" type="None" />
   </StartMode>
   <Entries>
-    <Entry filename=".\WordNetDT.prjx" />
+    <Entry filename=".\WordNet.Net Sample.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">
