@@ -1,0 +1,39 @@
+<Project name="SnapIns.AutoUpdate" standardNamespace="Razor.SnapIns.AutoUpdate" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
+  <Contents>
+    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\AutoUpdateSnapIn.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\BeforeOperationCompletedWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\BeforeUpdateCopiedToAlternatePathWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\BeforeUpdateDownloadedWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\BeforeUpdateInstalledWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\BeforeUpdateSwitchedToWindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\DefaultBehaviorModifier.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Behaviors\Razor.SnapIns.AutoUpdate.Behaviors.BeforeOperationCompletedWindow.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name=".\Behaviors\Razor.SnapIns.AutoUpdate.Behaviors.BeforeUpdateCopiedToAlternatePathWindow.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name=".\Behaviors\Razor.SnapIns.AutoUpdate.Behaviors.BeforeUpdateDownloadedWindow.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name=".\Behaviors\Razor.SnapIns.AutoUpdate.Behaviors.BeforeUpdateInstalledWindow.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name=".\Behaviors\Razor.SnapIns.AutoUpdate.Behaviors.BeforeUpdateSwitchedToWindow.resources" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+  </Contents>
+  <References>
+    <Reference type="Project" refto="Razor Framework" localcopy="True" />
+    <Reference type="Project" refto="SnapIns.AutoUpdateOptions" localcopy="True" />
+  </References>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configuration runwithwarnings="True" name="Debug">
+    <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" target="Library" definesymbols="DEBUG;TRACE" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+    <Execution commandlineparameters="" consolepause="True" />
+    <Output directory="..\..\Hosting\Razor\bin\Debug" assembly="Razor.SnapIns.AutoUpdate" executeScript="" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+  </Configuration>
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="True" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" target="Library" definesymbols="DEBUG;TRACE" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\..\Hosting\Razor\bin\Debug" assembly="Razor.SnapIns.AutoUpdate" executeScript="" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+    <Configuration runwithwarnings="True" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" compilerversion="" warninglevel="4" nowarn="" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" target="Library" definesymbols="TRACE" generatexmldocumentation="False" win32Icon="" noconfig="False" nostdlib="False" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory="..\..\Hosting\Razor\bin\Release" assembly="Razor.SnapIns.AutoUpdate" executeScript="" executeBeforeBuild="" executeAfterBuild="" executeBeforeBuildArguments="" executeAfterBuildArguments="" />
+    </Configuration>
+  </Configurations>
+</Project>
