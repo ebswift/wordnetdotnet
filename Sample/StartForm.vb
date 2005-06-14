@@ -12,6 +12,7 @@ Namespace wnb
 
     Public Class StartForm
         Inherits System.Windows.Forms.Form
+        
         Friend mnuFile As System.Windows.Forms.MenuItem
         Friend btnAdv As System.Windows.Forms.Button
         Friend btnNoun As System.Windows.Forms.Button
