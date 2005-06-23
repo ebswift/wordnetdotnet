@@ -32,5 +32,5 @@ Imports Razor.Attributes
 <assembly: AssemblyDelaySign(false)>
 <Assembly: AssemblyKeyFile("")>
 
-' this attribute is required for the hosting engine to create an instance of this snapin
+' this attribute is required for the Razor hosting engine to create an instance of this snapin
 <Assembly: SnapInExportedFromAssembly(GetType(Razor.SnapIns.ApplicationWindow.ApplicationWindowSnapIn))>

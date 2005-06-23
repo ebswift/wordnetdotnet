@@ -16,7 +16,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = 'copy "$(TargetDir)*.dll" "$(SolutionDir)Hosting\Razor\bin\Debug"&#xd;&#xa;copy "$(TargetDir)*.pdb" "$(SolutionDir)Hosting\Razor\bin\Debug"&#xd;&#xa;'
                 RootNamespace = "Razor.SnapIns.AutoUpdateOptions"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -35,7 +35,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "false"
-                    OutputPath = "..\..\Hosting\Razor\bin\Debug\"
+                    OutputPath = "obj\Debug\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -90,8 +90,9 @@
                 />
                 <Reference
                     Name = "Razor Framework"
-                    Project = "{3CE6EA1F-73D6-4644-8A1B-AC2E39AF6F90}"
-                    Package = "{C63662AC-48CF-4312-A358-B5358DA3C8FC}"
+                    Project = "{0A17D253-7F2F-4A94-8D10-3ADB5DE30BAC}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "True"
                 />
             </References>
         </Build>

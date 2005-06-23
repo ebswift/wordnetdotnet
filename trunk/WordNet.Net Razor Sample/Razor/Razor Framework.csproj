@@ -35,7 +35,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "false"
-                    OutputPath = "bin\Debug\"
+                    OutputPath = "obj\Debug\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -93,6 +93,31 @@
                     AssemblyName = "ICSharpCode.SharpZipLib"
                     HintPath = "..\ICSharpCode.SharpZipLib.dll"
                 />
+                <Reference
+                    Name = "System.Design"
+                    AssemblyName = "System.Design"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
+                />
+                <Reference
+                    Name = "System.Runtime.Remoting"
+                    AssemblyName = "System.Runtime.Remoting"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
+                />
+                <Reference
+                    Name = "System.Runtime.Serialization.Formatters.Soap"
+                    AssemblyName = "System.Runtime.Serialization.Formatters.Soap"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Serialization.Formatters.Soap.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                />
+                <Reference
+                    Name = "System.Web.Services"
+                    AssemblyName = "System.Web.Services"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.Services.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -113,6 +138,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CancellableProgressWindow.resx"
+                    DependentUpon = "CancellableProgressWindow.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "CancellableProgressWindowThread.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -123,6 +153,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CancelMultipleProgressWindow.resx"
+                    DependentUpon = "CancelMultipleProgressWindow.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "CancelMultipleProgressWindowThread.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -131,6 +166,11 @@
                     RelPath = "CancelOneProgressWindow.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CancelOneProgressWindow.resx"
+                    DependentUpon = "CancelOneProgressWindow.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "CancelOneProgressWindowThread.cs"
@@ -153,9 +193,18 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Images.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "InformationPanel.cs"
                     SubType = "UserControl"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InformationPanel.resx"
+                    DependentUpon = "InformationPanel.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "InformationPanelTypeConverter.cs"
@@ -181,6 +230,11 @@
                     RelPath = "MarqueeControl.cs"
                     SubType = "UserControl"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MarqueeControl.resx"
+                    DependentUpon = "MarqueeControl.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "MarqueeControlTypeConverter.cs"
@@ -213,41 +267,14 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ProgressWindow.resx"
+                    DependentUpon = "ProgressWindow.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "ProgressWindowThread.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Razor.CancellableProgressWindow.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.CancelMultipleProgressWindow.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.CancelOneProgressWindow.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.Images.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.InformationPanel.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.MarqueeControl.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.ProgressWindow.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Razor.SplashWindow.resources"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "SerializationProvider.cs"
@@ -268,6 +295,11 @@
                     RelPath = "SplashWindow.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SplashWindow.resx"
+                    DependentUpon = "SplashWindow.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "SplashWindowThread.cs"
