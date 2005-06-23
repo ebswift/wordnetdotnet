@@ -133,6 +133,8 @@ Namespace Razor.SnapIns.ApplicationWindow
             AddHandler btnVerb.Click, AddressOf btnWordType_Click
             AddHandler btnAdj.Click, AddressOf btnWordType_Click
             AddHandler btnAdv.Click, AddressOf btnWordType_Click
+            AddHandler txtSearchWord.KeyDown, AddressOf txtSearchWord_KeyDown
+            AddHandler mnuWordNetLicense.Click, AddressOf mnuWordNetLicense_Click
 		End Sub
 
 		Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
@@ -145,269 +147,269 @@ Namespace Razor.SnapIns.ApplicationWindow
 		End Sub
 
 		Private Sub InitializeComponent()
-			Me.MenuItem17 = New System.Windows.Forms.MenuItem
-			Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-			Me.mnuClearDisplay = New System.Windows.Forms.MenuItem
-			Me.mnuHistory = New System.Windows.Forms.MenuItem
-			Me.btnVerb = New System.Windows.Forms.Button
-			Me.btnOverview = New System.Windows.Forms.Button
-			Me.mnuWordNetLicense = New System.Windows.Forms.MenuItem
-			Me.txtSearchWord = New System.Windows.Forms.TextBox
-			Me.Label1 = New System.Windows.Forms.Label
-			Me.txtSenses = New System.Windows.Forms.TextBox
-			Me.mnuSaveDisplay = New System.Windows.Forms.MenuItem
-			Me.StatusBar1 = New System.Windows.Forms.StatusBar
-			Me.mnuAdvancedOptions = New System.Windows.Forms.MenuItem
-			Me.mnuWordWrap = New System.Windows.Forms.MenuItem
-			Me.txtOutput = New System.Windows.Forms.TextBox
-			Me.mnuShowHelp = New System.Windows.Forms.MenuItem
-			Me.btnSearch = New System.Windows.Forms.Button
-			Me.mnuOptions = New System.Windows.Forms.MenuItem
-			Me.mnuLGPL = New System.Windows.Forms.MenuItem
-			Me.mnuExit = New System.Windows.Forms.MenuItem
-			Me.mnuShowGloss = New System.Windows.Forms.MenuItem
-			Me.MainMenu1 = New System.Windows.Forms.MainMenu
-			Me.lblSearchInfo = New System.Windows.Forms.Label
-			Me.btnAdj = New System.Windows.Forms.Button
-			Me.HelpMenuItem = New System.Windows.Forms.MenuItem
-			Me.Label3 = New System.Windows.Forms.Label
-			Me.btnNoun = New System.Windows.Forms.Button
-			Me.btnAdv = New System.Windows.Forms.Button
-			Me.mnuFile = New System.Windows.Forms.MenuItem
-			Me.SuspendLayout
-			'
-			'MenuItem17
-			'
-			Me.MenuItem17.Index = 1
-			Me.MenuItem17.Text = "-"
-			'
-			'SaveFileDialog1
-			'
-			Me.SaveFileDialog1.Filter = "Text files (*.txt)|*.txt"
-			'
-			'mnuClearDisplay
-			'
-			Me.mnuClearDisplay.Index = 1
-			Me.mnuClearDisplay.Text = "Clear Current Display"
-			'
-			'mnuHistory
-			'
-			Me.mnuHistory.Index = -1
-			Me.mnuHistory.Text = ""
-			'
-			'btnVerb
-			'
-			Me.btnVerb.FlatStyle = System.Windows.Forms.FlatStyle.System
-			Me.btnVerb.Location = New System.Drawing.Point(352, 32)
-			Me.btnVerb.Name = "btnVerb"
-			Me.btnVerb.Size = New System.Drawing.Size(40, 23)
-			Me.btnVerb.TabIndex = 4
-			Me.btnVerb.Text = "Verb"
-			Me.btnVerb.Visible = false
-			'
-			'btnOverview
-			'
-			Me.btnOverview.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-			Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
-			Me.btnOverview.Location = New System.Drawing.Point(224, 32)
-			Me.btnOverview.Name = "btnOverview"
-			Me.btnOverview.TabIndex = 15
-			Me.btnOverview.Text = "Overview"
-			Me.btnOverview.Visible = false
-			'
-			'mnuWordNetLicense
-			'
-			Me.mnuWordNetLicense.Index = 0
-			Me.mnuWordNetLicense.Text = "WordNet License (Princeton)"
-			'
-			'txtSearchWord
-			'
-			Me.txtSearchWord.AcceptsReturn = true
-			Me.txtSearchWord.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-						Or System.Windows.Forms.AnchorStyles.Left)  _
-						Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-			Me.txtSearchWord.Location = New System.Drawing.Point(80, 8)
-			Me.txtSearchWord.Name = "txtSearchWord"
-			Me.txtSearchWord.Size = New System.Drawing.Size(216, 20)
-			Me.txtSearchWord.TabIndex = 1
-			Me.txtSearchWord.Text = ""
-			AddHandler Me.txtSearchWord.KeyDown, AddressOf Me.txtSearchWord_KeyDown
-			'
-			'Label1
-			'
-			Me.Label1.Location = New System.Drawing.Point(0, 8)
-			Me.Label1.Name = "Label1"
-			Me.Label1.Size = New System.Drawing.Size(80, 23)
-			Me.Label1.TabIndex = 0
-			Me.Label1.Text = "Search Word:"
-			'
-			'txtSenses
-			'
-			Me.txtSenses.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-			Me.txtSenses.Location = New System.Drawing.Point(544, 8)
-			Me.txtSenses.Name = "txtSenses"
-			Me.txtSenses.Size = New System.Drawing.Size(40, 20)
-			Me.txtSenses.TabIndex = 8
-			Me.txtSenses.Text = "0"
-			'
-			'mnuSaveDisplay
-			'
-			Me.mnuSaveDisplay.Index = 0
-			Me.mnuSaveDisplay.Text = "Save Current Display"
-			'
-			'StatusBar1
-			'
-			Me.StatusBar1.Location = New System.Drawing.Point(0, 464)
-			Me.StatusBar1.Name = "StatusBar1"
-			Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
-			Me.StatusBar1.TabIndex = 9
-			Me.StatusBar1.Text = "WordNet.Net Sample"
-			'
-			'mnuAdvancedOptions
-			'
-			Me.mnuAdvancedOptions.Index = 3
-			Me.mnuAdvancedOptions.Text = "Advanced search options"
-			'
-			'mnuWordWrap
-			'
-			Me.mnuWordWrap.Checked = true
-			Me.mnuWordWrap.Index = 0
-			Me.mnuWordWrap.Text = "Word Wrap"
-			'
-			'txtOutput
-			'
-			Me.txtOutput.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-						Or System.Windows.Forms.AnchorStyles.Left)  _
-						Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-			Me.txtOutput.Location = New System.Drawing.Point(0, 56)
-			Me.txtOutput.Multiline = true
-			Me.txtOutput.Name = "txtOutput"
-			Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-			Me.txtOutput.Size = New System.Drawing.Size(592, 408)
-			Me.txtOutput.TabIndex = 19
-			Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more "& _ 
-"information"
-			'
-			'mnuShowHelp
-			'
-			Me.mnuShowHelp.Index = 1
-			Me.mnuShowHelp.Text = "Show help with each search"
-			'
-			'btnSearch
-			'
-			Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-			Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-			Me.btnSearch.Location = New System.Drawing.Point(304, 8)
-			Me.btnSearch.Name = "btnSearch"
-			Me.btnSearch.Size = New System.Drawing.Size(56, 23)
-			Me.btnSearch.TabIndex = 13
-			Me.btnSearch.Text = "Search"
-			'
-			'mnuOptions
-			'
-			Me.mnuOptions.Index = 1
-			Me.mnuOptions.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordWrap, Me.mnuShowHelp, Me.mnuShowGloss, Me.mnuAdvancedOptions})
-			Me.mnuOptions.Text = "Options"
-			'
-			'mnuLGPL
-			'
-			Me.mnuLGPL.Index = 2
-			Me.mnuLGPL.Text = "License"
-			'
-			'mnuExit
-			'
-			Me.mnuExit.Index = 2
-			Me.mnuExit.Text = "Exit"
-			'
-			'mnuShowGloss
-			'
-			Me.mnuShowGloss.Index = 2
-			Me.mnuShowGloss.Text = "Show descriptive gloss"
-			'
-			'MainMenu1
-			'
-			Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuFile, Me.mnuOptions, Me.HelpMenuItem})
-			'
-			'lblSearchInfo
-			'
-			Me.lblSearchInfo.Location = New System.Drawing.Point(0, 32)
-			Me.lblSearchInfo.Name = "lblSearchInfo"
-			Me.lblSearchInfo.Size = New System.Drawing.Size(296, 23)
-			Me.lblSearchInfo.TabIndex = 2
-			'
-			'btnAdj
-			'
-			Me.btnAdj.FlatStyle = System.Windows.Forms.FlatStyle.System
-			Me.btnAdj.Location = New System.Drawing.Point(400, 32)
-			Me.btnAdj.Name = "btnAdj"
-			Me.btnAdj.Size = New System.Drawing.Size(64, 23)
-			Me.btnAdj.TabIndex = 5
-			Me.btnAdj.Text = "Adjective"
-			Me.btnAdj.Visible = false
-			'
-			'mnuHelp
-			'
-			Me.HelpMenuItem.Index = 2
-			Me.HelpMenuItem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordNetLicense, Me.MenuItem17, Me.mnuLGPL})
-			Me.HelpMenuItem.Text = "Help"
-			'
-			'Label3
-			'
-			Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-			Me.Label3.Location = New System.Drawing.Point(480, 8)
-			Me.Label3.Name = "Label3"
-			Me.Label3.TabIndex = 7
-			Me.Label3.Text = "Senses:"
-			'
-			'btnNoun
-			'
-			Me.btnNoun.FlatStyle = System.Windows.Forms.FlatStyle.System
-			Me.btnNoun.Location = New System.Drawing.Point(304, 32)
-			Me.btnNoun.Name = "btnNoun"
-			Me.btnNoun.Size = New System.Drawing.Size(40, 23)
-			Me.btnNoun.TabIndex = 3
-			Me.btnNoun.Text = "Noun"
-			Me.btnNoun.Visible = false
-			'
-			'btnAdv
-			'
-			Me.btnAdv.FlatStyle = System.Windows.Forms.FlatStyle.System
-			Me.btnAdv.Location = New System.Drawing.Point(472, 32)
-			Me.btnAdv.Name = "btnAdv"
-			Me.btnAdv.Size = New System.Drawing.Size(48, 23)
-			Me.btnAdv.TabIndex = 6
-			Me.btnAdv.Text = "Adverb"
-			Me.btnAdv.Visible = false
-			'
-			'mnuFile
-			'
-			Me.mnuFile.Index = 0
-			Me.mnuFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuSaveDisplay, Me.mnuClearDisplay, Me.mnuExit})
-			Me.mnuFile.Text = "File"
-			'
-			'StartForm
-			'
-			Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-			Me.ClientSize = New System.Drawing.Size(592, 486)
-			Me.Controls.Add(Me.txtOutput)
-			Me.Controls.Add(Me.btnOverview)
-			Me.Controls.Add(Me.txtSenses)
-			Me.Controls.Add(Me.txtSearchWord)
-			Me.Controls.Add(Me.btnSearch)
-			Me.Controls.Add(Me.StatusBar1)
-			Me.Controls.Add(Me.Label3)
-			Me.Controls.Add(Me.btnAdv)
-			Me.Controls.Add(Me.btnAdj)
-			Me.Controls.Add(Me.btnVerb)
-			Me.Controls.Add(Me.btnNoun)
-			Me.Controls.Add(Me.lblSearchInfo)
-			Me.Controls.Add(Me.Label1)
-			Me.Menu = Me.MainMenu1
-			Me.Name = "StartForm"
-			Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-			Me.Text = "WordNet.Net Sample"
-			Me.ResumeLayout(false)
-		End Sub
+            Me.MenuItem17 = New System.Windows.Forms.MenuItem
+            Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+            Me.mnuClearDisplay = New System.Windows.Forms.MenuItem
+            Me.mnuHistory = New System.Windows.Forms.MenuItem
+            Me.btnVerb = New System.Windows.Forms.Button
+            Me.btnOverview = New System.Windows.Forms.Button
+            Me.mnuWordNetLicense = New System.Windows.Forms.MenuItem
+            Me.txtSearchWord = New System.Windows.Forms.TextBox
+            Me.Label1 = New System.Windows.Forms.Label
+            Me.txtSenses = New System.Windows.Forms.TextBox
+            Me.mnuSaveDisplay = New System.Windows.Forms.MenuItem
+            Me.StatusBar1 = New System.Windows.Forms.StatusBar
+            Me.mnuAdvancedOptions = New System.Windows.Forms.MenuItem
+            Me.mnuWordWrap = New System.Windows.Forms.MenuItem
+            Me.txtOutput = New System.Windows.Forms.TextBox
+            Me.mnuShowHelp = New System.Windows.Forms.MenuItem
+            Me.btnSearch = New System.Windows.Forms.Button
+            Me.mnuOptions = New System.Windows.Forms.MenuItem
+            Me.mnuShowGloss = New System.Windows.Forms.MenuItem
+            Me.mnuLGPL = New System.Windows.Forms.MenuItem
+            Me.mnuExit = New System.Windows.Forms.MenuItem
+            Me.MainMenu1 = New System.Windows.Forms.MainMenu
+            Me.mnuFile = New System.Windows.Forms.MenuItem
+            Me.HelpMenuItem = New System.Windows.Forms.MenuItem
+            Me.lblSearchInfo = New System.Windows.Forms.Label
+            Me.btnAdj = New System.Windows.Forms.Button
+            Me.Label3 = New System.Windows.Forms.Label
+            Me.btnNoun = New System.Windows.Forms.Button
+            Me.btnAdv = New System.Windows.Forms.Button
+            Me.SuspendLayout()
+            '
+            'MenuItem17
+            '
+            Me.MenuItem17.Index = 1
+            Me.MenuItem17.Text = "-"
+            '
+            'SaveFileDialog1
+            '
+            Me.SaveFileDialog1.Filter = "Text files (*.txt)|*.txt"
+            '
+            'mnuClearDisplay
+            '
+            Me.mnuClearDisplay.Index = 1
+            Me.mnuClearDisplay.Text = "Clear Current Display"
+            '
+            'mnuHistory
+            '
+            Me.mnuHistory.Index = -1
+            Me.mnuHistory.Text = ""
+            '
+            'btnVerb
+            '
+            Me.btnVerb.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnVerb.Location = New System.Drawing.Point(352, 32)
+            Me.btnVerb.Name = "btnVerb"
+            Me.btnVerb.Size = New System.Drawing.Size(40, 23)
+            Me.btnVerb.TabIndex = 4
+            Me.btnVerb.Text = "Verb"
+            Me.btnVerb.Visible = False
+            '
+            'btnOverview
+            '
+            Me.btnOverview.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnOverview.Location = New System.Drawing.Point(224, 32)
+            Me.btnOverview.Name = "btnOverview"
+            Me.btnOverview.TabIndex = 15
+            Me.btnOverview.Text = "Overview"
+            Me.btnOverview.Visible = False
+            '
+            'mnuWordNetLicense
+            '
+            Me.mnuWordNetLicense.Index = 0
+            Me.mnuWordNetLicense.Text = "WordNet License (Princeton)"
+            '
+            'txtSearchWord
+            '
+            Me.txtSearchWord.AcceptsReturn = True
+            Me.txtSearchWord.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                        Or System.Windows.Forms.AnchorStyles.Left) _
+                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.txtSearchWord.Location = New System.Drawing.Point(80, 8)
+            Me.txtSearchWord.Name = "txtSearchWord"
+            Me.txtSearchWord.Size = New System.Drawing.Size(216, 20)
+            Me.txtSearchWord.TabIndex = 1
+            Me.txtSearchWord.Text = ""
+            '
+            'Label1
+            '
+            Me.Label1.Location = New System.Drawing.Point(0, 8)
+            Me.Label1.Name = "Label1"
+            Me.Label1.Size = New System.Drawing.Size(80, 23)
+            Me.Label1.TabIndex = 0
+            Me.Label1.Text = "Search Word:"
+            '
+            'txtSenses
+            '
+            Me.txtSenses.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.txtSenses.Location = New System.Drawing.Point(544, 8)
+            Me.txtSenses.Name = "txtSenses"
+            Me.txtSenses.Size = New System.Drawing.Size(40, 20)
+            Me.txtSenses.TabIndex = 8
+            Me.txtSenses.Text = "0"
+            '
+            'mnuSaveDisplay
+            '
+            Me.mnuSaveDisplay.Index = 0
+            Me.mnuSaveDisplay.Text = "Save Current Display"
+            '
+            'StatusBar1
+            '
+            Me.StatusBar1.Location = New System.Drawing.Point(0, 464)
+            Me.StatusBar1.Name = "StatusBar1"
+            Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
+            Me.StatusBar1.TabIndex = 9
+            Me.StatusBar1.Text = "WordNet.Net Sample"
+            '
+            'mnuAdvancedOptions
+            '
+            Me.mnuAdvancedOptions.Index = 3
+            Me.mnuAdvancedOptions.Text = "Advanced search options"
+            '
+            'mnuWordWrap
+            '
+            Me.mnuWordWrap.Checked = True
+            Me.mnuWordWrap.Index = 0
+            Me.mnuWordWrap.Text = "Word Wrap"
+            '
+            'txtOutput
+            '
+            Me.txtOutput.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                        Or System.Windows.Forms.AnchorStyles.Left) _
+                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.txtOutput.Location = New System.Drawing.Point(0, 56)
+            Me.txtOutput.Multiline = True
+            Me.txtOutput.Name = "txtOutput"
+            Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+            Me.txtOutput.Size = New System.Drawing.Size(592, 408)
+            Me.txtOutput.TabIndex = 19
+            Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more " & _
+            "information"
+            '
+            'mnuShowHelp
+            '
+            Me.mnuShowHelp.Index = 1
+            Me.mnuShowHelp.Text = "Show help with each search"
+            '
+            'btnSearch
+            '
+            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnSearch.Location = New System.Drawing.Point(304, 8)
+            Me.btnSearch.Name = "btnSearch"
+            Me.btnSearch.Size = New System.Drawing.Size(56, 23)
+            Me.btnSearch.TabIndex = 13
+            Me.btnSearch.Text = "Search"
+            '
+            'mnuOptions
+            '
+            Me.mnuOptions.Index = 1
+            Me.mnuOptions.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordWrap, Me.mnuShowHelp, Me.mnuShowGloss, Me.mnuAdvancedOptions})
+            Me.mnuOptions.Text = "Options"
+            '
+            'mnuShowGloss
+            '
+            Me.mnuShowGloss.Index = 2
+            Me.mnuShowGloss.Text = "Show descriptive gloss"
+            '
+            'mnuLGPL
+            '
+            Me.mnuLGPL.Index = 2
+            Me.mnuLGPL.Text = "License"
+            '
+            'mnuExit
+            '
+            Me.mnuExit.Index = 2
+            Me.mnuExit.Text = "Exit"
+            '
+            'MainMenu1
+            '
+            Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuFile, Me.mnuOptions, Me.HelpMenuItem})
+            '
+            'mnuFile
+            '
+            Me.mnuFile.Index = 0
+            Me.mnuFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuSaveDisplay, Me.mnuClearDisplay, Me.mnuExit})
+            Me.mnuFile.Text = "File"
+            '
+            'HelpMenuItem
+            '
+            Me.HelpMenuItem.Index = 2
+            Me.HelpMenuItem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordNetLicense, Me.MenuItem17, Me.mnuLGPL})
+            Me.HelpMenuItem.Text = "Help"
+            '
+            'lblSearchInfo
+            '
+            Me.lblSearchInfo.Location = New System.Drawing.Point(0, 32)
+            Me.lblSearchInfo.Name = "lblSearchInfo"
+            Me.lblSearchInfo.Size = New System.Drawing.Size(296, 23)
+            Me.lblSearchInfo.TabIndex = 2
+            '
+            'btnAdj
+            '
+            Me.btnAdj.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnAdj.Location = New System.Drawing.Point(400, 32)
+            Me.btnAdj.Name = "btnAdj"
+            Me.btnAdj.Size = New System.Drawing.Size(64, 23)
+            Me.btnAdj.TabIndex = 5
+            Me.btnAdj.Text = "Adjective"
+            Me.btnAdj.Visible = False
+            '
+            'Label3
+            '
+            Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.Label3.Location = New System.Drawing.Point(480, 8)
+            Me.Label3.Name = "Label3"
+            Me.Label3.TabIndex = 7
+            Me.Label3.Text = "Senses:"
+            '
+            'btnNoun
+            '
+            Me.btnNoun.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnNoun.Location = New System.Drawing.Point(304, 32)
+            Me.btnNoun.Name = "btnNoun"
+            Me.btnNoun.Size = New System.Drawing.Size(40, 23)
+            Me.btnNoun.TabIndex = 3
+            Me.btnNoun.Text = "Noun"
+            Me.btnNoun.Visible = False
+            '
+            'btnAdv
+            '
+            Me.btnAdv.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnAdv.Location = New System.Drawing.Point(472, 32)
+            Me.btnAdv.Name = "btnAdv"
+            Me.btnAdv.Size = New System.Drawing.Size(48, 23)
+            Me.btnAdv.TabIndex = 6
+            Me.btnAdv.Text = "Adverb"
+            Me.btnAdv.Visible = False
+            '
+            'ApplicationWindowSnapIn
+            '
+            Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
+            Me.ClientSize = New System.Drawing.Size(592, 486)
+            Me.Controls.Add(Me.txtOutput)
+            Me.Controls.Add(Me.txtSenses)
+            Me.Controls.Add(Me.txtSearchWord)
+            Me.Controls.Add(Me.btnOverview)
+            Me.Controls.Add(Me.btnSearch)
+            Me.Controls.Add(Me.StatusBar1)
+            Me.Controls.Add(Me.Label3)
+            Me.Controls.Add(Me.btnAdv)
+            Me.Controls.Add(Me.btnAdj)
+            Me.Controls.Add(Me.btnVerb)
+            Me.Controls.Add(Me.btnNoun)
+            Me.Controls.Add(Me.lblSearchInfo)
+            Me.Controls.Add(Me.Label1)
+            Me.Menu = Me.MainMenu1
+            Me.Name = "ApplicationWindowSnapIn"
+            Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+            Me.Text = "WordNet.Net Sample"
+            Me.ResumeLayout(False)
+
+        End Sub
 #End Region
 
 #Region " Razor Code "
@@ -490,33 +492,33 @@ Namespace Razor.SnapIns.ApplicationWindow
 			End Try
 		End Sub
 
-		Public Function GetDefaultLocation() As Point Implements Razor.SnapIns.WindowPositioningEngine.IWindowPositioningEngineFeaturable.GetDefaultLocation
-			Dim rc As Rectangle = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea
-			Dim defSize As Size = Me.GetDefaultSize
-			Dim x As Integer = (rc.Width / 2) - (defSize.Width / 2)
-			Dim y As Integer = (rc.Height / 2) - (defSize.Height / 2)
-			Return New Point(x, y)
-		End Function
+        Public Function GetDefaultLocation() As Point Implements IWindowPositioningEngineFeaturable.GetDefaultLocation
+            Dim rc As Rectangle = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea
+            Dim defSize As Size = Me.GetDefaultSize
+            Dim x As Integer = (rc.Width / 2) - (defSize.Width / 2)
+            Dim y As Integer = (rc.Height / 2) - (defSize.Height / 2)
+            Return New Point(x, y)
+        End Function
 
-		Public Function GetDefaultSize() As Size Implements Razor.SnapIns.WindowPositioningEngine.IWindowPositioningEngineFeaturable.GetDefaultSize
-			Return New Size(300, 300)
-		End Function
+        Public Function GetDefaultSize() As Size Implements IWindowPositioningEngineFeaturable.GetDefaultSize
+            Return New Size(300, 300)
+        End Function
 
-		Public Function GetDefaultWindowState() As System.Windows.Forms.FormWindowState Implements Razor.SnapIns.WindowPositioningEngine.IWindowPositioningEngineFeaturable.GetDefaultWindowState
-			Return FormWindowState.Normal
-		End Function
+        Public Function GetDefaultWindowState() As System.Windows.Forms.FormWindowState Implements IWindowPositioningEngineFeaturable.GetDefaultWindowState
+            Return FormWindowState.Normal
+        End Function
 
-		Private Sub OnSplashWindowClosed(ByVal sender As Object, ByVal e As EventArgs)
-			Me.BringToFront
-		End Sub
+        Private Sub OnSplashWindowClosed(ByVal sender As Object, ByVal e As EventArgs)
+            Me.BringToFront()
+        End Sub
 
-		Private Sub OnHelpMenuItemPopup(ByVal sender As Object, ByVal e As EventArgs)
-			Dim mi As MenuItem = CType(sender, MenuItem)
-			mi.MenuItems.Clear
-			' this adds my non-razor options
-			' autoupdate adds an autoupdate specific option
-			mi.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordNetLicense, Me.MenuItem17, Me.mnuLGPL})
-		End Sub
+        Private Sub OnHelpMenuItemPopup(ByVal sender As Object, ByVal e As EventArgs)
+            Dim mi As MenuItem = CType(sender, MenuItem)
+            mi.MenuItems.Clear()
+            ' this adds my non-razor options
+            ' autoupdate adds an autoupdate specific option
+            mi.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordNetLicense, Me.MenuItem17, Me.mnuLGPL})
+        End Sub
 #End Region		
 
 #Region " WordNet Sample Code "
@@ -668,7 +670,7 @@ Namespace Razor.SnapIns.ApplicationWindow
             txtSearchWord.Focus()
         End Sub
 
-        Private Sub txtSearchWord_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+        Private Sub txtSearchWord_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs)
             If e.KeyCode = Keys.Enter Then
                 e.Handled = True
                 btnSearch_Click(Nothing, Nothing)
@@ -699,7 +701,7 @@ Namespace Razor.SnapIns.ApplicationWindow
                 Case "Adverb"
                     ss = CType(bobj5, Wnlib.SearchSet)
             End Select
-            
+
             Dim pos As Wnlib.PartOfSpeech = Wnlib.PartOfSpeech.of(btext.ToLower)
             Dim i As Integer
             opts = New ArrayList
@@ -753,12 +755,12 @@ Namespace Razor.SnapIns.ApplicationWindow
         Private Sub mnuWordWrap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             sender.checked = Not sender.checked
 
-			txtOutput.WordWrap = sender.checked
+            txtOutput.WordWrap = sender.checked
             showFeedback(txtOutput.Text)
         End Sub
 
         Private Sub mnuShowHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        	sender.Checked = (Not sender.Checked)
+            sender.Checked = (Not sender.Checked)
             Wnlib.WNOpt.opt("-h").flag = sender.Checked
         End Sub
 
@@ -776,7 +778,7 @@ Namespace Razor.SnapIns.ApplicationWindow
         End Sub
 
         Private Sub mnuClearDisplay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        	txtOutput.Text = ""
+            txtOutput.Text = ""
             txtSearchWord.Text = ""
             lblSearchInfo.Text = ""
             StatusBar1.Text = "WordNetDT"
@@ -812,45 +814,46 @@ Namespace Razor.SnapIns.ApplicationWindow
         End Sub
 
         Private Sub showFeedback(ByVal mystring As String)
-			txtOutput.Text = mystring
+            txtOutput.Text = mystring
             txtSearchWord.Focus()
         End Sub
 
-	    Private Sub mnuAdvancedOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-	        f3.ShowDialog()
-	    End Sub
+        Private Sub mnuAdvancedOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            f3.ShowDialog()
+        End Sub
 #End Region
+
     End Class
 
 #Region " WordNet Sample Code - continued "
-	Public Class Overview
-		' really basic thrown together class which makes the plain text search results
-		Private cont As ArrayList
-		Private totLines As Integer
-		Private sw As String
-		Private helpLines As Integer
-			
-		Sub usePassage(ByVal passage As String, ByRef tmpstr As String)
-			tmpstr += passage
-		End Sub
-	
-		Public Sub useList(ByVal w As ArrayList, ByVal help As String, ByRef tmpstr As String)
-			cont = New ArrayList
-			totLines = 0
-			sw = Nothing
-	
-			If Not (help Is Nothing) AndAlso Not (help = "") Then
-				usePassage(help, tmpstr)
-			End If
-			helpLines = totLines
-			Dim j As Integer = 0
-			While j < w.Count
-				Dim se As Wnlib.Search = CType(w(j), Wnlib.Search)
-				sw = se.word
-				usePassage(se.buf, tmpstr)
-				System.Math.Min(System.Threading.Interlocked.Increment(j),j-1)
-			End While
-		End Sub
-	End Class
+    Public Class Overview
+        ' really basic thrown together class which makes the plain text search results
+        Private cont As ArrayList
+        Private totLines As Integer
+        Private sw As String
+        Private helpLines As Integer
+
+        Sub usePassage(ByVal passage As String, ByRef tmpstr As String)
+            tmpstr += passage
+        End Sub
+
+        Public Sub useList(ByVal w As ArrayList, ByVal help As String, ByRef tmpstr As String)
+            cont = New ArrayList
+            totLines = 0
+            sw = Nothing
+
+            If Not (help Is Nothing) AndAlso Not (help = "") Then
+                usePassage(help, tmpstr)
+            End If
+            helpLines = totLines
+            Dim j As Integer = 0
+            While j < w.Count
+                Dim se As Wnlib.Search = CType(w(j), Wnlib.Search)
+                sw = se.word
+                usePassage(se.buf, tmpstr)
+                System.Math.Min(System.Threading.Interlocked.Increment(j), j - 1)
+            End While
+        End Sub
+    End Class
 #End Region
 End Namespace

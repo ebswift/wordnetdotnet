@@ -8,7 +8,7 @@
   <References>
     <Reference type="Project" refto="Razor Framework" localcopy="True" />
     <Reference type="Project" refto="SnapIns.WindowPositioningEngine" localcopy="True" />
-    <Reference type="Assembly" refto="..\..\..\bin\Release\WordNetClasses.dll" localcopy="True" />
+    <Reference type="Project" refto="WordNet.Net" localcopy="True" />
   </References>
   <DeploymentInformation target="" script="" strategy="File" />
   <Configuration runwithwarnings="True" name="Debug">

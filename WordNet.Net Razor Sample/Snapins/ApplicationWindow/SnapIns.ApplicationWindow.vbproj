@@ -19,7 +19,7 @@
                 OptionCompare = "Binary"
                 OptionExplicit = "On"
                 OptionStrict = "Off"
-                RootNamespace = "Razor.SnapIns.ApplicationWindow"
+                RootNamespace = ""
                 StartupObject = ""
             >
                 <Config
@@ -32,7 +32,7 @@
                     DebugSymbols = "true"
                     IncrementalBuild = "false"
                     Optimize = "false"
-                    OutputPath = "..\..\Hosting\Razor\bin\Debug\"
+                    OutputPath = "obj\Debug\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -48,7 +48,7 @@
                     DebugSymbols = "false"
                     IncrementalBuild = "false"
                     Optimize = "true"
-                    OutputPath = "..\..\Hosting\Razor\bin\Release\"
+                    OutputPath = "..\..\Hosting\Razor\obj\Release\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -88,13 +88,15 @@
                 />
                 <Reference
                     Name = "Razor Framework"
-                    Project = "{3CE6EA1F-73D6-4644-8A1B-AC2E39AF6F90}"
-                    Package = "{C63662AC-48CF-4312-A358-B5358DA3C8FC}"
+                    Project = "{0A17D253-7F2F-4A94-8D10-3ADB5DE30BAC}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "True"
                 />
                 <Reference
                     Name = "SnapIns.WindowPositioningEngine"
-                    Project = "{898C16DB-52CB-4477-A870-9F142102A452}"
-                    Package = "{FC041469-7F36-4063-BB91-B624945131FE}"
+                    Project = "{64CA85A5-FEF4-456F-A17A-9B99E5F9BD86}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "True"
                 />
             </References>
         </Build>
@@ -116,8 +118,13 @@
                 />
                 <File
                     RelPath = "WordNet.Net Sample.vb"
-                    SubType = "Code"
+                    SubType = "Form"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WordNet.Net Sample.resx"
+                    DependentUpon = "WordNet.Net Sample.vb"
+                    BuildAction = "EmbeddedResource"
                 />
             </Include>
         </Files>
