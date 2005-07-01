@@ -82,11 +82,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
                 <Reference
-                    Name = "WordNetClasses"
-                    AssemblyName = "WordNetClasses"
-                    HintPath = "..\..\..\bin\Release\WordNetClasses.dll"
-                />
-                <Reference
                     Name = "Razor Framework"
                     Project = "{0A17D253-7F2F-4A94-8D10-3ADB5DE30BAC}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -97,6 +92,11 @@
                     Project = "{64CA85A5-FEF4-456F-A17A-9B99E5F9BD86}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                     Private = "True"
+                />
+                <Reference
+                    Name = "WordNet.Net"
+                    Project = "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>

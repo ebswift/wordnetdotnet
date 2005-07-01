@@ -3,6 +3,7 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
+        ProjectGuid = "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
     >
         <Build>
             <Settings
@@ -114,6 +115,7 @@
                 />
                 <File
                     RelPath = "util.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

@@ -433,8 +433,11 @@ namespace Wnlib
 		}
 	}
 
-	internal class Index
-	{
+	// changed to public because Index can be used in external classes
+	// one such example is Lexicon from Jeff Martin.
+	//internal class Index
+	public class Index
+		{
 		public PartOfSpeech pos =null;
 		public string wd;
 		public int sense_cnt = 0;		/* sense (collins) count */
