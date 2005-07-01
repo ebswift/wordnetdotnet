@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP LastOpenVersion = "7.10.3077" >
         <Build>
-            <Settings ReferencePath = "D:\Troy Devel\WordNet.Net\WordNet.Net Razor Sample\" >
+            <Settings ReferencePath = "D:\Troy Devel\WordNet.Net\WordNet.Net Razor Sample\;C:\Troy Devel\WordNet.Net\Samples\WordNet.Net Razor Sample\" >
                 <Config
                     Name = "Debug"
                     EnableASPDebugging = "false"

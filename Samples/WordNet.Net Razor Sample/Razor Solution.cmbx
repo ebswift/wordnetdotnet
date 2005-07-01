@@ -13,7 +13,7 @@
     <Entry filename=".\Snapins\AutoUpdate\SnapIns.AutoUpdate.prjx" />
     <Entry filename=".\Snapins\AutoUpdateInterface\SnapIns.AutoUpdateInterface.prjx" />
     <Entry filename=".\Snapins\ApplicationWindow\SnapIns.ApplicationWindow.prjx" />
-    <Entry filename="..\WordNet.Net.prjx" />
+    <Entry filename="..\..\WordNet.Net.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">

@@ -35,6 +35,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SnapIns.ApplicationWindow",
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "..\..\WordNet.Net.csproj", "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -77,6 +81,10 @@ Global
 		{AD5DD130-3386-436E-B155-62F06C734754}.Debug.Build.0 = Debug|.NET
 		{AD5DD130-3386-436E-B155-62F06C734754}.Release.ActiveCfg = Release|.NET
 		{AD5DD130-3386-436E-B155-62F06C734754}.Release.Build.0 = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.ActiveCfg = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.Build.0 = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.ActiveCfg = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
