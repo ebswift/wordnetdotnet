@@ -44,6 +44,7 @@ namespace Wnlib
 			} 
 			catch 
 			{
+				// TODO: handle bad dict path
 				// ignore errors - as the user is locating the dictionary location
 				// wordnet classes are trying to instantiate based on an incorrect dict path
 			}
@@ -177,12 +178,18 @@ namespace Wnlib
 			new Opt( "-over", "OVERVIEW", "ALL_POS", -1, "Overview" );
 		}
 	}
+	public class WNCommon
+	{
+		public static string path;
+	}
 	public class WNDB
 	{
-		public static string path = "C:\\Program Files\\WordNet\\2.1\\dict\\"; // = "\\Storage Card\\dict\\";
+		//public static string path = "C:\\Program Files\\WordNet\\2.1\\dict\\"; // = "\\Storage Card\\dict\\";
+		public static string path;
 
 		static WNDB()
 		{
+			path=WNCommon.path;
 			IDictionaryEnumerator d = PartOfSpeech.parts.GetEnumerator();
 			while (d.MoveNext()) 
 				new WNDBpart((PartOfSpeech)(d.Value));

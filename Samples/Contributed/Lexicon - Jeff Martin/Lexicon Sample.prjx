@@ -1,0 +1,24 @@
+<Project name="Lexicon Sample" standardNamespace="Lexicon_Sample" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#" xmlns:convtool="urn:convtool">
+  <Contents>
+    <File name=".\AssemblyInfo.cs" buildaction="Compile" subtype="Code" />
+    <File name=".\Form1.cs" buildaction="Compile" subtype="Code" />
+    <File name=".\Lexicon.cs" buildaction="Compile" subtype="Code" />
+    <File name=".\Lexicon_Sample.Form1.resources" buildaction="EmbedAsResource" subtype="Code" />
+  </Contents>
+  <DeploymentInformation target="" script="" strategy="File" />
+  <Configurations active="Debug">
+    <Configuration runwithwarnings="True" name="Debug">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="True" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" target="WinExe" definesymbols="DEBUG;TRACE" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\bin\Debug\" assembly="Lexicon Sample" />
+    </Configuration>
+    <Configuration runwithwarnings="True" name="Release">
+      <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" includedebuginformation="False" optimize="True" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" target="WinExe" definesymbols="TRACE" generatexmldocumentation="False" win32Icon="" />
+      <Execution commandlineparameters="" consolepause="True" />
+      <Output directory=".\bin\Release\" assembly="Lexicon Sample" />
+    </Configuration>
+  </Configurations>
+  <References>
+    <Reference type="Project" refto="WordNet.Net" />
+  </References>
+</Project>
