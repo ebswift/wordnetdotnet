@@ -24,10 +24,9 @@
 Public Class WebForm1
     Inherits System.Web.UI.Page
 
+    ' *** set the dictpath to the location of your WordNet files
     Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
     Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
-    Dim history As ArrayList = New ArrayList
-    Public maxhistory As Integer = 10
     Dim pbobject As Object = New Object
 
 
@@ -41,7 +40,6 @@ Public Class WebForm1
     Protected WithEvents Noun As System.Web.UI.WebControls.DropDownList
     Protected WithEvents lblNoun As System.Web.UI.WebControls.Label
     Protected WithEvents chkWordWrap As System.Web.UI.WebControls.CheckBox
-    Public dictPath As String
 
 #Region " Web Form Designer Generated Code "
 
@@ -86,6 +84,7 @@ Public Class WebForm1
         End If
     End Sub
 
+    ' search button
     Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
         Try
             Context.Items.Add("searchword", TextBox1.Text)
@@ -105,6 +104,7 @@ Public Class WebForm1
         Overview()
     End Sub
 
+    ' overview search
     Private Sub Overview()
         Dim x As Button
         Dim t As String
@@ -134,6 +134,7 @@ Public Class WebForm1
         FixDisplay()
     End Sub
 
+    ' sets up the dropdown lists for relation searches
     Private Sub SetupDropdown(ByVal dl As DropDownList)
         Dim ss As Wnlib.SearchSet
 
@@ -218,11 +219,13 @@ Public Class WebForm1
     Dim list As ArrayList = New ArrayList
     Dim help As String = ""
 
+    ' first step in showing results
     Public Sub FixDisplay()
         pbobject = ""
         ShowResult()
     End Sub
 
+    ' second step in showing results
     Public Sub ShowResult()
         Dim tmpstr As String = ""
 
@@ -250,6 +253,7 @@ Public Class WebForm1
         End Try
     End Sub
 
+    ' handles everything that is going to be displayed in the main output
     Private Sub showFeedback(ByVal mystring As String, ByVal reformat As Boolean)
         ' formatting here does not show indentation...
         mystring = Replace(mystring, vbLf, "<br />")
@@ -294,6 +298,7 @@ Public Class WebForm1
         End If
     End Sub
 
+    ' advanced options button
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             Context.Items.Add("searchword", TextBox1.Text)
@@ -302,6 +307,7 @@ Public Class WebForm1
         Server.Transfer("AdvancedSearch.aspx", True)
     End Sub
 
+    ' handles a word relation selection
     Private Sub SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Noun.SelectedIndexChanged, Verb.SelectedIndexChanged, Adj.SelectedIndexChanged, Adv.SelectedIndexChanged
         Dim opt As Wnlib.Opt
 
@@ -338,6 +344,7 @@ Public Class WebForm1
         Button1.Visible = True
     End Sub
 
+    ' word relation search
     Private Sub DoSearch(ByVal opt As Wnlib.Opt)
         If opt.sch.ptp.mnemonic = "OVERVIEW" Then
             Overview()
@@ -364,10 +371,12 @@ Public Class WebForm1
         FixDisplay()
     End Sub
 
+    ' back to overview after viewing a relation
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Button6_Click(Nothing, Nothing)
     End Sub
 
+    ' change wordwrap settings
     Private Sub chkWordWrap_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkWordWrap.CheckedChanged
         Dim tmpstr As String = lblResult.Text
 
@@ -383,6 +392,7 @@ Public Class WebForm1
     End Sub
 End Class
 
+' things that help display on the web
 Public Class WebHelper
     Public Shared Sub RaiseAlert(ByVal msg As String)
         ' sends an alert to the user via a popup messagebox
