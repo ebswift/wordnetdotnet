@@ -95,22 +95,27 @@
             <Include>
                 <File
                     RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "bitset.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Class1.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Class2.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "morph.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -120,10 +125,12 @@
                 />
                 <File
                     RelPath = "wnhelp.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "wordnet.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

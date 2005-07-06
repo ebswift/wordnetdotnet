@@ -38,6 +38,8 @@ namespace Lexicon_Sample
 	/// </summary>
 	public class frmMain : System.Windows.Forms.Form
 	{
+		// Troy Simpson 6 July 2005 - added dictpath variable
+		private string dictpath = "C:\\Program Files\\WordNet\\2.1\\dict\\";
 		private System.Windows.Forms.TextBox txtWord;
 		private System.Windows.Forms.Button cmdLookup;
 		private System.Windows.Forms.Label label1;
@@ -58,6 +60,8 @@ namespace Lexicon_Sample
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
+			// Troy Simpson 6 July 2005 - added path initialization
+			Wnlib.WNCommon.path = dictpath;
 		}
 
 		/// <summary>

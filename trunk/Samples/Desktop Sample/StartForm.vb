@@ -68,8 +68,8 @@ Namespace wnb
         
 #Region "FormVariables"
         Private f3 As AdvancedOptions
-        
-        Private wnc As WordNetClasses.WN = New WordNetClasses.WN
+        Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
+        Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
         Private pbobject As Object = New Object
 
 #End Region
@@ -83,7 +83,7 @@ Namespace wnb
             InitializeComponent()
 
             'Add any initialization after the InitializeComponent() call
-            
+
             txtOutput.Anchor = Anchor.Top Or Anchor.Left Or Anchor.Bottom Or Anchor.Right
             f3 = New AdvancedOptions
             AddHandler mnuSaveDisplay.Click, AddressOf mnuSaveDisplay_Click
@@ -428,7 +428,7 @@ Namespace wnb
         Private Sub Overview()
             'overview for 'search'
             Dim t As String
-            Dim wnc As WordNetClasses.WN = New WordNetClasses.WN
+            Dim wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
 
             t = txtSearchWord.Text
             lblSearchInfo.Text = "Searches for " + t + ":"

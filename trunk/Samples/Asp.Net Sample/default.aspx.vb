@@ -24,7 +24,8 @@
 Public Class WebForm1
     Inherits System.Web.UI.Page
 
-    Dim wnc As WordNetClasses.WN = New WordNetClasses.WN
+    Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
+    Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
     Dim history As ArrayList = New ArrayList
     Public maxhistory As Integer = 10
     Dim pbobject As Object = New Object

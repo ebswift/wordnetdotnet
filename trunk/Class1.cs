@@ -32,6 +32,12 @@ namespace WordNetClasses
 	/// </summary>
 	public class WN
 	{
+		public WN( string dictpath )
+		{
+			//Wnlib.WNDB(dictpath);
+			WNCommon.path = dictpath;
+		}
+
 		public void OverviewFor( string t, string p, ref bool b, ref SearchSet obj, ArrayList list)
 		{
 			PartOfSpeech pos = Wnlib.PartOfSpeech.of(p);

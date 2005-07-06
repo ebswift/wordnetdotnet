@@ -1,0 +1,17 @@
+<Combine fileversion="1.0" name="Lexicon Sample" description="Converted Visual Studio.NET Solution">
+<Entries>
+	<Entry filename=".\Lexicon Sample.prjx" />
+	<Entry filename=".\..\..\..\WordNet.Net.prjx" />
+</Entries>
+<StartMode startupentry="Lexicon Sample" single="True"/>
+<Configurations active="Debug">
+<Configuration name="Debug">
+	<Entry name="Lexicon Sample" configurationname="Debug" build="False" />
+	<Entry name="WordNet.Net" configurationname="Debug" build="False" />
+</Configuration>
+<Configuration name="Release">
+	<Entry name="Lexicon Sample" configurationname="Release" build="False" />
+	<Entry name="WordNet.Net" configurationname="Release" build="False" />
+</Configuration>
+</Configurations>
+</Combine>
