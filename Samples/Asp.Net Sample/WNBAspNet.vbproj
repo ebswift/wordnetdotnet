@@ -9,7 +9,7 @@
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "WordNetASPNet"
+                AssemblyName = "WNBASPNet"
                 AssemblyOriginatorKeyFile = ""
                 AssemblyOriginatorKeyMode = "None"
                 DefaultClientScript = "JScript"
@@ -20,8 +20,8 @@
                 OptionCompare = "Binary"
                 OptionExplicit = "On"
                 OptionStrict = "Off"
-                RootNamespace = "WordNetASPNet"
-                StartupObject = ""
+                RootNamespace = "WNBASPNet"
+                StartupObject = "WNBASPNet.(None)"
             >
                 <Config
                     Name = "Debug"
