@@ -610,8 +610,10 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */
 		public string defn;		/* synset gloss (definition) */
 		public AdjMarker adj_marker;
-		internal SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
-		{
+		//internal SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
+			// TDMS - 14 July 2005 - made public for use in external classes
+			public SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
+			{
 			pos = p;
 			hereiam = off;
 			search = sch;
@@ -638,8 +640,15 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			}
 			Parse(rec,pos,wd);
 		}
+//		internal SynSet (int off,PartOfSpeech p,string wd,SynSet fr) : this(off,p,wd,fr.search,fr.sense) {}
+//		internal SynSet (Index idx,int sens,Search sch) : this(idx.offs[sens],idx.pos,idx.wd,sch,sens){ }
+//		internal SynSet (int off,PartOfSpeech p,SynSet fr) : this(off,p,"",fr) {}
+
+		// TDMS - 14 July 2005 - made public for use in external classes
 		internal SynSet (int off,PartOfSpeech p,string wd,SynSet fr) : this(off,p,wd,fr.search,fr.sense) {}
+		// TDMS - 14 July 2005 - made public for use in external classes
 		internal SynSet (Index idx,int sens,Search sch) : this(idx.offs[sens],idx.pos,idx.wd,sch,sens){ }
+		// TDMS - 14 July 2005 - made public for use in external classes
 		internal SynSet (int off,PartOfSpeech p,SynSet fr) : this(off,p,"",fr) {}
 		void Parse(string s,PartOfSpeech fpos,string word)
 		{
