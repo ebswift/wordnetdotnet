@@ -113,11 +113,6 @@
                     DependentUpon = "Form1.cs"
                     BuildAction = "EmbeddedResource"
                 />
-                <File
-                    RelPath = "Lexicon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
             </Include>
         </Files>
     </CSHARP>

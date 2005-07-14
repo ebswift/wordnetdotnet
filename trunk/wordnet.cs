@@ -124,7 +124,6 @@ namespace Wnlib
 						countSenses.Add(idx.offs.Length);
 						buf += "Sense "+countSenses.Count+": "+
 							idx.offs.Length;
-						//System.Windows.Forms.Application.DoEvents();
 					}
 					break;
 				case "WNGREP":
@@ -159,7 +158,6 @@ namespace Wnlib
 									SynSet ss=(SynSet)senses[j];
 									if (ss.hereiam==idx.offs[sense])
 										goto skipit;
-									//System.Windows.Forms.Application.DoEvents();
 								}
 								cursyn = new SynSet(idx,sense,this);
 								senses.Add(cursyn);
@@ -216,7 +214,7 @@ namespace Wnlib
 											cursyn.strFrame(false);
 										break;
 									case "DERIVATION":
-										//TODO: test derivation
+										// derivation - TDMS
 										cursyn.tracenomins(sch.ptp);
 										break;
 									case "CLASSIFICATION":
@@ -228,11 +226,8 @@ namespace Wnlib
 										cursyn.tracePtrs(sch.ptp,pos,depth);
 										break;
 								}
-								//System.Windows.Forms.Application.DoEvents();
 							skipit: ;
 							}
-						
-						//System.Windows.Forms.Application.DoEvents();
 					}
 					break;
 			}
@@ -457,7 +452,6 @@ namespace Wnlib
 						if (ss.hereiam==idx.offs[sens])
 							goto skipit;
 
-						//System.Windows.Forms.Application.DoEvents();
 					}
 					SynSet cursyn = new SynSet(idx,sens,this);
 
@@ -475,7 +469,6 @@ namespace Wnlib
 					WNOpt.opt("-o").flag=svoflag;
 					wordsFrom(cursyn);
 					senses.Add(cursyn);
-					//System.Windows.Forms.Application.DoEvents();
 				skipit: ;
 				}
 				/* Print sense summary message */
@@ -495,7 +488,6 @@ namespace Wnlib
 					else
 						buf += " (no senses from tagged texts)\n";
 				}
-				//System.Windows.Forms.Application.DoEvents();
 			}
 		}
 	}
@@ -597,7 +589,6 @@ private static int CLASS_END =       CLASS_REGIONAL;
 private static int INSTANCE =         (CLASS_END + 1);        /* @i */
 private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 
-		//	public static string path;
 		public int hereiam;
 		public int fnum;
 		public PartOfSpeech pos;	/* part of speech */
@@ -610,9 +601,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */
 		public string defn;		/* synset gloss (definition) */
 		public AdjMarker adj_marker;
-		//internal SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
-			// TDMS - 14 July 2005 - made public for use in external classes
-			public SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
+		internal SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
 			{
 			pos = p;
 			hereiam = off;
@@ -640,16 +629,10 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			}
 			Parse(rec,pos,wd);
 		}
-//		internal SynSet (int off,PartOfSpeech p,string wd,SynSet fr) : this(off,p,wd,fr.search,fr.sense) {}
-//		internal SynSet (Index idx,int sens,Search sch) : this(idx.offs[sens],idx.pos,idx.wd,sch,sens){ }
-//		internal SynSet (int off,PartOfSpeech p,SynSet fr) : this(off,p,"",fr) {}
-
-		// TDMS - 14 July 2005 - made public for use in external classes
 		internal SynSet (int off,PartOfSpeech p,string wd,SynSet fr) : this(off,p,wd,fr.search,fr.sense) {}
-		// TDMS - 14 July 2005 - made public for use in external classes
 		internal SynSet (Index idx,int sens,Search sch) : this(idx.offs[sens],idx.pos,idx.wd,sch,sens){ }
-		// TDMS - 14 July 2005 - made public for use in external classes
 		internal SynSet (int off,PartOfSpeech p,SynSet fr) : this(off,p,"",fr) {}
+
 		void Parse(string s,PartOfSpeech fpos,string word)
 		{
 			int j;
@@ -726,7 +709,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			{
 				Pointer pt = ptrs[i];
 //				if (pt.ptp==ptp && (pt.sce==0 || pt.sce==whichword))
-				// following if statement is WN2.1
+				// following if statement is WN2.1 - TDMS
 				if ((ptp.ident == HYPERPTR && (pt.ptp.ident == HYPERPTR ||
 				    pt.ptp.ident == INSTANCE)) ||
 				    (ptp.ident == HYPOPTR && (pt.ptp.ident == HYPOPTR ||
@@ -741,7 +724,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 					search.prflag = true;
 					spaces("TRACEP",depth+(stp.rec?2:0));
 //					switch (ptp.mnemonic) 
-					switch (pt.ptp.mnemonic) // WN2.1 MOD
+					switch (pt.ptp.mnemonic) // TDMS - WN2.1 MOD
 					{
 						case "PERTPTR":
 							if (fpos.name=="adverb")
@@ -904,14 +887,14 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 						spaces("TRACEP",0);
 
 						if (pt.ptp.ident == CLASSIF_CATEGORY)
-							head = "TOPIC->("; // WN2.1
+							head = "TOPIC->("; // WN2.1 - TDMS
 //							head = "CATEGORY->(";
 						else if (pt.ptp.ident == CLASSIF_USAGE)
 							head = "USAGE->(";
 						else if (pt.ptp.ident == CLASSIF_REGIONAL)
 							head = "REGION->(";
 						else if (pt.ptp.ident == CLASS_CATEGORY)
-							head = "TOPIC_TERM->("; // WN2.1
+							head = "TOPIC_TERM->("; // WN2.1 - TDMS
 //							head = "CATEGORY_TERM->(";
 						else if (pt.ptp.ident == CLASS_USAGE)
 							head = "USAGE_TERM->(";
@@ -958,7 +941,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				    (pt.sce==0 ||
 				     pt.sce==whichword))
 */
-				// WN2.1 if statement change
+				// WN2.1 if statement change - TDMS
 				if((pt.ptp.mnemonic=="HYPERPTR" || pt.ptp.mnemonic=="INSTANCE") &&
 					((pt.sce==0) ||
 	    			(pt.sce==whichword)))
