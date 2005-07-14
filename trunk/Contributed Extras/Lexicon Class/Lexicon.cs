@@ -2,7 +2,7 @@
  * This file is a part of the WordNet.Net open source project.
  * 
  * Author:	Jeff Martin
- * Date:	6/07/2005
+ * Date:	7/07/2005
  * 
  * Copyright (C) 2005 Malcolm Crowe, Troy Simpson, Jeff Martin
  * 
@@ -51,11 +51,22 @@ namespace WnLexicon
 
 		public static bool operator == ( WordInfo a, WordInfo b )
 		{
-			bool retval = a.partOfSpeech == b.partOfSpeech;
-			retval = retval && ( (a.senseCounts == null) == (b.senseCounts == null) );
+			if( (a == null) && (b == null) )
+				return true;
+
+			if( (a == null) != (b == null) )
+				return false;
+
+			if( a.partOfSpeech != b.partOfSpeech )
+				return false;
+
+			if( (a.senseCounts == null) != (b.senseCounts == null) )
+				return false;
+
 			if( a.senseCounts != null && b.senseCounts != null )
-				retval = retval && a.senseCounts.Equals( b.senseCounts );
-			return retval;
+				return a.senseCounts.Equals( b.senseCounts );
+
+			return true;
 		}
 
 		public static bool operator != ( WordInfo a, WordInfo b )
@@ -79,11 +90,20 @@ namespace WnLexicon
 		}
 	}
 
-	/// <summary>This class is designed to provide a front-end for WordNet when the part
-	/// of speech of a word is not know. It has functions to determine the part of speech
-	/// for a word using simple searches and morphological operations. It is not 100% correct
-	/// because WordNet was most likely not intended to be used this way. However, it is
-	/// accurate enough for most applications.</summary>
+	/// <summary>An efficient feature-specific front-end for WordNet.NET</summary>
+	/// <remarks>
+	/// <p>
+	/// Previously, the only readily-available interface to WordNet was the all-encompassing
+	/// Search function which returns everything you could possibly ever want to know about
+	/// the target word. Unfortunately, this approach is not very efficient for natural
+	/// language processing applications that use WordNet as a database rather than a dictionary.
+	/// </p>
+	/// <p>
+	/// Therefore, the Lexicon class is intended to provide a simple and straightforward interface
+	/// to WordNet for very targeted functionality. (ie, what my application needs it to do). It also
+	/// attempts to retrieve the desired information in the most efficient way possible.
+	/// </p>
+	/// </remarks>
 	public class Lexicon
 	{
 		/*-------------
@@ -100,10 +120,18 @@ namespace WnLexicon
 
 		/// <summary>Finds the part of speech for a given single word</summary>
 		/// <param name="word">the word</param>
-		/// <param name="includeMorphs">include morphology?</param>
+		/// <param name="includeMorphs">include morphology? (fuzzy matching)</param>
 		/// <returns>a structure containing information about the word</returns>
+		/// <remarks>
+		/// This function is designed to determine the part of speech of a word. Since all
+		/// of the WordNet search functions require the part of speech, this function will be useful
+		/// in cases when the part of speech of a word is not known. It is not 100% correct
+		/// because WordNet was most likely not intended to be used this way. However, it is
+		/// accurate enough for most applications.
+		/// </remarks>
 		public static WordInfo FindWordInfo( string word, bool includeMorphs )
 		{
+			word = word.ToLower();
 			WordInfo wordinfo = lookupWord( word );
 
 			// include morphology if nothing was found on the original word
@@ -111,6 +139,78 @@ namespace WnLexicon
 				wordinfo = lookupWordMorphs( word );
 
 			return wordinfo;
+		}
+
+		/// <summary>Returns a list of Synonyms for a given word</summary>
+		/// <param name="word">the word</param>
+		/// <param name="pos">The Part of speech of a word</param>
+		/// <param name="includeMorphs">include morphology? (fuzzy matching)</param>
+		/// <returns>An array of strings containing the synonyms found</returns>
+		/// <remarks>
+		/// Note that my usage of 'Synonyms' here is not the same as hypernyms as defined by
+		/// WordNet. Synonyms in this sense are merely words in the same SynSet as the given
+		/// word. Hypernyms are found by tracing the pointers in a given synset.
+		/// </remarks>
+		public static string[] FindSynonyms( string word, Wnlib.PartsOfSpeech pos, bool includeMorphs )
+		{
+			// get an index to a synset collection
+			word = word.ToLower();
+			Wnlib.Index index = Wnlib.Index.lookup( word, Wnlib.PartOfSpeech.of( pos ) );
+
+			// none found?
+			if( index == null )
+			{
+				if( !includeMorphs )
+					return null;
+
+				// check morphs
+				Wnlib.MorphStr morphs = new Wnlib.MorphStr( word, Wnlib.PartOfSpeech.of( pos ) );
+				string morph = "";
+				while( ( morph = morphs.next() ) != null )
+				{
+					index = Wnlib.Index.lookup( morph, Wnlib.PartOfSpeech.of( pos ) );
+					if( index != null )
+						break;
+				}
+			}
+
+			// still none found?
+			if( index == null )
+				return null;
+
+			// at this point we will always have a valid index
+			return lookupSynonyms( index );
+		}
+
+		private static string[] lookupSynonyms( Wnlib.Index index )
+		{
+			// OVERVIEW: For each sense, grab the synset associated with our index.
+			//           Then, add the lexemes in the synset to a list.
+
+			ArrayList synonyms = new ArrayList( 10 );
+
+			// for each sense...
+			for( int s=0; s<index.offs.Length; s++ )
+			{
+				// read in the word and its pointers
+				Wnlib.SynSet synset = new Wnlib.SynSet( index.offs[s], index.pos, index.wd, null, s );
+
+				// build a string out of the words
+				for( int i=0; i<synset.words.Length; i++ )
+				{
+					string word = synset.words[i].word.Replace( "_", " " );
+
+					// if the word is capitalized, that means it's a proper noun. We don't want those.
+					if( word[0] <= 'Z' )
+						continue;
+
+					// add it to the list if it's a different word
+					if( string.Compare( word, index.wd, true ) != 0 )
+						synonyms.Add( word );
+				}
+			}
+
+			return (string[])synonyms.ToArray( typeof( string ) );
 		}
 
 		private static WordInfo lookupWord( string word )
@@ -162,9 +262,6 @@ namespace WnLexicon
 			return wordinfo;
 		}
 
-		/// <summary>Perform a WordNet lookup on each of the word's morphs and return the strongest match</summary>
-		/// <param name="word">the word</param>
-		/// <returns>a structure containg information about the word</returns>
 		private static WordInfo lookupWordMorphs( string word )
 		{
 			// OVERVIEW: This functions only gets called when the word was not found with
