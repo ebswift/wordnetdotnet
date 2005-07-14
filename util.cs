@@ -178,14 +178,15 @@ namespace Wnlib
 			new Opt( "-over", "OVERVIEW", "ALL_POS", -1, "Overview" );
 		}
 	}
+	// TDMS - path helper for the library - must be set before any call to WNDB static members
 	public class WNCommon
 	{
+		// TODO: (TDMS) make this a property so that the database path can be dynamically checked when set.
 		public static string path;
 	}
 	public class WNDB
 	{
-		//public static string path = "C:\\Program Files\\WordNet\\2.1\\dict\\"; // = "\\Storage Card\\dict\\";
-		public static string path;
+		public static string path; // set from WNCommon FIRST
 
 		static WNDB()
 		{
@@ -264,13 +265,11 @@ namespace Wnlib
 		}
 		internal static string IndexFile(PartOfSpeech n)
 		{
-			return path+"index."+n.name; // WN2.1
-//			return path+n.name+".idx";
+			return path+"index."+n.name; // WN2.1 - TDMS
 		}
 		internal static string DataFile(PartOfSpeech n)
 		{
-			return path+"data."+n.name; // WN2.1
-			//return path+n.name+".dat";
+			return path+"data."+n.name; // WN2.1 - TDMS
 		}
 		public static string binSearch(string searchKey,StreamReader fp)
 		{
@@ -335,13 +334,13 @@ namespace Wnlib
 			SearchSet retval = new SearchSet();
 			while ((index=ixs.next())!=null) 
 			{
-				retval=retval+"SIMPTR"+"FREQ"+"SYNS"+"WNGREP"+"OVERVIEW"; // added WNGREP - troy
+				retval=retval+"SIMPTR"+"FREQ"+"SYNS"+"WNGREP"+"OVERVIEW"; // added WNGREP - TDMS
 				for (i=0;i<index.ptruse.Length;i++) 
 				{
 					PointerType pt = index.ptruse[i];
 //					retval=retval+pt;
 
-					// WN2.1
+					// WN2.1 - TDMS
 					if (pt.ident <= LASTTYPE) {
 						retval = retval + pt;
 	    			} else if (pt.mnemonic == "INSTANCE") {
@@ -350,7 +349,7 @@ namespace Wnlib
 						retval = retval + "HYPOPTR";
 	    			}
 
-					// WN2.1
+					// WN2.1 - TDMS
 	    			if (pt.mnemonic == "SIMPTR") {
 						retval = retval + "ANTPTR";
 	    			} 
@@ -363,7 +362,7 @@ namespace Wnlib
 						else if (pt>="HASMEMBERPTR" && pt<="HASPARTPTR")
 							retval=retval+"MERONYM";
 					} 
-// WN2.1					else if (fpos.name=="adj" && pt.mnemonic=="SIMPTR")
+// WN2.1 - TDMS					else if (fpos.name=="adj" && pt.mnemonic=="SIMPTR")
 //						retval=retval+"ANTPTR";
 				}
 				if (fpos.name=="noun") 
@@ -377,7 +376,7 @@ namespace Wnlib
 						retval = retval+"COORDS";
 				} 
 				else if (fpos.name=="verb")
-					retval=retval+"RELATIVES"+"FRAMES"; // added frames - troy
+					retval=retval+"RELATIVES"+"FRAMES"; // added frames - TDMS
 			}
 			return retval;
 		}
@@ -440,10 +439,7 @@ namespace Wnlib
 		}
 	}
 
-	// changed to public because Index can be used in external classes
-	// one such example is Lexicon from Jeff Martin.
-	//internal class Index
-	public class Index
+	internal class Index
 		{
 		public PartOfSpeech pos =null;
 		public string wd;
@@ -613,7 +609,7 @@ namespace Wnlib
 			new PointerType("-u","CLASS_USAGE","Class Usage");
 			new PointerType("-r","CLASS_REGIONAL","Class Regional");
 
-			// WN2.1
+			// WN2.1 - TDMS
 			new PointerType("@i","INSTANCE","Instance");
 			new PointerType("~i","INSTANCES","Instances");
 		}
