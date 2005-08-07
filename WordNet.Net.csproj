@@ -138,10 +138,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "WordNet.Net.build"
-                    BuildAction = "None"
-                />
             </Include>
         </Files>
     </CSHARP>
