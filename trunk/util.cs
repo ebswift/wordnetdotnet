@@ -297,14 +297,25 @@ namespace Wnlib
 				n = line.IndexOf(' ');
 				key = line.Substring(0,n);
 				key=key.Replace("-"," ").Replace("_"," ");
-				if (key.CompareTo(searchKey)<0) 
+				//TDMS - 13/Aug/2005 fixed comparison
+				//an example of the previous problem was a search for 'mammal'.
+				//'mamma's boy' was rated as greater than mammal, however it is
+				//stored logically in the WordNet database as less than.
+				//CompareOrdinal correctly returns less than in that scenario
+				//rather than greater than.
+				//if (key.CompareTo(searchKey)<0) 
+				if (String.CompareOrdinal(key, searchKey)<0) 
 				{
+					// key is alphabetically less than the search key
 					top = mid;
 					diff = (bot - top)/2;
 					mid = top + diff;
 				}
-				if (key.CompareTo(searchKey)>0)
+				//TDMS - 13/Aug/2005 fixed comparison
+				//if (key.CompareTo(searchKey)>0)
+				if (String.CompareOrdinal(key, searchKey)>0) 
 				{
+					// key is alphabetically greater than the search key
 					bot = mid;
 					diff = (bot - top)/2;
 					mid = top + diff;
