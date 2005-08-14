@@ -94,12 +94,12 @@ namespace Wnlib
 				return;
 			morphs = new Hashtable();
 			MorphStr st = new MorphStr(word,pos);
-			string morphword ;
+			string morphword ; //TODO: TDMS - 13/8/05 - is this redundant?
 			while ((morphword=st.next())!=null) 
 			{
 				Search s = new Search(morphword,pos,sch,whichsense);
 				s.do_search(false);
-				morphs[morphword] = s;
+				morphs[morphword] = s; //TODO: TDMS - 13/8/05 - is this redundant?
 				buf += s.buf;
 			}
 			return;

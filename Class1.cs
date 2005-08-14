@@ -43,8 +43,10 @@ namespace WordNetClasses
 			PartOfSpeech pos = Wnlib.PartOfSpeech.of(p);
 			SearchSet ss = Wnlib.WNDB.is_defined(t,pos);
 			MorphStr ms = new Wnlib.MorphStr(t,pos);
-			AddSearchFor(t,pos, list);
+			AddSearchFor(t,pos, list); // do a search
 			string m;
+
+			// loop through morphs (if there are any)
 			while ((m=ms.next())!=null)
 				if (m!=t) 
 				{

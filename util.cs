@@ -296,7 +296,9 @@ namespace Wnlib
 					return null;
 				n = line.IndexOf(' ');
 				key = line.Substring(0,n);
-				key=key.Replace("-"," ").Replace("_"," ");
+				// TDMS - 14/Aug/2005 - no need for key
+				// transformation - that is done in index lookup
+				//key=key.Replace("-"," ").Replace("_"," ");
 				//TDMS - 13/Aug/2005 fixed comparison
 				//an example of the previous problem was a search for 'mammal'.
 				//'mamma's boy' was rated as greater than mammal, however it is
@@ -420,27 +422,39 @@ namespace Wnlib
 
 	internal class Indexes
 	{
-		Index[] offsets = new Index[5]; // of Index
+		// TDMS - 14 Aug 2005 - added a new index count
+		// so that we could patch more possibilities into
+		// the strings array below
+		static int stringscount = 7; 
+		Index[] offsets = new Index[stringscount]; // of Index
 		int offset=0;
 		PartOfSpeech fpos;
 		public Indexes(string str,PartOfSpeech pos)
 		{
-			string[] strings = new string[5];
+			string[] strings = new string[stringscount];
 			str = str.ToLower();
 			strings[0] = str;
 			strings[1] = str.Replace('_','-');
 			strings[2] = str.Replace('-','_');
 			strings[3] = str.Replace("-","").Replace("_","");
 			strings[4] = str.Replace(".","");
+			// TDMS - 14 Aug 2005 - added two more possibilities
+			// to allow for spaces to be transformed
+			// an example is a search for "11 plus", without this
+			// transformation no result would be found
+			strings[5] = str.Replace(' ','-');
+			strings[6] = str.Replace(' ','_');
 			offsets[0] = Index.lookup(str,pos);
-			for (int i=1;i<5;i++)
+			// TDMS - 14 Aug 2005 - changed 5 to 7 to allow for two
+			// new possibilities
+			for (int i=1;i<stringscount;i++)
 				if (str!=strings[i])
 					offsets[i] = Index.lookup(strings[i],pos);
 			fpos = pos;
 		}
 		public Index next()
 		{
-			for (int i=offset; i<5; i++)
+			for (int i=offset; i<stringscount; i++)
 				if (offsets[i]!=null) 
 				{
 					offset = i+1;
@@ -479,7 +493,11 @@ namespace Wnlib
 			int j;
 			if (word=="")
 				return null;
-			if (!char.IsLetter(word[0]))
+			// TDMS 14 Aug 2005 - changed to allow for numbers as well
+			// because the database contains searches that can start with
+			// numerals
+			//if (!char.IsLetter(word[0]))
+			if (!char.IsLetter(word[0]) && !char.IsNumber(word[0]))
 				return null;
 			string line = WNDB.binSearch(word,pos);
 			if (line==null)
