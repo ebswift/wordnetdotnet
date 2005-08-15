@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinSearchTest", "BinSearchTest\BinSearchTest.csproj", "{DD2F6566-844F-4B37-A099-C7DACDCB330F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "..\..\WordNet.Net.csproj", "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{DD2F6566-844F-4B37-A099-C7DACDCB330F}.Debug.ActiveCfg = Debug|.NET
+		{DD2F6566-844F-4B37-A099-C7DACDCB330F}.Debug.Build.0 = Debug|.NET
+		{DD2F6566-844F-4B37-A099-C7DACDCB330F}.Release.ActiveCfg = Release|.NET
+		{DD2F6566-844F-4B37-A099-C7DACDCB330F}.Release.Build.0 = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.ActiveCfg = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.Build.0 = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.ActiveCfg = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
