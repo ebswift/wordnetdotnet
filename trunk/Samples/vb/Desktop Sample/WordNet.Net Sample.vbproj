@@ -91,13 +91,14 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "AdvancedOptions.resources"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "AdvancedOptions.vb"
                     SubType = "Form"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AdvancedOptions.resx"
+                    DependentUpon = "AdvancedOptions.vb"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "AssemblyInfo.vb"
@@ -112,10 +113,6 @@
                 <File
                     RelPath = "StartForm.resx"
                     DependentUpon = "StartForm.vb"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "wnb.StartForm.resources"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>
