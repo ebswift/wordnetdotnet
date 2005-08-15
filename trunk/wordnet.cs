@@ -338,6 +338,7 @@ namespace Wnlib
 		RelList addRelatives(Index idx,int rel1,int rel2,RelList rellist)
 		{
 			/* First make sure that senses are not on the excpetion list */
+			//TODO: fix code redundancy as in wn.c - groupexc is redundant - see http://www.ebswift.com/bugtrack/mantis/view.php?id=21
 			if(pos.name=="noun" && groupexc(idx.offs[rel1],idx.offs[rel2]))
 				return rellist;
 			/* If either of the new relatives are already in a relative group,
@@ -366,6 +367,7 @@ namespace Wnlib
 		}
 		bool groupexc(long off1,long off2)
 		{
+			//TODO: this method is redundant - remove - see http://www.ebswift.com/bugtrack/mantis/view.php?id=21
 			string buf=String.Format("{0,8:D}",(off1<off2)?off1:off2);
 			StreamReader fp = new StreamReader(WNDB.path+"cousin.exc");
 			string p;
