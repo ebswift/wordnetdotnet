@@ -3,7 +3,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinSearchTest", "BinSearchT
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "..\..\WordNet.Net.csproj", "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "..\..\Library\cs\WordNet.Net.csproj", "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
