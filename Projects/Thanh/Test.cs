@@ -1,0 +1,56 @@
+using System;
+using System.Diagnostics;
+using System.Text.RegularExpressions ;
+
+namespace WordsMatching
+{
+	/// <summary>
+	/// Summary description for Class1.
+	/// </summary>
+	class Test
+	{
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
+		static void Main(string[] args)
+		{
+			//
+			// TODO: Add code to start application here
+			//
+			Test t=new Test() ;			
+		}
+
+		public Test()
+		{
+			string s1="The main plication. pplication pplication pplication pplication pplication pplication pplication ";
+			string s2="Add code to start application here pplication pplication pplication pplication pplication pplication pplication pplication pplication pplication pplication ";
+			//Entertaiment Entail tail, fail, enter men end			
+			s1="ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002 ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002";
+			s2="ALFA ALFAROMERO145TDfdsfsdgfdgdfgggggggggggggggggggggggggggggggfsdfsddddddsdfdsfsdfsdfdsfsdfdsCAT ZAR93000002 40 1 01929  001730 005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002";
+			s1="2 JALAN PEMBERITA U1/49 \nTEMASYA INDUSTRIAL PARK \nGLENMARIE 40150 SHAH ALAM SEL";
+			s2="D-3-2 ARCADIA APARTMENT \nUSJ 11/1 SUBANG JAYA \n47600 PETALING JAYA";
+			//s1="ZONGSHEN F 2008 LZSJCJL0645 50 0 00124 00144 000285 002";
+			//s2="ALFA ALFAROMERO145TDCAT ZAR93000002 40 1 01929 001730 005";
+			//s1="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc dddddddddddddddddddddddddddddddd";
+			//s2="a b c d" ;
+
+			s1="Entertaiment Entail tail, enter fail, use enter men end Detail	";
+			s2="Retail detail entry point fai mention lure mention find" ;
+
+			//s1="_incoming indicate the incomming left nodes of right nodes set";
+			//s2="_outgoing indicate the outgoing right nodes of left nodes set";
+			s1="boat";
+			s2="truck";
+			StemmerInterface stem=new PorterStemmer() ;
+			Trace.WriteLine(stem.stemTerm("Transportation") );
+			//MatchsMaker match=new MatchsMaker(s1, s2) ;
+			
+			//WNDistance.GetPathLength("car", "instrumentality") ;
+			WNRelatednessMatcher.GetPathLength("agent", "physical object") ;
+			//WNRelatednessMatcher.GetPathLength("living thing", "flora") ;
+			//Trace.WriteLine(match.Score) ;			
+		}
+
+	}
+}
