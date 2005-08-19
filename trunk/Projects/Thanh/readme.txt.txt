@@ -1,4 +1,4 @@
-This project sample is on continuing to complete.
+This is a test of using TortoiSVN. Source code are temporary files.
 
 
 Thanh Dao
