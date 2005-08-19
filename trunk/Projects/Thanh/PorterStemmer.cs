@@ -15,11 +15,11 @@ namespace WordsMatching
 	public class PorterStemmer : StemmerInterface
 	{
 		private char[] _b;
-		private int i,     /* offset into b */
-			i_end, /* offset to end of stemmed word */
+		private int i,     // offset into b 
+			i_end, // offset to end of stemmed word 
 			j, k;
 		private static int INC = 200;
-		/* unit of size whereby b is increased */
+		// unit of size whereby b is increased 
 		
 		public PorterStemmer() 
 		{
@@ -177,8 +177,8 @@ namespace WordsMatching
 			return true;
 		}
 
-		/* setto(s) sets (j+1),...k to the characters in the string s, readjusting
-		   k. */
+		/// setto(s) sets (j+1),...k to the characters in the string s, readjusting
+		//
 		private void setto(String s) 
 		{
 			int l = s.Length;
@@ -244,7 +244,7 @@ namespace WordsMatching
 			if (k == 0)
 				return;
 			
-			/* For Bug 1 */
+			// For Bug 1 
 			switch (_b[k-1]) 
 			{
 				case 'a':
@@ -289,7 +289,7 @@ namespace WordsMatching
 			}
 		}
 
-		/* step4() deals with -ic-, -full, -ness etc. similar strategy to step3. */
+		// step4() deals with -ic-, -full, -ness etc. similar strategy to step3.
 		private void step4() 
 		{
 			switch (_b[k]) 
@@ -312,13 +312,13 @@ namespace WordsMatching
 			}
 		}
 
-		/* step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
+		// step5() takes off -ant, -ence etc., in context <c>vcvc<v>. 
 		private void step5() 
 		{
 			if (k == 0)
 				return;
 
-			/* for Bug 1 */
+			// for Bug 1 
 			switch ( _b[k-1] ) 
 			{
 				case 'a':
@@ -337,13 +337,13 @@ namespace WordsMatching
 					if (ends("ant")) break;
 					if (ends("ement")) break;
 					if (ends("ment")) break;
-					/* element etc. not stripped before the m */
+					// element etc. not stripped before the m 
 					if (ends("ent")) break; return;
 				case 'o':
 					if (ends("ion") && j >= 0 && (_b[j] == 's' || _b[j] == 't')) break;
-					/* j >= 0 fixes Bug 2 */
+					// j >= 0 fixes Bug 2 
 					if (ends("ou")) break; return;
-					/* takes care of -ous */
+					// takes care of -ous 
 				case 's':
 					if (ends("ism")) break; return;
 				case 't':
@@ -362,7 +362,7 @@ namespace WordsMatching
 				k = j;
 		}
 
-		/* step6() removes a final -e if m() > 1. */
+		// step6() removes a final -e if m() > 1. 
 		private void step6() 
 		{
 			j = k;
