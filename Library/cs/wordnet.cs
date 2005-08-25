@@ -241,6 +241,9 @@ namespace Wnlib
 				lexemes[lx] = true;
 			}
 		}
+
+		// TDMS - relatives - synonyms of verb - grouped by similarity of meaning
+		//TODO: find when the noun condition is met
 		void relatives(Index idx)
 		{
 			RelList rellist = null;
@@ -729,13 +732,20 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 					switch (pt.ptp.mnemonic) // TDMS - WN2.1 MOD
 					{
 						case "PERTPTR":
-							if (fpos.name=="adverb")
+							if (fpos.name=="adv") // TDMS "adverb")
 								prefix = "Derived from "+pt.pos.name+" ";
 							else
 								prefix = "Pertains to "+pt.pos.name+" ";
 							break;
+						case "ANTPTR": // TDMS 26/8/05
+							if(fpos.name=="adj") //TODO: which adjective will fall into the below?
+								prefix = "Antonym of ";
+							else
+								prefix = "";
+							break;
 						case "PPLPTR":
-							prefix = "Participle of verb"; break;
+							prefix = "Participle of verb";
+							break;
 					    case "INSTANCE":
 							prefix = "INSTANCE OF=> ";
 							break;
@@ -750,6 +760,12 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 							prefix = "   HAS PART:  "; break;
 						case "ISMEMBERPTR":
 							prefix = "   MEMBER OF:  "; break;
+						case "ISSTUFFPTR": // TDMS 26/8/05
+							prefix = "   SUBSTANCE OF: ";
+							break;
+						case "ISPARTPTR": // TDMS 26/8/05
+							prefix = "   PART OF: ";
+							break;
 						default:
 							prefix = "=> "; break;
 					}
