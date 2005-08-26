@@ -49,6 +49,7 @@ namespace Wnlib
 		internal bool prflag = true;
 		internal bool prlexid = false;
 		public int taggedSenses;
+		public const int ALLSENSES = 0;
 
 		public Search(string w,bool doMorphs,string p,string s,int sn) :
 			this(w,doMorphs,PartOfSpeech.of(p),new SearchType(s),sn) {}
@@ -142,13 +143,13 @@ namespace Wnlib
 					while ((idx=ixs.next())!=null) 
 					{
 						/* Print extra sense msgs if looking at all senses */
-						if (whichsense==0)
+						if (whichsense==ALLSENSES)
 							buf += "\n";
 
 						/* Go through all of the searchword's senses in the
 						   database and perform the search requested. */
 						for (int sense=0;sense<idx.offs.Length;sense++)
-							if (whichsense==0||whichsense==sense+1) 
+							if (whichsense==ALLSENSES||whichsense==sense+1) 
 							{
 								prflag = false;
 								/* Determine if this synset has already been done
@@ -213,7 +214,7 @@ namespace Wnlib
 										if (pos.name=="verb")
 											cursyn.strFrame(false);
 										break;
-									case "DERIVATION":
+									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
 										// derivation - TDMS
 										cursyn.tracenomins(sch.ptp);
 										break;
@@ -243,146 +244,16 @@ namespace Wnlib
 		}
 
 		// TDMS - relatives - synonyms of verb - grouped by similarity of meaning
-		//TODO: find when the noun condition is met
 		void relatives(Index idx)
 		{
 			RelList rellist = null;
 			switch (pos.name) 
 			{
-				case "noun":
-					rellist = findSisters(idx,rellist);
-					rellist = findTwins(idx,rellist);
-					rellist = findCousins(idx,rellist);
-					doRelList(idx,rellist);
-					break;
 				case "verb":
 					rellist = findVerbGroups(idx,rellist);
 					doRelList(idx,rellist);
 					break;
 			}
-		}
-		RelList findSisters(Index idx,RelList rellist)
-		{
-			ArrayList syns = new ArrayList(); // of BitSet(300)
-			Hashtable hypers = new Hashtable(); // int id->long offset
-			int i,j,id=0;
-			/*Read all synsets and list all hyperptrs.*/
-			for (i=0;i<idx.offs.Length;i++) 
-			{
-				SynSet synset=new SynSet(idx.offs[i],PartOfSpeech.of("noun"),idx.wd,this,i);
-				syns.Add(new BitSet(300));
-				for (j=0;j<synset.ptrs.Length;j++)
-					if(synset.ptrs[j].ptp.mnemonic=="HYPERPTR") 
-						hypers[id] = synset.ptrs[j].off;
-				((BitSet)syns[i])[id]=true;
-				id++;
-			}
-			for (i=0;i<idx.offs.Length;i++)
-				for (j=i+1;j<idx.offs.Length;j++)
-				{
-					BitSet n = ((BitSet)syns[i]).And((BitSet)syns[j]);
-					if (n.Card>0)
-						rellist = addRelatives(idx,i,j,rellist);
-				}
-			return rellist;
-		}
-		RelList findTwins(Index idx,RelList rellist)
-		{
-			ArrayList words = new ArrayList(); // string
-			ArrayList s = new ArrayList(); // of BitSet(300)
-			const int MAXWRDS=300;
-			int i,j;
-
-			for (i=0;i<idx.offs.Length;i++) 
-			{
-				SynSet synset = new SynSet(idx.offs[i],pos,"",this,i);
-				s.Add(new BitSet(MAXWRDS));
-				if (synset.words.Length>=3)
-					for (j=0;j<synset.words.Length;j++) 
-					{
-						string x = synset.words[j].word.ToLower();
-						int k = words.Count;
-						if (words.Contains(x))
-							k = words.IndexOf(x);
-						else 
-							words.Add(x);
-						((BitSet)s[i])[k]=true;
-					}
-			}
-			for (i=0;i<idx.offs.Length;i++)
-				for (j=i+1;j<idx.offs.Length;j++) 
-				{
-					BitSet n = ((BitSet)s[i]).And((BitSet)s[j]);
-					if (n.Card>=3)
-						rellist = addRelatives(idx,j,i,rellist);
-				}
-			return rellist;
-		}
-		RelList findCousins(Index idx,RelList rellist)
-		{
-			int i,j,nsyns;
-			ArrayList synsTops = new ArrayList(); // of BitSet[2]
-			for (nsyns=0;nsyns<idx.offs.Length;nsyns++) 
-			{
-				SynSet synset = new SynSet(idx.offs[nsyns],pos,"",this,nsyns);
-				BitSet[] bb = new BitSet[2];
-				bb[0] = new BitSet(300);
-				bb[1] = new BitSet(300);
-				synsTops.Add(bb);
-				CousinTop.recordTopnode(idx.offs[nsyns],bb);
-				synset.traceHyperptrs(bb,1);
-			}
-			for (i=0;i<nsyns;i++)
-				for (j=i+1;j<nsyns;j++)
-					if (((BitSet[])synsTops[i])[0].And(((BitSet[])synsTops[j])[1]).Card>0)
-						rellist = addRelatives(idx,i,j,rellist);
-			return rellist;
-		}
-		RelList addRelatives(Index idx,int rel1,int rel2,RelList rellist)
-		{
-			/* First make sure that senses are not on the excpetion list */
-			//TODO: fix code redundancy as in wn.c - groupexc is redundant - see http://www.ebswift.com/bugtrack/mantis/view.php?id=21
-			if(pos.name=="noun" && groupexc(idx.offs[rel1],idx.offs[rel2]))
-				return rellist;
-			/* If either of the new relatives are already in a relative group,
-			   then add the other to the existing group (transitivity).
-			   Otherwise create a new group and add these 2 senses to it. */
-			RelList rel,last=null;
-			for (rel = rellist;rel!=null;rel=rel.next) 
-			{
-				if (rel.senses[rel1]||rel.senses[rel2]) 
-				{
-					rel.senses[rel1] = rel.senses[rel2] = true;
-					/* If part of another relative group, merge the groups */
-					for (RelList r=rellist;r!=null;r=r.next) 
-						if (r!=rel && r.senses[rel1] || r.senses[rel2])
-							rel.senses = rel.senses.Or(r.senses);
-					return rellist;
-				}
-				last = rel;
-			}
-			rel = new RelList();
-			rel.senses[rel1] = rel.senses[rel2] = true;
-			if (rellist==null)
-				return rel;
-			last.next = rel;
-			return rellist;
-		}
-		bool groupexc(long off1,long off2)
-		{
-			//TODO: this method is redundant - remove - see http://www.ebswift.com/bugtrack/mantis/view.php?id=21
-			string buf=String.Format("{0,8:D}",(off1<off2)?off1:off2);
-			StreamReader fp = new StreamReader(WNDB.path+"cousin.exc");
-			string p;
-			if ((p = WNDB.binSearch(buf,fp))!=null) 
-			{
-				p = p.Substring(9);
-				StrTok st = new StrTok(p,' ');
-				while ((p=st.next())!=null && p!=buf)
-					;
-			}
-			fp.Close();
-			return (p!=null);
 		}
 		RelList findVerbGroups(Index idx,RelList rellist)
 		{
@@ -406,6 +277,32 @@ namespace Wnlib
 							}
 				}
 			}
+			return rellist;
+		}
+		RelList addRelatives(Index idx,int rel1,int rel2,RelList rellist)
+		{
+			/* If either of the new relatives are already in a relative group,
+			   then add the other to the existing group (transitivity).
+			   Otherwise create a new group and add these 2 senses to it. */
+			RelList rel,last=null;
+			for (rel = rellist;rel!=null;rel=rel.next) 
+			{
+				if (rel.senses[rel1]||rel.senses[rel2]) 
+				{
+					rel.senses[rel1] = rel.senses[rel2] = true;
+					/* If part of another relative group, merge the groups */
+					for (RelList r=rellist;r!=null;r=r.next) 
+						if (r!=rel && r.senses[rel1] || r.senses[rel2])
+							rel.senses = rel.senses.Or(r.senses);
+					return rellist;
+				}
+				last = rel;
+			}
+			rel = new RelList();
+			rel.senses[rel1] = rel.senses[rel2] = true;
+			if (rellist==null)
+				return rel;
+			last.next = rel;
 			return rellist;
 		}
 		void doRelList(Index idx,RelList rellist)
@@ -496,7 +393,7 @@ namespace Wnlib
 			}
 		}
 	}
-
+/*
 	internal class CousinTop
 	{
 		public int topnum;
@@ -549,7 +446,7 @@ namespace Wnlib
 			}
 		}
 	}
-
+*/
 	internal class RelList 
 	{
 		public BitSet senses = new BitSet(300); 
@@ -821,7 +718,8 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			for (int i=0;i<ptrs.Length;i++)
 			{
 				Pointer pt = ptrs[i];
-				if (pt.ptp.mnemonic=="DERIVATION" && (pt.sce==0 ||pt.sce==whichword)) 
+				// TDMS 26/8/05 changed DERIVATION to NOMINALIZATIONS - verify this
+				if (pt.ptp.mnemonic=="NOMINALIZATIONS" && (pt.sce==0 ||pt.sce==whichword)) 
 				{
 					if(!search.prflag) 
 					{
@@ -934,6 +832,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			}
 		}
+/*
 		internal void traceHyperptrs(BitSet[] sets,int depth)
 		{
 			if (depth>=20)
@@ -949,6 +848,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			}
 		}
+*/		
 		internal void traceCoords(PointerType ptp,PartOfSpeech fpos,int depth)
 		{
 			for (int i=0;i<ptrs.Length;i++)

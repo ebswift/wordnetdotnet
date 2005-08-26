@@ -138,8 +138,12 @@ namespace Wnlib
 			new Opt( "-membn", "HASMEMBERPTR", "NOUN", 9, "Member Meronyms" );
 			new Opt( "-hmern", "-HMERONYM", "NOUN", 10, "Meronyms Tree" );
 
-			new Opt( "-nomnn", "DERIVATION", "NOUN", 11, "Derived Forms" );
-			new Opt( "-derin", "DERIVATION", "NOUN", 11, "Derived Forms" );
+			// TDMS 26/8/05 - this has been modified inline with WordNet 2.1, however it is not verified
+			// the derin and nomn codes need to be verified as being identified correctly
+			new Opt( "-nomnn", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms" ); // modified TDMS 26/8/05 - derivation->nominalization
+			new Opt( "-derin", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms" ); // modified TDMS 26/8/05 - derivation->nominalization
+			//new Opt( "-nomnn", "DERIVATION", "NOUN", 11, "Derived Forms" ); // TDMS 26/8/05 - replaced by above
+			//new Opt( "-derin", "DERIVATION", "NOUN", 11, "Derived Forms" ); // TDMS 26/8/05 - replaced by above
 
 			new Opt( "-domnn", "CLASSIFICATION", "NOUN", 13, "Domain" );
 			new Opt( "-domtn", "CLASS", "NOUN", 14, "Domain Terms" );
@@ -158,8 +162,12 @@ namespace Wnlib
 			new Opt( "-entav", "ENTAILPTR", "VERB", 6, "Entailment" );
 			new Opt( "-causv", "CAUSETO", "VERB", 7, "\'Cause To\'" );
 
-			new Opt( "-nomnv", "DERIVATION", "VERB", 8, "Derived Forms" );
-			new Opt( "-deriv", "DERIVATION", "VERB", 8, "Derived Forms" );
+			// TDMS 26/8/05 - this has been modified inline with WordNet 2.1, however it is not verified
+			// the nomnv and deriv codes need to be verified as being identified correctly
+			new Opt( "-nomnv", "NOMINALIZATIONS", "VERB", 8, "Derived Forms" ); // TDMS 26/8/05 - changed derivation to nominalizations
+			new Opt( "-deriv", "NOMINALIZATIONS", "VERB", 8, "Derived Forms" ); // TDMS 26/8/05 - changed derivation to nominalizations
+//			new Opt( "-nomnv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
+//			new Opt( "-deriv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
 
 			new Opt( "-domnv", "CLASSIFICATION", "VERB", 10, "Domain" );
 			new Opt( "-domtv", "CLASS", "VERB", 11, "Domain Terms" );
@@ -617,8 +625,8 @@ namespace Wnlib
 			new PointerType("\\","PERTPTR","Pertainyms"); // 17
 			new PointerType("=","ATTRIBUTE","Attributes"); // 18
 			new PointerType("$","VERBGROUP",""); // 19
-			//new PointerType("+","NOMINALIZATIONS",""); // 20
-			new PointerType("+","DERIVATION",""); // 20
+			new PointerType("+","NOMINALIZATIONS",""); // 20 // TDMS 26/8/05 - re-added nominalizations which was commented
+//			new PointerType("+","DERIVATION",""); // 20 // TDMS 26/8/05 - removed deviation
 			new PointerType(";","CLASSIFICATION",""); // 21
 			new PointerType("-","CLASS",""); // 22
 			/* Additional searches, but not pointers.  */
