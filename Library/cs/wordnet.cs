@@ -53,12 +53,14 @@ namespace Wnlib
 
 		public Search(string w,bool doMorphs,string p,string s,int sn) :
 			this(w,doMorphs,PartOfSpeech.of(p),new SearchType(s),sn) {}
+
 		public Search(string w,bool doMorphs,PartOfSpeech p,SearchType s,int sn) 
 			: this(w,p,s,sn) 
 		{
 			if (p!=null)
 				do_search(doMorphs);
 		}
+
 		internal Search(string w,PartOfSpeech p,SearchType s,int sn) 
 		{
 			word = w;
@@ -66,11 +68,14 @@ namespace Wnlib
 			sch = s;
 			whichsense = sn;
 		}
+
 		int lastholomero = 0;
+
 		internal void mark()
 		{
 			lastholomero = buf.Length;
 		}
+
 		internal void trunc()
 		{
 			buf = buf.Substring(0,lastholomero);
@@ -105,6 +110,22 @@ namespace Wnlib
 			}
 			return;
 		}
+
+		// From the WordNet Manual (http://wordnet.princeton.edu/man/wnsearch.3WN.html)
+		// findtheinfo() is the primary search algorithm for use with database interface 
+		// applications. Search results are automatically formatted, and a pointer to the 
+		// text buffer is returned. All searches listed in WNHOME/include/wnconsts.h can be 
+		// done by findtheinfo(). findtheinfo_ds() can be used to perform most of the searches, 
+		// with results returned in a linked list data structure. This is for use with 
+		// applications that need to analyze the search results rather than just display them.
+		//
+		// ***NOTE: findtheinfo_ds is NOT implemented in this library
+		//
+		// findtheinfo_ds() returns a linked list data structures representing synsets. Senses 
+		// are linked through the nextss field of a Synset data structure. For each sense, 
+		// synsets that match the search specified with ptr_type are linked through the ptrlist 
+		// field. See Synset Navigation below, for detailed information on the linked lists 
+		// returned.
 		void findtheinfo()
 		{
 			SynSet cursyn = null;
@@ -233,6 +254,7 @@ namespace Wnlib
 					break;
 			}
 		}
+
 		public void wordsFrom(SynSet s)
 		{
 			for (int j=0;j<s.words.Length;j++) 
@@ -255,6 +277,7 @@ namespace Wnlib
 					break;
 			}
 		}
+
 		RelList findVerbGroups(Index idx,RelList rellist)
 		{
 			int i,j,k;
@@ -279,6 +302,7 @@ namespace Wnlib
 			}
 			return rellist;
 		}
+
 		RelList addRelatives(Index idx,int rel1,int rel2,RelList rellist)
 		{
 			/* If either of the new relatives are already in a relative group,
@@ -305,6 +329,7 @@ namespace Wnlib
 			last.next = rel;
 			return rellist;
 		}
+
 		void doRelList(Index idx,RelList rellist)
 		{
 			int i;
@@ -336,6 +361,7 @@ namespace Wnlib
 					buf += "---------------\n";
 				}
 		}
+
 		void WNOverview()
 		{
 			Index idx;
@@ -393,60 +419,7 @@ namespace Wnlib
 			}
 		}
 	}
-/*
-	internal class CousinTop
-	{
-		public int topnum;
-		public BitSet rels = new BitSet(300);
-		public int offset;
-		CousinTop(int off)
-		{
-			topnum = id++;
-			offset = off;
-			cousintops[off] = this;
-		}
-		static Hashtable cousintops = new Hashtable(); // offset->CousinTops
-		public static CousinTop cousinTop(int off) 
-		{
-			CousinTop c = (CousinTop)cousintops[off];
-			if (c!=null)
-				return c;
-			return new CousinTop(off);
-		}
-		static bool inited = false;
-		static int id = 0;
-		public static void init() 
-		{
-			if (inited)
-				return;
-			inited = true;
-			StreamReader fp = new StreamReader(WNDB.path+"cousin.tps");
-			fp.Close();
-			string line;
-			while ((line=fp.ReadLine())!=null) 
-			{
-				line = line+"\n";
-				StrTok st = new StrTok(line,' ','\n');
-				int top1 = int.Parse(st.next());
-				int top2 = int.Parse(st.next());
-				CousinTop t1 = cousinTop(top1);
-				CousinTop t2 = cousinTop(top2);
-				t1.rels[t2.topnum] = true;
-				t2.rels[t1.topnum] = true;
-			}
-			fp.Close();
-		}
-		public static void recordTopnode(int hyperptr,BitSet[] sets)
-		{
-			CousinTop c = cousinTop(hyperptr);
-			if (c!=null) 
-			{
-				sets[0][c.topnum] = true;
-				sets[1] = sets[1].Or(c.rels);
-			}
-		}
-	}
-*/
+
 	internal class RelList 
 	{
 		public BitSet senses = new BitSet(300); 
@@ -454,6 +427,7 @@ namespace Wnlib
 		public RelList() {}
 		public RelList(RelList n) { next = n; }
 	}
+
 	public class Lexeme 
 	{
 		public string word;  // word in synset
@@ -473,23 +447,23 @@ namespace Wnlib
 
 	public class SynSet
 	{
-private static int ANTPTR =          1;	/* ! */
-private static int HYPERPTR =        2;	/* @ */
-private static int HYPOPTR =         3;	/* ~ */
-private static int ENTAILPTR =       4;	/* * */
-private static int SIMPTR =          5;	/* & */
-private static int CLASS =          22;	/* - */
-private static int LASTTYPE =	CLASS;
-private static int OVERVIEW	= (LASTTYPE + 9);
-private static int MAXSEARCH =       OVERVIEW;
-private static int CLASSIF_START =    (MAXSEARCH + 1);
-private static int CLASSIF_REGIONAL = (CLASSIF_START + 2);    /* ;r */
-private static int CLASSIF_END =     CLASSIF_REGIONAL;
-private static int CLASS_START =      (CLASSIF_END + 1);
-private static int CLASS_REGIONAL =   (CLASS_START + 2);      /* -r */
-private static int CLASS_END =       CLASS_REGIONAL;
-private static int INSTANCE =         (CLASS_END + 1);        /* @i */
-private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
+		private static int ANTPTR =          1;	/* ! */
+		private static int HYPERPTR =        2;	/* @ */
+		private static int HYPOPTR =         3;	/* ~ */
+		private static int ENTAILPTR =       4;	/* * */
+		private static int SIMPTR =          5;	/* & */
+		private static int CLASS =          22;	/* - */
+		private static int LASTTYPE =	CLASS;
+		private static int OVERVIEW	= (LASTTYPE + 9);
+		private static int MAXSEARCH =       OVERVIEW;
+		private static int CLASSIF_START =    (MAXSEARCH + 1);
+		private static int CLASSIF_REGIONAL = (CLASSIF_START + 2);    /* ;r */
+		private static int CLASSIF_END =     CLASSIF_REGIONAL;
+		private static int CLASS_START =      (CLASSIF_END + 1);
+		private static int CLASS_REGIONAL =   (CLASS_START + 2);      /* -r */
+		private static int CLASS_END =       CLASS_REGIONAL;
+		private static int INSTANCE =         (CLASS_END + 1);        /* @i */
+		private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 
 		public int hereiam;
 		public int fnum;
@@ -531,6 +505,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			}
 			Parse(rec,pos,wd);
 		}
+		
 		internal SynSet (int off,PartOfSpeech p,string wd,SynSet fr) : this(off,p,wd,fr.search,fr.sense) {}
 		internal SynSet (Index idx,int sens,Search sch) : this(idx.offs[sens],idx.pos,idx.wd,sch,sens){ }
 		internal SynSet (int off,PartOfSpeech p,SynSet fr) : this(off,p,"",fr) {}
@@ -588,6 +563,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			}
 			defn = s.Substring(s.IndexOf('|')+1);
 		}
+		
 		internal bool has(PointerType p)
 		{
 			for (int i=0;i<ptrs.Length;i++)
@@ -595,10 +571,13 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 					return true;
 			return false;
 		}
+		
 		internal void tracePtrs(PointerType ptp,PartOfSpeech p,int depth)
 		{
 			tracePtrs(new SearchType(false,ptp),p,depth);
 		}
+
+		// Recursive search algorithm to trace a pointer tree
 		internal void tracePtrs(SearchType stp,PartOfSpeech fpos, int depth)
 		{
 			int i;
@@ -621,7 +600,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 	      			(pt.sce == whichword))))
 				{
 				    realptr = pt.ptp.ident; /* WN2.1 deal with INSTANCE */
-					if (!search.prflag)
+					if (!search.prflag) // print sense number and synset
 						strsns(sense+1);
 					search.prflag = true;
 					spaces("TRACEP",depth+(stp.rec?2:0));
@@ -667,6 +646,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 							prefix = "=> "; break;
 					}
 
+					/* Read synset pointed to */
 					cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
 					/* For Pertainyms and Participles pointing to a specific
@@ -709,47 +689,41 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			}
 		}
-		internal void tracenomins(PointerType ptp) //,PartOfSpeech fpos)
+		
+		internal void traceCoords(PointerType ptp,PartOfSpeech fpos,int depth)
 		{
-			int j;
-			int idx = 0;
-			ArrayList prlist = new ArrayList();
-
 			for (int i=0;i<ptrs.Length;i++)
 			{
 				Pointer pt = ptrs[i];
-				// TDMS 26/8/05 changed DERIVATION to NOMINALIZATIONS - verify this
-				if (pt.ptp.mnemonic=="NOMINALIZATIONS" && (pt.sce==0 ||pt.sce==whichword)) 
+				/* WN2.0
+								if (pt.ptp.mnemonic=="HYPERPTR" &&
+									(pt.sce==0 ||
+									 pt.sce==whichword))
+				*/
+				// WN2.1 if statement change - TDMS
+				if((pt.ptp.mnemonic=="HYPERPTR" || pt.ptp.mnemonic=="INSTANCE") &&
+					((pt.sce==0) ||
+					(pt.sce==whichword)))
 				{
 					if(!search.prflag) 
 					{
 						strsns(sense + 1);
 						search.prflag = true;
 					}
-					spaces("TRACEP",0);
+					spaces("TRACEC",depth);
 					SynSet cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
-					cursyn.str("RELATED TO-> ","\n",0,0,0,0);
-					cursyn.tracePtrs(ptp,cursyn.pos,0);
-					for (j = 0; j < idx; j++) 
+					cursyn.str("-> ","\n",1,0,0,1);
+					cursyn.tracePtrs(ptp,cursyn.pos,depth);
+					if (depth>0) 
 					{
-//#ifdef FOOP
-//						if (synptr->ptroff[i] == prlist[j]) 
-//						{
-//							break;
-//						}
-//#endif
+						depth = depthcheck(depth);
+						cursyn.traceCoords(ptp,cursyn.pos,depth+1);
 					}
-
-					if (j == idx) 
-					{
-						prlist.Add(pt.off);
-						spaces("TRACEP",2);
-						cursyn.str("=> ","\n",1,0,0,1);
-					}				
 				}
 			}
 		}
+		
 		internal void traceclassif(PointerType ptp, SearchType stp) //,PartOfSpeech fpos)
 		{
 			int j;
@@ -832,78 +806,51 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			}
 		}
-/*
-		internal void traceHyperptrs(BitSet[] sets,int depth)
+		
+		internal void tracenomins(PointerType ptp) //,PartOfSpeech fpos)
 		{
-			if (depth>=20)
-				return;
-			for (int i=0;i<ptrs.Length;i++) 
-			{
-				Pointer p = ptrs[i];
-				if (p.ptp.mnemonic=="HYPERPTR") 
-				{
-					CousinTop.recordTopnode(p.off,sets);
-					SynSet s = new SynSet(p.off,p.pos,"",this);
-					s.traceHyperptrs(sets,depth+1);
-				}
-			}
-		}
-*/		
-		internal void traceCoords(PointerType ptp,PartOfSpeech fpos,int depth)
-		{
+			int j;
+			int idx = 0;
+			ArrayList prlist = new ArrayList();
+
 			for (int i=0;i<ptrs.Length;i++)
 			{
 				Pointer pt = ptrs[i];
-/* WN2.0
-				if (pt.ptp.mnemonic=="HYPERPTR" &&
-				    (pt.sce==0 ||
-				     pt.sce==whichword))
-*/
-				// WN2.1 if statement change - TDMS
-				if((pt.ptp.mnemonic=="HYPERPTR" || pt.ptp.mnemonic=="INSTANCE") &&
-					((pt.sce==0) ||
-	    			(pt.sce==whichword)))
+				// TDMS 26/8/05 changed DERIVATION to NOMINALIZATIONS - verify this
+				if (pt.ptp.mnemonic=="NOMINALIZATIONS" && (pt.sce==0 ||pt.sce==whichword)) 
 				{
 					if(!search.prflag) 
 					{
 						strsns(sense + 1);
 						search.prflag = true;
 					}
-					spaces("TRACEC",depth);
+					spaces("TRACEP",0);
 					SynSet cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
-					cursyn.str("-> ","\n",1,0,0,1);
-					cursyn.tracePtrs(ptp,cursyn.pos,depth);
-					if (depth>0) 
+					cursyn.str("RELATED TO-> ","\n",0,0,0,0);
+					cursyn.tracePtrs(ptp,cursyn.pos,0);
+					for (j = 0; j < idx; j++) 
 					{
-						depth = depthcheck(depth);
-						cursyn.traceCoords(ptp,cursyn.pos,depth+1);
+						//#ifdef FOOP
+						//						if (synptr->ptroff[i] == prlist[j]) 
+						//						{
+						//							break;
+						//						}
+						//#endif
 					}
+
+					if (j == idx) 
+					{
+						prlist.Add(pt.off);
+						spaces("TRACEP",2);
+						cursyn.str("=> ","\n",1,0,0,1);
+					}				
 				}
 			}
 		}
-		void spaces(string trace,int n)
-		{
-			for (int j=0;j<n;j++)
-				search.buf += "     ";
-			switch(trace) 
-			{
-				case "TRACEP": 
-					if (n>0)
-						search.buf += "   ";
-					else
-						search.buf += "       ";
-					break;
-				case "TRACEC":
-					if (n==0)
-						search.buf += "    ";
-					break;
-				case "TRACEI":
-					if (n==0)
-						search.buf += "\n    ";
-					break;
-			}
-		}
+
+		/* Trace through the hypernym tree and print all MEMBER, STUFF
+		   and PART info. */
 		void traceInherit(PointerType pbase,PartOfSpeech fpos,int depth)
 		{
 			for (int i=0;i<ptrs.Length;i++) 
@@ -927,6 +874,30 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			}
 			search.trunc(); 
 		}
+
+		void spaces(string trace,int n)
+		{
+			for (int j=0;j<n;j++)
+				search.buf += "     ";
+			switch(trace) 
+			{
+				case "TRACEP": // traceptrs
+					if (n>0)
+						search.buf += "   ";
+					else
+						search.buf += "       ";
+					break;
+				case "TRACEC": // tracecoords
+					if (n==0)
+						search.buf += "    ";
+					break;
+				case "TRACEI": // traceinherit
+					if (n==0)
+						search.buf += "\n    ";
+					break;
+			}
+		}
+
 		public void Print(string head,string tail,int definition,int wdnum, int antflag, int markerflag)
 		{
 			string keep = search.buf;
@@ -935,6 +906,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			Console.Write(search.buf);
 			search.buf = keep;
 		}
+		
 		internal void str(string head,string tail,int definition,int wdnum, int antflag, int markerflag)
 		{
 			int i, wdcnt;
@@ -963,6 +935,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				search.buf +=" -- "+defn;
 			search.buf += tail;
 		}
+		
 		void strAnt(string tail,AdjSynSetType attype,int definition)
 		{
 			int i,wdcnt;
@@ -1000,6 +973,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				search.buf += " -- "+defn;
 			search.buf += tail;
 		}
+		
 		void catword(int wdnum,int adjmarker,int antflag)
 		{
 			search.buf += deadjify(words[wdnum].word);
@@ -1021,6 +995,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 					strAnt(PartOfSpeech.of("adj"),wdnum+1,"(vs. ",")");
 			}
 		}
+		
 		internal void strAnt(PartOfSpeech pos,int wdnum,string head,string tail) 
 		{
 			int i,j,wdoff;
@@ -1060,6 +1035,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			}
 		}
+		
 		string deadjify(string word)
 		{
 			string tmpword = word + " ";
@@ -1077,11 +1053,13 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			return word;
 		}
+		
 		internal void strsns(int sense)
 		{
 			strsense(sense);
 			str("","\n",1,0,1,1);
 		}
+		
 		void strsense(int sense)
 		{
 			/* Append lexicographer filename after Sense # if flag is set. */
@@ -1090,12 +1068,14 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			else
 				search.buf += "\nSense "+sense+"\n";
 		}
+		
 		internal int depthcheck(int depth)
 		{
 			if (depth>=20)
 				depth = -1;
 			return depth;
 		}
+		
 		internal void partsAll(PointerType ptp)
 		{
 			int hasptr = 0;
@@ -1115,6 +1095,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				traceInherit(ptrbase,PartOfSpeech.of("noun"),1);
 			}
 		}
+		
 		internal void traceAdjAnt()
 		{
 			SynSet newsynptr;
@@ -1169,6 +1150,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 				}
 			}
 		}
+		
 		internal void strFrame(bool prsynset)
 		{
 			int i;
@@ -1189,6 +1171,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 
 				}
 		}
+		
 		/* find the example sentence references in the example sentence index file */
 		bool findExample()
 		{
@@ -1212,6 +1195,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			fp.Close();
 			return retval;
 		}
+		
 		void getExample(string off,string wd)
 		{
 			StreamReader fp = new StreamReader(WNDB.path+"SENTS.VRB");
@@ -1220,6 +1204,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 			search.buf += "         EX: "+line.Replace("%s",wd);
 			fp.Close();
 		}
+
 		public int getsearchsense(int which)
 		{
 			int i;
@@ -1231,6 +1216,7 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 						return i+1;
 			return 0;
 		}
+
 		internal void seealso()
 		{
 			/* Find all SEEALSO pointers from the searchword and print the
@@ -1260,15 +1246,18 @@ private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
 		static Hashtable marks = new Hashtable();
 		public string mnem;
 		public string mark;
+
 		public static AdjMarker of(string s)
 		{
 			return (AdjMarker)marks[s];
 		}
+
 		AdjMarker(string n,string k)
 		{
 			mnem=n; mark=k;
 			marks[n] = this;
 		}
+
 		static AdjMarker() 
 		{
 			new AdjMarker("UNKNOWN_MARKER","");

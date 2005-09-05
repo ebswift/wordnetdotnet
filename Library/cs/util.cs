@@ -34,6 +34,7 @@ namespace Wnlib
 		static Hashtable fps = new Hashtable();
 		public StreamReader index;
 		public StreamReader data;
+
 		public WNDBpart(PartOfSpeech p)
 		{
 			try 
@@ -49,14 +50,17 @@ namespace Wnlib
 				// wordnet classes are trying to instantiate based on an incorrect dict path
 			}
 		}
+
 		public static WNDBpart of(PartOfSpeech p)
 		{
 			return (WNDBpart)fps[p];
 		}
 	}
+	
 	public class WNOpt
 	{
 		static Hashtable opts = new Hashtable();
+		
 		public static WNOpt opt(string a) 
 		{ 
 			return (WNOpt)(opts[a]); 
@@ -64,6 +68,7 @@ namespace Wnlib
 		public string arg;
 		public string help;
 		public bool flag;
+		
 		WNOpt(string a, string h, bool i) 
 		{
 			arg = a;
@@ -71,6 +76,7 @@ namespace Wnlib
 			flag = i;
 			opts.Add(a,this);
 		}
+		
 		static WNOpt() 
 		{
 			new WNOpt("-l","license and copyright",false);
@@ -84,6 +90,7 @@ namespace Wnlib
 			new WNOpt("-S","sense numbers for overview",false);
 		}
 	}
+	
 	public class Opt
 	{
 		public string arg;
@@ -95,6 +102,7 @@ namespace Wnlib
 		public static int Count { get { return opts.Count; }}
 		public static Opt at(int ix) { return (Opt)opts[ix]; }
 		static ArrayList opts = new ArrayList();
+		
 		Opt(string a,string m,string p,int h,string b) 
 		{
 			arg = a;
@@ -186,12 +194,14 @@ namespace Wnlib
 			new Opt( "-over", "OVERVIEW", "ALL_POS", -1, "Overview" );
 		}
 	}
+	
 	// TDMS - path helper for the library - must be set before any call to WNDB static members
 	public class WNCommon
 	{
 		// TODO: (TDMS) make this a property so that the database path can be dynamically checked when set.
 		public static string path;
 	}
+	
 	public class WNDB
 	{
 		public static string path; // set from WNCommon FIRST
@@ -203,14 +213,17 @@ namespace Wnlib
 			while (d.MoveNext()) 
 				new WNDBpart((PartOfSpeech)(d.Value));
 		}
+		
 		public static StreamReader index(PartOfSpeech p) 
 		{
 			return WNDBpart.of(p).index;
 		}
+		
 		public static StreamReader data(PartOfSpeech p) 
 		{
 			return WNDBpart.of(p).data;
 		}
+		
 		public static void reopen(PartOfSpeech p)
 		{
 			WNDBpart w = WNDBpart.of(p);
@@ -219,6 +232,7 @@ namespace Wnlib
 			w.index = new StreamReader(IndexFile(p));
 			w.data = new StreamReader(DataFile(p));
 		}
+		
 		public static string[] lexfiles = 
 		{
 			"adj.all",			/* 0 */
@@ -267,18 +281,22 @@ namespace Wnlib
 			"verb.weather",		/* 43 */
 			"adj.ppl",			/* 44 */
 		};
+		
 		internal static string ExcFile(PartOfSpeech n)
 		{
 			return path+n.name+".exc";
 		}
+		
 		internal static string IndexFile(PartOfSpeech n)
 		{
 			return path+"index."+n.name; // WN2.1 - TDMS
 		}
+		
 		internal static string DataFile(PartOfSpeech n)
 		{
 			return path+"data."+n.name; // WN2.1 - TDMS
 		}
+		
 		public static string binSearch(string searchKey,StreamReader fp)
 		{
 			int c,n;
@@ -335,14 +353,22 @@ namespace Wnlib
 				return line;
 			return null;
 		}
+		
 		public static string binSearch(string word,PartOfSpeech pos)
 		{
 			return binSearch(word,WNDB.index(pos));
 		}
+		
 		public static SearchSet is_defined(string word,string p)
 		{
 			return is_defined(word,PartOfSpeech.of(p));
 		}
+		
+		// From the WordNet Manual (http://wordnet.princeton.edu/man/wnsearch.3WN.html)
+		// is_defined() sets a bit for each search type that is valid for searchstr in pos, 
+		// and returns the resulting unsigned integer. Each bit number corresponds to a pointer 
+		// type constant defined in WNHOME/include/wnconsts.h . For example, if bit 2 is set, 
+		// the HYPERPTR search is valid for searchstr . There are 29 possible searches. 
 		public static SearchSet is_defined(string searchstr,PartOfSpeech fpos)
 		{
 			Indexes ixs = new Indexes(searchstr,fpos);
@@ -437,6 +463,7 @@ namespace Wnlib
 		Index[] offsets = new Index[stringscount]; // of Index
 		int offset=0;
 		PartOfSpeech fpos;
+		
 		public Indexes(string str,PartOfSpeech pos)
 		{
 			string[] strings = new string[stringscount];
@@ -460,6 +487,7 @@ namespace Wnlib
 					offsets[i] = Index.lookup(strings[i],pos);
 			fpos = pos;
 		}
+		
 		public Index next()
 		{
 			for (int i=offset; i<stringscount; i++)
@@ -482,6 +510,7 @@ namespace Wnlib
 		public int[] offs = null;		/* synset offsets */
 		public SynSet[] syns = null;   /* cached */
 		public Index next = null;
+		
 		public void Print()
 		{
 			Console.Write(pos.name+" "+sense_cnt+" ");
@@ -496,6 +525,16 @@ namespace Wnlib
 			if (next!=null)
 				next.Print();
 		}
+
+		/* From search.c:
+		 * Find word in index file and return parsed entry in data structure.
+		   Input word must be exact match of string in database. */
+		
+		// From the WordNet Manual (http://wordnet.princeton.edu/man/wnsearch.3WN.html)
+		// index_lookup() finds searchstr in the index file for pos and returns a pointer 
+		// to the parsed entry in an Index data structure. searchstr must exactly match the 
+		// form of the word (lower case only, hyphens and underscores in the same places) in 
+		// the index file. NULL is returned if a match is not found.
 		public static Index lookup(string word,PartOfSpeech pos)
 		{
 			int j;
@@ -526,10 +565,12 @@ namespace Wnlib
 				idx.offs[j] = int.Parse(st.next());
 			return idx;
 		}
+		
 		public bool HasHoloMero(string s,Search search)
 		{
 			return HasHoloMero(PointerType.of(s),search);
 		}
+		
 		public bool HasHoloMero(PointerType p,Search search)
 		{
 			PointerType pbase;
@@ -551,11 +592,13 @@ namespace Wnlib
 	{
 		string[] strs;
 		int pos;
+		
 		public StrTok(string s,params char [] seps) 
 		{
 			strs = s.Split(seps);
 			pos = 0;
 		}
+		
 		public string next()
 		{
 			for (;pos<strs.Length;pos++)
@@ -568,28 +611,41 @@ namespace Wnlib
 	public class PointerType
 	{
 		static Hashtable ptypes = new Hashtable();
+		
 		public static PointerType of(string s) // lookup by symbol or mnemonic
 		{
 			if (uniq==0)
 				classinit();
 			return (PointerType) ptypes[s];
 		}
+		
 		public static PointerType of(int id) // lookup by ident
 		{
 			if (uniq==0)
 				classinit();
 			return (PointerType) ptypes[id];
 		}
+		
 		public static int Count { get { return uniq; }}
+		
 		string sym;
+		
 		public string symbol { get { return sym; }}
+		
 		string mnem;
+		
 		public string mnemonic { get { return mnem; }}
+		
 		int id;
+		
 		public int ident { get { return id; }}
+		
 		string labl;
+		
 		public string label { get { return labl; }}
+		
 		static int uniq=0;
+		
 		PointerType(string s,string m,string h) 
 		{
 			sym = s; 
@@ -600,10 +656,12 @@ namespace Wnlib
 			ptypes[s] = this;
 			ptypes[id] = this;
 		}
+		
 		public static PointerType operator+(PointerType a,int b)
 		{
 			return (PointerType)ptypes[a.id+b];
 		}
+		
 		static void classinit() 
 		{
 			new PointerType("!","ANTPTR","Antonyms"); // 1
@@ -650,10 +708,12 @@ namespace Wnlib
 			new PointerType("@i","INSTANCE","Instance");
 			new PointerType("~i","INSTANCES","Instances");
 		}
+		
 		public static bool operator>=(PointerType a,string s) 
 		{
 			return a.ident>=PointerType.of(s).ident;
 		}
+		
 		public static bool operator<=(PointerType a,string s) 
 		{
 			return a.ident<=PointerType.of(s).ident;
@@ -665,24 +725,28 @@ namespace Wnlib
 		BitSet b;
 		internal SearchSet() { b = new BitSet(30); }
 		internal SearchSet(SearchSet s) { b = new BitSet(s.b); }
+		
 		public static SearchSet operator+ (SearchSet a,string s)
 		{
 			SearchSet r = new SearchSet(a);
 			r.b[PointerType.of(s).ident]=true;
 			return r;
 		}
+		
 		public static SearchSet operator+ (SearchSet a,PointerType p)
 		{
 			SearchSet r = new SearchSet(a);
 			r.b[p.ident]=true;
 			return r;
 		}
+		
 		public static SearchSet operator+ (SearchSet a,SearchSet b)
 		{
 			SearchSet r = new SearchSet(a);
 			r.b = a.b.Or(b.b);
 			return r;
 		}
+		
 		public bool this[int i] { get { return b[i]; }}
 		public bool this[string s] { get { return b[PointerType.of(s).ident]; }}
 		public bool NonEmpty { get {	return b.GetHashCode()!=0; }}
@@ -694,13 +758,17 @@ namespace Wnlib
 		public PointerType ptp;
 		//public static SortedList searchtypes = new SortedList(); // SearchType -> SearchType
 		public SearchType(bool r,string t) : this(r,PointerType.of(t)) {}
+		
 		public SearchType(bool r,PointerType p)
 		{
 			ptp = p;
 			rec = r;
 		}
+		
 		public SearchType(string m) : this((m[0]=='-'),(m[0]==' ')?m.Substring(1):m) {}
+		
 		public string label { get { return ptp.label; }}
+		
 		public int CompareTo(object a)
 		{
 			SearchType s = (SearchType)a;
@@ -714,10 +782,12 @@ namespace Wnlib
 				return 1;
 			return 1;
 		}
+		
 		public override bool Equals(object a)
 		{
 			return CompareTo(a)==0;
 		}
+		
 		public override int GetHashCode()
 		{
 			return rec.GetHashCode()+ptp.GetHashCode();
@@ -741,17 +811,27 @@ namespace Wnlib
 	{
 		public static Hashtable parts = new Hashtable();
 		string sy;
+
 		public string symbol { get { return sy; }}
 		string nm;
+
 		public string name {get{return nm;}}
+		
 		string cl;
+		
 		public string clss {get{return cl;}}
+		
 		int id;
+		
 		public int ident {get{return id; }}
+		
 		PartsOfSpeech flg;
+		
 		public PartsOfSpeech flag { get{ return flg; }}
+		
 		static int uniq = 0;
 		internal Hashtable help = new Hashtable(); // string searchtype->string help: see WnHelp
+		
 		PartOfSpeech(string s,string n, string c,PartsOfSpeech f) 
 		{
 			sy = s;
@@ -763,13 +843,16 @@ namespace Wnlib
 			if (c=="")
 				parts[nm] = this;
 		}
+		
 		PartOfSpeech(string s,string n,PartsOfSpeech f) : this(s,n,"",f) {}
+		
 		public static PartOfSpeech of(string s)
 		{
 			if (uniq==0)
 				classinit();
 			return (PartOfSpeech)parts[s];
 		}
+		
 		public static PartOfSpeech of(PartsOfSpeech f)
 		{
 			if (f==PartsOfSpeech.Noun)
@@ -782,6 +865,7 @@ namespace Wnlib
 				return PartOfSpeech.of("adv");
 			return null;			// unknown or not unique
 		}
+		
 		static void classinit()
 		{
 			new PartOfSpeech("n","noun",PartsOfSpeech.Noun); // 0
@@ -795,19 +879,24 @@ namespace Wnlib
 	public class Frame 
 	{
 		static ArrayList frames = new ArrayList();
+		
 		public static Frame frame(int i) 
 		{
 			if (frames.Count==0)
 				classinit();
 			return (Frame)frames[i];
 		}
+		
 		string st;
+		
 		public string str { get{return st;}}
+		
 		Frame(string f) 
 		{
 			st = f;
 			frames.Add(this);
 		}
+		
 		static void classinit()
 		{
 			new Frame("");
