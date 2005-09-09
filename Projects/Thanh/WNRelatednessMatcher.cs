@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Threading;
-using WnLexicon;
+
 using Wnlib;
 using System.Globalization;
 
@@ -28,40 +28,41 @@ namespace WordsMatching
 			//
 		}
 		private static Hashtable trace=new Hashtable() ;
+//		private string GetFirstMorph(string word, Wnlib.PartsOfSpeech pos)
+//		{
+//			word = word.ToLower();
+//			Wnlib.Index index = Wnlib.Index.lookup( word, Wnlib.PartOfSpeech.of( pos ) );
+//
+//			// none found?
+//			if( index == null )
+//			{
+//				// check morphs
+//				Wnlib.MorphStr morphs = new Wnlib.MorphStr( word, Wnlib.PartOfSpeech.of( pos ) );
+//				string morph = "";
+//				while( ( morph = morphs.next() ) != null )
+//				{
+//					index = Wnlib.Index.lookup( morph, Wnlib.PartOfSpeech.of( pos ) );
+//					if( index != null )					
+//						return morph;//just get first morph
+//					
+//				}
+//				return string.Empty ;
+//			}
+//			else 						
+//				return word;
+//		}
 
-		private string GetFirstMorph(string word, Wnlib.PartsOfSpeech pos)
-		{
-			word = word.ToLower();
-			Wnlib.Index index = Wnlib.Index.lookup( word, Wnlib.PartOfSpeech.of( pos ) );
 
-			// none found?
-			if( index == null )
-			{
-				// check morphs
-				Wnlib.MorphStr morphs = new Wnlib.MorphStr( word, Wnlib.PartOfSpeech.of( pos ) );
-				string morph = "";
-				while( ( morph = morphs.next() ) != null )
-				{
-					index = Wnlib.Index.lookup( morph, Wnlib.PartOfSpeech.of( pos ) );
-					if( index != null )					
-						return morph;//just get first morph
-					
-				}
-				return string.Empty ;
-			}
-			else 						
-				return word;
-		}
 		public static int GetPathLength(string word1, string word2)
 		{
 			word[0]=word1;				
 			word[1]=word2;	
-//			ArrayList opts=new ArrayList() ;
-//			opts.Add(Opt.at(8)) ;
-//			opts.Add(Opt.at(35)) ;
-//			foreach (Opt item in opts)
-//			{
-//			}
+			//			ArrayList opts=new ArrayList() ;
+			//			opts.Add(Opt.at(8)) ;
+			//			opts.Add(Opt.at(35)) ;
+			//			foreach (Opt item in opts)
+			//			{
+			//			}
 
 			for(int i=0; i<2 ; i++)
 			{
@@ -69,9 +70,9 @@ namespace WordsMatching
 				depth[i]=new ArrayList() ;
 			}
 			Opt opt=Opt.at(8);//search for hypernymy 12 == full, 8==brief;
-//			_threadStart[0]=new ThreadStart(Search0);
-//			_thread[0]=new Thread(_threadStart[0]);								
-//			_thread[0].Start();									
+			//			_threadStart[0]=new ThreadStart(Search0);
+			//			_thread[0]=new Thread(_threadStart[0]);								
+			//			_thread[0].Start();									
 			
 			Search0();
 			Search1();
@@ -80,8 +81,8 @@ namespace WordsMatching
 			Search0();
 
 			//			_threadStart[1]=new ThreadStart(Search1);
-//			_thread[1]=new Thread(_threadStart[1]);								
-//			_thread[1].Start();									
+			//			_thread[1]=new Thread(_threadStart[1]);								
+			//			_thread[1].Start();									
 
 			return 0;
 		}
@@ -106,7 +107,7 @@ namespace WordsMatching
 			Spread(0, Opt.at (8));
 		}
 		
-		public static void Search1()
+		public static void Search1() 
 		{
 			Spread(1, Opt.at (8));
 		}
@@ -114,7 +115,7 @@ namespace WordsMatching
 		 
 		public static int Spread(int index, Opt opt)
 		{
-			int head=-1, tail=-1;
+			int head=-1, tail=-1; 
 			queue[index]=new ArrayList() ;
 			depth[index]=new ArrayList() ;
 

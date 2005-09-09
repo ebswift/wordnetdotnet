@@ -3,7 +3,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsMatching", "WordsMatch
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wnlib", "..\WordNet_c#\20050202\LIBARY\Wnlib.csproj", "{C8099A7D-3ED0-4098-996C-78FB2586749F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wnlib", "..\..\WordNet_c#\20050202\LIBARY\Wnlib.csproj", "{C8099A7D-3ED0-4098-996C-78FB2586749F}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject

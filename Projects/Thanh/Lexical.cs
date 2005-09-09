@@ -183,7 +183,7 @@ namespace WnLexicon
 			return lookupSynonyms( index );
 		}
 
-		private static string[] lookupSynonyms( Wnlib.Index index )
+		private static string[] lookupSynonyms( Wnlib.Index  index )
 		{
 			// OVERVIEW: For each sense, grab the synset associated with our index.
 			//           Then, add the lexemes in the synset to a list.

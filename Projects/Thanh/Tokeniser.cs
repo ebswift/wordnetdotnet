@@ -69,7 +69,7 @@ namespace WordsMatching
 
 		public string[] Partition(string input)
 		{
-			Regex r=new Regex("([ \\t{}():;])");
+			Regex r=new Regex("([ \\t{}():;.])");
 			
 			Normalize_Casing(ref input);
 			//normalization to the lower case
