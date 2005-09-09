@@ -109,6 +109,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "LCSFinder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LeskDisambiguator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Leven.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -124,7 +134,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "OverlapCounter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OverlapRelatedness.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PorterStemmer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SemRelatedness.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -154,7 +179,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "WNPathFinder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "WNRelatednessMatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WSDisambiguator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
