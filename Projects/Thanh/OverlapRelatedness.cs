@@ -33,7 +33,7 @@ namespace WordsMatching
 												  Opt.at(36)//tropo // may be 38
 											  } ;
 
-		private string[][][] _relatedCube ;//[words][senses][relations]
+		private string[][][][] _relatedCube ;//[words][senses][relations]
 
 		private string[] _contextWords;
 		private int[] _bestSenses;
@@ -42,7 +42,7 @@ namespace WordsMatching
 
 		private void MyInit()
 		{
-			_relatedCube=new string[_contextWords.Length][][];
+			_relatedCube=new string[_contextWords.Length][][][];
 			_bestSenses=new int[_contextWords.Length];
 			for(int i=0; i < _bestSenses.Length; i++)
 				_bestSenses[i]=-1;
@@ -87,7 +87,7 @@ namespace WordsMatching
 
 					if (stop) 						
 					{
-						string[][] tmp=GetAllRelations(_contextWords[i], senseCount );						
+						string[][][] tmp=GetAllRelations(_contextWords[i], senseCount );						
 						if (tmp == null)
 						{
 							int w=0;
@@ -99,7 +99,7 @@ namespace WordsMatching
 			}
 		}
 			
-		private int ScoringSensePair(string[] sense1, string[] sense2)
+		private int ScoringSensePair(string[][] sense1, string[][] sense2)
 		{
 			int score=0;
 			int m=sense1.Length , n=sense2.Length ;
@@ -217,7 +217,7 @@ namespace WordsMatching
 			return _bestSenses;
 		}
 
-		public string ConcateRel(Search se)
+		public string[] ConcateRel(Search se)
 		{			
 
 			int a=se.buf.IndexOf("\n");
@@ -236,24 +236,30 @@ namespace WordsMatching
 		
 			
 			string con=se.buf.ToString();
-			if (con == string.Empty) return "";
+			if (con == string.Empty) return null;
 			int pIndex=con.IndexOf(sense.defn);
-			if (pIndex == -1) return "";
+			if (pIndex == -1) return null;
 			int lcon=con.Length ;
 			int ldef=sense.defn.Length ;
 			
 			string s=con.Substring(pIndex + ldef - 1, lcon- (pIndex + ldef - 1 )) ;					
-
-			return RemoveBadChars(s);
+			
+			s=RemoveBadChars(s);
+			Tokeniser tok=new Tokeniser() ;
+			string[] toks=tok.Partition(s);
+			return toks;
 		}
 
-		private string GetGloss(SynSet sense)
+		private string[] GetGloss(SynSet sense)
 		{
 			string gloss=sense.defn ;
 			if (gloss.IndexOf(";") != -1)
 				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
-	
-			return gloss;
+			
+			Tokeniser tok=new Tokeniser() ;
+			string[] glossToks=tok.Partition(gloss) ;
+
+			return glossToks;
 		}
 
 		private int GetOverlap(string[] a, string[] b)
@@ -262,10 +268,10 @@ namespace WordsMatching
 			return score;
 		}
 
-		private string[][] GetAllRelations(string word, int senseCount)
+		private string[][][] GetAllRelations(string word, int senseCount)
 		{
 			if (_priorRelations == null) return null;
-			string[][] matrix=new string[senseCount][] ;
+			string[][][] matrix=new string[senseCount][][] ;
 			for (int i=0; i < senseCount; i++)
 			{				
 				matrix[i]=GetRelations(word, i + 1);	
@@ -275,9 +281,9 @@ namespace WordsMatching
 			return matrix;
 		}
 
-		private string[] GetRelations(string word, int senseIndex)
+		private string[][] GetRelations(string word, int senseIndex)
 		{			
-			string[] relations=new string[_priorRelations.Length + 1] ;						
+			string[][] relations=new string[_priorRelations.Length + 1][] ;						
 		
 			for(int i=0; i < _priorRelations.Length; i++ )
 			{
