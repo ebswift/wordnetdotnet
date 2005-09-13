@@ -44,6 +44,8 @@ namespace WordsMatching
 		{
 			_relatedCube=new string[_contextWords.Length][][];
 			_bestSenses=new int[_contextWords.Length];
+			for(int i=0; i < _bestSenses.Length; i++)
+				_bestSenses[i]=-1;
 			Init_Relations();
 		}
 
@@ -168,8 +170,11 @@ namespace WordsMatching
 							if (score == 0)
 							{
 								score=ScoringSensePair(_relatedCube[i][iSense], _relatedCube[j][jSense]);							
-								scoreCube[i][iSense][j][jSense]=score;
-								scoreCube[j][jSense][i][iSense]=score;
+								if (score > 0 )
+								{
+									scoreCube[i][iSense][j][jSense]=score;
+									scoreCube[j][jSense][i][iSense]=score;
+								}
 							}
 
 							if (bestScoreWith_j < score)
