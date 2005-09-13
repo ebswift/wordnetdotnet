@@ -72,8 +72,9 @@ namespace WordsMatching
 			WNPathFinder f=new WNPathFinder() ;
 			//f.GetPathLength("car",0, "fork", 0) ;
 			Tokeniser tok=new Tokeniser() ;
+			//string[] a=tok.Partition("pine cone") ;//0 2
+			string[] a=tok.Partition("ministry of defence") ; //0 3
 			//string[] a=tok.Partition("pine cone") ;
-			string[] a=tok.Partition("ministry of defence") ;
 			string[] b=tok.Partition(" long  fruit of certain evergreen tree.");			
 			OverlapRelatedness overlap=new OverlapRelatedness() ;
 			int[] sense=overlap.Disambiguate(a) ;

@@ -2,16 +2,18 @@ using System;
 
 namespace WordsMatching
 {
+	public interface IOverlapCounter
+	{
+		int GetScore(string[] a, string[] b);
+	}
 	/// <summary>
 	/// Summary description for OverlapCounter.
 	/// </summary>
-	public class SimpleOverlapCounter
+	/// 
+	public class SimpleOverlapCounter: IOverlapCounter 
 	{
 		public SimpleOverlapCounter()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		private static int SimpleCount(string[] l1, string [] l2)
@@ -42,7 +44,7 @@ namespace WordsMatching
 			return count;
 		}
 
-		public static int GetScore(string[] a, string[] b)
+		public int GetScore(string[] a, string[] b)
 		{
 			if (a == null || b == null) return 0;
 			int score=SimpleCount (a, b);

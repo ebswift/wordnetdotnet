@@ -99,6 +99,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExtOverlapCounter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "GlossMatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -134,11 +139,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "OverlapCounter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "OverlapRelatedness.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -150,6 +150,11 @@
                 />
                 <File
                     RelPath = "SemRelatedness.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SimpleOverlapCounter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

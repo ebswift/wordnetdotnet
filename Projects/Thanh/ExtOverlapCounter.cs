@@ -6,16 +6,14 @@ namespace WordsMatching
 	/// <summary>
 	/// Summary description for ExtOverlapCounter.
 	/// </summary>
-	public class ExtOverlapCounter
+	public class ExtOverlapCounter:IOverlapCounter 
 	{
-		public ExtOverlapCounter()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
 		
 		private int _num=0;
+		public ExtOverlapCounter()
+		{
+		}
+
 		public enum BackTracking 
 		{
 			NEITHER,
@@ -24,20 +22,21 @@ namespace WordsMatching
 			UP_AND_LEFT
 		}
 		
-		public int GetOverlap(string s, string t)
-		{
-			Tokeniser tok=new Tokeniser() ;
-			string[] ss=tok.Partition(s) ;
-			string[] tt=tok.Partition(t) ;
+		public int GetScore(string[] a, string[] b)
+		{			
+			if (a == null || b == null) return 0;
+			string[] l1=(string[])a.Clone()  ;
+			string[] l2=(string[])b.Clone()  ;			
+
 			int count=0;
+			_num=0;
 			do
 			{
-				int score=LCS (ref ss,ref tt);
+				int score=LCSMC (ref l1,ref l2);
 				count=count + score;
 				if (score == 0) break;
 			}while (true);
-			_num=0;
-
+			
 			return count;
 		}
 
@@ -47,7 +46,7 @@ namespace WordsMatching
 			return k*k;
 		}
 
-		private int LCS(ref string[] list1,ref string[] list2) 
+		private int LCSMC(ref string[] list1,ref string[] list2) 
 		{
 			int m=list1.Length ;
 			int n=list2.Length ;
