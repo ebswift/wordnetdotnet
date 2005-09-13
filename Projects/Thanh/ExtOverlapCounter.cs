@@ -1,3 +1,9 @@
+/*
+New scoring overlap counter mechanism
+Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
+Copyright (c) 2005 by Thanh Ngoc Dao.
+*/
+
 using System;
 using System.Diagnostics;
 

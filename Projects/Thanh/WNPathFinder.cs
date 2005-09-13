@@ -1,3 +1,9 @@
+/*
+ Searching IS_A connection in wordnet
+ Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
+ Copyright (c) 2005 by Thanh Ngoc Dao.
+*/
+ 
 using System.Collections;
 using System.Diagnostics;
 using System.Threading;
