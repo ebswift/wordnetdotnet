@@ -1,3 +1,7 @@
+/*
+ * Martin Porter Stemming algorithm
+*/
+
 using System;
 using System.Runtime.InteropServices;
 
