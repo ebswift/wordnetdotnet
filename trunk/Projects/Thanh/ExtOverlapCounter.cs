@@ -1,107 +1,135 @@
 using System;
+using System.Diagnostics;
 
 namespace WordsMatching
 {
 	/// <summary>
-	/// This class implements the Longest common sub-string problem
+	/// Summary description for ExtOverlapCounter.
 	/// </summary>
 	public class ExtOverlapCounter
 	{
 		public ExtOverlapCounter()
 		{
+			//
+			// TODO: Add constructor logic here
+			//
+		}
+		
+		private int _num=0;
+		public enum BackTracking 
+		{
+			NEITHER,
+			UP,
+			LEFT,
+			UP_AND_LEFT
+		}
+		
+		public int GetOverlap(string s, string t)
+		{
+			Tokeniser tok=new Tokeniser() ;
+			string[] ss=tok.Partition(s) ;
+			string[] tt=tok.Partition(t) ;
+			int count=0;
+			do
+			{
+				int score=LCS (ref ss,ref tt);
+				count=count + score;
+				if (score == 0) break;
+			}while (true);
+			_num=0;
+
+			return count;
 		}
 
-		private const int NEITHER=0;
-		private const int UP=1;
-		private const int LEFT=2;
-		private const int UP_AND_LEFT=3;
-
-		public static string GetLCS(string[] a, string[] b) 
+		private int ConsecutiveMeasure(int k)
 		{
-			int n=a.Length ;
-			int m=b.Length ;
+			//f(k)=k*a - b;
+			return k*k;
+		}
 
-			int[ , ] s=new int[n+1, m+1];
-			int[ , ] r=new int[n+1, m+1];
+		private int LCS(ref string[] list1,ref string[] list2) 
+		{
+			int m=list1.Length ;
+			int n=list2.Length ;
+			
+			int[ , ] lcs=new int[m+1, n+1];
+			BackTracking[ , ] backTracer=new BackTracking[m+1, n+1];
+			int[ , ] w=new int[m+1, n+1];
 			int i, j;
-
-			// It is important to use <=, not <.  The next two for-loops are initialization
-			for(i = 0; i <= n; ++i) 
+			
+			for(i=0; i <= m; ++i) 
 			{
-				s[i,0] = 0;
-				r[i,0] = UP;
+				lcs[i,0] = 0;
+				backTracer[i,0]=BackTracking.UP;
+				
 			}
-			for(j = 0; j <= m; ++j) 
+			for(j= 0; j <= n; ++j) 
 			{
-				s[0,j] = 0;
-				r[0,j] = LEFT;
+				lcs[0,j]=0;
+				backTracer[0,j]=BackTracking.LEFT;				
 			}
 
-			// This is the main dynamic programming loop that computes the score and
-			// backtracking arrays.
-
-			for(i = 1; i <= n; ++i) 
+			for(i =1; i <= m; ++i) 
 			{
-				for(j = 1; j <= m; ++j) 
+				for(j=1; j <= n; ++j) 
 				{ 
-	
-					if( a[i-1].Equals(b[j-1]) ) 
+					if( list1[i-1].Equals(list2[j-1]) ) 
 					{
-						s[i,j] = s[i-1,j-1] + 1;
-						r[i,j] = UP_AND_LEFT;
+						int k = w[i-1, j-1];
+						//lcs[i,j] = lcs[i-1,j-1] + 1;
+						lcs[i,j]=lcs[i-1,j-1] + ConsecutiveMeasure(k+1) - ConsecutiveMeasure(k)  ;
+						backTracer[i,j]=BackTracking.UP_AND_LEFT;
+						w[i,j] = k+1;						
 					}
-
 					else 
 					{
-						s[i,j] = s[i-1,j-1] + 0;
-						r[i,j] = NEITHER;
+						lcs[i,j] = lcs[i-1,j-1];
+						backTracer [i,j] = BackTracking.NEITHER;
 					}
 
-					if( s[i-1,j] >= s[i,j] ) 
+					if( lcs[i-1,j] >= lcs[i,j] ) 
 					{	
-						s[i,j] = s[i-1,j];
-						r[i,j] = UP;
+						lcs[i,j] = lcs[i-1,j];
+						backTracer[i,j] = BackTracking.UP;
+						w[i,j] = 0;
 					}
 
-					if( s[i,j-1] >= s[i,j] ) 
+					if( lcs[i,j-1] >= lcs[i,j] ) 
 					{
-						s[i,j] = s[i,j-1];
-						r[i,j] = LEFT;
+						lcs[i,j] = lcs[i,j-1];
+						backTracer [i,j] = BackTracking.LEFT;
+						w[i,j] = 0;
 					}
 				}
 			}
+			
+			i=m; 
+			j=n;
+			
+			int score=lcs[i,j];
 
-			// The length of the longest substring is S[n,m]
-			i = n; 
-			j = m;
-			int pos = s[i,j] - 1;
-			string concat="";
-			string[] lcs = new string[ pos+1 ];
-
-			// Trace the backtracking matrix.
+			//trace the backtracking matrix.
 			while( i > 0 || j > 0 ) 
 			{
-				if( r[i,j] == UP_AND_LEFT ) 
+				if( backTracer[i,j] == BackTracking.UP_AND_LEFT ) 
 				{
 					i--;
 					j--;
-					lcs[pos--] = a[i];						
+					++_num;
+					Trace.WriteLine(list1[i]) ;
+					list1[i]="M" + _num;
+					++_num;
+					list2[j]="M" + _num;					
 				}
-	
-				else if( r[i,j] == UP ) 
-				{
+				else if( backTracer[i,j] == BackTracking.UP ) 				
 					i--;
-				}
-	
-				else if( r[i,j] == LEFT ) 
-				{
+				else if( backTracer[i,j] == BackTracking.LEFT ) 
 					j--;
-				}
-			}
 
-			foreach (string ss in lcs) concat += " " + ss;
+			}
 			
-			return concat ;
+			
+			return score;
 		}
 
 	}
