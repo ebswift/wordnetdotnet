@@ -99,6 +99,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExtendedLesk.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExtOverlapCounter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -110,11 +115,6 @@
                 />
                 <File
                     RelPath = "ISimilarity.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LCSFinder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -139,11 +139,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "OverlapRelatedness.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "PorterStemmer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -164,11 +159,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Stemmer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "StopWordsHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -185,11 +175,6 @@
                 />
                 <File
                     RelPath = "WNPathFinder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "WNRelatednessMatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

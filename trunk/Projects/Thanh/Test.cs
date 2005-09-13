@@ -73,11 +73,11 @@ namespace WordsMatching
 			//f.GetPathLength("car",0, "fork", 0) ;
 			Tokeniser tok=new Tokeniser() ;
 			//string[] a=tok.Partition("pine cone") ;//0 2
-			string[] a=tok.Partition("ministry of defence") ; //0 3
+			string[] a=tok.Partition("I know I love you very much") ; //0 3
 			//string[] a=tok.Partition("pine cone") ;
 			string[] b=tok.Partition(" long  fruit of certain evergreen tree.");			
-			OverlapRelatedness overlap=new OverlapRelatedness() ;
-			int[] sense=overlap.Disambiguate(a) ;
+			ExtendedLesk extended=new ExtendedLesk() ;
+			int[] sense=extended.Disambiguate(a) ;
 			int i=1;
 			//WNRelatednessMatcher.GetPathLength("living thing", "flora") ;
 			//Trace.WriteLine(match.Score) ;			
