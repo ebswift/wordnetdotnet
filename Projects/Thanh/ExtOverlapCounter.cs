@@ -81,7 +81,7 @@ namespace WordsMatching
 					if( list1[i-1].Equals(list2[j-1]) ) 
 					{
 						int k = w[i-1, j-1];
-						//lcs[i,j] = lcs[i-1,j-1] + 1;
+						//ogrinal LCS lcs[i,j] = lcs[i-1,j-1] + 1; 
 						lcs[i,j]=lcs[i-1,j-1] + ConsecutiveMeasure(k+1) - ConsecutiveMeasure(k)  ;
 						backTracer[i,j]=BackTracking.UP_AND_LEFT;
 						w[i,j] = k+1;						
@@ -122,9 +122,9 @@ namespace WordsMatching
 					j--;
 					++_num;
 					Trace.WriteLine(list1[i]) ;
-					list1[i]="M" + _num;
+					list1[i]="T" + _num;
 					++_num;
-					list2[j]="M" + _num;					
+					list2[j]="T" + _num;					
 				}
 				else if( backTracer[i,j] == BackTracking.UP ) 				
 					i--;
