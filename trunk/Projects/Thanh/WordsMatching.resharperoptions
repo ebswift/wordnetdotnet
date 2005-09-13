@@ -12,13 +12,16 @@
     <ItemStatistics item="Qualified:float[,]">
       <Item value="Clone" priority="0" />
     </ItemStatistics>
+    <ItemStatistics item="Qualified:WordsMatching.Leven">
+      <Item value="GetSimilarity" priority="0" />
+    </ItemStatistics>
     <ItemStatistics item="Qualified:string">
-      <Item value="Length" priority="2" />
-      <Item value="Equals" priority="3" />
-      <Item value="Substring" priority="0" />
-      <Item value="Replace" priority="1" />
       <Item value="ToString" priority="0" />
       <Item value="IndexOf" priority="1" />
+      <Item value="Substring" priority="0" />
+      <Item value="Replace" priority="1" />
+      <Item value="Length" priority="2" />
+      <Item value="Equals" priority="3" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@Wnlib">
       <Item value="SynSet" priority="0" />
@@ -26,7 +29,7 @@
       <Item value="Lexeme" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:WordsMatching.Tokeniser">
-      <Item value="Partition" priority="2" />
+      <Item value="Partition" priority="4" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:@WordsMatching.WNRelatednessMatcher.trace">
       <Item value="Add" priority="0" />
@@ -52,9 +55,6 @@
     <ItemStatistics item="Qualified:WordsMatching.ISimilarity">
       <Item value="GetSimilarity" priority="0" />
     </ItemStatistics>
-    <ItemStatistics item="Qualified:@System.Math">
-      <Item value="Max" priority="0" />
-    </ItemStatistics>
     <ItemStatistics item="Qualified:@Wnlib.PartsOfSpeech">
       <Item value="Verb" priority="0" />
       <Item value="Noun" priority="0" />
@@ -66,12 +66,13 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:int[]">
       <Item value="Clone" priority="0" />
+      <Item value="Length" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:WnLexicon.WordInfo">
       <Item value="partOfSpeech" priority="0" />
     </ItemStatistics>
-    <ItemStatistics item="Qualified:WordsMatching.Leven">
-      <Item value="GetSimilarity" priority="0" />
+    <ItemStatistics item="Qualified:@System.Math">
+      <Item value="Max" priority="0" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:string[]">
       <Item value="GetValue" priority="0" />
@@ -85,19 +86,19 @@
     </ItemStatistics>
     <ItemStatistics item="Qualified:@">
       <Item value="wnsns" priority="6" />
-      <Item value="lexemes" priority="2" />
+      <Item value="Key" priority="0" />
       <Item value="Value" priority="3" />
-      <Item value="senses" priority="2" />
+      <Item value="Add" priority="3" />
       <Item value="Equals" priority="1" />
       <Item value="words" priority="0" />
-      <Item value="ToCharArray" priority="0" />
       <Item value="word" priority="18" />
       <Item value="defn" priority="0" />
-      <Item value="Add" priority="3" />
-      <Item value="Key" priority="0" />
+      <Item value="Count" priority="0" />
+      <Item value="ToCharArray" priority="0" />
+      <Item value="lexemes" priority="2" />
       <Item value="ToString" priority="0" />
       <Item value="CopyTo" priority="0" />
-      <Item value="Count" priority="0" />
+      <Item value="senses" priority="2" />
       <Item value="Length" priority="1" />
     </ItemStatistics>
     <ItemStatistics item="Qualified:Wnlib.Opt">
@@ -114,26 +115,27 @@
   </SettingsComponent>
   <RecentFilesTracker>
     <RecentFilesTracker>
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Test.cs" offset="4121" line="53" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\SynSetList.cs" offset="763" line="28" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\wordnet.cs" offset="3297" line="446" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\OverlapRelatedness.cs" offset="4263" line="162" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\OverlapCounter.cs" offset="898" line="24" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Tokeniser.cs" offset="1771" line="59" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Stemmer.cs" offset="0" line="472" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\LCSFinder.cs" offset="567" line="102" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Leven.cs" offset="0" line="23" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Lexical.cs" offset="0" line="311" column="0" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\ISimilarity.cs" offset="0" line="-1" column="-1" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Test.cs" offset="3866" line="54" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\OverlapRelatedness.cs" offset="2690" line="99" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\OverlapCounter.cs" offset="952" line="21" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Soundex.cs" offset="0" line="-1" column="-1" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\PorterStemmer.cs" offset="0" line="0" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\SemRelatedness.cs" offset="0" line="-1" column="-1" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Lexical.cs" offset="1065" line="0" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\LCSFinder.cs" offset="1070" line="104" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\LeskDisambiguator.cs" offset="2785" line="92" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Tokeniser.cs" offset="0" line="59" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\ISimilarity.cs" offset="0" line="-1" column="-1" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\WSDisambiguator.cs" offset="0" line="0" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\GlossMatcher.cs" offset="0" line="15" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\BipartiteMatcher.cs" offset="0" line="240" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\util.cs" offset="0" line="135" column="10" />
-      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\LeskDisambiguator.cs" offset="0" line="88" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Leven.cs" offset="0" line="23" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\WNPathFinder.cs" offset="0" line="98" column="32" />
       <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\StopWordsHandler.cs" offset="0" line="-1" column="-1" />
+      <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\SynSetList.cs" offset="763" line="28" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\wordnet.cs" offset="3297" line="446" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\SemanticSimilarity\Stemmer.cs" offset="0" line="472" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\LexemeList.cs" offset="0" line="1" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\Lexeme.cs" offset="0" line="0" column="0" />
       <TrackedFile location="D:\Project\SchemaMatching\WordNet_c#\20050202\LIBARY\index.cs" offset="0" line="54" column="0" />
