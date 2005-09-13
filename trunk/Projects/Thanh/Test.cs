@@ -72,8 +72,11 @@ namespace WordsMatching
 			WNPathFinder f=new WNPathFinder() ;
 			//f.GetPathLength("car",0, "fork", 0) ;
 			Tokeniser tok=new Tokeniser() ;
-			string[] a=tok.Partition("kind long of evergreen tree") ;
+			string[] a=tok.Partition("You book a ticket") ;
 			string[] b=tok.Partition(" long  fruit of certain evergreen tree.");			
+			OverlapRelatedness overlap=new OverlapRelatedness() ;
+			int[] sense=overlap.Disambiguate(a) ;
+			int i=1;
 			//WNRelatednessMatcher.GetPathLength("living thing", "flora") ;
 			//Trace.WriteLine(match.Score) ;			
 		}
