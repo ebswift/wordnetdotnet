@@ -14,7 +14,7 @@ namespace WordsMatching
 	/// Summary description for Overlap.
 	/// </summary>
 	public class OverlapRelatedness:IDisambiguator 
-	{
+	{		
 		public OverlapRelatedness()
 		{
 			//
@@ -98,6 +98,13 @@ namespace WordsMatching
 				}
 			}
 		}
+
+		private int GetOverlap(string[] a,string[] b)
+		{
+			//IOverlapCounter overlap=new SimpleOverlapCounter() ;
+			IOverlapCounter overlap=new ExtOverlapCounter() ;
+			return overlap.GetScore(a, b) ;
+		}
 			
 		private int ScoringSensePair(string[][] sense1, string[][] sense2)
 		{
@@ -107,7 +114,7 @@ namespace WordsMatching
 			{
 				for(int j=0; j < n; j++)
 				{
-					score +=OverlapCounter.GetScore(sense1[i], sense2[j]) ;
+					score +=GetOverlap(sense1[i], sense2[j]) ;
 				}
 			}
 
@@ -260,12 +267,6 @@ namespace WordsMatching
 			string[] glossToks=tok.Partition(gloss) ;
 
 			return glossToks;
-		}
-
-		private int GetOverlap(string[] a, string[] b)
-		{
-			int score=0;
-			return score;
 		}
 
 		private string[][][] GetAllRelations(string word, int senseCount)
