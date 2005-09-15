@@ -1,5 +1,5 @@
 /*
-Extending the Lesk gloss overlap measurement
+Unsupervised extended Lesk WSD
 Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
 Copyright (c) 2005 by Thanh Ngoc Dao.
 */
