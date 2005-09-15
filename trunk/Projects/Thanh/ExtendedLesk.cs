@@ -39,7 +39,7 @@ namespace WordsMatching
 												  Opt.at(36)//tropo // may be 38
 											  } ;
 
-		private string[][][][] _relatedCube ;//[words][senses][relations]
+		private string[][][][] _relCube ;//[words][senses][relations]
 
 		private string[] _contextWords;
 		private int[] _bestSenses;
@@ -48,7 +48,7 @@ namespace WordsMatching
 
 		private void MyInit()
 		{
-			_relatedCube=new string[_contextWords.Length][][][];
+			_relCube=new string[_contextWords.Length][][][];
 			_bestSenses=new int[_contextWords.Length];
 			for(int i=0; i < _bestSenses.Length; i++)
 				_bestSenses[i]=-1;
@@ -59,30 +59,33 @@ namespace WordsMatching
 		{
 			for (int i=0; i < _contextWords.Length; i++)
 			{
-				WnLexicon.WordInfo wordinfo=WnLexicon.Lexicon.FindWordInfo( _contextWords[i], true );
-				if( wordinfo.partOfSpeech != Wnlib.PartsOfSpeech.Unknown )
+				WnLexicon.WordInfo wordInfo=WnLexicon.Lexicon.FindWordInfo( _contextWords[i], true );
+				
+				if( wordInfo.partOfSpeech != Wnlib.PartsOfSpeech.Unknown )
 				{
-					Wnlib.PartsOfSpeech[] enums = (Wnlib.PartsOfSpeech[])Enum.GetValues( typeof( Wnlib.PartsOfSpeech ) );
+					if (wordInfo.text != string.Empty)
+						_contextWords[i]=wordInfo.text ;
+					Wnlib.PartsOfSpeech[] posEnum=(Wnlib.PartsOfSpeech[])Enum.GetValues( typeof( Wnlib.PartsOfSpeech ) );
 					
 					bool stop=false;
 					int senseCount=0;
-					for( int j=0; j<enums.Length && !stop; j++ )
+					for( int j=0; j < posEnum.Length && !stop; j++ )
 					{
-						Wnlib.PartsOfSpeech pos=enums[j];												
+						Wnlib.PartsOfSpeech pos=posEnum[j];												
 						
-						if (wordinfo.senseCounts[j] > 0)
+						if (wordInfo.senseCounts[j] > 0)
 							switch (pos)
 							{
 								case Wnlib.PartsOfSpeech.Noun:
 								{									
-									senseCount=wordinfo.senseCounts[j];
+									senseCount=wordInfo.senseCounts[j];
 									_priorRelations=NOUN_RELATIONS ;									
 									stop=true;
 									break;
 								}
 								case Wnlib.PartsOfSpeech.Verb:
 								{
-									senseCount=wordinfo.senseCounts[j];
+									senseCount=wordInfo.senseCounts[j];
 									_priorRelations=VERB_RELATIONS ;
 									stop=true;
 									break;
@@ -98,7 +101,7 @@ namespace WordsMatching
 						{
 							int w=0;
 						}
-						_relatedCube[i]=tmp;
+						_relCube[i]=tmp;
 					}
 
 				}
@@ -131,9 +134,9 @@ namespace WordsMatching
 		{
 			_scores=new int[_contextWords.Length][][][] ;
 			for (int i=0; i < wordCount; i++)
-				if (_relatedCube[i] != null)
+				if (_relCube[i] != null)
 			{				
-				int iSenseCount=_relatedCube[i].Length ;
+				int iSenseCount=_relCube[i].Length ;
 				_scores[i]=new int[iSenseCount][][] ;				
 
 				for (int iSense=0;  iSense < iSenseCount; iSense++  )					
@@ -141,36 +144,36 @@ namespace WordsMatching
 					_scores[i][iSense]=new int[wordCount][] ;
 
 					for (int j=0; j < wordCount; j++)
-						if (_relatedCube[j] != null)
+						if (_relCube[j] != null)
 					{	
-						int jSenseCount=_relatedCube[j].Length ;
+						int jSenseCount=_relCube[j].Length ;
 						_scores[i][iSense][j]=new int[jSenseCount] ;										
 					}
 				}
 			}			
 		}
 
-		private void Scoring_Overlaps()
+		private void Scoring_Overlaps()//Greedy
 		{
 			int wordCount=_contextWords.Length ;
 			int[][][][] scoreCube;
 			Init_ScoreCube(out scoreCube, wordCount);
 			
 			for (int i=0; i < wordCount; i++)
-				if (_relatedCube[i] != null)
+				if (_relCube[i] != null)
 			{				
-				int iSenseCount=_relatedCube[i].Length ;				
-				int bestScore=0;
+				int iSenseCount=_relCube[i].Length ;				
+				int bestScoreOf_i=0;
 
 				for (int iSense=0;  iSense < iSenseCount ; iSense++  )
 				{					
-					int senseScore=0;
+					int senseTotalScore=0;
 					for (int j=0; j < wordCount; j++)
-					if(i != j && _relatedCube[j] != null)
+					if(i != j && _relCube[j] != null)
 					{	
-						int jSenseCount=_relatedCube[j].Length ;						
+						int jSenseCount=_relCube[j].Length ;						
 						
-						int bestScoreWith_j=0;
+						int bestScoreOf_j=0;
 						for (int jSense=0; jSense < jSenseCount ; jSense++  )
 						{
 							int score=0;
@@ -182,7 +185,7 @@ namespace WordsMatching
 							
 							if (score == 0)
 							{
-								score=ScoringSensePair(_relatedCube[i][iSense], _relatedCube[j][jSense]);							
+								score=ScoringSensePair(_relCube[i][iSense], _relCube[j][jSense]);							
 								if (score > 0 )
 								{
 									scoreCube[i][iSense][j][jSense]=score;
@@ -190,17 +193,17 @@ namespace WordsMatching
 								}
 							}
 
-							if (bestScoreWith_j < score)
-								bestScoreWith_j=score;
+							if (bestScoreOf_j < score)
+								bestScoreOf_j=score;
 						}				
 		
-						if (bestScoreWith_j > THRESHOLD)
-							senseScore += bestScoreWith_j;
+						if (bestScoreOf_j > THRESHOLD)
+							senseTotalScore += bestScoreOf_j;
 					}						
 
-					if (senseScore > bestScore)
+					if (senseTotalScore > bestScoreOf_i)
 					{
-						bestScore=senseScore ;
+						bestScoreOf_i=senseTotalScore ;
 						_bestSenses[i]=iSense;
 					}
 				}
@@ -255,7 +258,7 @@ namespace WordsMatching
 			int lcon=con.Length ;
 			int ldef=sense.defn.Length ;
 			
-			string s=con.Substring(pIndex + ldef - 1, lcon- (pIndex + ldef - 1 )) ;					
+			string s=con.Substring(pIndex + ldef - 1, lcon - (pIndex + ldef - 1 )) ;					
 			
 			s=RemoveBadChars(s);
 			Tokeniser tok=new Tokeniser() ;
@@ -265,6 +268,7 @@ namespace WordsMatching
 
 		private string[] GetGloss(SynSet sense)
 		{
+			if (sense == null) return null;
 			string gloss=sense.defn ;
 			if (gloss.IndexOf(";") != -1)
 				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
@@ -296,11 +300,14 @@ namespace WordsMatching
 			{
 				Opt rel=_priorRelations [i];				
 				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//				
-				if (relations[0] == null )
-					relations[0]=GetGloss (se.senses [0]);			
+				if( se.senses != null && se.senses.Count > 0)
+				{														 														 
+					if (relations[0] == null  )
+						relations[0]=GetGloss (se.senses [0]);			
 
-				relations[i + 1] = ConcateRel(se);				
-				
+					relations[i + 1] = ConcateRel(se);				
+				}				
+				else relations[i+1]= null;
 			}
 			
 			return relations;
