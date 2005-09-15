@@ -46,7 +46,7 @@ namespace WordsMatching
 			return count;
 		}
 
-		private int ConsecutiveMeasure(int k)
+		private int ConsecutiveScore(int k)
 		{
 			//f(k)=k*a - b;
 			return k*k;
@@ -82,7 +82,7 @@ namespace WordsMatching
 					{
 						int k = w[i-1, j-1];
 						//ogrinal LCS lcs[i,j] = lcs[i-1,j-1] + 1; 
-						lcs[i,j]=lcs[i-1,j-1] + ConsecutiveMeasure(k+1) - ConsecutiveMeasure(k)  ;
+						lcs[i,j]=lcs[i-1,j-1] + ConsecutiveScore(k+1) - ConsecutiveScore(k)  ;
 						backTracer[i,j]=BackTracking.UP_AND_LEFT;
 						w[i,j] = k+1;						
 					}

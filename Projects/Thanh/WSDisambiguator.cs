@@ -1,10 +1,3 @@
-using System;
-using System.Collections;
-using System.Diagnostics;
-using System.Threading;
-
-using Wnlib;
-using System.Globalization;
 
 
 namespace WordsMatching

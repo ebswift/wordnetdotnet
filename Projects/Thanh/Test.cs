@@ -73,8 +73,8 @@ namespace WordsMatching
 			//f.GetPathLength("car",0, "fork", 0) ;
 			Tokeniser tok=new Tokeniser() ;
 			//string[] a=tok.Partition("pine cone") ;//0 2
-			string[] a=tok.Partition("I know I love you very much") ; //0 3
-			//string[] a=tok.Partition("pine cone") ;
+			//string[] a=tok.Partition("I know I love you very much") ; //0 3
+			string[] a=tok.Partition("states") ;
 			string[] b=tok.Partition(" long  fruit of certain evergreen tree.");			
 			ExtendedLesk extended=new ExtendedLesk() ;
 			int[] sense=extended.Disambiguate(a) ;

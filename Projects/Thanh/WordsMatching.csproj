@@ -119,11 +119,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "LeskDisambiguator.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Leven.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -140,6 +135,11 @@
                 />
                 <File
                     RelPath = "PorterStemmer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SemanticSimilarity.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
