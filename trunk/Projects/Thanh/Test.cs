@@ -18,6 +18,10 @@ namespace WordsMatching
 			//
 			// TODO: Add code to start application here
 			//
+
+			// TDMS 21 Sept 2005 - added dictionary path
+			Wnlib.WNCommon.path = "C:\\Program Files\\WordNet\\2.1\\dict\\";
+
 //Survey sheet in article Sentence similarity
 //1. Shilpa is drinking pepsi.
 //(a) Pepsi is being drunk by Shilpa
