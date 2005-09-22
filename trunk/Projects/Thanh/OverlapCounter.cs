@@ -14,12 +14,12 @@ namespace WordsMatching
 			//
 		}
 
-		private static int SimpleCount(string[] l1, string [] l2)
+		private static int SimpleCount(string a, string b)
 		{
 			int count=0;
-			//Tokeniser tok=new Tokeniser() ;
-			//string[] l1=tok.Partition(a) ;
-			//string[] l2=tok.Partition(b) ;
+			Tokeniser tok=new Tokeniser() ;
+			string[] l1=tok.Partition(a) ;
+			string[] l2=tok.Partition(b) ;
 			int[] dx=new int[l1.Length + 1] ;
 
 			for (int i=0; i < l1.Length; i++)
@@ -42,9 +42,8 @@ namespace WordsMatching
 			return count;
 		}
 
-		public static int GetScore(string[] a, string[] b)
+		public static int GetScore(string a, string b)
 		{
-			if (a == null || b == null) return 0;
 			int score=SimpleCount (a, b);
 			return score;
 		}

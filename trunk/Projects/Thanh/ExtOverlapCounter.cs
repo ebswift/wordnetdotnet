@@ -1,10 +1,9 @@
 /*
-New scoring overlap counter mechanism
+Overlap counter with new scoring mechanism (maximal consecutive with ZipF distribution law )
 Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
 Copyright (c) 2005 by Thanh Ngoc Dao.
 */
 
-using System;
 using System.Diagnostics;
 
 namespace WordsMatching
@@ -64,7 +63,7 @@ namespace WordsMatching
 			
 			for(i=0; i <= m; ++i) 
 			{
-				lcs[i,0] = 0;
+				lcs[i,0]=0;
 				backTracer[i,0]=BackTracking.UP;
 				
 			}
@@ -80,30 +79,30 @@ namespace WordsMatching
 				{ 
 					if( list1[i-1].Equals(list2[j-1]) ) 
 					{
-						int k = w[i-1, j-1];
-						//ogrinal LCS lcs[i,j] = lcs[i-1,j-1] + 1; 
+						int k=w[i-1, j-1];
+						//ogrinal LCS lcs[i,j]=lcs[i-1,j-1] + 1; 
 						lcs[i,j]=lcs[i-1,j-1] + ConsecutiveScore(k+1) - ConsecutiveScore(k)  ;
 						backTracer[i,j]=BackTracking.UP_AND_LEFT;
-						w[i,j] = k+1;						
+						w[i,j]=k+1;						
 					}
 					else 
 					{
-						lcs[i,j] = lcs[i-1,j-1];
-						backTracer [i,j] = BackTracking.NEITHER;
+						lcs[i,j]=lcs[i-1,j-1];
+						backTracer [i,j]=BackTracking.NEITHER;
 					}
 
 					if( lcs[i-1,j] >= lcs[i,j] ) 
 					{	
-						lcs[i,j] = lcs[i-1,j];
-						backTracer[i,j] = BackTracking.UP;
-						w[i,j] = 0;
+						lcs[i,j]=lcs[i-1,j];
+						backTracer[i,j]=BackTracking.UP;
+						w[i,j]=0;
 					}
 
 					if( lcs[i,j-1] >= lcs[i,j] ) 
 					{
-						lcs[i,j] = lcs[i,j-1];
-						backTracer [i,j] = BackTracking.LEFT;
-						w[i,j] = 0;
+						lcs[i,j]=lcs[i,j-1];
+						backTracer [i,j]=BackTracking.LEFT;
+						w[i,j]=0;
 					}
 				}
 			}

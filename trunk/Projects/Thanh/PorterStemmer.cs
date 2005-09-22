@@ -1,5 +1,7 @@
 /*
+ * Lemmatization process
  * Martin Porter Stemming algorithm
+ * Finite state tranducer,
 */
 
 using System;
