@@ -1,0 +1,517 @@
+<!--------------------------------------------------------------------------->  
+<!--                           INTRODUCTION                                
+
+ The Code Project article submission template (HTML version)
+
+Using this template will help us post your article sooner. To use, just 
+follow the 3 easy steps below:
+ 
+     1. Fill in the article description details
+     2. Add links to your images and downloads
+     3. Include the main article text
+
+That's all there is to it! All formatting will be done by our submission
+scripts and style sheets. 
+
+-->  
+<!--------------------------------------------------------------------------->  
+<!--                        IGNORE THIS SECTION                            -->
+<html>
+<head>
+<title>The Code Project</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt }
+h2, h3, h4, h5 { color: #ff9900; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+PRE { BACKGROUND-COLOR: #FBEDBB; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
+.bodyline	{ background-color: #FFFFFF; border: 1px #98AAB1 solid; }
+
+.forumline	{ background-color: #FFFFFF; border: 2px #006699 solid; }
+
+td.row1	{ background-color: #EFEFEF; }
+.postbody { font-size : 12px; line-height: 18px}
+td.row2	{ background-color: #DEE3E7; }
+</style>
+<link rel="stylesheet" type=text/css href="http://www.codeproject.com/styles/global.css">
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+<!--------------------------------------------------------------------------->  
+
+
+<!-------------------------------     STEP 1      --------------------------->
+<!--  Fill in the details (CodeProject will reformat this section for you) -->
+
+<!-------------------------------     STEP 2      --------------------------->
+<!--  Include download and sample image information.                       --> 
+
+<ul class=download>
+<li><a href="Article_demo.zip">Download demo project - XXX Kb </a></li>
+<li><a href="Article_src.zip">Download source - XXX Kb</a></li>
+</ul>
+
+
+<!-------------------------------     STEP 3      --------------------------->
+<!--  Add the article text. Please use simple formatting (<h2>, <p> etc)   --> 
+
+<h2><font size="4">Introduction</font></h2>
+
+<font FACE="CMR12">
+<p ALIGN="LEFT">In previous article, we have showed you an approach on 
+capturing similarity between words that concerned on syntactic 
+similarity of two strings. Today we back to discuss another approach that is more concerned on meaning of the words. 
+Semantic similarity is a confidence score that reflects the semantic relation 
+between the meanings of two sentence.<br>
+<br>
+The goals of this paper are to:</p>
+<ul>
+  <li>
+<p ALIGN="LEFT">Present you some unsupervised 
+algorithms to capture semantic similarity between two sentences which is heavily based on 
+a knowledge based resource the WordNet semantic network. </p>
+  </li>
+  <li>
+<p ALIGN="LEFT">Attract you to work with an interest topic of NLP.</p>
+  </li>
+</ul>
+</font>
+
+<h2><font size="4">Preparing the ground</font></h2>
+
+<font FACE="CMR12">
+<p ALIGN="LEFT">Fortunately, there is a lot of previous science article on semantic similarity 
+and semantic relatedness measurement developed in the context of information 
+integration, information retrieval. Talking about this topic we should refer to 
+some research groups such as Ted Pedersen, Hirst,&nbsp; P.Resnik. </p>
+</font>
+
+<p><b>WordNet </b></p>
+<p>WordNet is a lexical database which is available online and provides a large 
+repository of English lexical items. There is a multilingual wordnet for 
+european languages which are structured in the same way as the American wordnet.<br>
+<br>
+The WordNet was designed to establish connections between four types of POS 
+(Parts of Speech), noun, verb, adjective, and adverb. The smallest unit in 
+WordNet is synset, which represents a specific meaning of a word. It includes 
+the word, its explanation, and the synonyms of its meaning. The specific meaning 
+of one word under one type of POS is called a sense. Each sense of a word is in 
+a different synset. Synsets are equivalent to senses = structures containing 
+sets of terms with synonymous meanings. Each synset has a gloss that defines the 
+concept it represents. For example the words night, nighttime and dark 
+constitute a single synset that has the following gloss: the time after sunset 
+and before sunrise while it is dark outside. Synsets are connected to one 
+another through explicit semantic relations. Some of these relations (hypernym, 
+hyponym for nouns and hypernym and troponym for verbs) constitute is-a-kind-of(holonymy) 
+and is-a-part-of (meronymy for nouns) hierarchies. <br>
+For example, tree is a kind 
+of plant, tree is a hyponym of plant and plant is hypernym of tree. Analogously 
+trunk is a part of tree and we have that trunk is meronym of tree and tree is 
+holonym of trunk. For one word and one type of POS, if there are more than one 
+sense, WordNet organizes them in the order of the most frequently used to the 
+least frequently used(Semcor).</p>
+<p><b>WordNet .NET</b></p>
+<p>Malcom Crowe and Troy Simpson had developed an open-source WordNet.Net.</p>
+
+<h2><font size="4">Semantic similarity between sentences</font></h2>
+
+<p>Given two sentences, the measurement is to determine how meaning 
+similarity of two sentences are, by a float score number. The higher score the 
+more similarity meaning of two sentences are.</p>
+<p>Steps of computing semantic similarity between two sentences:</p>
+<ul>
+  <li>First each sentence is partitioned into a list of tokens.</li>
+  <li>Second, finding out the most appropriate sense for every word in a 
+  sentence (Word Sense Disambiguation).</li>
+  <li>Finally, computing the similarity of the sentences based on the similarity 
+  of the pairs of word. </li>
+</ul>
+
+<h2>Tokenization</h2>
+<p>Each sentence is firstly split up into list of words and the we remove the stop 
+words.<font SIZE="2"> Stop words are frequently occurring, insignificant words 
+that appear in a database record, article or web page , etc.</font></p>
+
+<h2>Semantic relatedness with the <b>word sense disambiguation (WSD)</b></h2>
+
+<p>As you have already known that a word can has more than one sense that
+<font size="2">can lead to ambiguity. <br>
+<br>
+For example : the word “interest.&quot; has different meaning in two following 
+contexts:<br>
+&nbsp;&nbsp; •“Interest” from a bank.<br>
+&nbsp;&nbsp; •“Interest” in a subject.</font></p>
+<font FACE="Times New Roman" SIZE="3">
+<p ALIGN="LEFT"><b>WSD with original Micheal Lesk Algorithm</b></p>
+</font>
+<p>Disambiguation is process of finding out most appropriate<font size="2"> 
+sense of word is used in a given sentence. Lesk algorithm used a dictionary definitions to disambiguate a polysemous word in a 
+context sentence. The major of his idea is counting the number of words that are 
+shared between two 
+glosses. The more overlapping words, the more 
+related the senses are.</font></p>
+<font FACE="Times New Roman" SIZE="3">
+<p ALIGN="LEFT">To disambiguate a word, the gloss of each of its senses is 
+compared to the glosses of every other word in the phrase. A word is assigned 
+that sense whose gloss shares the largest number of words in common with the 
+glosses of the other words. </p>
+<p ALIGN="LEFT"><span class="postbody">For example: Performing disambiguation 
+for the &quot;pine cone&quot; phrasal, according to&nbsp; the </span>Oxford Advanced 
+Learner’s Dictionary,<span class="postbody"> the word pine has 2 senses: </span>
+</p>
+<ul>
+  <li>
+  <p ALIGN="LEFT"><span class="postbody">sense 1: kind of <i>evergreen tree </i>
+  with needle–shaped leaves</span></li>
+  <li>
+  <p ALIGN="LEFT"><span class="postbody">sense 2: waste away through sorrow or 
+  illness.</span></li>
+</ul>
+<p ALIGN="LEFT"><span class="postbody">the word &quot;cone&quot; has 3 senses: </span></p>
+<ul>
+  <li>
+  <p ALIGN="LEFT"><span class="postbody">sense 1: solid body which narrows to a 
+  point </span></li>
+  <li>
+  <p ALIGN="LEFT"><span class="postbody">sense 2: something of this shape 
+  whether solid or hollow </span></li>
+  <li>
+  <p ALIGN="LEFT"><span class="postbody">sense 3: fruit of certain
+  <span style="font-style: italic">evergreen tree</span> </span></li>
+</ul>
+<p ALIGN="LEFT"><span class="postbody">=&gt; By comparing each two senses gloss of the 
+word &quot;pine&quot; with each of the three senses of the word &quot;cone&quot;, it is found that 
+the words &quot;<span style="font-style: italic">evergreen tree</span>&quot; occurs in one 
+sense each of the two words. So these two senses are then declared to be the 
+most appropriate senses when the words &quot;pine&quot; and &quot;cone&quot; are used together.
+<br>
+<br>
+</span>The original Lesk algorithm begins anew for each word and does not 
+utilize the senses it previously assigned. This greedy method does not always 
+work effectively. Therefore if the computational time is not critical we should 
+think of an optimal senses combination by applying local search techniques such 
+as Tabu or Beam. The major idea behind such methods is that to reduce the 
+searching space by applying different heuristic. Beam searcher limits its 
+attention to only <i>k </i>most promising candidates at each stage of the search 
+process, where k is a predefined number. Tabu is a method which a fundamental 
+role is played by keeping track of features of previously visited solutions,<font FACE="Palatino-Roman~19" SIZE="3">
+</font>which makes use of memory in a limited way. It keeps a list of moves that 
+are forbidden to be performed in order to prevent cycling.<span class="postbody"><br>
+<br>
+</span><b>The extended Micheal Lesk Algorithm</b></p>
+</font>
+<p><font size="2">The original Lesk is just used gloss or definition of word and 
+has restricted on the overlap scoring mechanism. The extended of Lesk is 
+developed to overcome the limitations with some improvements:</font></p>
+
+<ul>
+  <li>Access<font size="2">ing to a dictionary with senses arranged in a 
+  hierarchical order (WordNet). This extended version uses not only the 
+  gloss/definition of the synset but also considering the meaning of related 
+  words too.</font></li>
+  <li><font size="2">Applying a new scoring mechanism to measure gloss overlap 
+  that give a more accurate score than the original Lesk bag of words counter. </font>
+  </li>
+</ul>
+<p><font size="2">Assuming that we need to disambiguate each word in a sentence 
+that has N is number of words, call the word to be disambiguated as target word. 
+Below are some major steps of the extended algorithm:</font></p>
+
+<p>1.<font size="2"> Select a context: Due to the restriction on computational time 
+so if N is long, we will define K 
+context around the target word (or k-nearest neighbor) as the sequence of words starting K words to the 
+left of the target word and ending K words to the right. This will reduce the 
+computational space that decreasing the time. For example: If K is four, there 
+will be two words to the left of the target word and two words to the right. </font></p>
+
+<p>2. For each word in the selected context, we<font size="2"> look up and list 
+all the possible senses.</font></p>
+
+<p>3. For each sense of a word (WordSense), we list the following relations:</p>
+
+<ul>
+  <li>Its own gloss/definition that includes 
+example texts that WordNet provides to the glosses. </li>
+  <li>The gloss of the synsets that connected to it through the hypernym 
+  relations. If there is more than one hypernym for a word sense,then the 
+  glosses for each hypernym are concatenated into only single one gloss strings 
+  (*).</li>
+  <li>The gloss of the synsets that connected to it through the hyponym 
+  relations. (*)</li>
+  <li>The gloss of the synsets that connected to it through the meronym 
+  relations. (*)</li>
+  <li>The gloss of the synsets that connected to it through the troponym 
+  relations. (*)<p>(*) All of them are applied the same rule.</p>
+
+  </li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp; For example:</p>
+
+<p>4. Combination all possible gloss pairs that archived at previous step and 
+computing the relatedness by searching for overlap. The overall score is the sum 
+of the scores for each relation pair.<br>
+<br>
+For example: When computing the relatedness between two synsets s1 and s2, the pair 
+hype-hype means the gloss for the hypernym of s1 is compared to gloss for the 
+hypernym of s2. The pair hype-hypo means that means the gloss for the hypernym 
+of s1 is compared to gloss for the hyponym of s2.<br>
+<br>
+-&gt; OverallScore(s1, s2)= Score(hype(s1)-hypo(s2)) + Score(gloss(s1)-hypo(s2)) + 
+Score(hype(s1)-gloss(s2))...<br>
+OverallScore(s1, s2) is also equivalent to OverallScore(s2, s1).</p>
+
+<p>We use a new scoring mechanism (1) that differentiates between N-single words 
+and N-consecutive words overlaps and effectively treats each gloss as a bag of 
+word. It is based on ZipF law. Each overlap which contains N consecutive words, 
+contributes a N^2 to the score of gloss sense combination. For example: an 
+overlap &quot;ABC&quot; has score 3^2=9 and two single overlaps &quot;AB&quot; and &quot;C&quot; has score <br>
+2^2 + 1^1=5. Algorithm to scoring overlap was presented in previous article 
+work.</p>
+
+<p>5. Once each combination has been scored, we pick up the sense has highest 
+score to be the most appropriate sense for each word in the context space. After 
+this step, the output not only gives us the most appropriate sense but also the 
+associated part of speech for a word.<br>
+<span class="postbody"><br>
+There is another measurements of Hirst-St.Onge&nbsp; which based on finding 
+the lexical chains between synsets.</span></p>
+
+<h2>Semantic similarity between two synsets</h2>
+
+<p>Next, we introduce a 
+simple method to compute the semantic similarity between two word 
+senses: Similarity measurement based on path length. Semantic similarity is a 
+special case of semantic relatedness where only consider the is-a relationship.</p>
+
+<p>In WordNet, each part of speech words (nouns/verbs...) are organized into 
+taxonomies where each node is a set of synonyms (synset) represent one sense. If 
+a word has more than one sense, it will appear in multiple synsets at various 
+locations in the taxonomy. WordNet defines relations between synsets and 
+relations between word senses. A relation between synset is a semantic relation, 
+and a relation between word senses is a lexical relation. The difference is that 
+lexical relations are relations between members of two different synsets, but 
+semantic relations is relations between two whole synsets. <br>
+For instance: <br>
+Semantic 
+relations are hypernym, hyponym, holonym , etc.&nbsp; <br>
+Lexical relations are antonym relation and the derived form relation. For 
+example, the antonym of the tenth sense of the noun light(light#n#10) in WordNet 
+is the first sense of the noun dark(dark#n#1). The synset to which belongs is 
+{light#n#10, lighting#n#1). Clearly it makes sense that light#n#10 is an antonym 
+of dark#n#1, but lighting#n#1 is not an antonym of dark#n#1; therefore the 
+antonym relation needs to be a lexical relation, not a semantic relation.<br>
+<br>
+<b>The Path Length based measurement</b></p>
+
+<p>To measure the semantic similarity between two synsets we use 
+hyponym/hypernym ( or is-a relations). Due to the limitation to is-a hierarchies, 
+we only work with &quot;noun-noun&quot;, and &quot;verb-verb&quot; part of speechs.</p>
+
+<p>A simple way to measure the semantic similarity between two synsets is to 
+treat the taxonomy as an undirected grapth and measure the distance between them 
+in WordNet. Said P. Resnik : &quot;The shorter the path from one node to another, the 
+more similar they are&quot;. Note that path length is measured in nodes/vertex 
+rather than links/edges. The length of the path between two member of the same 
+synsets is 1. </p>
+
+<p>This figure shows an example of the hyponym taxonomy in WordNet used for path length 
+similarity measurement:</p>
+
+<p><img border="0" src="CarFork_Taxonomy.bmp" width="623" height="242"></p>
+
+<p>In the above figure, we observe that the length between car and auto is 1, 
+car and truck is 3, car and bicycle is 4, car and fork is 12.</p>
+
+<p>A shared parent of two synsets is called as sub-summer. The least common 
+sub-summer (LCS) of two synset is the sumer that does not have any children that 
+are also the sub-summer of the two synsets. In other words, the LCS of two 
+synsets is the most specific subsumer of the two synsets. Back to above example, 
+the LCS of {car, auto..} and {truck..} is {automotive, motor vehicle},since the 
+{automotive, motor vehicle} is more specific than the common sub-summer {wheeled 
+vehicle}.<br>
+<br>
+<span class="postbody">The path length gives us a simple way to compute 
+relatedness distance between two word senses. There are some issues need to be addressed:<br>
+<br>
+- It is possible for two synsets from the same part of speech to have no common 
+sub-summer. Since we did not join the different top nodes of each part of speech 
+taxomy. So a path cannot always be found between two synsets. But if an unique 
+root node is being used, then there will always exist a path between any two 
+noun/verb synsets. <br>
+<br>
+- </span>Note that multiple inheritance is allowed in WordNet, some synsets 
+belong to more than one taxnonomy. So if there is more than one path between two 
+synsets, then the shortest such path is selected. <span class="postbody"><br>
+<br>
+- Lemmatization : when looking up a word in WN, the word is first lemmatized. So 
+the distance between &quot;book&quot; and &quot;books&quot; is 0 since thay are identical. But 
+&quot;Mice&quot; and &quot;mouse&quot; ?<br>
+<br>
+- This measurement just only compare the word senses which have same part of 
+speech(POS). This means that we do not compare a noun and a verb because they 
+are located in different taxonomy. We just consider the words that are nouns , 
+verbs, or adj, respectively. We will use lexical of Jeff Martin, when 
+considering a word, we first check if it is a noun and if so we will treat it as 
+a noun and its verb or adj will be disregarded. If it is not a noun, we will 
+check if it is a verb... <br>
+<br>
+- Compound nouns like &quot;travel agent&quot; will be treated as two single word through 
+the tokenization. <br>
+<br>
+<b>Measuring similarity (MS1):<br>
+</b><br>
+There are many proposal to measuring semantic similarity between two synsets: 
+Wu &amp; Palmer, Leacock &amp; Chodorow,&nbsp; P.Resnik. In this work, we experimented 
+with two simple measurement:</span></p>
+
+<pre lang="text"><span class="postbody">Sim(s, <span lang="en-us">t</span>) = 1/distance(s, <span lang="en-us">t</span>).</span></pre>
+<ul>
+  <li> <span class="postbody">Where distance is the path length from  </span>
+  <code>s</code><span class="postbody"> to  </span><code>t</code><span class="postbody"> using node counting.</span></li>
+</ul>
+
+<p> <span class="postbody">
+<b>Measuring similarity (MS2):<br>
+<br>
+</b>This formula has been used in previous article, which not only take into 
+account the length of the path but also the </span>the order of the sense 
+involved in this path. </p>
+
+<pre lang="text">Sim(s,t)=Sen<span lang="en-us">se</span>Weight(s)*Sen<span lang="en-us">se</span>Weight(t) / PathLength</pre>
+<ul>
+  <li>Where <code>s</code> and <code>t</code>: denote the source and target 
+  words being compared. </li>
+  <li><code>SenseWeight</code>: denotes a weight calculated according to the 
+  order of this sense and the count of total senses. </li>
+  <li><code>PathLength</code>: denotes the length of the connection path from
+  <code>s</code> to <code>t</code>. </li>
+</ul>
+
+<h2>Semantic similarity between two sentences</h2>
+
+<p><span class="postbody">Assuming we have to capture semantic between two 
+sentence X and Y,&nbsp; we denote m to be length of X, n to be length of Y. </span>After the word sense disambiguation step, we have the list of 
+word-senses 
+that are most appropriate sense for every words in two sentence. <span class="postbody"> <br>
+The major steps can be described as following:<br>
+<br>
+1. Building a semantic similarity relative&nbsp; matrix r[m, n] of each pair of 
+word senses, where r[i, 
+j] is semantic simiarity between the most appropriate sense of word at position 
+i of X and the most appropriate sense of word at position j of Y.&nbsp; Thus, 
+r[i,j] is also weight of edge connect from i to j. If a word is 
+not existed in the dictionary we use the edit-distance similarity instead, for 
+example : an abbreviation likes CTO (Chief of Technology Officer). <br>
+<br>
+2. The computation of overall semantic similarity score now is reduced to problem of 
+solving the maximum total weight of bipartite graph where X and Y is two sets of 
+disjoint nodes.&nbsp; We use the hungarian method to solve this problem, refer 
+to our previous article (). <br>
+If computational time is critical, we can use a simple quick heuristic method as 
+following:<br>
+<br>
+Pseudo-code:</span></p>
+
+<pre>scoreSum &lt;- 0;
+
+<b>foreach</b> (X[i] in X){
+  bestCandidate &lt;- -1;
+  bestScore &lt;- -maxInt;
+ <b> foreach</b> (Y[j] in Y){
+    <b>if</b> (Y[j] is still free &amp;&amp; r[i, j] &gt; bestScore){
+        bestScore &lt;- R[i, j]; 
+        bestCandidate &lt;- j;		    	
+      }  
+  }
+
+  <b>if</b> (bestCandidate != -1){
+      mark the bestCandidate as matched item.    
+      scoreSum &lt;- scoreSum + bestScore;
+  }
+}
+</pre>
+
+<p><span class="postbody">3.&nbsp; The match result from previous step are 
+aggregated into a single similarity value for two sentences.</span> <span class="postbody">There are many strategies to acquire an 
+overall combined similarity value for sets of 
+matching pairs. So far, we have shown two simple&nbsp; formula of computing semantic 
+similarity between two word-senses. For each cases we apply an appropriate 
+strategy.</span></p>
+
+<ul>
+  <li><span class="postbody">Matching average: |X| + |Y|. The Average similarity is computed by dividing the sum 
+of similarity values of all match candidates of both sentence X and Y by the 
+total number of set tokens. There is a good point that Average is based on each 
+individual similarity values, so that the overall similarity always reflects the 
+influence of them. We apply this strategy with using the MS1 formula.</span></li>
+</ul>
+<ul>
+  <li>Dice coefficient <img border="0" src="codepr2.gif" width="88" height="59">This 
+  strategy returns the ratio of the number of tokens can be matched over the 
+  total of tokens. We apply this strategy with using the MS2 formula.&nbsp; Hence, Dice will always return a higher value than Matching average and 
+it thus is more optimistic. In this strategy we need to predefine a threshold to 
+  select the matching pairs that have value exceed the given threshold.</li>
+  <li>For example: We have two sentences: X and Y , X has length of 3 and Y has 
+  length of 2. The matcher returns X1 is matched Y1 with score 0.8, X2 is 
+  matched Y2 with score 0.7. <br>
+  + using Matching average, the overall score is : 2*(0.8 + 0.7) / (3 + 2) = 
+  0.6.<br>
+  + using Dice and the threshold is 0.5, since both matching pairs have score 
+  greater than threshold so we have total of 2 matching pairs. &nbsp;-&gt; The overall score is:&nbsp; 
+  2*(1 + 1)/ (3+2) = 0.8.<br>
+&nbsp;</li>
+  <li>Cosine, Jarccard, Simpson coefficients will be considered in particular 
+  situations.</li>
+</ul>
+
+<h2>Using the code</h2>
+
+<p>&nbsp;</p>
+
+<pre>/
+// Any source code blocks look like this
+//
+</pre>
+
+<h2>Future work</h2>
+
+<p>Time restricted is also a problem, but whenever possible we would like to do :</p>
+
+<p>- Extending the algorithm with supervised learning with such method like 
+Bayesian Inference Model. <br>
+- Extending the unsupervised library with more well-known algorithms. </p>
+
+<h2>Conclusion</h2>
+
+<p>We have presented a simple approach to capture semantic similarity. This work 
+has some restriction and we hopefully extend it in near future. We are not a NLP 
+research group, so what we have brought here may have many restrictions.&nbsp;
+<br>
+<br>
+There is a Perl open source package of semantic similarity from T.Pederson. 
+Unfortunately We do not know Perl, it would be very nice if anyone can migrate 
+it to .NET. We stop here and hope that there will have more you 
+work on WordNet.Net to develop this open source to be more useful. <h2>Points of Interest</h2>
+
+<p>&nbsp;</p>
+
+<font FACE="Times New Roman" SIZE="3">
+
+<h2>My acknowledgements</h2>
+
+<p ALIGN="LEFT">Many thanks to:<br>
+WordNet Princeton, M.Crowe, T.Pedersen - his team(S.Banerjee, 
+J.Michelizzi ...) , P.Resnik, Hirst - S.T.Onge ... the NLP research community 
+for their tremendous innovative works.&nbsp; <br>
+<br>
+We would like to thank M.A.Warin, C.Lemon, Richard.N, who had provided helpful document resources and comments during this work.<br>
+&nbsp;</p>
+</font>
+
+<h2>History</h2>
+
+<p>9/1/2005: Coding.<br>
+9/17/2005: Writing article.</p>
+</body>
+</html>
