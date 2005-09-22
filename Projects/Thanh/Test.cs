@@ -48,42 +48,23 @@ namespace WordsMatching
 
 		public Test()
 		{
-			string s1="The main plication. pplication pplication pplication pplication pplication pplication pplication ";
-			string s2="Add code to start application here pplication pplication pplication pplication pplication pplication pplication pplication pplication pplication pplication ";
-			//Entertaiment Entail tail, fail, enter men end			
-			s1="ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002 ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002ZONGSHyryyyyyyyyyyyyyyyyyyyyyyyrtEN F 200ytrrrrrrrrrrrrrrrrrrr8 LZSJCJLytrrrrrrrrrrrrryrtyrt0645 50 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002";
-			s2="ALFA ALFAROMERO145TDfdsfsdgfdgdfgggggggggggggggggggggggggggggggfsdfsddddddsdfdsfsdfsdfdsfsdfdsCAT ZAR93000002 40 1 01929  001730 005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002005 0 00ytrrrrrrrrrrrrryyhjjjjjjjjjjjjjjjjj124 00144 000285 002";
-			s1="2 JALAN PEMBERITA U1/49 \nTEMASYA INDUSTRIAL PARK \nGLENMARIE 40150 SHAH ALAM SEL";
-			s2="D-3-2 ARCADIA APARTMENT \nUSJ 11/1 SUBANG JAYA \n47600 PETALING JAYA";
-			//s1="ZONGSHEN F 2008 LZSJCJL0645 50 0 00124 00144 000285 002";
-			//s2="ALFA ALFAROMERO145TDCAT ZAR93000002 40 1 01929 001730 005";
-			//s1="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc dddddddddddddddddddddddddddddddd";
-			//s2="a b c d" ;
-
-			s1="Entertaiment Entail tail, enter fail, use enter men end Detail	";
-			s2="Retail detail entry point fai mention lure mention find" ;
-
-			//s1="_incoming indicate the incomming left nodes of right nodes set";
-			//s2="_outgoing indicate the outgoing right nodes of left nodes set";
-			s1="boat";
-			s2="truck";
-			StemmerInterface stem=new PorterStemmer() ;
-			Trace.WriteLine(stem.stemTerm("Transportation") );
-			//MatchsMaker match=new MatchsMaker(s1, s2) ;
-			
-			//WNDistance.GetPathLength("car", "instrumentality") ;
-			//WNRelatednessMatcher.GetPathLength("agent", "physical object") ;
-			WNPathFinder f=new WNPathFinder() ;
-			//f.GetPathLength("car",0, "fork", 0) ;
 			Tokeniser tok=new Tokeniser() ;
 			//string[] a=tok.Partition("pine cone") ;//0 2
 			//string[] a=tok.Partition("I know I love you very much") ; //0 3
-			string[] a=tok.Partition("states") ;
+			string[] a=tok.Partition("church states I know I love you very much") ;
 			string[] b=tok.Partition(" long  fruit of certain evergreen tree.");			
-			ExtendedLesk extended=new ExtendedLesk() ;
-			int[] sense=extended.Disambiguate(a) ;
+			//ExtendedLesk extended=new ExtendedLesk() ;
+			//int[] sense=extended.Disambiguate(a) ;
+			PathLengthSimilarity path=new PathLengthSimilarity() ;
+			
+			SemanticSimilarity semsim=new SemanticSimilarity() ;
+			//float score=semsim.GetScore("Defense Ministry", "Department of defence");
+			
+			//float score=semsim.GetScore("Pepsi is being drunk by Shilpa", "Niti is eating softy");
+			
+			float score=semsim.GetScore("drunk", "drink");
 			int i=1;
-			//WNRelatednessMatcher.GetPathLength("living thing", "flora") ;
+			
 			//Trace.WriteLine(match.Score) ;			
 		}
 

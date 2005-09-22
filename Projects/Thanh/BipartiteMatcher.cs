@@ -289,26 +289,28 @@ namespace WordsMatching
 		}
 
 
-		private float GetTotal()
+		public float[] GetMatches()
 		{
 			float nTotal=0;
 			float nA=0;
 			Trace.Flush() ;
+			float[] matches=new float[leftLen + 1];
 			for (int i=0; i <= leftLen ; i++)
 				if (_outgoing[i] != -1)
 				{
 					nTotal += _cost[i, _outgoing[i]];
+					matches[i]=_cost[i, _outgoing[i]];
 					if (_cost[i, _outgoing[i]] > 0)
 					Trace.WriteLine (_leftTokens[i] + " <-> " + _rightTokens [_outgoing[i]] + " : " + _cost[i, _outgoing[i]]) ;
 					float a=1.0F - System.Math.Max(_leftTokens[i].Length , _rightTokens[_outgoing[i]].Length ) != 0 ? _cost[i, _outgoing[i]]/System.Math.Max(_leftTokens[i].Length , _rightTokens[_outgoing[i]].Length ) : 1;
 					nA += a;					
 				}			
-			return nTotal;
+			return  matches;
 		}
 
 		public float GetScore()
 		{
-			float dis=GetTotal();
+			float dis=0;
 			
 			float maxLen=rightLen  + 1;
 //			int l1=0; int l2=0;

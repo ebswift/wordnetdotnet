@@ -1,7 +1,7 @@
 /*
 Lexical Similarity
 Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
-Copyright (C) 2005 Malcolm Crowe, Troy Simpson, Jeff Martin, Thanh Dao
+Copyright (C) 2005 Troy Simpson, Jeff Martin, Thanh Dao
 
 */
 
