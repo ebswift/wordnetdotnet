@@ -59,23 +59,23 @@ td.row2	{ background-color: #DEE3E7; }
 <h2><font size="4">Introduction</font></h2>
 
 <font FACE="CMR12">
-<p ALIGN="LEFT">In the previous article, we presented an approach on 
-capturing the similarity between words that was concerned with the syntactic 
-similarity of two strings. Today we are back to discuss another approach that is more concerned 
-with the meaning of the words. 
-Semantic similarity is a confidence score that reflects the semantic relationship 
-between the meanings of two sentences.<br>
+<p ALIGN="LEFT">In previous article, we have showed you an approach on 
+capturing similarity between words that concerned on syntactic 
+similarity of two strings. Today we back to discuss another approach that is more concerned on meaning of the words. 
+Semantic similarity is a confidence score that reflects the semantic relation 
+between the meanings of two sentence. It is also a difficult task to gain
+accurate score because the exact semantic meaning are only completely understand
+by the writer.<br>
 <br>
 The goals of this paper are to:</p>
 <ul>
   <li>
-<p ALIGN="LEFT">Present to you some <span style="background-color: #FFFF00"><u>
-<b><font color="#FF0000">unsupervised</font></b></u></span> 
-algorithms to capture semantic similarity between two sentences, which is heavily based on 
-a knowledge-based resource - the WordNet semantic network. </p>
+<p ALIGN="LEFT">Present you some unsupervised 
+algorithms to capture semantic similarity between two sentences which is heavily based on 
+a knowledge based resource, the WordNet semantic network. </p>
   </li>
   <li>
-<p ALIGN="LEFT">Encourage you to work with the interesting topic of NLP.</p>
+<p ALIGN="LEFT">Attract you to work with an interest topic of NLP.</p>
   </li>
 </ul>
 </font>
@@ -83,16 +83,15 @@ a knowledge-based resource - the WordNet semantic network. </p>
 <h2><font size="4">Preparing the ground</font></h2>
 
 <font FACE="CMR12">
-<p ALIGN="LEFT">Fortunately, there are a lot of previous scientific articles on semantic similarity 
-and semantic relatedness measurement developed in the context of information 
-integration and information retrieval. In discussing this topic we will refer to 
-other research groups such as Ted Pedersen, Hirst,&nbsp;and P.Resnik. </p>
+<p ALIGN="LEFT">Fortunately, there is a lot of previous science article on 
+semantic similarity and semantic relatedness measurement developed in the 
+context of information integration, information retrieval, so on. </p>
 </font>
 
 <p><b>WordNet </b></p>
 <p>WordNet is a lexical database which is available online and provides a large 
-repository of English lexical items. There are multilingual WordNets for 
-European languages which are structured in the same way as the American WordNet.<br>
+repository of English lexical items. There is a multilingual wordnet for 
+european languages which are structured in the same way as the American wordnet.<br>
 <br>
 The WordNet was designed to establish connections between four types of POS 
 (Parts of Speech), noun, verb, adjective, and adverb. The smallest unit in 
@@ -124,6 +123,8 @@ more similarity meaning of two sentences are.</p>
 <p>Steps of computing semantic similarity between two sentences:</p>
 <ul>
   <li>First each sentence is partitioned into a list of tokens.</li>
+  <li>Lemmatization.</li>
+  <li>Part-of-speech disambiguation or tagging.</li>
   <li>Second, finding out the most appropriate sense for every word in a 
   sentence (Word Sense Disambiguation).</li>
   <li>Finally, computing the similarity of the sentences based on the similarity 
@@ -135,7 +136,17 @@ more similarity meaning of two sentences are.</p>
 words.<font SIZE="2"> Stop words are frequently occurring, insignificant words 
 that appear in a database record, article or web page , etc.</font></p>
 
-<h2>Semantic relatedness with the <b>word sense disambiguation (WSD)</b></h2>
+<h2>Tagging part of speech </h2>
+<p>This task is to identify the correct part of speech(POS) of the words in the 
+sentence is assumed (that is, whether a word is a noun, verb, adj...). We use a 
+Brill's tagger (Eric Brill algorithm) to treat this problem. (*) </p>
+
+<h2>Stemming word </h2>
+<p>We use the well known Porter stemming algorithm.&nbsp; (*)</p>
+
+<p>(*) These work are not available in this release.</p>
+
+<h2>Semantic relatedness and <b>Word sense disambiguation (WSD)</b></h2>
 
 <p>As you have already known that a word can has more than one sense that
 <font size="2">can lead to ambiguity. <br>
@@ -201,7 +212,7 @@ role is played by keeping track of features of previously visited solutions,<fon
 </font>which makes use of memory in a limited way. It keeps a list of moves that 
 are forbidden to be performed in order to prevent cycling.<span class="postbody"><br>
 <br>
-</span><b>The extended Micheal Lesk Algorithm</b></p>
+</span><b>The adapted Micheal Lesk Algorithm</b></p>
 </font>
 <p><font size="2">The original Lesk is just used gloss or definition of word and 
 has restricted on the overlap scoring mechanism. The extended of Lesk is 
@@ -228,7 +239,7 @@ computational space that decreasing the time. For example: If K is four, there
 will be two words to the left of the target word and two words to the right. </font></p>
 
 <p>2. For each word in the selected context, we<font size="2"> look up and list 
-all the possible senses.</font></p>
+all the possible senses of both POS (part of speech) noun and verb. </font></p>
 
 <p>3. For each sense of a word (WordSense), we list the following relations:</p>
 
@@ -274,7 +285,11 @@ work.</p>
 <p>5. Once each combination has been scored, we pick up the sense has highest 
 score to be the most appropriate sense for each word in the context space. After 
 this step, the output not only gives us the most appropriate sense but also the 
-associated part of speech for a word.<br>
+associated part of speech for a word.</p>
+
+<p>&nbsp;</p>
+
+<p>
 <span class="postbody"><br>
 There is another measurements of Hirst-St.Onge&nbsp; which based on finding 
 the lexical chains between synsets.</span></p>
@@ -337,8 +352,7 @@ vehicle}.<br>
 relatedness distance between two word senses. There are some issues need to be addressed:<br>
 <br>
 - It is possible for two synsets from the same part of speech to have no common 
-sub-summer. Since we did not join the different top nodes of each part of speech 
-taxomy. So a path cannot always be found between two synsets. But if an unique 
+sub-summer. Since we did not join all the different top nodes of each part of speech taxonomy. So a path cannot always be found between two synsets. But if an unique 
 root node is being used, then there will always exist a path between any two 
 noun/verb synsets. <br>
 <br>
@@ -380,7 +394,7 @@ with two simple measurement:</span></p>
 account the length of the path but also the </span>the order of the sense 
 involved in this path. </p>
 
-<pre lang="text">Sim(s,t)=Sen<span lang="en-us">se</span>Weight(s)*Sen<span lang="en-us">se</span>Weight(t) / PathLength</pre>
+<pre lang="text">Sim(s,t)<span lang="en-us"> </span>=<span lang="en-us"> </span>Sen<span lang="en-us">se</span>Weight(s)*Sen<span lang="en-us">se</span>Weight(t)/PathLength</pre>
 <ul>
   <li>Where <code>s</code> and <code>t</code>: denote the source and target 
   words being compared. </li>
@@ -420,7 +434,7 @@ Pseudo-code:</span></p>
 <b>foreach</b> (X[i] in X){
   bestCandidate &lt;- -1;
   bestScore &lt;- -maxInt;
- <b> foreach</b> (Y[j] in Y){
+ <b> foreach</b> (Y[j] in Y){ 
     <b>if</b> (Y[j] is still free &amp;&amp; r[i, j] &gt; bestScore){
         bestScore &lt;- R[i, j]; 
         bestCandidate &lt;- j;		    	
@@ -435,11 +449,11 @@ Pseudo-code:</span></p>
 </pre>
 
 <p><span class="postbody">3.&nbsp; The match result from previous step are 
-aggregated into a single similarity value for two sentences.</span> <span class="postbody">There are many strategies to acquire an 
+aggregated into a single similarity value for two sentences.</span>  <span class="postbody">There are many strategies to acquire an 
 overall combined similarity value for sets of 
 matching pairs. So far, we have shown two simple&nbsp; formula of computing semantic 
-similarity between two word-senses. For each cases we apply an appropriate 
-strategy.</span></p>
+similarity between two word-senses. For each formula we apply an appropriate
+strategy:</span></p>
 
 <ul>
   <li><span class="postbody">Matching average: |X| + |Y|. The Average similarity is computed by dividing the sum 
@@ -469,7 +483,8 @@ it thus is more optimistic. In this strategy we need to predefine a threshold to
 
 <h2>Using the code</h2>
 
-<p>&nbsp;</p>
+<p>To run this code, you should install the WordNet 2.1. Copy the data corpus 
+into the debug folder. </p>
 
 <pre>/
 // Any source code blocks look like this
@@ -478,17 +493,20 @@ it thus is more optimistic. In this strategy we need to predefine a threshold to
 
 <h2>Future work</h2>
 
-<p>Time restricted is also a problem, but whenever possible we would like to do :</p>
+<p><br>
+We should improve the usability of this experiment. Time restricted is also 
+a problem, but whenever possible we would like to do:</p>
 
-<p>- Extending the algorithm with supervised learning with such method like 
-Bayesian Inference Model. <br>
-- Extending the unsupervised library with more well-known algorithms. </p>
+<p>- Extending the WSD algorithm with supervised learning with such method like 
+Naive Bayesian Classifier model. <br>
+- Extending the unsupervised semantic similarity library with more well-known algorithms.<br>
+- POS disambiguation using Hidden Markov Model. </p>
 
 <h2>Conclusion</h2>
 
 <p>We have presented a simple approach to capture semantic similarity. This work 
-has some restriction and we hopefully extend it in near future. We are not a NLP 
-research group, so what we have brought here may have many restrictions.&nbsp;
+has some restriction and is not ready in use. We are not a NLP 
+research group, what we have brought here just are experiment.&nbsp;
 <br>
 <br>
 There is a Perl open source package of semantic similarity from T.Pederson. 
@@ -496,16 +514,15 @@ Unfortunately We do not know Perl, it would be very nice if anyone can migrate
 it to .NET. We stop here and hope that there will have more you 
 work on WordNet.Net to develop this open source to be more useful. <h2>Points of Interest</h2>
 
-<p>&nbsp;</p>
+<p>I plan to build a </p>
 
 <font FACE="Times New Roman" SIZE="3">
 
 <h2>My acknowledgements</h2>
 
 <p ALIGN="LEFT">Many thanks to:<br>
-WordNet Princeton, M.Crowe, T.Pedersen - his team(S.Banerjee, 
-J.Michelizzi ...) , P.Resnik, Hirst - S.T.Onge ... the NLP research community 
-for their tremendous innovative works.&nbsp; <br>
+WordNet Princeton, E.Briller, M.Porter, M.Crowe, T.Pedersen - his team(S.Banerjee, 
+J.Michelizzi) , P.Resnik, Hirst - S.T.Onge the NLP research community.&nbsp; <br>
 <br>
 We would like to thank M.A.Warin, C.Lemon, Richard.N, who had provided helpful document resources and comments during this work.<br>
 &nbsp;</p>
