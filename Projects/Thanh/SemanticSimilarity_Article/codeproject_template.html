@@ -59,7 +59,6 @@ td.row2	{ background-color: #DEE3E7; }
 
 <h2><font size="4">Introduction</font></h2>
 
-<font FACE="CMR12">
 <p ALIGN="LEFT">In the previous article, we presented an approach for capturing 
 similarity between words that was concerned with the syntactic similarity of two 
 strings. Today we are back to discuss another approach that is more concerned 
@@ -80,15 +79,11 @@ dictionary. </p>
 <p ALIGN="LEFT">Encourage you to work with the interesting topic of NLP.</p>
   </li>
 </ul>
-</font>
 
 <h2><font size="4">Groundwork</font></h2>
 
-<font FACE="CMR12">
-<p ALIGN="LEFT">Fortunately, there are a lot of previous scientific articles on 
-semantic similarity and semantic relatedness measurement developed in the 
-context of information integration, information retrieval, etc. </p>
-</font>
+<p ALIGN="LEFT">Before we go any further, let us start with some brief
+introductions about the ground works.</p>
 
 <p><b>WordNet </b></p>
 <p>WordNet is a lexical database which is available online and provides a large 
@@ -193,9 +188,7 @@ For example : the word “interest&quot; has different meaning in the two followin
 contexts:<br>
 &nbsp;&nbsp; •“Interest” from a bank.<br>
 &nbsp;&nbsp; •“Interest” in a subject.</font></p>
-<font FACE="Times New Roman" SIZE="3">
 <p ALIGN="LEFT"><b>WSD with original Micheal Lesk Algorithm</b></p>
-</font>
 <p>Disambiguation is the process of finding out the most appropriate<font size="2"> 
 sense of a word that is used in a given sentence. The Lesk algorithm uses dictionary definitions 
 (gloss) to disambiguate a polysemous word in a 
@@ -203,7 +196,6 @@ sentence context. The major objective of his idea is to count the number of word
 shared between two 
 glosses. The more overlapping words, the more 
 related the senses are.</font></p>
-<font FACE="Times New Roman" SIZE="3">
 <p ALIGN="LEFT">To disambiguate a word, the gloss of each of its senses is 
 compared to the glosses of every other word in a phrase. A word is assigned 
 to the sense whose gloss shares the largest number of words in common with the 
@@ -247,12 +239,10 @@ as Tabu or Beam. The major idea behind such methods is to reduce the
 search space by applying several heuristic techniques. The Beam searcher limits its 
 attention to only <i>k </i>most promising candidates at each stage of the search 
 process, where k is a predefined number. Tabu is a method in which a fundamental 
-role is played by keeping track of features of previously visited solutions,<font FACE="Palatino-Roman~19" SIZE="3">
-</font>which makes use of memory in a more efficient manner. It keeps a list of moves that 
+role is played by keeping track of features of previously visited solutions, which makes use of memory in a more efficient manner. It keeps a list of moves that 
 are forbidden to be performed in order to prevent cycling.<span class="postbody"><br>
 <br>
 </span><b>The adapted Micheal Lesk Algorithm</b></p>
-</font>
 <p><font size="2">The original Lesk used the gloss of a word and 
 is restricted on the overlap scoring mechanism. In this section, we introduce 
 an adapted version of the algorithm with some improvements to overcome the limitations:</font></p>
@@ -548,7 +538,7 @@ considered in other particular situations).</li>
   2*(1 + 1)/ (3+2) = 0.8.</li>
 </ol>
 
-<h2>Using the code</h2>
+<h2><font size="4">Using the code</font></h2>
 
 <p>To run this code, you should install WordNet 2.1. </p>
 
@@ -557,38 +547,38 @@ considered in other particular situations).</li>
 //
 </pre>
 
-<h2>Future work</h2>
+<h2><font size="4">Future works</font></h2>
 
 <p>Time restrictions are a problem; whenever possible we would like to do:<br>
 <br>
 - Improve the usability of this experiment. <br>
 - Extend the WSD algorithm with supervised learning with such methods as the Naive Bayesian Classifier model. <br>
-- Disambiguate part of speech using decision trees. </p>
+- Disambiguate part of speech using probabilistic decision trees. </p>
 
-<h2>Conclusion</h2>
+<h2><font size="4">Conclusion</font></h2>
 
-<p>So far we have presented a simple approach to capturing semantic similarity.&nbsp;This 
-work might have many limitations since we are not a NLP research group.<br>
+<p>In this article, you have seen a simple approach to capture semantic similarity. This work might have many
+limitations since we are not a NLP research group.<br>
 <br>
 There is a Perl open source package for semantic similarity from T.Pederson. 
 Unfortunately We do not know Perl; it would be very helpful if someone could migrate 
 it to .NET. We'll stop here for now and hope that others might be inspired to work on WordNet.Net to develop this open source 
-library to be more useful. <h2>Points of Interest</h2>
-
-<p>&nbsp;</p>
-
-<font FACE="Times New Roman" SIZE="3">
-
-<h2>My acknowledgements</h2>
-
+library to be more useful.
+<h2><font size="4">Acknowledgements</font></h2>
 <p ALIGN="LEFT">Many thanks to:<br>
 WordNet Princeton, E.Briller, M.Porter, M.Crowe, T.Pedersen - his team(S.Banerjee, 
-J.Michelizzi, S. Patwardhan) , P.Resnik, Hirst - S.T.Onge the NLP research community.&nbsp; <br>
+J.Michelizzi, S. Patwardhan) , P.Resnik, Hirst - S.T.Onge, M.Lesk for using of
+their research results. <br>
 <br>
 We would like to thank M.A.Warin, C.Lemon, Richard.N, who had provided helpful document resources and comments during this work.<br>
-&nbsp;</p>
+
+<font SIZE="3">
+
+&nbsp;
 
 </font>
+
+</p>
 
 <font SIZE="3">
 
@@ -600,9 +590,9 @@ We would like to thank M.A.Warin, C.Lemon, Richard.N, who had provided helpful d
   <li>A.V. Goldberg, R. Kennedy: An Efficient cost scaling algorithm for the 
   assignment problem, 1993.</li>
   <li>WordNet by Princeton.</li>
-  <li>T.Dao : The longest common sub-string with maximal consecutive, 2005.</li>
-  <li>T.Dao : An improvement on capturing similarity between strings, 2005.</li>
-  <li>T.Simpson: WordNet.NET Introduction.</li>
+  <li>T. Dao : The longest common sub-string with maximal consecutive, 2005. (*)</li>
+  <li>T. Dao : An improvement on capturing similarity between strings, 2005. (*)</li>
+  <li>T. Simpson: WordNet.NET Introduction, 2005. (*)</li>
   <li>T. Pedersen, S. Banerjee, S. Patwardhan: Maximize semantic relatedness to 
   perform word sense disambiguation, 2005.</li>
   <li>P. Resnik: WordNet and class-based probabilities.</li>
@@ -610,12 +600,13 @@ We would like to thank M.A.Warin, C.Lemon, Richard.N, who had provided helpful d
   for the detection and correction of malapropisms.</li>
   <li>M. Lesk: Automatic sense disambiguation using machine readable 
   dictionaries: how to tell a pine code from an ice cream cone, 1986.</li>
-  <li>Zipf distribution law.</li>
-  <li><font FACE="CMR10" SIZE="3">
+  <li>Zipf distribution law, 1960.</li>
+  <li>
   <p ALIGN="LEFT">S. Banerjee, T. Pedersen: Extended gloss overlaps as a measure 
-  of semantic relatedness, 2003.</font></li>
+  of semantic relatedness, 2003.</li>
   <li>Wu, Palmer: Depth of subsuming concept scaled by sum of the depths of 
   individual concepts, 1994.</li>
 </ol>
+<p>(*) is the co-author of this article.</p>
 </body>
 </html>
