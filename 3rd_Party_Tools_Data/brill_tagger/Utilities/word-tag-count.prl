@@ -1,0 +1,28 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+while (<>) {
+	s/^\s+//;
+	if (! /^$/) {
+		@temp = split;
+		for ($count = 0; $count <= $#temp; ++$count) {
+			@x = split(/\//,$temp[$count]);
+			if ($#x > 1) { 
+			    $tmp = join('/',@x[0..$#x-1]);
+			    $all{ $tmp . " " . $x[$#x]}++; }
+			else {
+			$all{$x[0] . " " . $x[1]}++; }
+		    }
+	}
+}
+while (($key,$val) = each %all) {
+	print $key," ",$val,"\n"; }
+

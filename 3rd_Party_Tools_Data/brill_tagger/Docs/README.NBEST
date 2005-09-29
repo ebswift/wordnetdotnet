@@ -1,0 +1,60 @@
+===============================================================================
+Copyright (c) 1993 Massachusetts Institute of Technology and
+University of Pennsylvania.  All rights reserved.
+This program was written by Eric Brill (brill@goldilocks.lcs.mit.edu)
+(After July 1 1994, my email address will be brill@blaze.cs.jhu.edu)
+Feel free to contact me with any questions, comments, . . .
+===============================================================================
+THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+=============================================================================
+Please Read The COPYRIGHT file included with the tagger.
+=============================================================================
+
+Code for training and tagging in n-best mode is provided with this
+release.  This code is still under development, and is provided in
+prerelease form, in case anybody may have use for it.  Hopefully, in
+the next release, we will clean up this code, better document it, etc.
+So, feel free to use it, but please keep in mind its "under
+development" status.
+
+N-best tagging takes place after 1-best tagging.  So, first, text is
+passed through the start state tagger, which tags every word with its
+most likely tag (using rules to determine the most likely tag for
+unkown words).  Then, the text is passed through the final state
+annotator, which changes some tags based on contextual cues.  After
+this, the text can be passed through the nbest tagger, which will add
+tags to words in certain cases of uncertainty.
+
+Training the n-best tagger:
+
+cd Bin_and_Data
+
+kbest-contextual-rule-learn CORRECTLY-TAGGED-CORPUS GUESS-CORPUS \
+	FILE-FOR-RULES LEXICON
+
+where CORRECTLY-TAGGED-CORPUS is the manually tagged gold standard,
+GUESS-CORPUS is the output of the 1-best tagger when run on the same
+text, FILE-FOR-RULES is the name of the file the rules will be written
+into, and LEXICON is the lexicon.  Each entry of the lexicon looks
+like:
+
+word tag1 tag2  . . . tagn
+
+where tag1 is the most likely tag for word in the training corpus, and
+tag2 through tagn are other tags seen with word in the training
+corpus, in no particular order.
+
+Using the nbest tagger:
+
+cat 1-BEST-TAGGED-FILE | nbest-tagger RULEFILE LEXICON 
+
+where 1-BEST-TAGGED-FILE is the output of the 1-best tagger, RULEFILE
+is the list of n-best rules learned using kbest-contextual-rule-learn,
+and LEXICON is the lexicon.
+
+

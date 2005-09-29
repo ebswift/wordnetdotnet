@@ -1,0 +1,81 @@
+/*  Copyright @ 1993 MIT and the University of Pennsylvania*/
+/* Written by Eric Brill */
+ brill@goldilocks.lcs.mit.edu
+ (After July 1 1994, my email address will be brill@blaze.cs.jhu.edu)
+ Feel free to contact me with any questions, comments, . . .
+===============================================================
+THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+===============================================================
+You MUST read the copyright file included with the tagger (COPYRIGHT)
+before doing anything else. 
+===============================================================
+
+To compile the programs, type (in the tagger base directory):
+
+ make
+
+or first edit the Makefile to suit your needs.
+
+===============================================================
+
+(If you have altered the file structure of the tagger after untarring
+the programs, then you will have to adjust the instructions
+accordingly). 
+
+First cd into the directory Bin_and_Data/.
+
+To execute the program, type:
+
+tagger LEXICON YOUR-CORPUS BIGRAMS LEXICALRULEFULE CONTEXTUALRULEFILE 
+
+where YOUR-CORPUS is the file name of the corpus you wish to have
+tagged, and the other files are all provided with the tagger.
+
+Options (which are typed after the file names) are:
+
+-h             :: help
+
+-w wordlist    :: provide an extra set of words beyond those in LEXICON.
+	          For more information about this, read README.LONG.
+
+-i filename    :: writes intermediate results from start state tagger
+		  into filename
+
+-s number      :: processes the corpus to be tagged "number" lines at
+		  a time.  This should be specified if memory problems
+	          result from trying to process too large a corpus at
+		  once.  For more information about this, read
+		  README.LONG. 
+
+-S 	       :: use start state tagger only.
+
+-F             :: use final state tagger only.  In this case,
+	         YOUR-CORPUS is a tagged corpus, whose taggings will
+	         be changed according to the final-state-tagger
+	         contextual rules.  YOUR-CORPUS should be a tagged
+	         corpus ONLY when using this option.
+			
+	
+	
+The tagger writes to standard output.
+
+========================================================================
+
+
+IMPORTANT: Tokenization and vocabulary follow the Penn Treebank (since
+this is what the tagger was trained on).  Punctuation must be removed
+from words, etc.  Example:
+
+We  're going today , are you ?
+`` I 'm hungry , '' he said .
+
+This could be fixed by adding lexical entries for we're, I'm, ", etc.
+
+Also, one sentence per line is assumed.
+
+===================================================================

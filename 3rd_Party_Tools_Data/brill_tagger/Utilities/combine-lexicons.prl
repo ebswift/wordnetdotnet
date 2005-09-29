@@ -1,0 +1,54 @@
+#!/usr/local/bin/perl
+
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+
+# given two lexicons, first is primary, combines them giving
+# preference to the "most likely" as indicated in the primary
+
+
+open(PRIM,$ARGV[0]);
+open(SEC,$ARGV[1]);
+
+while(<PRIM>) {
+	@temp = split;
+	$best{$temp[0]} = $temp[1];
+	for ($count=2;$count<=$#temp;++$count) {
+		$alsoseen{$temp[0]} .= $temp[$count] . " ";
+	}
+}
+while(<SEC>) {
+	undef(%locseen);
+	@temp = split;
+	if (! $best{$temp[0]}) {  # haven't seen this wd in primary 
+		print; }
+	else {
+		$jnk = $alsoseen{$temp[0]};
+		@jnk = split(/\s+/,$jnk);
+		for ($count=0;$count<=$#jnk;++$count) {
+			$locseen{$jnk[$count]}++;}
+		for ($count=1;$count<=$#temp;++$count) {
+			if ($temp[$count] ne $best{$temp[0]}) {
+				$locseen{$temp[$count]}++;}}
+		print "$temp[0] $best{$temp[0]} ";
+		while (($key,$val) = each %locseen) {
+			print "$key ";}
+		print "\n"; 
+		$best{$temp[0]} = 0;
+}
+}
+
+while(($key,$val) = each %best) {
+	if ($val ne 0) {
+	print "$key $val";
+	if ($x = $alsoseen{$key}) {
+		print " $x\n";}
+	else { print "\n";}}}

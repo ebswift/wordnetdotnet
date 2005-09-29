@@ -1,0 +1,71 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+
+# given 2 files, prints percentage of matches (% correct if one is
+# gold standard.
+
+open(XX,$ARGV[0]);
+open(YY,$ARGV[1]);
+open(ZZ,$ARGV[2]);
+while(<ZZ>) {
+	@temp = split;
+	$seen{$temp[0]}++;
+}
+while(<XX>) {
+	$first = $_;
+	$sec = <YY>;
+	@first = split(/\s+/,$first);
+	@sec = split(/\s+/,$sec);
+	if ($#first != $#sec) {
+		print "SCREW UP!!\n";
+print "FIRST: @first\n";
+print "SEC: @sec\n";
+$unknscore = $unseengood/($unseengood+$unseenbad);
+print "unk score is: $unknscore  with $unseengood good\n";
+print "and $unseenbad bad\n";
+print "and $totwords words and $goodwords correct\n";
+		exit;}
+	for ($count=0;$count<=$#first;++$count) {
+		++$totwords;
+		if ($first[$count] eq $sec[$count]) {
+		   @split = split(/\//,$first[$count]);
+		   @split2 =  split(/\//,$sec[$count]); 
+		   if ($seen{$split[0]}) {  $seengood++;}
+		   else { $unseengood++; }
+			++$goodwords;
+	    $goodtag{$split[0] . " " . $split[1] . " " . $split2[1]}++; 
+	}
+		else {
+		    @split1 = split(/\//,$first[$count]);
+		    @split2 = split(/\//,$sec[$count]); 
+	            if ($seen{$split1[0]}) {  $seenbad++;
+		
+			}
+  		    else { $unseenbad++;    $unkbadtag{$split1[0] . " " . $split1[1] . " " . $split2[1]}++ }
+		    $badtag{$split1[0] . " " . $split1[1] . " " . $split2[1]}++; }
+	    }
+    }
+
+$score = $goodwords/$totwords;
+print "score is: $score\n";
+$unknscore = $unseengood/($unseengood+$unseenbad);
+print "unk score is: $unknscore\n";
+print "unk score is: $unknscore  with $unseengood good\n";
+print "and $unseenbad bad\n";
+print "SEEN GD: $seengood SEEN BAD: $seenbad\n";
+print "and $totwords words and $goodwords correct\n";
+if ($ARGV[3] eq "-verbose") {
+    while(($key,$val) = each %badtag) {
+	print "$key $val\n"; }
+    while(($key,$val) = each %goodtag) {
+	print "$key $val\n"; }
+}
