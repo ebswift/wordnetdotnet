@@ -4,6 +4,20 @@
 // demonstrates capturing stdout and stderr from a console application
 // using the Brill Tagger
 
+// alternative command line:
+// lexicon.brown test.txt BIGRAMS lexicalrulefile.brown contextualrulefile.brown
+
+//***************************
+// tagged output is only output out of stdout.
+// stderr is used as a status indicator in the brill tagger.
+// Therefore, by capturing stdout you get a clean return value
+// with no need for parsing.
+//
+// Always append a space or some other character if using a string
+// instead of a filename in the commandline parameters; this allows
+// for the taggers assumption of an extra character.
+//***************************
+
 // this code is based on Mike Mayer's code project article:
 // http://www.codeproject.com/csharp/LaunchProcess.asp
 
@@ -101,7 +115,8 @@ namespace TestTagger
 			this.txtParams.Name = "txtParams";
 			this.txtParams.Size = new System.Drawing.Size(376, 20);
 			this.txtParams.TabIndex = 21;
-			this.txtParams.Text = "LEXICON test-corpus BIGRAMS LEXICALRULEFILE.WSJ CONTEXTUALRULEFILE.WSJ>out.txt";
+			this.txtParams.Text = "lexicon.brown \"this is some test text \" BIGRAMS lexicalrulefile.brown contextualr" +
+				"ulefile.brown";
 			// 
 			// btnStart
 			// 
@@ -163,8 +178,8 @@ namespace TestTagger
 			this.btnStart.Enabled = false;  
 
 			processCaller = new ProcessCaller(this);
-			processCaller.FileName = @"..\..\..\bin_and_data\" + toRun;
-			processCaller.WorkingDirectory = @"..\..\..\Bin_and_Data";
+			processCaller.FileName = @"..\..\..\Data\" + toRun;
+			processCaller.WorkingDirectory = @"..\..\..\Data\";
 			processCaller.Arguments = txtParams.Text;
 			processCaller.StdErrReceived += new DataReceivedHandler(writeStreamInfo);
 			processCaller.StdOutReceived += new DataReceivedHandler(writeStreamInfo);
