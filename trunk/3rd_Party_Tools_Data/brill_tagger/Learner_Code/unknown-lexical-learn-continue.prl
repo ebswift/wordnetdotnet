@@ -1,0 +1,743 @@
+#!/usr/local/bin/perl
+############################################################
+#Copyright @ 1993 Massachusetts Institute of Technology and University
+#of Pennsylvania.  All rights reserved.
+#This program was written by Eric Brill
+############################################################
+
+# given a corpus of k words, a subset of n tagged words, k >> n :
+# stats needed: 
+# 
+# From K: word 
+# From N: (word tag count)  -- this should have top-n-word stats deleted
+# From B: (word1 word2)
+# From K: top x word list
+# x: word context must contain word in top x word list 
+#        (done for time/space efficiency)
+
+# unknown-learn.prl K N B x RULEFILE OLDRULEFILE 
+
+# current implementation: score measured on a type basis
+
+######################################################
+# TEMPLATES:
+#    (1) delete 1/2/3/4 letter prefix/suffix (done)
+#    (2) add 1/2/3/4 letter prefix/suffix (done)
+#    (3) word x appears to left/right (done)
+#    (4) word contains character x  (done)
+#    (5) change from tag x to tag y (done)
+#    (6) coordination (2 term) of these
+#    (7) has 1/2/3/4 letter prefix/suffix (done)
+######################################################
+
+$THRESHOLD = 3;
+
+sub ssubforadd {
+	local(*assarray,*savearray,*fsavearray) = @_;
+	local($jjj,$tmpadd,@tmpadd);
+	if ($tmpadd = $assarray{$wordkey}) { 
+		@tmpadd = split(/\s+/,$tmpadd);
+		for ($addcount=0;$addcount<=$#tmpadd;++$addcount) {
+		   $fsavearray{join(" ",$currenttag,$tmpadd[$addcount])} += 
+			$tempscore;
+		   $savearray{$tmpadd[$addcount]} += $tempscore;}}}
+
+sub psubforadd {
+	local(*assarray,*savearray,*fsavearray) = @_;
+	local($jjj,$tmpadd,@tmpadd);
+	if ($tmpadd = $assarray{$wordkey}) { 
+		@tmpadd = split(/\s+/,$tmpadd);
+		for ($addcount=0;$addcount<=$#tmpadd;++$addcount) {
+		    $fsavearray{join(" ",$currenttag,$tmpadd[$addcount])} += 
+			$tempscore;
+		   $savearray{$tmpadd[$addcount]} += $tempscore;}}}
+
+
+sub findbest {
+	local (*theassoc,$thestring) = @_;
+	local ($key,$val);
+	while (($key,$val) = each %theassoc) {
+	if ($val > $bestscore) {
+		$bestscore = $val;
+		$bestguy = $key . " $thestring $tagkey"; }}}
+
+open(K,$ARGV[0]);
+while(<K>) {
+    s/^\s+//;
+    if (! /^$/) {
+	@temp = split;
+	$K{$temp[0]}++;
+        $tot++;			
+	if ($tot <= $ARGV[3]) {
+		$top_n{$temp[0]}++; }}
+}
+close(K);
+print "READ K once\n";
+
+sub locx  {
+   local ($value,*thearray,*prefarray,*sufarray) = @_;
+   local($ttt);
+   $ttt  =  join("",@thearray[0..$#thearray-$value]);
+   if ($K{$ttt}) {
+    $sufarray{$ttt} .= 
+	join("",@thearray[$#thearray-($value-1)..$#thearray]) . " ";}
+   $ttt = join("",@thearray[$value..$#thearray]);
+   if ($K{$ttt}) {
+    $prefarray{$ttt} .=
+	join("",@thearray[0..$value-1]) . " ";}}
+
+undef(%onepref);
+undef(%onesuf);
+undef(%twopref);
+undef(%twosuf);
+undef(%threepref);
+undef(%threesuf);
+undef(%fourpref);
+undef(%foursuf);
+
+open(K,$ARGV[0]);  # (word count) sorted on count
+while(<K>) {
+    s/^\s+//;
+    if (! /^$/) {
+	@temp = split;
+	@temp2 = split(//,$temp[0]);
+	if ($#temp2 > 1) {               # require stem of 3
+	      &locx(1,*temp2,*onepref,*onesuf);}
+	if ($#temp2 > 2) {              
+	      &locx(2,*temp2,*twopref,*twosuf);}
+	if ($#temp2 > 3) {              
+	      &locx(3,*temp2,*threepref,*threesuf);}
+	if ($#temp2 > 4) {      
+	      &locx(4,*temp2,*fourpref,*foursuf);}
+    }
+}
+close(K);
+$top_n{"S-T-A-R-T"}++;
+$top_n{"E-N-D"}++;
+print "READ IN K FILE\n";
+open(N,$ARGV[1]);
+while(<N>) {
+    s/^\s+//;
+    if (! /^$/) {
+	@temp = split;
+	if ($#temp != 2) {
+	    print "ERROR: LINE NOT IN PROPER FORMAT (word tag count)\n";
+	    print "@temp\n";
+	    exit;
+	}
+	$tagseen{$temp[1]}++;
+	$N_tot{$temp[0]}+= $temp[2];
+	$N{$temp[0] . " " . $temp[1]} = $temp[2]; 
+    
+}}
+
+close(N);
+print "READ IN N FILE\n";
+open(B,$ARGV[2]);
+while(<B>) {
+    s/^\s+//;
+    if (! /^$/) {
+	@temp = split;
+	if ($top_n{$temp[0]} && $N_tot{$temp[1]}) {
+		$bigram{$temp[0] . " " . $temp[1]}++;
+		$goodonright{$temp[1]} .= $temp[0] .  " "; }
+	if ($top_n{$temp[1]} && $N_tot{$temp[0]}) {
+		$bigram{$temp[0] . " " . $temp[1]}++;
+		$goodonleft{$temp[0]} .= $temp[1] .  " "; }}
+}
+close(B);
+print "READ IN B FILE\n";
+
+
+
+#START STATE ALGORITHM
+# YOU CAN USE OR EDIT ONE OF THE TWO START STATE ALGORITHMS BELOW, 
+# OR REPLACE THEM WITH YOUR OWN
+
+# UNCOMMENT THIS AND COMMENT OUT START STATE 2 IF ALL UNKNOWN WORDS
+# SHOULD INITIALLY BE ASSUMED TO BE TAGGED WITH "NN".
+# YOU CAN ALSO CHANGE "NN" TO A DIFFERENT TAG IF APPROPRIATE.
+# while(($key,$val) = each %N_tot) {  # START STATE 1
+#	$smalltot++;
+#	$tag{$key} = "NN"; }
+
+
+# THIS START STATE ALGORITHM INITIALLY TAGS ALL UNKNOWN WORDS WITH TAG 
+# "NN" (singular common noun) UNLESS THEY BEGIN WITH A CAPITAL LETTER, 
+# IN WHICH CASE THEY ARE TAGGED WITH "NNP" (singular proper noun)
+# YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.
+
+while(($key,$val) = each %N_tot) {  # START STATE 2
+	$smalltot++;
+	if ($key =~ /^[A-Z]/) {
+	  $tag{$key} = "NNP";}
+	else {	  $tag{$key} = "NN";}
+} 
+	
+
+#############################################################
+# sort tags and record their potential
+#############################################################
+while(($key,$val) = each %N) {
+	@t = split(/\s+/,$key);
+	$taglist{$t[1]} += $val/$N_tot{$t[0]};
+	# also save some computation . . . .
+	$N{$key} = $val/$N_tot{$t[0]};    }
+@sortedtags =  sort {$taglist{$b} <=> $taglist{$a}} keys(%taglist);
+############################################################
+
+# apply old rules
+
+open(RLS,$ARGV[5]);
+while(<RLS>) {
+ $_ =~ s/\s+[0-9\.]+$//;
+@therule = split(/\s+/,$_);
+$bestscratch = $_;
+$bestscratch =~ s/^[^\s]+\s//;
+@therule2 = split(/\s+/,$bestscratch);
+print "RULE IS: $_\n";
+if ($therule[1] eq "char") {
+  $therule[0] =~ s/(\W)/\\$1/g;
+  while (($key,$val) = each %tag) {
+      if ($val ne $therule[$#therule]) {
+	if ($key =~ /$therule[0]/) {
+		$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "fchar") {
+  $therule2[0] =~ s/(\W)/\\$1/g;
+  while (($key,$val) = each %tag) {
+    if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+	if ($key =~ /$therule2[0]/) {
+		$tag{$key} = $therule2[$#therule2]; }}}}
+
+	
+elsif ($therule[1] eq "deletepref") {
+ while (($key,$val) = each %tag) {
+  if ($val ne $therule[$#therule]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule[2]) {
+     $tmp = join("",@charsplit[0 .. $therule[2]-1]);
+     $tmp2 = join("",@charsplit[$therule[2]..$#charsplit]);
+     if (($therule[0] eq $tmp) &&
+	$K{$tmp2}){ 
+		$tag{$key} = $therule[$#therule]; }}}}}
+
+elsif ($therule2[1] eq "fdeletepref") {
+ while (($key,$val) = each %tag) {
+  if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule2[2]) {
+     $tmp = join("",@charsplit[0 .. $therule2[2]-1]);
+     $tmp2 = join("",@charsplit[$therule2[2]..$#charsplit]);
+     if (($therule2[0] eq $tmp) &&
+	$K{$tmp2}){ 
+		$tag{$key} = $therule2[$#therule2]; }}}}}
+
+elsif ($therule[1] eq "haspref") {
+ while (($key,$val) = each %tag) {
+  if ($val ne $therule[$#therule]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule[2]) {
+     $tmp = join("",@charsplit[0 .. $therule[2]-1]);
+     if ($therule[0] eq $tmp){ 
+		$tag{$key} = $therule[$#therule]; }}}}}
+
+elsif ($therule2[1] eq "fhaspref") {
+ while (($key,$val) = each %tag) {
+  if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule2[2]) {
+     $tmp = join("",@charsplit[0 .. $therule2[2]-1]);
+     if ($therule2[0] eq $tmp){ 
+		$tag{$key} = $therule2[$#therule2]; }}}}}
+
+
+
+elsif ($therule[1] eq "deletesuf") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+	  @charsplit = split(//,$key);
+	  if ($#charsplit > $therule[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule[2]+1 .. $#charsplit]);
+	$tmp2 = join("",@charsplit[0..$#charsplit-$therule[2]]);
+	if (($therule[0] eq $tmp) &&
+			   $K{$tmp2}){ 
+				$tag{$key} = $therule[$#therule]; }}}}}
+
+elsif ($therule2[1] eq "fdeletesuf") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+	  @charsplit = split(//,$key);
+	  if ($#charsplit > $therule2[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule2[2]+1 .. $#charsplit]);
+	$tmp2 = join("",@charsplit[0..$#charsplit-$therule2[2]]);
+	if (($therule2[0] eq $tmp) &&
+			   $K{$tmp2}){ 
+				$tag{$key} = $therule2[$#therule2]; }}}}}
+
+
+elsif ($therule[1] eq "hassuf") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+	  @charsplit = split(//,$key);
+	  if ($#charsplit > $therule[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule[2]+1 .. $#charsplit]);
+	if ($therule[0] eq $tmp){
+				$tag{$key} = $therule[$#therule]; }}}}}
+
+
+elsif ($therule2[1] eq "fhassuf") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+	  @charsplit = split(//,$key); #doing
+	  if ($#charsplit > $therule2[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule2[2]+1 .. $#charsplit]);
+	if ($therule2[0] eq $tmp){
+				$tag{$key} = $therule2[$#therule2]; }}}}}
+
+elsif ($therule[1] eq "addpref") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($K{$therule[0] . $key}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "faddpref") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($K{$therule2[0] . $key}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+
+
+elsif ($therule[1] eq "addsuf") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($K{$key . $therule[0]}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "faddsuf") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($K{$key . $therule2[0]}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+
+elsif ($therule[1] eq "goodleft") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($bigram{$key . " " . $therule[0]}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "fgoodleft") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($bigram{$key . " " . $therule2[0]}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+elsif ($therule[1] eq "goodright") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($bigram{$therule[0] . " " . $key}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+elsif ($therule2[1] eq "fgoodright") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($bigram{$therule2[0] . " " . $key}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+$ans = 0;
+while(($key,$val) = each %N) { # initial score 
+	@t = split(/\s+/,$key);
+	$ans += $N{$t[0] . " " . $tag{$t[0]}};}
+print "================================\n";
+print "SCORE: $ans out of $smalltot\n"; 
+
+}
+
+
+
+##########################################################
+
+
+$ans = 0;
+$lastbest = 1000000000;
+$changes=$THRESHOLD;
+while($changes>=$THRESHOLD) {  # can be set to any desired threshold
+$ans = 0;
+while(($key,$val) = each %N) { # initial score 
+	@t = split(/\s+/,$key);
+	$ans += $N{$t[0] . " " . $tag{$t[0]}};}
+print "================================\n";
+print "SCORE: $ans out of $smalltot\n"; 
+print "================================\n";
+$bestscore = 0;
+$bestguy = "";
+for ($tcount=0;$tcount<=$#sortedtags;++$tcount) {
+print "TALLYING FOR A TAG\n";
+  $tagkey = $sortedtags[$tcount];
+  $tagval = $taglist{$tagkey};
+  print "$tagkey\n";
+  if ($tagval > $bestscore) {
+###########################
+undef %deleteonesuf;undef %deleteonepref;undef %deletetwosuf;undef %deletetwopref;
+undef %deletethreesuf;undef %deletethreepref;undef %deletefourpref;undef %deletefoursuf;
+undef %hasonesuf;undef %hasonepref;undef %hastwosuf;undef %hastwopref;
+undef %hasthreesuf;undef %hasthreepref;undef %hasfourpref;undef %hasfoursuf;
+undef %addonesuf;undef %addonepref;undef %addtwosuf;undef %addtwopref;
+undef %addthreesuf;undef %addthreepref;undef %addfourpref;undef %addfoursuf;
+undef %goodonleftrule;undef %goodonrightrule;undef %char;
+#######################
+undef %fdeleteonesuf;undef %fdeleteonepref;undef %fdeletetwosuf;undef %fdeletetwopref;
+undef %fdeletethreesuf;undef %fdeletethreepref;undef %fdeletefourpref;undef %fdeletefoursuf;
+undef %fhasonesuf;undef %fhasonepref;undef %fhastwosuf;undef %fhastwopref;
+undef %fhasthreesuf;undef %fhasthreepref;undef %fhasfourpref;undef %fhasfoursuf;
+undef %faddonesuf;undef %faddonepref;undef %faddtwosuf;undef %faddtwopref;
+undef %faddthreesuf;undef %faddthreepref;undef %faddfourpref;undef %faddfoursuf;
+undef %fgoodonleftrule;undef %fgoodonrightrule;undef %fchar;
+########################
+
+     while(($wordkey,$wordval) = each %N_tot) {
+	$currenttag = $tag{$wordkey};
+	if ($currenttag ne $tagkey) { 
+           # word not already tagged with this tag
+	   # if removing last letter x results in word, change tag to $tagkey
+	   # ## later, consider changing from x to y, not just to y.
+           @letters = split(//,$wordkey);
+	   ###############################################################
+           ###############  delete letters ##############################
+    	   undef %seenletters;
+	   $tempscore = $N{join(" ",$wordkey,$tagkey)} - 
+ 			  $N{join(" ",$wordkey, $currenttag)};
+	   for ($l=0;$l<=$#letters;++$l) {
+		if (! $seenletters{$letters[$l]}) {
+			$seenletters{$letters[$l]}++;
+			$fchar{join(" ",$currenttag,$letters[$l])} += $tempscore;
+			$char{$letters[$l]} += $tempscore;}}
+###
+	   if ($#letters > 1) {
+	    if ($K{join("",@letters[0..$#letters-1])}) {
+		$fdeleteonesuf{join(" ",$currenttag,$letters[$#letters])} +=  $tempscore;
+		$deleteonesuf{$letters[$#letters]} +=  $tempscore;}
+
+	    $hasonesuf{$letters[$#letters]} +=  $tempscore;
+	    $fhasonesuf{join(" ",$currenttag,$letters[$#letters])} +=  $tempscore;
+	    if ($K{join("",@letters[1..$#letters])}) {
+		$fdeleteonepref{join(" ",$currenttag,$letters[0])} +=  $tempscore; 
+		$deleteonepref{$letters[0]} +=  $tempscore; }
+
+	   $fhasonepref{join(" ",$currenttag,$letters[0])} +=  $tempscore; 
+	   $hasonepref{$letters[0]} +=  $tempscore; }
+
+	   if ($#letters > 2) {
+
+	      $scratch = join("",$letters[$#letters-1],$letters[$#letters]);
+	      if ($K{join("",@letters[0..$#letters-2])}) {
+		$fdeletetwosuf{join(" ",$currenttag,$scratch)} += $tempscore;
+		$deletetwosuf{$scratch} += $tempscore; }
+	      $hastwosuf{$scratch} += $tempscore;
+	      $fhastwosuf{join(" ",$currenttag,$scratch)} += $tempscore;
+ 	      
+	      $scratch = join("",$letters[0],$letters[1]);
+	      if ($K{join("",@letters[2..$#letters])}) {
+		$fdeletetwopref{join(" ",$currenttag,$scratch)} += $tempscore;
+ 
+		$deletetwopref{$scratch} += $tempscore; }
+    	      $fhastwopref{join(" ",$currenttag,$scratch)} +=$tempscore; 
+    	      $hastwopref{$scratch} += 	$tempscore; }
+
+	   if ($#letters > 3) {
+
+	      $scratch = join("",
+		  $letters[$#letters-2],$letters[$#letters-1], $letters[$#letters]);
+	      if ($K{join("",@letters[0..$#letters-3])}) {
+		$fdeletethreesuf{join(" ",$currenttag,$scratch)} += $tempscore;
+		$deletethreesuf{$scratch} += $tempscore; }
+		$fhasthreesuf{join(" ",$currenttag,$scratch)} += $tempscore;
+		$hasthreesuf{$scratch} += $tempscore;
+
+	     $scratch = join("",$letters[0], $letters[1],$letters[2]);
+	      if ($K{join("",@letters[3..$#letters])}) {
+		$fdeletethreepref{join(" ",$currenttag,$scratch)} +=$tempscore;
+		$deletethreepref{$scratch} += $tempscore;}
+		$fhasthreepref{join(" ",$currenttag,$scratch)} += $tempscore;
+		$hasthreepref{$scratch} +=$tempscore;}
+
+	   if ($#letters > 4) {
+	      $scratch = join("",$letters[$#letters-3],$letters[$#letters-2],
+			  $letters[$#letters-1],$letters[$#letters]);
+	      if ($K{join("",@letters[0..$#letters-4])}) {
+		$fdeletefoursuf{join(" ",$currenttag,$scratch)} += $tempscore;
+		$deletefoursuf{$scratch} +=	$tempscore;}
+  	     $fhasfoursuf{join(" ",$currenttag,$scratch)} += $tempscore;
+	      $hasfoursuf{$scratch}+=$tempscore;
+
+	      $scratch = join("",$letters[0],$letters[1],$letters[2],$letters[3]);
+	      if ($K{join("",@letters[4..$#letters])}) {
+		$fdeletefourpref{join(" ",$currenttag,$scratch)} +=
+			$tempscore;
+		$deletefourpref{$scratch} += $tempscore;}
+		$fhasfourpref{join(" ",$currenttag,$scratch)} += $tempscore;
+		$hasfourpref{$scratch} += $tempscore;}
+
+##################  here for f---- functions #############################
+###########################################
+#######################  Add Letters ################################
+
+&ssubforadd(*onesuf,*addonesuf,*faddonesuf);
+&psubforadd(*onepref,*addonepref,*faddonepref);
+&ssubforadd(*twosuf,*addtwosuf,*faddtwosuf);
+&psubforadd(*twopref,*addtwopref,*faddtwopref);
+&ssubforadd(*threesuf,*addthreesuf,*faddthreesuf);
+&psubforadd(*threepref,*addthreepref,*faddthreepref);
+&ssubforadd(*foursuf,*addfoursuf,*faddfoursuf);
+&psubforadd(*fourpref,*addfourpref,*faddfourpref);
+
+
+###################################################################
+###################   Check Bigrams ###############################
+
+
+  if ($tmpbig = $goodonright{$wordkey}) {
+	@tmpbig = split(/\s+/,$tmpbig);
+	for ($bigcount=0;$bigcount<=$#tmpbig;++$bigcount) {
+	   $fgoodonrightrule{join(" ",$currenttag,$tmpbig[$bigcount])} +=  $tempscore;
+		   $goodonrightrule{$tmpbig[$bigcount]} +=  $tempscore;}}
+
+  if ($tmpbig = $goodonleft{$wordkey}) {
+	@tmpbig = split(/\s+/,$tmpbig);
+	for ($bigcount=0;$bigcount<=$#tmpbig;++$bigcount) {
+	   $fgoodonleftrule{join(" ",$currenttag,$tmpbig[$bigcount])} += $tempscore;
+	   $goodonleftrule{$tmpbig[$bigcount]} += $tempscore;}}
+
+
+                
+}}
+
+print "FINDING BEST\n";
+
+
+&findbest(*char,"char");
+&findbest(*fchar,"fchar");
+&findbest(*deleteonesuf,"deletesuf 1");
+&findbest(*fdeleteonesuf,"fdeletesuf 1");
+&findbest(*deleteonepref,"deletepref 1");
+&findbest(*fdeleteonepref,"fdeletepref 1");
+&findbest(*hasonesuf,"hassuf 1");
+&findbest(*fhasonesuf,"fhassuf 1");
+&findbest(*hasonepref,"haspref 1");
+&findbest(*fhasonepref,"fhaspref 1");
+&findbest(*deletetwosuf,"deletesuf 2");
+&findbest(*fdeletetwosuf,"fdeletesuf 2");
+&findbest(*deletetwopref,"deletepref 2");
+&findbest(*fdeletetwopref,"fdeletepref 2");
+&findbest(*hastwosuf,"hassuf 2");
+&findbest(*fhastwosuf,"fhassuf 2");
+&findbest(*hastwopref,"haspref 2");
+&findbest(*fhastwopref,"fhaspref 2");
+&findbest(*deletethreesuf,"deletesuf 3");
+&findbest(*fdeletethreesuf,"fdeletesuf 3");
+&findbest(*deletethreepref,"deletepref 3");
+&findbest(*fdeletethreepref,"fdeletepref 3");
+&findbest(*hasthreesuf,"hassuf 3");
+&findbest(*fhasthreesuf,"fhassuf 3");
+&findbest(*hasthreepref,"haspref 3");
+&findbest(*fhasthreepref,"fhaspref 3");
+&findbest(*deletefoursuf,"deletesuf 4");
+&findbest(*fdeletefoursuf,"fdeletesuf 4");
+&findbest(*deletefourpref,"deletepref 4");
+&findbest(*fdeletefourpref,"fdeletepref 4");
+&findbest(*hasfoursuf,"hassuf 4");
+&findbest(*fhasfoursuf,"fhassuf 4");
+&findbest(*hasfourpref,"haspref 4");
+&findbest(*fhasfourpref,"fhaspref 4");
+&findbest(*addonesuf,"addsuf 1");
+&findbest(*faddonesuf,"faddsuf 1");
+&findbest(*addonepref,"addpref 1");
+&findbest(*faddonepref,"faddpref 1");
+&findbest(*addtwosuf,"addsuf 2");
+&findbest(*faddtwosuf,"faddsuf 2");
+&findbest(*addtwopref,"addpref 2");
+&findbest(*faddtwopref,"faddpref 2");
+&findbest(*addthreesuf,"addsuf 3");
+&findbest(*faddthreesuf,"faddsuf 3");
+&findbest(*addthreepref,"addpref 3");
+&findbest(*faddthreepref,"faddpref 3");
+&findbest(*addfoursuf,"addsuf 4");
+&findbest(*faddfoursuf,"faddsuf 4");
+&findbest(*addfourpref,"addpref 4");
+&findbest(*faddfourpref,"faddpref 4");
+&findbest(*goodonleftrule,"goodleft");
+&findbest(*fgoodonleftrule,"fgoodleft");
+&findbest(*goodonrightrule,"goodright");
+&findbest(*fgoodonrightrule,"fgoodright");
+
+print "BEST FOUND\n";
+}
+print "$bestguy $bestscore\n";
+if ($bestscore >= $lastbest) {
+	$tcount = $#sortedtags +1;}
+}
+
+$lastbest = $bestscore;
+
+$changes = $bestscore;
+open(RULES,">>$ARGV[4]");
+print RULES "$bestguy $bestscore\n";
+close(RULES);
+#######################################################################
+# must now apply the rule
+ 
+@therule = split(/\s+/,$bestguy);
+$bestscratch = $bestguy;
+$bestscratch =~ s/^[^\s]+\s//;
+@therule2 = split(/\s+/,$bestscratch);
+
+if ($therule[1] eq "char") {
+  $therule[0] =~ s/(\W)/\\$1/g;
+  while (($key,$val) = each %tag) {
+      if ($val ne $therule[$#therule]) {
+	if ($key =~ /$therule[0]/) {
+		$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "fchar") {
+  $therule2[0] =~ s/(\W)/\\$1/g;
+  while (($key,$val) = each %tag) {
+    if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+	if ($key =~ /$therule2[0]/) {
+		$tag{$key} = $therule2[$#therule2]; }}}}
+
+	
+elsif ($therule[1] eq "deletepref") {
+ while (($key,$val) = each %tag) {
+  if ($val ne $therule[$#therule]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule[2]) {
+     $tmp = join("",@charsplit[0 .. $therule[2]-1]);
+     $tmp2 = join("",@charsplit[$therule[2]..$#charsplit]);
+     if (($therule[0] eq $tmp) &&
+	$K{$tmp2}){ 
+		$tag{$key} = $therule[$#therule]; }}}}}
+
+elsif ($therule2[1] eq "fdeletepref") {
+ while (($key,$val) = each %tag) {
+  if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule2[2]) {
+     $tmp = join("",@charsplit[0 .. $therule2[2]-1]);
+     $tmp2 = join("",@charsplit[$therule2[2]..$#charsplit]);
+     if (($therule2[0] eq $tmp) &&
+	$K{$tmp2}){ 
+		$tag{$key} = $therule2[$#therule2]; }}}}}
+
+elsif ($therule[1] eq "haspref") {
+ while (($key,$val) = each %tag) {
+  if ($val ne $therule[$#therule]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule[2]) {
+     $tmp = join("",@charsplit[0 .. $therule[2]-1]);
+     if ($therule[0] eq $tmp){ 
+		$tag{$key} = $therule[$#therule]; }}}}}
+
+elsif ($therule2[1] eq "fhaspref") {
+ while (($key,$val) = each %tag) {
+  if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+   @charsplit = split(//,$key);
+    if ($#charsplit > $therule2[2]) {
+     $tmp = join("",@charsplit[0 .. $therule2[2]-1]);
+     if ($therule2[0] eq $tmp){ 
+		$tag{$key} = $therule2[$#therule2]; }}}}}
+
+
+
+elsif ($therule[1] eq "deletesuf") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+	  @charsplit = split(//,$key);
+	  if ($#charsplit > $therule[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule[2]+1 .. $#charsplit]);
+	$tmp2 = join("",@charsplit[0..$#charsplit-$therule[2]]);
+	if (($therule[0] eq $tmp) &&
+			   $K{$tmp2}){ 
+				$tag{$key} = $therule[$#therule]; }}}}}
+
+elsif ($therule2[1] eq "fdeletesuf") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+	  @charsplit = split(//,$key);
+	  if ($#charsplit > $therule2[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule2[2]+1 .. $#charsplit]);
+	$tmp2 = join("",@charsplit[0..$#charsplit-$therule2[2]]);
+	if (($therule2[0] eq $tmp) &&
+			   $K{$tmp2}){ 
+				$tag{$key} = $therule2[$#therule2]; }}}}}
+
+
+elsif ($therule[1] eq "hassuf") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+	  @charsplit = split(//,$key);
+	  if ($#charsplit > $therule[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule[2]+1 .. $#charsplit]);
+	if ($therule[0] eq $tmp){
+				$tag{$key} = $therule[$#therule]; }}}}}
+
+
+elsif ($therule2[1] eq "fhassuf") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+	  @charsplit = split(//,$key); #doing
+	  if ($#charsplit > $therule2[2]) {
+	$tmp = join("",@charsplit[$#charsplit-$therule2[2]+1 .. $#charsplit]);
+	if ($therule2[0] eq $tmp){
+				$tag{$key} = $therule2[$#therule2]; }}}}}
+
+elsif ($therule[1] eq "addpref") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($K{$therule[0] . $key}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "faddpref") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($K{$therule2[0] . $key}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+
+
+elsif ($therule[1] eq "addsuf") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($K{$key . $therule[0]}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "faddsuf") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($K{$key . $therule2[0]}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+
+elsif ($therule[1] eq "goodleft") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($bigram{$key . " " . $therule[0]}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+
+elsif ($therule2[1] eq "fgoodleft") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($bigram{$key . " " . $therule2[0]}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+elsif ($therule[1] eq "goodright") {
+  while (($key,$val) = each %tag) {
+	if ($val ne $therule[$#therule]) {
+		if ($bigram{$therule[0] . " " . $key}) {
+			$tag{$key} = $therule[$#therule]; }}}}
+elsif ($therule2[1] eq "fgoodright") {
+  while (($key,$val) = each %tag) {
+	if ($val eq $therule[0] && $val ne $therule2[$#therule2]) {
+		if ($bigram{$therule2[0] . " " . $key}) {
+			$tag{$key} = $therule2[$#therule2]; }}}}
+
+}

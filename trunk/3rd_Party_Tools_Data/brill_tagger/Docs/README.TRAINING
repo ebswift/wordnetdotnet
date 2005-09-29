@@ -1,0 +1,339 @@
+======================================================================
+Copyright (c) 1993 Massachusetts Institute of Technology and The
+University of Pennsylvania.  All rights reserved.
+Written by Eric Brill (brill@goldilocks.lcs.mit.edu)
+(After July 1 1994, my email address will be brill@blaze.cs.jhu.edu)
+Feel free to contact me with any questions, comments, . . .
+========================================================================
+THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+========================================================================
+
+The rule-based part of speech tagger works by first assigning each
+word its most likely tag, and then changing word taggings based on
+contextual cues.  There are two stages in training: 
+
+(1) Rules are learned to predict the most likely tag for unknown
+words.  (Example: if a word ends in "ed", it is probably a past tense
+verb).  These rules operate on word types.  If the outcome of applying
+these rules is that a word should be tagged with a particular tag,
+this holds for all occurrences of the word in the corpus.  
+
+(2) Rules are learned to use contextual cues to improve tagging accuracy.
+(Example: change the tag of a word from verb to noun if the previous
+word is tagged as a determiner).  These rules operate on individual
+word tokens.
+
+=================================================================
+IMPORTANT: The tagger does no tokenization.  In all text files used
+for training (both tagged and untagged text), the text should be
+pretokenized, and should be in one sentence per line.  Tokenization
+includes removing punctuation from words, so:
+
+    John (I think) said: "Who are you?"  He then gave me $10.
+
+would become:
+
+John ( I think ) said : " Who are you ? "
+He then gave me $ 10 .
+
+Tagged text is of the form: word/tag.  Below is a sample tagged
+sentence from the Penn Treebank Brown Corpus:
+
+This/DT is/VBZ not/RB a/DT program/NN of/IN socialized/VBN medicine/NN ./. 
+
+==================================================================
+
+For the discussion below, we assume there already exists a large
+manually tagged corpus from which to train.  If instead you are
+starting from scratch (which is more likely the case), you can
+iteratively build the tagger as follows: first manually tag a small
+amount of your text corpus.  Then train the tagger as described below.
+Then use the trained tagger to tag more text.  Then manually correct
+the output of the tagger (which should be considerably faster than
+manually tagging from scratch).  Then retrain the tagger on all of the
+available manually tagged text.  And so on, until either the tagger
+appears to be sufficiently accurate, or you run out of patience.
+
+Given a manually tagged corpus, randomly split it, sentence by
+sentence, into two corpora of equal size.  (This can be done using the
+program Utilities/divide-in-two-rand.prl, provided with this release).
+The first of these tagged corpora will be used for learning rules to
+predict the most likely tag for unknown words, and the second will be
+used for learning contextual rules.  
+
+There is a trade-off between accuracy and training time.  The larger
+the training subcorpora are, the more accurate tagging will be.
+However, training on a very large corpus can take a lot of time.  On
+my Sparc-10, training the unknown word module on 250,000 words of
+manually tagged text takes about 3 days, and training the contextual
+cues module on another 500,000 word corpus takes about 1 day (with
+high thresholds: see below).  Training on smaller corpora is much much
+faster.  If training time matters, you might want to examine more
+efficient implementations or consider parallelizing the programs.  Or,
+set the threshold for rule learning to a higher number.  Rule scores
+seem to be Zipf-like.  Changing the threshold from 2 to 3 (meaning
+that training halts when no rule can be found whose score is >= 3)
+usually results in 1/2 the number of learned rules, with only a
+marginal decrease in performance.
+
+=======================================================================
+
+LEARNING RULES TO PREDICT THE MOST LIKELY TAG FOR UNKNOWN WORDS:
+
+This learning module uses the first half of the manually tagged
+corpus, as well as all available untagged text.  The untagged text
+will include the entire manually tagged text (both halves), with tags
+removed (the utility Utilities/tagged-to-untagged.prl can be used for
+this purpose), as well as any additional text that is available (of
+the same type).  In the remainder of this section, we will refer to
+the first half of the manually tagged corpus as TAGGED-CORPUS, and the
+collection of all untagged text as UNTAGGED-CORPUS.
+
+
+Before learning can proceed, a number of files must be created.  
+
+(1) BIGWORDLIST is a list of all words occurring in UNTAGGED-CORPUS,
+sorted by decreasing frequency.  To create this list, give the
+command:
+
+cat UNTAGGED-CORPUS | Utilities/wordlist-make.prl | sort +1 -rn | \
+ awk '{ print $1}' > BIGWORDLIST
+
+
+(2) SMALLWORDTAGLIST is a list of the form (word tag count) listing
+the number of times a word is tagged with a tag in TAGGED-CORPUS.  For
+example:
+
+, , 1150
+the DT 1005
+. . 997
+of IN 620
+to TO 517
+a DT 468
+in IN 432
+
+To create ths list, give the command:
+
+cat TAGGED-CORPUS | Utilities/word-tag-count.prl \
+	| sort +2 -rn > SMALLWORDTAGLIST 
+
+(3) BIGBIGRAMLIST is a list of all word pairs occurring in
+UNTAGGED-CORPUS.  For example:
+
+large portion
+software inventories
+'s surprise
+
+To create this file, give the command:
+
+cat UNTAGGED-CORPUS | Utilities/bigram-generate.prl | \
+	awk '{ print $1,$2}' > BIGBIGRAMLIST
+
+If space is a problem, you can throw out bigrams that occur only once
+or twice by substituting the awk command with:
+
+	awk '{ if ($3>2) print $1,$2}'
+
+
+At this point, you are ready to run the rule learner.  Unfortunately,
+the current version of this program is in Perl, and is very slow.
+(All other programs are in C).  To run the program, give the command
+(this learning program is located in the Learner_Code directory):
+
+unknown-lexical-learn.prl BIGWORDLIST SMALLWORDTAGLIST BIGBIGRAMLIST \
+	 300 LEXRULEOUTFILE
+
+where BIGWORDLIST, SMALLWORDTAGLIST and BIGBIGRAMLIST are the files
+created above, LEXRULEOUTFILE is the name of the file the learned rules
+will be written to.  The number 300 is used for efficiency, telling
+the learner to only use bigram contexts where one of the two words is
+among the 300 most frequent words.  There is a trade-off of space/time
+for training versus accuracy.  If you really care, you can experiment
+with different numbers, increasing the number for potentially higher
+accuracy, and decreasing it if the learner is too slow or is eating up
+too much memory.  
+
+The program can be run to completion or killed when "enough" rules are
+learned.  The program terminates when the score of the best found rule
+drops below a threshold.  This threshold can be altered in the source
+code.  Look in unknown-lexical-learn.prl for the line:
+
+$THRESHOLD = 3;
+
+This table is a guesstimate of appropriate thresholds for different
+sizes of manually tagged training corpora.  Use a lower number if you
+are willing to let the program run longer for better performance and
+higher if you want to sacrifice performance for quicker training.
+
+		SIZE(words)              THRESHOLD
+	        <50K 			     3
+		50K-100K		     4
+		100K-200K                    5
+	        200K-400K		     6
+		>400K                        8
+
+
+After training, a list of rules will have been learned, which can be
+used to predict the most likely tag for unknown words.  The real
+numbers output in the last field of each rule are the scores of the
+rules.  They only serve as place-holders in tagging, and can be
+replaced with any character string (no numbers are actually used in
+tagging).  To give you an idea of the meanings of the rules, here are
+some example rules with glosses:
+
+NN s fhassuf 1 NNS 3022.2549507603848724
+  Change the tag from NN to NNS if the word has the suffix "s".
+ed hassuf 2 VBN 1203.5435442040788985
+  Change the tag to VBN if the suffix is "ed" (regardless of current tag)
+  (note the difference between fhassuf and hassuf)
+ly addsuf 2 JJ 578.41553589321256368
+  Change the tag to JJ if adding the suffix "ly" results in a word.
+- char JJ 425.28095238095232844
+  Change the tag to JJ if the character "-" appears in the word.
+NN to fgoodright VB 224.95212906910632
+  Change the tag from NN to VB if the word is ever seen immediately to
+	the right of the word "to".
+un deletepref 2 JJ 67.245614035087726279
+  Change the tag to JJ if deleting the prefix "un" results in a word.
+
+
+The way this works in tagging is that each unknown word is assigned a
+tag as an initial guess, and then each learned rule is applied, in
+order.  The method for assigning the initial guess is hardcoded in 
+both unknown-lexical-learn.prl and in start-state-tagger.c.  The
+algorithm currently used is:
+
+	If the word starts with a capital letter, assign the tag
+	"NNP", otherwise assign the tag "NN".
+
+If you want to change this, you must do so in two programs, 
+   (1) unknown-lexical-learn.prl 
+   (2) start-state-tagger.c 
+
+(If you are also using unknown-lexical-learn-continue.prl, the change
+must be made there as well).  Look for the comment "START STATE
+ALGORITHM" in these programs for information on how to change this.
+IMPORTANT: make sure both of these programs have the same start state
+tagging algorithm!!
+
+
+There is also a program entitled unknown-lexical-learn-continue.prl,
+This program enables you to continue training, given a partially
+completed list of learned rules.  If the rules that have been learned
+are in the file OLDLEXRULEFILE, and you want the new rules to be
+written to LEXRULEOUTFILE, then call:
+
+unknown-lexical-learn-continue.prl BIGWORDLIST SMALLWORDTAGLIST \
+	BIGBIGRAMLIST 300 LEXRULEOUTFILE OLDLEXRULEFILE
+
+When training is completed, a full set of rules can be obtained by
+concatenating LEXRULEOUTFILE to the end of OLDLEXRULEFILE.
+
+======================================================================
+
+LEARNING CONTEXTUAL CUES:
+
+The next stage of learning involves learning rules to improve accuracy
+based on contextual cues, after tagging all words with their most
+likely tag.  Before learning, a couple of extra files must be created.
+In the descriptions below, TAGGED-CORPUS refers to the same tagged
+corpus used above (the first half of the entire tagged corpus),
+TAGGED-CORPUS-2 refers to the second half (as yet unused), and
+TAGGED-CORPUS-ENTIRE refers to the entire manually tagged corpus.
+
+First, we must create a file TRAINING.LEXICON.  A lexicon for the
+tagger contains lines of the form:
+
+WORD  TAG1 TAG2 . . . TAGN
+
+where tag1 is the most likely tag for WORD in the training corpus, and
+tag2 through tagn are other possible tags (in no particular order).
+
+Give the command (make-restricted-lexicon.prl is in the Utilities/
+directory):
+
+cat TAGGED-CORPUS | make-restricted-lexicon.prl > TRAINING.LEXICON 
+
+
+In case you have divided your corpus differently, the file
+TRAINING.LEXICON should be derived from all manually tagged text you
+have available, excluding the portion TAGGED-CORPUS-2 that will be
+used to train the contextual rules.
+
+Next, 
+
+cat TAGGED-CORPUS-ENTIRE | Utilities/make-restricted-lexicon.prl > \
+	FINAL.LEXICON 
+
+FINAL.LEXICON will then be the lexicon you use to tag text once all
+training is completed.
+
+After this, execute:
+
+cat TAGGED-CORPUS-2 | tagged-to-untagged.prl > UNTAGGED-CORPUS-2
+
+Then, (tagger is in the Bin_and_Data directory, and must be run from
+that directory):
+
+tagger TRAINING.LEXICON UNTAGGED-CORPUS-2 BIGBIGRAMLIST \
+   LEXRULEOUTFILE /dev/null -w BIGWORDLIST  \
+   -i DUMMY-TAGGED-CORPUS > /dev/null
+
+(Or, you can give the following command, which is equivalent:
+  tagger TRAINING.LEXICON UNTAGGED-CORPUS-2 BIGBIGRAMLIST \
+     LEXRULEOUTFILE /dev/null -w BIGWORDLIST -S > DUMMY-TAGGED-CORPUS )
+
+To learn contextual rules, execute (the executable
+contextual-rule-learn is in the Bin_and_Data directory):
+
+contextual-rule-learn TAGGED-CORPUS-2 DUMMY-TAGGED-CORPUS \
+	CONTEXT-RULEFILE TRAINING.LEXICON
+
+where CONTEXT-RULEFILE is the file rules will be written to.
+
+Helpful hint:  If something goes wrong, and the program terminates
+before completing the training, you do not have to restart.  You can
+simply make a new DUMMY-TAGGED-CORPUS using the tagger and the set of
+already learned rules, and then continue training from there.
+
+This table is a guesstimate of appropriate thresholds for different
+size manually tagged training corpora.  Use a lower number if you
+are willing to let the program run longer for better performance and
+higher if you want to sacrifice performance for quicker training.
+
+		SIZE(words)              THRESHOLD
+	        <50K 			     2
+		50K-100K		     3
+		100K-200K                    5
+	        200K-400K		     8
+		>400K                        15
+
+=================================================================
+
+For a more thorough description of the learning programs, see:
+
+\bibitem[Bri92] E.~Brill.
+\newblock A simple rule-based part of speech tagger.
+\newblock In {\em Proceedings of the Third Conference on Applied Natural
+  Language Processing, ACL}, Trento, Italy, 1992.
+
+\bibitem[Bri93] E.~Brill.
+\newblock {\em A Corpus-Based Approach to Language Learning}.
+\newblock PhD thesis, Department of Computer and Information Science,
+  University of Pennsylvania, 1993.
+
+\bibitem[Bri94] E.~Brill.
+\newblock Some advances in rule-based part of speech tagging
+\newblock  Proceedings of the Twelfth National Conference on
+   Artificial Intelligence (AAAI-94), Seattle, Wa., 1994.
+
+(these papers are available from anonymous ftp to
+lightning.lcs.mit.edu in pub/BRILL/Papers.  The last paper is included
+with this distribution, in the Docs/ directory.  After July 1, 1994,
+contact me at brill@blaze.cs.jhu.edu for information about how to
+obtain these papers).

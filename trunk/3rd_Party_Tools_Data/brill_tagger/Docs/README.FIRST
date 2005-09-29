@@ -1,0 +1,86 @@
+/*  Copyright @ 1993 MIT and the University of Pennsylvania*/
+ Written by Eric Brill 
+ brill@goldilocks.lcs.mit.edu
+ (After July 1 1994, my email address will be brill@blaze.cs.jhu.edu)
+ Feel free to contact me with any questions, comments, . . .
+===============================================================
+THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+===============================================================
+You MUST read the copyright file included with the tagger (COPYRIGHT)
+before doing anything else. 
+===============================================================
+
+To compile the programs, type (in the tagger base directory):
+
+make
+
+or first edit the Makefile to suit your needs.
+
+==============================================================
+
+Please read the other readme files and the copyright file.
+
+Please send questions, comments,suggestions and bug reports to
+brill@goldilocks.lcs.mit.edu (after July 1 1994, my email address will
+be brill@blaze.cs.jhu.edu).
+
+===============================================================
+
+About the README files (all of which can be found in the Docs/
+directory):
+
+If you don't care how it works, and just want to use it as-is, read:
+	README.QUICK
+
+If you want to know more details about how it works, how to modify the
+code, how to add rules, how to do incorporate extra information, etc,
+read:
+	README.LONG
+
+If you may want to train up another set of rules, read:
+	README.TRAINING
+
+If you want to find out more about the n-best tagger, read:
+	README.NBEST
+
+For a recent paper on the tagger, see:
+	aaai94-tagger.ps
+
+================================================================
+
+IMPORTANT:  If you have retrieved this program via anonymous ftp,
+please send me mail letting me know that you are using the tagger so I
+can keep you up to date on bug fixes, new versions, etc.
+
+===============================================================
+
+For a detailed description of the tagger (beyond what is contained in
+the README files), see:
+
+\bibitem[Bri92] E.~Brill.
+\newblock A simple rule-based part of speech tagger.
+\newblock In {\em Proceedings of the Third Conference on Applied Natural
+  Language Processing, ACL}, Trento, Italy, 1992.
+
+\bibitem[Bri93] E.~Brill.
+\newblock {\em A Corpus-Based Approach to Language Learning}.
+\newblock PhD thesis, Department of Computer and Information Science,
+  University of Pennsylvania, 1993.
+
+\bibitem[Bri94] E.~Brill.
+\newblock Some advances in rule-based part of speech tagging
+\newblock  Proceedings of the Twelfth National Conference on
+   Artificial Intelligence (AAAI-94), Seattle, Wa., 1994.
+
+(these papers are available from anonymous ftp to
+lightning.lcs.mit.edu in pub/BRILL/Papers.  The last paper is included
+with this distribution, in the Docs/ directory.  After July 1, 1994,
+contact me at brill@blaze.cs.jhu.edu for information about how to
+obtain these papers).
+
+=======================================================================

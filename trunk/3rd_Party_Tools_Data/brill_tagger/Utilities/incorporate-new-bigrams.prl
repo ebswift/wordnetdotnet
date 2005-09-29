@@ -1,0 +1,46 @@
+#!/usr/local/bin/perl
+
+#  Copyright @ 1993 MIT and University of Pennsylvania
+#  Written by Eric Brill 
+
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+# Add new bigrams from corpus being tagged
+
+open(XX,$ARGV[0]); # lexical rule file
+while(<XX>){
+	if (/good/) {
+	@temp = split;
+	for ($count=0;$count<=$#temp;++$count) {
+		$seen{$temp[$count]}++; }}}
+open(YY,$ARGV[1]); # current bigram list
+while(<YY>) {
+	chop;
+	@temp = split;
+	if ($seen{$temp[0]} || $seen{$temp[1]}) {
+		$store{$_}++;}}
+
+open(ZZ,$ARGV[2]); # new corpus to be tagged
+while (<ZZ>) {
+  s/^\s+//;
+  if (! /^$/) {			
+      @words = split(/\s+/, $_); 
+      if ($seen{$words[0]} && $words[0] !~ /[0-9]/ ) 
+	{ ++$store{"S-T-A-R-T " . $words[0]};}
+      for ($count=1;  $count <= $#words ; ++$count) {
+	  if (($seen{$words[$count-1]} || $seen{$words[$count]}) &&
+	     $words[$count-1 ] !~ /[0-9]/ && 
+	     $words[$count] !~ /[0-9]/) {
+	      ++$store{$words[$count-1] . " " . $words[$count]}; }
+      }
+  }
+}
+
+while(($key,$val) = each %store) {
+    print "$key\n"; }
+

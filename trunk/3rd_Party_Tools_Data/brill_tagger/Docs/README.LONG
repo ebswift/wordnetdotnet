@@ -1,0 +1,302 @@
+===============================================================================
+Copyright (c) 1993 Massachusetts Institute of Technology and
+University of Pennsylvania.  All rights reserved.
+This program was written by Eric Brill (brill@goldilocks.lcs.mit.edu)
+Feel free to contact me with any questions, comments, . . .
+(After July 1 1994, my email address will be brill@blaze.cs.jhu.edu)
+===============================================================================
+THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+=============================================================================
+Please Read The COPYRIGHT file included with the tagger.
+=============================================================================
+
+This README file contains a brief description of the tagger,
+and information on how to modify the tagger to suit your needs.
+For more detailed information on the tagger, see the papers listed at
+the end of this file.  
+
+===================================================================
+
+Tagging is done in two stages.  Every word is assigned its most likely
+tag in isolation.  Each word in the tagged training corpus has a
+lexical entry consisting of a partially ordered list of tags,
+indicating the most likely tag for that word, as well as all other
+tags seen with that word (in no particular order).  A list of
+transformations is provided for determining the most likely tag for
+words not in the lexicon.  Unknown words are first assumed to be nouns
+(proper nouns if capitalized), and then cues based upon prefixes,
+suffixes, infixes, and adjacent word cooccurrence are used to change
+the guess of most likely tag.  (To find out how to alter the strategy
+of tagging unknown words first as proper nouns if capitalized and
+nouns otherwise, see the file README.TRAINING.)  Next, contextual
+transformations are used to improve accuracy.
+
+===================================================================
+
+To compile the programs, type (in the tagger base directory):
+
+ make
+
+or first edit the Makefile to suit your needs.
+
+==================================================================
+
+(If you have altered the file structure of the tagger after untarring
+the programs, then you will have to adjust the instructions
+accordingly). 
+
+First cd into the directory Bin_and_Data/.
+
+To execute the program, type:
+
+tagger LEXICON YOUR-CORPUS BIGRAMS LEXICALRULEFULE CONTEXTUALRULEFILE
+
+where YOUR-CORPUS is the file name of the (currently untagged) corpus
+you wish to have tagged, and the other files are all provided with the
+tagger.
+
+Options (which are typed after all of the file names) are:
+
+-h             :: help
+
+-w wordlist    :: provide an extra set of words beyond those in LEXICON.
+	          See below.
+
+-i filename    :: writes intermediate results from start state tagger
+		  into filename
+
+-s number      :: processes the corpus to be tagged "number" lines at
+		  a time.  This should be specified if memory problems
+	          result from trying to process too large a corpus at
+		  once.  For example, on a Sparc 10 with 32 meg RAM,
+	          I usually process 250,000 words at a time.  On a
+	          machine with 48 meg, I typically do 500,000 words.
+	          (note that "number" is the number of lines, not
+		  words).   These numbers are just guidelines.  You
+	 	  can test out what works best for you if you plan to
+		  tag large corpora.
+
+-S 	       :: use start state tagger only.
+
+-F             :: use final state tagger only.  In this case,
+	         YOUR-CORPUS is a tagged corpus, whose taggings will
+	         be changed according to the final-state-tagger
+	         contextual rules.  YOUR-CORPUS should be a tagged
+	         corpus ONLY when using this option.
+	
+The tagger writes to standard output.
+
+=======================================================================
+
+Information on training files:
+
+LEXICON: a list of (word tag1 tag2 ... tagn), where tag1 is the most
+likely tag for "word" in the training corpus, and tag2...tagn are
+other taggings of "word" seen in the training corpus (in no particular
+order).  
+
+There are three different lexica provided with this release:
+
+  LEXICON.BROWN.AND.WSJ was derived from the Penn Treebank tagging of
+	the WSJ, roughly 3 million words, and the Brown Corpus.
+  LEXICON.BROWN was derived from the Penn Treebank tagging of the
+	Brown corpus only.
+  LEXICON.WSJ  was derived from only the WSJ. 
+  (LEXICON is a link to LEXICON.BROWN.AND.WSJ)
+
+Which lexicon you choose to use will depend on the type of corpus you
+wish to tag.
+
+CORPUS: the corpus you wish to tag.  Should be one sentence per line, with
+punctuation (and anything else appropriate) tokenized.  Words can be
+pretagged by tagging with two slashes:
+
+He 's the winner ( at least , that 's what I was told ) .
+The boy//NN said : `` I am here . ''
+
+BIGRAMS: a list of adjacent word pairs seen in the training corpus.  Used to
+apply transformations such as: "change the tag from X to Y if word Z ever
+appears to the right."  In this distribution, this file is just set to
+a dummy list, as a place holder.  This is because "BIGRAMS" is only
+used for unknown words, and there is no Brown or WSJ text in the Penn
+Treebank that is not tagged.  This file can be augmented if more
+unannotated text is available -- see below. 
+
+LEXICALRULEFILE: list of transformations used for initial tagging of words not
+in the lexicon.  There are two lexical rule files provided with this
+release:
+
+  LEXICALRULEFILE.BROWN was derived from roughly 300,000 words of
+	tagged text from the Brown Corpus.
+  LEXICALRULEFILE.WSJ was derived from roughly 300,000 words of
+	tagged text from the WSJ.
+  (LEXICALRULEFILE is a link to LEXICALRULEFILE.WSJ)
+
+CONTEXTUALRULEFILE: list of contextually triggered transformations.
+There are three contextual rule files provided with this release:
+
+  CONTEXTUALRULEFILE.BROWN was derived from roughly 600,000 words of
+	tagged text from the Brown Corpus.
+  CONTEXTUALRULEFILE.WSJ was derived from roughly 600,000 words of
+	tagged text from the WSJ
+  CONTEXTUALRULEFILE.WSJ.NOLEX was derived from roughly 600,000 words
+	of tagged text from the WSJ, disallowing all transformations
+	that make reference to words.
+  (CONTEXTUALRULEFILE is a link to CONTEXTUALRULEFILE.WSJ)
+====================================================================
+
+For information on learning lexical and contextual rules, see the file
+README.TRAINING.  Below we discuss how an already trained tagger can
+be augmented when more training material becomes available by altering
+the data files used by the tagger.
+
+If you have a corpus you want annotated, information about that corpus
+can be added to the training files to help the tagger.  For instance,
+if a copus contains the words: abcds, abcding and abcded, the tagger
+can make some guesses about these words even if they are unknown
+words. 
+
+(Note: all perl utility programs can be found in the Utilities/
+directory). 
+
+First, the bigram list can be augmented by calling:
+
+incorporate-new-bigrams.prl LEXICALRULEFILE BIGRAMS NEWCORPUS > \
+	NEWBIGRAMS
+
+Where NEWCORPUS is the corpus to be tagged. Then, NEWBIGRAMS should be
+used instead of BIGRAMS in tagging.   This program assumes NEWCORPUS
+will have one sentence per line.
+
+To augment the lexicon, call:
+
+incorporate-new-words.prl LEXICON NEWCORPUS > WORDLIST
+
+Then call the tagger with the -w WORDLIST option.  This does not add
+to the lexicon, but adds to the list of known words.  This is of use
+to the unknown word tagger, for rules such as: change the tag of an
+unknown word to adjective if adding the suffix "ly" results in a word.
+To determine whether something "results in a word", we see if it is
+listed in the LEXICON or WORDLIST.
+
+====================================================================
+
+The data files can be manually edited.  If the word "alsfjls"
+occurs frequently in your corpus and is always a noun, just add the
+line:
+
+alsfjls NN
+
+to the LEXICON file.  If it is usually a noun, but can also be an
+adjective or a determiner, add:
+
+alsfjls NN JJ DT
+
+You can also manually add rules to the rule lists.  Here are some
+examples of the meaning of lexical rules:
+
+0 haspref 1 CD x == if a word has prefix "0" (of length 1 character), 
+	            tag it as a "CD"
+
+VBN un fhaspref 2 JJ x == if a word has prefix "un" (of length 2
+	           characters), and it is currently tagged as "VBN", 
+		   then change the tag to "JJ".
+
+- char JJ x   == If the character "-" appears anywhere in the word, 
+	         tag it as "JJ".
+
+ly hassuf 2 RB x  == If a word has suffix "ly", tag it as "RB".
+
+ly addsuf 2 JJ x  == If adding the letters "ly" to the end of a word
+	             results in a word (the new word appears in
+	             LEXICON or the extended wordlist), tag it as "JJ"
+
+
+Mr. goodright NNP x == If the word ever appears to the right of "Mr.",
+			tag it as NNP.
+		 
+
+Note the difference between haspref/fhaspref, goodright/fgoodright,
+etc.  Rule names starting with "f" are retricted (only apply if the
+current tag matches the specified current tag), while the other rules
+change a tagging regardless of the current tagging.
+
+
+And contextual rules:
+
+NN VB PREVTAG TO == Change a tag from NN to VB if the previous tag is TO
+VBP VB PREV1OR2OR3TAG MD == Change  a tag from VBP to VB if one of the
+	                     3 previous tags is MD
+
+====================================================================
+
+IMPORTANT:
+
+Tokenization and vocabulary follow the Penn Treebank.  Punctuation must
+be removed from words, etc.  The corpus should be in one-sentence-per-line
+format.  Example:
+
+We  're going today , are you ?
+`` I 'm hungry , '' he said .
+
+Since the tagger was trained on the Penn Treebank, it must either be
+augmented (eg. by adding lexical entries for we're, I'm, ", etc.) or
+the input must conform to Penn Treebank tokenization 
+rules.  For more information about the Penn Treebank style, contact
+treebank@unagi.cis.upenn.edu.
+
+Also, one sentence per line is assumed.
+
+==================================================================
+Important: The tagger is provided with a default algorithm for
+initially guessing the tags of unknown words before applying
+the learned rules.  This default algorithm is:
+
+  Tag words beginning with a capital letter with NNP.
+  Tag all other words with NN.
+
+If you are using the tagger as-is, then everything is fine.  However,
+if you have retrained the tagger, and altered the default algorithm in
+unknown-lexical-learn.prl, then you must also alter this algorithm in
+the start-state-tagger.c code, so the two are the same.  Instructions
+for how to do this can be found in the comments in both programs.
+
+==================================================================
+Helpful hints:
+
+If tagging speed matters, and the tagger spends much of its time
+processing contextual rules (spitting out c's to the screen), you can
+try using only the first n rules from the contextual rule file, for
+some n.  The tagger gets diminishing returns as rules lower on the
+list are applied, so the trade-off between speed and accuracy might be
+favorable by doing so.
+===================================================================
+
+
+For a more thorough description of the learning programs, see:
+
+\bibitem[Bri92] E.~Brill.
+\newblock A simple rule-based part of speech tagger.
+\newblock In {\em Proceedings of the Third Conference on Applied Natural
+  Language Processing, ACL}, Trento, Italy, 1992.
+
+\bibitem[Bri93] E.~Brill.
+\newblock {\em A Corpus-Based Approach to Language Learning}.
+\newblock PhD thesis, Department of Computer and Information Science,
+  University of Pennsylvania, 1993.
+
+\bibitem[Bri94] E.~Brill.
+\newblock Some advances in rule-based part of speech tagging
+\newblock  Proceedings of the Twelfth National Conference on
+   Artificial Intelligence (AAAI-94), Seattle, Wa., 1994.
+
+(these papers are available from anonymous ftp to
+lightning.lcs.mit.edu in pub/BRILL/Papers.  The last paper is included
+with this distribution, in the Docs/ directory.  After July 1, 1994,
+contact me at brill@blaze.cs.jhu.edu for information about how to
+obtain these papers).

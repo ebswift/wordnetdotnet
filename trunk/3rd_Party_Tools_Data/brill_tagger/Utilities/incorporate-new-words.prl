@@ -1,0 +1,29 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+# adds words to word list
+
+open(XX,$ARGV[0]);  # old wordlist
+while(<XX>) {
+	@temp = split;
+	$seen{$temp[0]}++;}
+open(YY,$ARGV[1]);
+while(<YY>) {
+	s/^\s+//;
+	@temp = split;
+	for ($count=0;$count<=$#temp;++$count){
+	  if ($temp[$count] !~ /^[0-9].*$/ &&
+	      ! $seen{$temp[$count]})    {
+		$newseen{$temp[$count]}++; }
+        }
+}
+while(($key,$val) = each %newseen) {
+	print "$key\n"; }
