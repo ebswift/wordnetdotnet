@@ -1,0 +1,26 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+
+
+while (<STDIN>) {
+  s/^\s+//;
+  if (! /^$/) {
+  #tr/a-z/A-Z/;  # case insensitive.  Remove this line if you don't want to
+		# lose case info.
+		
+  @words = split(/\s+/, $_);
+  ++$bigs{"S-T-A-R-T " . $words[0]};
+  for ($count=1;  $count <= $#words ; ++$count) {
+	++$bigs{$words[$count-1] . " " . $words[$count]}; }}}
+
+while (($abig,$val) = each %bigs) {
+	print "$abig $val\n"; }

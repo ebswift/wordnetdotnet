@@ -1,0 +1,61 @@
+#!/usr/local/bin/perl
+
+# given 2 files, prints percentage of matches (% correct if one is
+# gold standard.
+# gold standard goes first
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+
+sub isin {
+	local($good,$bad) = @_;
+	local($temp,@temp,$count);
+	@temp = split(/_/,$bad);
+	for ($count=0;$count<=$#temp;++$count) {
+		if ($good eq $temp[$count]) {
+			return(1); }}
+	return(0);
+}
+
+open(XX,$ARGV[0]);
+open(YY,$ARGV[1]);
+
+while(<XX>) {
+	$first = $_;
+	$sec = <YY>;
+	@first = split(/\s+/,$first);
+	@sec = split(/\s+/,$sec);
+	if ($#first != $#sec) {
+		print "SCREW UP!!\n";
+print "FIRST: @first\n";
+print "SEC: @sec\n";
+$unknscore = $unseengood/($unseengood+$unseenbad);
+print "unk score is: $unknscore  with $unseengood good\n";
+print "and $unseenbad bad\n";
+print "and $totwords words and $goodwords correct\n";
+		exit;}
+	for ($count=0;$count<=$#first;++$count) {
+		++$totwords;
+		@ffirst = split(/\//,$first[$count]);
+		@ssec = split(/\//,$sec[$count]);
+		@fresh = split(/_/,$ssec[1]);
+		$tottags += $#fresh+1;
+		if (&isin($ffirst[1],$ssec[1])) {
+			++$goodwd; }
+		else { # $badrecord{$ffirst[1]. " " . $ssec[1]}++;
+			++$badwd; }
+}
+}
+
+print "ACCURACY: ", $goodwd/$totwords,"\n";
+print "AVG TAGS: ",$tottags/$totwords,"\n";
+
+#while(($key,$val) = each %badrecord) {
+#	print "$key $val\n"; }

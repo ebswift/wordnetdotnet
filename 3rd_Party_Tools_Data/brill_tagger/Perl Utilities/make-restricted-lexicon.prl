@@ -1,0 +1,55 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+
+
+# assumes lines with tagged text.
+# extracts lexicon of form:
+# word t1 t2 t3 .. tn
+# where t1 is most likely tag for word, t2 ... tn are other seen
+# taggings in no particular order.
+
+while(<>) {
+	s/^\s+//;
+	if (! /^$/) {
+	    @temp = split;
+	    for ($count=0;$count<=$#temp;++$count){
+		$theguy = $temp[$count];
+		$theguy =~ s/^(.*)\/([^\/]+)$/$1 $2/;
+		@temp2 = split(/\s+/,$theguy);
+		++$seen{$temp2[0] . " " . $temp2[1]};
+	    }
+	}
+    }
+		
+while(($key,$val) = each %seen) {
+    @temp = split(/\s+/,$key);
+    if ($val > $bestval{$temp[0]}) {
+	$bestkey{$temp[0]} = $temp[1];
+	$bestval{$temp[0]} = $val;
+    }
+}
+
+while(($key,$val) = each %seen) {
+    @temp = split(/\s+/,$key);
+    if ($bestkey{$temp[0]} eq $temp[1]) {
+	$toprint{$temp[0]} = $temp[1] . " " . $toprint{$temp[0]}; 
+    }
+    else {
+	$toprint{$temp[0]} .= " " . $temp[1];
+    }
+}
+
+while (($key,$val) = each %toprint) {
+    $val =~ s/^\s+//;
+    $val =~ s/\s+/ /g;
+    print "$key $val\n"; }
+

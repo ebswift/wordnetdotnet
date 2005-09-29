@@ -1,0 +1,32 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+
+# usage:
+# cat BIGCORPUS | divide-in-two-rand.prl TRAINING-CORPUS-1 TRAINING-CORPUS-2 
+#
+
+open(XX,">$ARGV[0]");
+open(YY,">$ARGV[1]");
+srand;
+while(<STDIN>) {
+    $x = rand;
+    if ($x > .5) {
+	print XX $_;
+    }
+    else {
+	print YY $_;
+    }
+}
+close(XX);
+close(YY);
+
+

@@ -1,0 +1,1 @@
+tagger lexicon.wsj.z %1 BIGRAMS lexicalrulefile.wsj contextualrulefile.wsj > %2
