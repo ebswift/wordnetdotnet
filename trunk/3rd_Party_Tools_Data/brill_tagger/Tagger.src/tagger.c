@@ -89,8 +89,10 @@ main(argc, argv)
       WORDLIST = 1;
       wdlistname = mystrdup(optarg);
       if (access(wdlistname,R_OK) != 0) {
-	fprintf(stderr,"COULD NOT OPEN %s\n",wdlistname);
-	exit(0);}
+		  fprintf(stderr,"COULD NOT OPEN %s\n",wdlistname);
+		  exit(0);
+	  }
+
       break;
     case 'i':
       INTERMED=1;
@@ -127,9 +129,13 @@ main(argc, argv)
     fprintf(stderr,"TOO MANY ARGUMENTS\n");
     exit(0);}
   for(count=1;count<argc-temp;++count) {
-    if (access(argv[count],R_OK) != 0) {
-      fprintf(stderr,"COULD NOT OPEN %s\n",argv[count]);
-      exit(0);}
+/* TDMS 30 Sept 2005 - if filename cannot be read, take it as a literal string
+*/
+	if (count != 2) // TDMS 30 Sept 2005 - skip 2nd argument (input file)
+	  if (access(argv[count],R_OK) != 0) {
+		fprintf(stderr,"COULD NOT OPEN %c%s%c\n",34, argv[count], 34);
+      exit(0);
+	}
   }
   if (INTERMED &&  SPLIT) {
     fprintf(stderr,"Intermediate Files Not Permitted With Split option\n");
@@ -145,13 +151,23 @@ main(argc, argv)
 
   if (! START_ONLY_FLAG) {
     CORPUS = fopen(argv[2],"r");
-    while(fgets(line,sizeof(line),CORPUS) != NULL) {
-      if (not_just_blank(line)){
-	line[strlen(line) - 1] = '\0';
-	corpussize +=2;
-	corpussize += num_words(line) + 1;}
-    }
-    fclose(CORPUS);
+	if(CORPUS != NULL) { //TDMS 30 Sept 2005 - allow use of string instead of filename
+		while(fgets(line,sizeof(line),CORPUS) != NULL) {
+		  if (not_just_blank(line)){
+			line[strlen(line) - 1] = '\0';
+			corpussize +=2;
+			corpussize += num_words(line) + 1;
+		  }
+		}
+		fclose(CORPUS);
+	} else { // TDMS 30 Sept 2005 - allow alternative string processing (instead of file)
+		strcpy(line, argv[2]);
+		  if (not_just_blank(line)){
+			line[strlen(line) - 1] = '\0';
+			corpussize +=2;
+			corpussize += num_words(line) + 1;
+		  }
+	}
     
     lexicon = fopen(argv[1],"r");
     while(fgets(line,sizeof(line),lexicon) != NULL) {
@@ -169,20 +185,20 @@ main(argc, argv)
     if (! WORDLIST) {
       if (! INTERMED) { /* -intermed,-split,-wordlist */
 	if (START_ONLY_FLAG) 
-	  sprintf(COMMAND,"%s %s %s %s %s",
-		START_PROG, argv[1], argv[2], argv[3], argv[4]);
+	  sprintf(COMMAND,"%s %s %c%s%c %s %s",
+		START_PROG, argv[1], 34, argv[2], 34, argv[3], argv[4]);
 	else if (FINAL_ONLY_FLAG)
 	  sprintf(COMMAND,"cat %s | %s %s %s %d %d %d",
 		  argv[2],
 		  END_PROG, argv[5], argv[1],corpussize,linenums,tagnums);
 	else
-	  sprintf(COMMAND,"%s %s %s %s %s | %s %s %s %d %d %d",
-		START_PROG, argv[1], argv[2], argv[3], argv[4],
+	  sprintf(COMMAND,"%s %s %c%s%c %s %s | %s %s %s %d %d %d",
+		START_PROG, argv[1], 34, argv[2], 34, argv[3], argv[4],
 		END_PROG, argv[5], argv[1],corpussize,linenums,tagnums);
       }
       else { /* +intermed  -split -wordlist*/
-	sprintf(COMMAND,"%s %s %s %s %s | tee %s |  %s %s %s %d %d %d",
-		START_PROG, argv[1], argv[2], argv[3], argv[4],
+	sprintf(COMMAND,"%s %s %c%s%c %s %s | tee %s |  %s %s %s %d %d %d",
+		START_PROG, argv[1], 34, argv[2], 34, argv[3], argv[4],
 		intermed,
 		END_PROG, argv[5], argv[1],corpussize,linenums,tagnums);
       }
@@ -190,15 +206,15 @@ main(argc, argv)
     else /* - split + wordlist */   {
       if (! INTERMED)  /* -intermed */
 	if (START_ONLY_FLAG)
-	  sprintf(COMMAND,"%s %s %s %s %s %s",
-		  START_PROG, argv[1], argv[2], argv[3], argv[4], wdlistname);
+	  sprintf(COMMAND,"%s %s %c%s%c %s %s %s",
+		  START_PROG, argv[1], 34, argv[2], 34, argv[3], argv[4], wdlistname);
 	else
-	    sprintf(COMMAND,"%s %s %s %s %s %s | %s %s %s %d %d %d",
-		  START_PROG, argv[1], argv[2], argv[3], argv[4], wdlistname,
+	    sprintf(COMMAND,"%s %s %c%s%c %s %s %s | %s %s %s %d %d %d",
+		  START_PROG, argv[1], 34, argv[2], 34, argv[3], argv[4], wdlistname,
 		  END_PROG, argv[5], argv[1],corpussize,linenums,tagnums);
       else  /* + intermed */
-	sprintf(COMMAND,"%s %s %s %s %s %s | tee %s |  %s %s %s %d %d %d",
-		START_PROG, argv[1], argv[2], argv[3], argv[4],
+	sprintf(COMMAND,"%s %s %c%s%c %s %s %s | tee %s |  %s %s %s %d %d %d",
+		START_PROG, argv[1], 34, argv[2], 34, argv[3], argv[4],
 		wdlistname,
 		intermed,
 		END_PROG, argv[5], argv[1],corpussize,linenums,tagnums);
@@ -225,17 +241,29 @@ main(argc, argv)
 	      END_PROG, argv[5], argv[1], corpussize, linenums, tagnums); 
     }
     fp = fopen(tempname1,"w");
-    while(fgets(line,sizeof(line),CORPUS) != NULL) {
-      if (not_just_blank(line)) {
-	++numlines;
-	fputs(line,fp);
-	if ((numlines % splitnum) == 0) {
-	  fclose(fp);
-	  system(COMMAND);
-	  fp = fopen(tempname1,"w");
+	if(CORPUS != NULL) { // TDM 30 Sept 2005 - instead of filename, use string
+		while(fgets(line,sizeof(line),CORPUS) != NULL) {
+		  if (not_just_blank(line)) {
+			++numlines;
+			fputs(line,fp);
+			if ((numlines % splitnum) == 0) {
+				fclose(fp);
+				system(COMMAND);
+				fp = fopen(tempname1,"w");
+			}
+		  }
+		}
 	}
-      }
-    }
+	else { // TDM 30 Sept 2005 - instead of filename, use string
+		numlines = 1;
+		fputs(argv[2],fp);
+		if ((numlines % splitnum) == 0) {
+			fclose(fp);
+			system(COMMAND);
+			fp = fopen(tempname1,"w");
+		}
+	}
+		
     if ((numlines %splitnum) != 0) {
       fclose(fp);
       system(COMMAND);

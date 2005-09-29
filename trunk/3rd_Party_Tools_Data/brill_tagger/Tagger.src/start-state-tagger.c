@@ -115,27 +115,53 @@ main(argc, argv)
 	/* since each word will get the same tag, regardless of context. */
 	 ntot_hash = Registry_create(Registry_strcmp,Registry_strhash);
 	 corpus = fopen(argv[2],"r");
-	 while(fgets(line,sizeof(line),corpus) != NULL) {
+
+	 // TDMS 30 Sept 2005
+	 // allow a string to be used in place of a file
+
+	 if(corpus != NULL) {
+		 while(fgets(line,sizeof(line),corpus) != NULL) {
            if (not_just_blank(line)){
-	     line[strlen(line) - 1] = '\0';
-	     perl_split_ptr = perl_split_independent(line);
-	     temp_perl_split_ptr = perl_split_ptr;
-	     while (*temp_perl_split_ptr != NULL) { 
-	       if (Registry_get(lexicon_hash,(char *)*temp_perl_split_ptr) ==
-		   NULL) {
-		 if (Registry_add(ntot_hash,(char *)*temp_perl_split_ptr,
-				  (char *)1) ==   Bool_FALSE) {
-		   free(*temp_perl_split_ptr);
+		     line[strlen(line) - 1] = '\0';
+			 perl_split_ptr = perl_split_independent(line);
+			 temp_perl_split_ptr = perl_split_ptr;
+			 while (*temp_perl_split_ptr != NULL) { 
+				if (Registry_get(lexicon_hash,(char *)*temp_perl_split_ptr) == NULL) {
+					if (Registry_add(ntot_hash,(char *)*temp_perl_split_ptr, (char *)1) ==   Bool_FALSE) {
+					   free(*temp_perl_split_ptr);
+					}
+				}
+				else {
+					free(*temp_perl_split_ptr);
+				}
+				++temp_perl_split_ptr;
+			 }
+			 free(perl_split_ptr);
+		   }
 		 }
-	       }
-	       else {
-		 free(*temp_perl_split_ptr);}
-	       ++temp_perl_split_ptr;
-	     }
-	     free(perl_split_ptr);
-	   }
+		 fclose(corpus);
+	 } else {
+		   // TDMS 30 Sept 2005
+		   // use what would be the filename as an input string
+		   strcpy(line, argv[2]);
+           if (not_just_blank(line)){
+		     line[strlen(line) - 1] = '\0';
+			 perl_split_ptr = perl_split_independent(line);
+			 temp_perl_split_ptr = perl_split_ptr;
+			 while (*temp_perl_split_ptr != NULL) { 
+				if (Registry_get(lexicon_hash,(char *)*temp_perl_split_ptr) == NULL) {
+					if (Registry_add(ntot_hash,(char *)*temp_perl_split_ptr, (char *)1) ==   Bool_FALSE) {
+					   free(*temp_perl_split_ptr);
+					}
+				}
+				else {
+					free(*temp_perl_split_ptr);
+				}
+				++temp_perl_split_ptr;
+			 }
+			 free(perl_split_ptr);
+		   }
 	 }
-	 fclose(corpus);
 	 fprintf(stderr,"START STATE TAGGER:: CORPUS READ\n");  
 
 /* read in rule file */
@@ -544,33 +570,65 @@ fprintf(stderr,"s");
 		       (char *)Darray_get(tag_array_key,count),
 		       (char *)Darray_get(tag_array_val,count)); }
 	corpus = fopen(argv[2],"r");
-	while(fgets(line,sizeof(line),corpus) != NULL) {
-	  if (not_just_blank(line)) {
-	    line[strlen(line) - 1] = '\0';
-	    perl_split_ptr = perl_split(line);
-	    temp_perl_split_ptr = perl_split_ptr;
-	    count=-1;
-	    while (*temp_perl_split_ptr != NULL) {
-	      count++;
-	      if ((atempptr = strchr(*temp_perl_split_ptr,'/')) != NULL
-		  && *(atempptr+1) == '/') {
-		/* a word can be pretagged by putting two slashes between the */
-		/* word and the tag ::  The boy//NN ate . */
-		/* if a word is pretagged, we just spit out the pretagging */
-		printf("%s ",*temp_perl_split_ptr);}
-	      else if
-		((tempstr = Registry_get(lexicon_hash,*temp_perl_split_ptr))
-		 != NULL) {
-		  printf("%s/%s ",*temp_perl_split_ptr,tempstr);}
-	      else {
-		printf("%s/%s ",*temp_perl_split_ptr,
-		       Registry_get(tag_hash,*temp_perl_split_ptr)); }
-	      ++temp_perl_split_ptr;
-	    }
-	    free(*perl_split_ptr);
-	    free(perl_split_ptr);
-	    if (count >=0) { printf("\n");}
-	  }
+	if(corpus != NULL) { // TDMS 30 Sept 2005 - can use string instead of file
+		while(fgets(line,sizeof(line),corpus) != NULL) {
+		  if (not_just_blank(line)) {
+			line[strlen(line) - 1] = '\0';
+			perl_split_ptr = perl_split(line);
+			temp_perl_split_ptr = perl_split_ptr;
+			count=-1;
+			while (*temp_perl_split_ptr != NULL) {
+			  count++;
+			  if ((atempptr = strchr(*temp_perl_split_ptr,'/')) != NULL && *(atempptr+1) == '/') {
+				/* a word can be pretagged by putting two slashes between the */
+				/* word and the tag ::  The boy//NN ate . */
+				/* if a word is pretagged, we just spit out the pretagging */
+				printf("%s ",*temp_perl_split_ptr);
+			  }
+			  else if((tempstr = Registry_get(lexicon_hash,*temp_perl_split_ptr)) != NULL) {
+				  printf("%s/%s ",*temp_perl_split_ptr,tempstr);
+			  }
+			  else {
+				printf("%s/%s ",*temp_perl_split_ptr,
+				Registry_get(tag_hash,*temp_perl_split_ptr)); 
+			  }
+			  ++temp_perl_split_ptr;
+			}
+			free(*perl_split_ptr);
+			free(perl_split_ptr);
+			if (count >=0) { printf("\n");
+			}
+		  }
+		}
+	} else {
+		  strcpy(line, argv[2]);
+		  if (not_just_blank(line)) {
+			line[strlen(line) - 1] = '\0';
+			perl_split_ptr = perl_split(line);
+			temp_perl_split_ptr = perl_split_ptr;
+			count=-1;
+			while (*temp_perl_split_ptr != NULL) {
+			  count++;
+			  if ((atempptr = strchr(*temp_perl_split_ptr,'/')) != NULL && *(atempptr+1) == '/') {
+				/* a word can be pretagged by putting two slashes between the */
+				/* word and the tag ::  The boy//NN ate . */
+				/* if a word is pretagged, we just spit out the pretagging */
+				printf("%s ",*temp_perl_split_ptr);
+			  }
+			  else if((tempstr = Registry_get(lexicon_hash,*temp_perl_split_ptr)) != NULL) {
+				  printf("%s/%s ",*temp_perl_split_ptr,tempstr);
+			  }
+			  else {
+				printf("%s/%s ",*temp_perl_split_ptr,
+				Registry_get(tag_hash,*temp_perl_split_ptr)); 
+			  }
+			  ++temp_perl_split_ptr;
+			}
+			free(*perl_split_ptr);
+			free(perl_split_ptr);
+			if (count >=0) { printf("\n");
+			}
+		  }
 	}
 }
 
