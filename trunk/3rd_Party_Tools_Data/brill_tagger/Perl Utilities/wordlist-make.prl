@@ -1,0 +1,22 @@
+#!/usr/local/bin/perl
+
+# Copyright @ 1994 MIT 
+# Written by Eric Brill 
+#THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
+#OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
+#limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
+#MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
+#THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+#PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.  
+
+while (<>) {
+  s/^\s+//;
+  if (! /^$/) {
+	#tr/a-z/A-Z/;
+  	@words = split(/\s+/, $_);
+	foreach $count (0 .. $#words) {
+	++$word{$words[$count]}; }}}
+while (($key,$val) = each %word) {
+	print "$key $val \n"; }
+
+
