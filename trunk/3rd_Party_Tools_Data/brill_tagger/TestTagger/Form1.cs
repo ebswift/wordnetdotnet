@@ -101,7 +101,7 @@ namespace TestTagger
 			this.txtParams.Name = "txtParams";
 			this.txtParams.Size = new System.Drawing.Size(376, 20);
 			this.txtParams.TabIndex = 21;
-			this.txtParams.Text = "LEXICON test-corpus BIGRAMS LEXICALRULEFILE.WSJ CONTEXTUALRULEFILE.WSJ";
+			this.txtParams.Text = "LEXICON test-corpus BIGRAMS LEXICALRULEFILE.WSJ CONTEXTUALRULEFILE.WSJ>out.txt";
 			// 
 			// btnStart
 			// 
@@ -127,8 +127,8 @@ namespace TestTagger
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnStart);
 			this.Controls.Add(this.txtParams);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.txtOutput);
+			this.Controls.Add(this.label1);
 			this.Name = "Form1";
 			this.Text = "Brill Tagger Test";
 			this.ResumeLayout(false);
