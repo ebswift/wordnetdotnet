@@ -167,6 +167,29 @@ Brill's tagger (Eric Brill algorithm) .&nbsp; Stochastic taggers resolve tagging
 ambiguities by using a training corpus to compute the probability of a given 
 word having a given tag in a given context. For example: tagger using the Hidden 
 Markov Model, Maximize likelihood.</p>
+<p><b>Brill Tagger Sample for c#</b></p>
+<p>Troy Simpson has produced a sample for using the Brill Tagger from a c# 
+application.&nbsp; The solution is fairly simple but provides a working solution 
+as an interim to when (and if) a c# port is made of the Brill Tagger.&nbsp; See 
+the Subversion Repository link on the WordNet.Net home page to download the 
+Brill Tagger sample here:
+<a target="_blank" href="http://opensource.ebswift.com/WordNet.Net/">
+http://opensource.ebswift.com/WordNet.Net/</a>.&nbsp; The Brill Tagger sample 
+can be found under the 3rd_Party_Tools_Data folder.&nbsp; The version of the 
+Brill Tagger itself is a win32 port by Paul Maddox which Troy modified to allow 
+the passing of a string in place of the default filename.&nbsp; The modification 
+allows single sentences to be tagged easily without resorting to temporary 
+files.</p>
+<p>The c# interface can be found inside the repository, inside the brill_tagger 
+folder, in the TestTagger folder.&nbsp; The interface was based upon Mike 
+Mayer's article &quot;Launching a process and displaying its standard output&quot;.&nbsp; 
+The idea is to run the tagger with the required parameters and retrieve the 
+output via stdout.&nbsp; Stderr is used to display status information so its 
+output can be ignored.&nbsp; This method of running allows you to use the Brill 
+Tagger as easily as calling a method.&nbsp; See the comments at the top of 
+Form1.c for alternative commandline parameters to the default.&nbsp; See the 
+Brill Tagger documentation for information on the tagger itself and its required 
+parameters.</p>
 
 <h2>Stemming word (*)</h2>
 <p>We use the Porter stemming algorithm.&nbsp;Porter stemming is a process of 
