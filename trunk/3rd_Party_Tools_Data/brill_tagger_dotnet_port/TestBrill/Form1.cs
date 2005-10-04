@@ -74,7 +74,7 @@ namespace TestBrill
 			this.txtCorpus.Name = "txtCorpus";
 			this.txtCorpus.Size = new System.Drawing.Size(200, 20);
 			this.txtCorpus.TabIndex = 1;
-			this.txtCorpus.Text = "The quick brown fox jumped over the lazy dog.";
+			this.txtCorpus.Text = "The quick brown fox jumped over the lazy dog ";
 			// 
 			// txtTagged
 			// 
@@ -85,7 +85,7 @@ namespace TestBrill
 			this.txtTagged.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtTagged.Size = new System.Drawing.Size(280, 104);
 			this.txtTagged.TabIndex = 2;
-			this.txtTagged.Text = "";
+			this.txtTagged.Text = "Enter text to tag above.  Ensure you end the corpus with a space.";
 			// 
 			// Form1
 			// 

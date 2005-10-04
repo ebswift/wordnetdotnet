@@ -1,3 +1,5 @@
+// Direct port to c# by Troy Simpson from Steven Abbott's VB.Net version.
+
 using System;
 using System.IO;
 using System.Collections;
@@ -167,7 +169,7 @@ namespace BrillTagger
 			// it will get changed to JJ if it contains a 'd' (e.g. 2nd) or a 't' (e.g. 31st)
 			for (i = 0; (i <= LastWord); i++) 
 			{
-				if (ebswift.ebString.vbLike(TheWords[i].Substring(0, 1), "[a-zA-Z\']")) 
+				if (ebString.vbLike(TheWords[i].Substring(0, 1), "[a-zA-Z\']")) 
 				{
 					if (Lexicon.ContainsKey(TheWords[i])) 
 					{
