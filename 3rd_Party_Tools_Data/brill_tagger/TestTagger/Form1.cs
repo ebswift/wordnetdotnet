@@ -115,8 +115,8 @@ namespace TestTagger
 			this.txtParams.Name = "txtParams";
 			this.txtParams.Size = new System.Drawing.Size(376, 20);
 			this.txtParams.TabIndex = 21;
-			this.txtParams.Text = "lexicon.brown \"this is some test text \" BIGRAMS lexicalrulefile.brown contextualr" +
-				"ulefile.brown";
+			this.txtParams.Text = "lexicon.brown \"The quick brown fox jumped over the lazy dog \" BIGRAMS lexicalrule" +
+				"file.brown contextualrulefile.brown";
 			// 
 			// btnStart
 			// 
