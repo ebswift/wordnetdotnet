@@ -1,0 +1,207 @@
+:start
+Start Verb
+Tests,sIsInfinitive,sIsThird,sIsPast,sIsModal
+Infinitive,present
+Third,present
+Past,past
+am,presbe
+is,presbe
+are,presbe
+had,pasthave
+has,preshave
+have,preshave
+was,pastbe
+were,pastbe
+Modal,modal
+:present
+Present Tense
+:past
+Past Tense
+:presbe
+Present Be
+Tests,sIsGerund,sIsPart
+being,presprogbe
+had,prespasshave
+having,presproghave
+Gerund,presprog
+Part,prespass
+:presprog
+Present Progressive
+:prespass
+Present Passive
+:presprogbe
+Present Progressive Be
+Tests,sIsPart
+had,presprogpasshave
+Part,presprogpass
+:presprogpass
+Present Progressive Passive
+:presprogpasshave
+Present Progressive Passive Have
+:prespasshave
+Present Passive Have
+:presproghave
+Present Progressive Have
+:pasthave
+Past Have
+Tests,sIsPart
+been,pastperfbe
+had,pastperfhave
+Part,pastperf
+:pastperf
+Past Perfect
+:pastperfhave
+Past Perfect Have
+:pastperfbe
+Past Perfect Be
+Tests,sIsGerund,sIsPart
+had,pastperfpasshave
+having,pastperfproghave
+being,pastperfprogbe
+Gerund,pastperfprog
+Part,pastperfpass
+:pastperfpass
+Past Perfect Passive
+:pastperfprog
+Past Perfect Progressive
+:pastperfpasshave
+Past Perfect Passive Have
+:pastperfproghave
+Past Perfect Progressive Have
+:pastperfprogbe
+Past Perfect Progressive Be
+Tests,sIsPart
+had,pastperfprogpasshave
+Part,pastperfprogpass
+:pastperfprogpass
+Past Perfect Progressive Passive
+:pastperfprogpasshave
+Past Perfect Progressive Passive Have
+:preshave
+Present Have
+Tests,sIsPart
+had,presperfhave
+been,presperfbe
+Part,presperf
+:presperf
+Present Perfect
+:presperfhave
+Present Perfect Have
+:presperfbe
+Present Perfect Be
+Tests,sIsPart,sIsGerund
+had,presperfpasshave
+having,presperfproghave
+being,presperfprogbe
+Part,presperfpass
+Gerund,presperfprog
+:presperfprog
+Present Perfect Progressive
+:presperfpass
+Present Perfect Passive
+:presperfpasshave
+Present Perfect Passive Have
+:presperfproghave
+Present Perfect Progressive Have
+:presperfprogbe
+Present Perfect Progressive Be
+Tests,sIsPart
+had,presperfprogpasshave
+Part,presperfprogpass
+:presperfprogpass
+Present Perfect Progressive Passive
+:presperfprogpasshave
+Present Perfect Progressive Passive Have
+:pastbe
+Past Be
+Tests,sIsGerund,sIsPart
+had,pastpasshave
+having,pastproghave
+being,pastprogbe
+Part,pastpass
+Gerund,pastprog
+:pastpass
+Past Passive
+:pastprog
+Past Progressive
+:pastpasshave
+Past Passive Have
+:pastproghave
+Past Progressive Have
+:pastprogbe
+Past Progressive Be
+Tests,sIsPart
+had,pastprogpasshave
+Part,pastprogpass
+:pastprogpass
+Past Progressive Passive
+:pastprogpasshave
+Past Progressive Passive Have
+:modal
+Modal
+Tests,sIsInfinitive
+be,modalbe
+have,modalhave
+Infinitive,modalinf
+:modalinf
+Present
+:modalbe
+Be
+Tests,sIsPart,sIsGerund
+had,modalpasshave
+having,modalproghave
+being,modalprogbe
+Part,modalpass
+Gerund,modalprog
+:modalpass
+Passive
+:modalprog
+Progressive
+:modalpasshave
+Passive Have
+:modalproghave
+Progressive Have
+:modalprogbe
+Progressive Be
+Tests,sIsPart
+had,modalprogpasshave
+Part,modalprogpass
+:modalprogpass
+Progressive Passive
+:modalprogpasshave
+Progressive Passive Have
+:modalhave
+Have
+Tests,sIsPart
+had,modalperfhave
+been,modalperfbe
+Part,modalperf
+:modalperf
+Perfect
+:modalperfhave
+Perfect Have
+:modalperfbe
+Perfect Be
+Tests,sIsPart,sIsGerund
+had,modalperfpasshave
+having,modalperfproghave
+being,modalperfprogbe
+Part,modalperfpass
+Gerund,modalperfprog
+:modalperfpass
+Perfect Passive
+:modalperfprog
+Perfect Progressive
+:modalperfpasshave
+Perfect Passive Have
+:modalperfproghave
+Perfect Progressive Have
+:modalperfprogbe
+Perfect Progressive Be
+Tests,sIsPart
+had,modalperfprogpasshave
+Part,modalperfprogpass
+:modalperfprogpass
+Perfect Progressive Passive
+:modalperfprogpasshave
+Perfect Progressive Passive Have
