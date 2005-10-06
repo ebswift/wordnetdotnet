@@ -472,6 +472,7 @@ namespace Wnlib
 		public int whichword=0;     /* 1.. of the words array */
 		public AdjSynSetType sstype;
 		internal int sense; // "global" variable: will match search.sense-1 if this is nonzero
+		public ArrayList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
 		Search search;
 		public Pointer[] ptrs;		/* number of pointers */
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */
@@ -649,6 +650,10 @@ namespace Wnlib
 					/* Read synset pointed to */
 					cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
+					SynSet tmpss = (SynSet)search.senses[search.whichsense];
+					if(tmpss.senses == null)
+						tmpss.senses = new ArrayList();
+					tmpss.senses.Add(cursyn);
 					/* For Pertainyms and Participles pointing to a specific
 					   sense, indicate the sense then retrieve the synset
 					   pointed to and other info as determined by type.
