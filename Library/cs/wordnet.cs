@@ -650,7 +650,7 @@ namespace Wnlib
 					/* Read synset pointed to */
 					cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
-					SynSet tmpss = (SynSet)search.senses[search.whichsense];
+					SynSet tmpss = (SynSet)search.senses[search.senses.Count - 1];
 					if(tmpss.senses == null)
 						tmpss.senses = new ArrayList();
 					tmpss.senses.Add(cursyn);
