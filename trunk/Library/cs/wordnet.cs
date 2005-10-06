@@ -650,10 +650,12 @@ namespace Wnlib
 					/* Read synset pointed to */
 					cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
-					SynSet tmpss = (SynSet)search.senses[search.senses.Count - 1];
-					if(tmpss.senses == null)
-						tmpss.senses = new ArrayList();
-					tmpss.senses.Add(cursyn);
+
+					// TDMS 6 Oct 2005 - build hierarchical results
+					if(this.senses == null)
+						this.senses = new ArrayList();
+					this.senses.Add(cursyn);
+
 					/* For Pertainyms and Participles pointing to a specific
 					   sense, indicate the sense then retrieve the synset
 					   pointed to and other info as determined by type.
@@ -720,10 +722,19 @@ namespace Wnlib
 					search.wordsFrom(cursyn);
 					cursyn.str("-> ","\n",1,0,0,1);
 					cursyn.tracePtrs(ptp,cursyn.pos,depth);
+					// TDMS 6 Oct 2005 - build hierarchical results
+					if(this.senses == null)
+						this.senses = new ArrayList();
+					this.senses.Add(cursyn);
 					if (depth>0) 
 					{
 						depth = depthcheck(depth);
 						cursyn.traceCoords(ptp,cursyn.pos,depth+1);
+						// TDMS 6 Oct 2005 - build hierarchical results
+						// TODO: verify this
+						if(this.senses == null)
+							this.senses = new ArrayList();
+						this.senses.Add(cursyn);
 					}
 				}
 			}
@@ -767,6 +778,11 @@ namespace Wnlib
 					}
 				
 					SynSet cursyn = new SynSet(pt.off,pt.pos,this);
+					// TDMS 6 Oct 2005 - build hierarchical results
+					// TODO: verify this
+					if(this.senses == null)
+						this.senses = new ArrayList();
+					this.senses.Add(cursyn);
 
 					for (j = 0; j < idx; j++) 
 					{
@@ -833,6 +849,12 @@ namespace Wnlib
 					SynSet cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
 					cursyn.str("RELATED TO-> ","\n",0,0,0,0);
+					// TDMS 6 Oct 2005 - build hierarchical results
+					// TODO: verify this
+					if(this.senses == null)
+						this.senses = new ArrayList();
+					this.senses.Add(cursyn);
+
 					cursyn.tracePtrs(ptp,cursyn.pos,0);
 					for (j = 0; j < idx; j++) 
 					{
@@ -867,6 +889,12 @@ namespace Wnlib
 					SynSet cursyn = new SynSet(pt.off,pt.pos,this);
 					search.wordsFrom(cursyn);
 					cursyn.str("=> ","\n",1,0,0,1);
+					// TDMS 6 Oct 2005 - build hierarchical results
+					// TODO: verify this
+					if(this.senses == null)
+						this.senses = new ArrayList();
+					this.senses.Add(cursyn);
+
 					cursyn.tracePtrs(pbase,PartOfSpeech.of("noun"),depth);
 					cursyn.tracePtrs(pbase+1,PartOfSpeech.of("noun"),depth);
 					cursyn.tracePtrs(pbase+2,PartOfSpeech.of("noun"),depth);
