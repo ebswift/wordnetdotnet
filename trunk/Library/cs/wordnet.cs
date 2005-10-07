@@ -592,13 +592,27 @@ namespace Wnlib
 				Pointer pt = ptrs[i];
 //				if (pt.ptp==ptp && (pt.sce==0 || pt.sce==whichword))
 				// following if statement is WN2.1 - TDMS
+
+/*
+				
 				if ((ptp.ident == HYPERPTR && (pt.ptp.ident == HYPERPTR ||
 				    pt.ptp.ident == INSTANCE)) ||
 				    (ptp.ident == HYPOPTR && (pt.ptp.ident == HYPOPTR ||
+
 				   pt.ptp.ident == INSTANCES)) ||
 				    ((pt.ptp==ptp) &&
 				     ((pt.sce == 0) ||
 	      			(pt.sce == whichword))))
+*/					
+
+					if ((ptp.ident == HYPERPTR && (pt.ptp.ident == HYPERPTR ||
+					pt.ptp.ident == INSTANCE)) ||
+					(ptp.ident == HYPOPTR && (pt.ptp.ident == HYPOPTR ||
+					pt.ptp.ident == INSTANCES)) ||
+					((pt.ptp == ptp) &&
+					((pt.sce == 0) ||
+					(pt.sce == whichword)))) 
+					
 				{
 				    realptr = pt.ptp.ident; /* WN2.1 deal with INSTANCE */
 					if (!search.prflag) // print sense number and synset
