@@ -440,6 +440,7 @@ Namespace wnb
             Dim t As String
             Dim wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
 
+            se = Nothing ' prevent the treeview from being overwritten by old results in showresults
             t = txtSearchWord.Text
             lblSearchInfo.Text = "Searches for " + t + ":"
             lblSearchInfo.Visible = True
@@ -471,10 +472,30 @@ Namespace wnb
 
                 TreeView1.BeginUpdate()
                 TreeView1.Nodes.Clear()
-                fillTreeRoot(list(0))
-                fillTreeRoot(list(1))
-                fillTreeRoot(list(2))
-                fillTreeRoot(list(3))
+                Dim sch As Wnlib.Search
+                Dim i As Integer
+                Dim tmppos As String
+
+                For i = 0 To 3
+                    sch = list(i)
+                    Select Case i
+                        Case 0
+                            tmppos = "Noun"
+
+                        Case 1
+                            tmppos = "Verb"
+
+                        Case 2
+                            tmppos = "Adjective"
+
+                        Case 3
+                            tmppos = "Adverb"
+                    End Select
+
+                    If sch.senses.Count > 0 Then
+                        fillTreeRoot(list(i), tmppos)
+                    End If
+                Next i
                 TreeView1.EndUpdate()
             Catch ex As Exception
                 MessageBox.Show(ex.Message & vbCrLf & vbCrLf & "Princeton's WordNet not pre-installed to default location?")
@@ -562,15 +583,31 @@ Namespace wnb
         End Sub
 
         ' fill the top level of the tree
-        Private Sub fillTreeRoot(ByVal sch As Wnlib.Search)
+        Private Sub fillTreeRoot(ByVal sch As Wnlib.Search, Optional ByVal tmppos As String = "")
             ' do the treeview
             Dim ss As Wnlib.SynSet
             Dim parentnode As TreeNode
+            Dim posnode As TreeNode ' part of speech node used for overview search
+
+            ' a part of speech has been given as a parameter
+            ' so create a new top level node
+            If tmppos <> "" Then
+                posnode = New TreeNode(tmppos)
+                TreeView1.Nodes.Add(posnode)
+            End If
 
             ' iterate the returned senses
             For Each ss In sch.senses
                 parentnode = newTreeNode(ss)
-                TreeView1.Nodes.Add(parentnode)
+
+                ' if a part of speech node has been created
+                ' then it becomes the top level
+                If Not posnode Is Nothing Then
+                    posnode.Nodes.Add(parentnode)
+                Else
+                    TreeView1.Nodes.Add(parentnode)
+                End If
+
                 If Not ss.senses Is Nothing Then
                     fillTreeChild(ss.senses, parentnode)
                 End If
