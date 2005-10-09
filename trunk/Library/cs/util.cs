@@ -148,6 +148,9 @@ namespace Wnlib
 
 			// TDMS 26/8/05 - this has been modified inline with WordNet 2.1, however it is not verified
 			// the derin and nomn codes need to be verified as being identified correctly
+
+			// the commandline version of wordnet 2.1 still references this as derivation so there is some conflict here
+			// TODO: resolve conflict
 			new Opt( "-nomnn", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms" ); // modified TDMS 26/8/05 - derivation->nominalization
 			new Opt( "-derin", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms" ); // modified TDMS 26/8/05 - derivation->nominalization
 			//new Opt( "-nomnn", "DERIVATION", "NOUN", 11, "Derived Forms" ); // TDMS 26/8/05 - replaced by above
@@ -172,6 +175,8 @@ namespace Wnlib
 
 			// TDMS 26/8/05 - this has been modified inline with WordNet 2.1, however it is not verified
 			// the nomnv and deriv codes need to be verified as being identified correctly
+
+			// TODO: resolve conflict - the wordnet commandline browser still shows derivation
 			new Opt( "-nomnv", "NOMINALIZATIONS", "VERB", 8, "Derived Forms" ); // TDMS 26/8/05 - changed derivation to nominalizations
 			new Opt( "-deriv", "NOMINALIZATIONS", "VERB", 8, "Derived Forms" ); // TDMS 26/8/05 - changed derivation to nominalizations
 //			new Opt( "-nomnv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
