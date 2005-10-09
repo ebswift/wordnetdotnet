@@ -253,7 +253,7 @@ namespace WordsMatching
 			}
 			
 			
-			SynSet sense=se.senses [0];
+			SynSet sense=(SynSet)se.senses [0];
 		
 			
 			string con=se.buf.ToString();
@@ -308,7 +308,7 @@ namespace WordsMatching
 				if( se.senses != null && se.senses.Count > 0)
 				{														 														 
 					if (relations[0] == null  )
-						relations[0]=GetGloss (se.senses [0]);			
+						relations[0]=GetGloss ((SynSet)se.senses [0]);			
 
 					relations[i + 1] = ConcateRel(se);				
 				}				

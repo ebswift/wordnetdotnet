@@ -80,8 +80,8 @@
                     HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Wnlib"
-                    Project = "{C8099A7D-3ED0-4098-996C-78FB2586749F}"
+                    Name = "WordNet.Net"
+                    Project = "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -120,11 +120,6 @@
                 />
                 <File
                     RelPath = "ISimilarity.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Lexical.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
