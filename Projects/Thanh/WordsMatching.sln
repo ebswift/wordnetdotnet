@@ -3,7 +3,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordsMatching", "WordsMatch
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wnlib", "WnLib\Wnlib.csproj", "{C8099A7D-3ED0-4098-996C-78FB2586749F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "..\..\Library\cs\WordNet.Net.csproj", "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -17,10 +17,10 @@ Global
 		{CFFEA5F4-2374-4336-956B-F6EDB9E2FBF1}.Debug.Build.0 = Debug|.NET
 		{CFFEA5F4-2374-4336-956B-F6EDB9E2FBF1}.Release.ActiveCfg = Release|.NET
 		{CFFEA5F4-2374-4336-956B-F6EDB9E2FBF1}.Release.Build.0 = Release|.NET
-		{C8099A7D-3ED0-4098-996C-78FB2586749F}.Debug.ActiveCfg = Debug|.NET
-		{C8099A7D-3ED0-4098-996C-78FB2586749F}.Debug.Build.0 = Debug|.NET
-		{C8099A7D-3ED0-4098-996C-78FB2586749F}.Release.ActiveCfg = Release|.NET
-		{C8099A7D-3ED0-4098-996C-78FB2586749F}.Release.Build.0 = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.ActiveCfg = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.Build.0 = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.ActiveCfg = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
