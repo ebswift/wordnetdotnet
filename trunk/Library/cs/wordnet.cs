@@ -101,15 +101,17 @@ namespace Wnlib
 				return;
 			morphs = new Hashtable();
 			MorphStr st = new MorphStr(word,pos);
-			string morphword ; //TODO: TDMS - 13/8/05 - is this redundant?
+			string morphword;
 			while ((morphword=st.next())!=null) 
 			{
 				Search s = new Search(morphword,pos,sch,whichsense);
 				s.do_search(false);
-				morphs[morphword] = s; //TODO: TDMS - 13/8/05 - is this redundant?
+				morphs[morphword] = s; //Fill the morphlist - eg. if verb relations of 'drunk' are requested, none are directly found, but the morph 'drink' will have results.  The morph hashtable will be populated into the search results and should be iterated instead of the returned synset if the morphs are non-empty
 				buf += s.buf;
 			}
-			return;
+
+			// TDMS 10 Oct 2005: fill senses with morphed senses otherwise
+			// sense information is destroyed if there are available morphs
 		}
 
 		// From the WordNet Manual (http://wordnet.princeton.edu/man/wnsearch.3WN.html)
@@ -349,6 +351,8 @@ namespace Wnlib
 						synptr = new SynSet(idx.offs[i],pos,"",this,i);
 						synptr.strsns(i+1);
 						synptr.tracePtrs(PointerType.of("HYPERPTR"),pos,0);
+						// TDMS 10 Oct 2005 - build hierarchical results
+						senses.Add(synptr);
 						outsenses[i] = true;
 					}
 				if (flag)
@@ -360,6 +364,8 @@ namespace Wnlib
 					synptr = new SynSet(idx.offs[i],pos,"",this,i);
 					synptr.strsns(i+1);
 					synptr.tracePtrs(PointerType.of("HYPERPTR"),pos,0);
+					// TDMS 10 Oct 2005 - build hierarchical results
+					senses.Add(synptr);
 					buf += "---------------\n";
 				}
 		}
