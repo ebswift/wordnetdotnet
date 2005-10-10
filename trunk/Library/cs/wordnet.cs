@@ -351,7 +351,7 @@ namespace Wnlib
 						synptr = new SynSet(idx.offs[i],pos,"",this,i);
 						synptr.strsns(i+1);
 						synptr.tracePtrs(PointerType.of("HYPERPTR"),pos,0);
-						// TDMS 10 Oct 2005 - build hierarchical results
+						// TDMS 11 Oct 2005 - build hierarchical results
 						senses.Add(synptr);
 						outsenses[i] = true;
 					}
@@ -364,7 +364,7 @@ namespace Wnlib
 					synptr = new SynSet(idx.offs[i],pos,"",this,i);
 					synptr.strsns(i+1);
 					synptr.tracePtrs(PointerType.of("HYPERPTR"),pos,0);
-					// TDMS 10 Oct 2005 - build hierarchical results
+					// TDMS 11 Oct 2005 - build hierarchical results
 					senses.Add(synptr);
 					buf += "---------------\n";
 				}

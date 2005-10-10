@@ -751,6 +751,11 @@ namespace Wnlib
 					while (ptrs[i].ptp.mnemonic!="SIMPTR")
 						i++;
 					newsynptr = new SynSet(ptrs[i].off,PartOfSpeech.of("adj"),this);
+					// TDMS 6 Oct 2005 - build hierarchical results
+					// TODO: verify if this level is required
+					if(this.senses == null)
+						this.senses = new ArrayList();
+					this.senses.Add(newsynptr);
 				} 
 				else
 					newsynptr = this;
@@ -767,6 +772,10 @@ namespace Wnlib
 						   direct antonym, print it's satellites. */
 						antptr = new SynSet(newsynptr.ptrs[i].off,PartOfSpeech.of("adj"),this);
 						search.wordsFrom(antptr);
+						// TDMS 6 Oct 2005 - build hierarchical results
+						if(this.senses == null)
+							this.senses = new ArrayList();
+						this.senses.Add(antptr);
 						if (anttype==AdjSynSetType.DirectAnt) 
 						{
 							antptr.str("","\n",1,0,1,1);
@@ -776,6 +785,10 @@ namespace Wnlib
 									simptr = new SynSet(antptr.ptrs[j].off,PartOfSpeech.of("adj"),this);
 									search.wordsFrom(simptr);
 									simptr.str(similar,"\n",1,0,0,1);
+									// TDMS 6 Oct 2005 - build hierarchical results
+									if(antptr.senses == null)
+										antptr.senses = new ArrayList();
+									antptr.senses.Add(simptr);
 								}
 						} 
 						else
