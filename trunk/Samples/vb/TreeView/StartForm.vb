@@ -40,27 +40,27 @@ Namespace wnb
         Friend btnAdv As System.Windows.Forms.Button
         Friend btnNoun As System.Windows.Forms.Button
         WithEvents Friend Label3 As System.Windows.Forms.Label
-        Friend mnuHelp As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuHelp As System.Windows.Forms.MenuItem
         Friend btnAdj As System.Windows.Forms.Button
         Friend lblSearchInfo As System.Windows.Forms.Label
         WithEvents Friend MainMenu1 As System.Windows.Forms.MainMenu
-        Friend mnuShowGloss As System.Windows.Forms.MenuItem
-        Friend mnuExit As System.Windows.Forms.MenuItem
-        Friend mnuLGPL As System.Windows.Forms.MenuItem
-        Friend mnuOptions As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuShowGloss As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuExit As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuLGPL As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuOptions As System.Windows.Forms.MenuItem
         WithEvents Friend btnSearch As System.Windows.Forms.Button
-        Friend mnuShowHelp As System.Windows.Forms.MenuItem
-        Friend mnuWordWrap As System.Windows.Forms.MenuItem
-        Friend mnuAdvancedOptions As System.Windows.Forms.MenuItem
-        Friend mnuSaveDisplay As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuShowHelp As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuWordWrap As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuAdvancedOptions As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuSaveDisplay As System.Windows.Forms.MenuItem
         Friend txtSenses As System.Windows.Forms.TextBox
         WithEvents Friend Label1 As System.Windows.Forms.Label
         Friend WithEvents txtSearchWord As System.Windows.Forms.TextBox
-        Friend mnuWordNetLicense As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuWordNetLicense As System.Windows.Forms.MenuItem
         Friend btnOverview As System.Windows.Forms.Button
         Friend btnVerb As System.Windows.Forms.Button
         WithEvents Private mnuHistory As System.Windows.Forms.MenuItem
-        Friend mnuClearDisplay As System.Windows.Forms.MenuItem
+        Friend WithEvents mnuClearDisplay As System.Windows.Forms.MenuItem
         WithEvents Friend SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
         WithEvents Friend MenuItem17 As System.Windows.Forms.MenuItem
         
@@ -154,8 +154,8 @@ Namespace wnb
             Me.Splitter1 = New System.Windows.Forms.Splitter
             Me.Panel1 = New System.Windows.Forms.Panel
             Me.Panel2 = New System.Windows.Forms.Panel
-            Me.StatusBar1 = New System.Windows.Forms.StatusBar
             Me.txtOutput = New System.Windows.Forms.TextBox
+            Me.StatusBar1 = New System.Windows.Forms.StatusBar
             Me.Panel3 = New System.Windows.Forms.Panel
             Me.TreeView1 = New System.Windows.Forms.TreeView
             Me.Panel1.SuspendLayout()
@@ -387,14 +387,6 @@ Namespace wnb
             Me.Panel2.Size = New System.Drawing.Size(592, 100)
             Me.Panel2.TabIndex = 20
             '
-            'StatusBar1
-            '
-            Me.StatusBar1.Location = New System.Drawing.Point(0, 78)
-            Me.StatusBar1.Name = "StatusBar1"
-            Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
-            Me.StatusBar1.TabIndex = 10
-            Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
-            '
             'txtOutput
             '
             Me.txtOutput.Location = New System.Drawing.Point(0, 0)
@@ -406,6 +398,14 @@ Namespace wnb
             Me.txtOutput.TabIndex = 18
             Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more " & _
             "information"
+            '
+            'StatusBar1
+            '
+            Me.StatusBar1.Location = New System.Drawing.Point(0, 78)
+            Me.StatusBar1.Name = "StatusBar1"
+            Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
+            Me.StatusBar1.TabIndex = 10
+            Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
             '
             'Panel3
             '
@@ -841,7 +841,7 @@ Namespace wnb
             btnSearch.Visible = True
         End Sub
 
-        Private Sub mnuWordNetLicense_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Private Sub mnuWordNetLicense_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuWordNetLicense.Click
             Dim myFile As System.IO.StreamReader = New System.IO.StreamReader(MyPath() & "\wordnetlicense.txt")
             Dim mystring As String = myFile.ReadToEnd()
 
@@ -873,7 +873,7 @@ Namespace wnb
             f3.ShowDialog()
         End Sub
 
-        Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs)
+        Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
             txtOutput.Text = e.Node.Tag
         End Sub
     End Class
