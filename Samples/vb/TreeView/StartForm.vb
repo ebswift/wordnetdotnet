@@ -35,35 +35,35 @@ Namespace wnb
 
     Public Class StartForm
         Inherits System.Windows.Forms.Form
-        
+
         Friend mnuFile As System.Windows.Forms.MenuItem
         Friend btnAdv As System.Windows.Forms.Button
         Friend btnNoun As System.Windows.Forms.Button
-        WithEvents Friend Label3 As System.Windows.Forms.Label
+        Friend WithEvents Label3 As System.Windows.Forms.Label
         Friend WithEvents mnuHelp As System.Windows.Forms.MenuItem
         Friend btnAdj As System.Windows.Forms.Button
         Friend lblSearchInfo As System.Windows.Forms.Label
-        WithEvents Friend MainMenu1 As System.Windows.Forms.MainMenu
+        Friend WithEvents MainMenu1 As System.Windows.Forms.MainMenu
         Friend WithEvents mnuShowGloss As System.Windows.Forms.MenuItem
         Friend WithEvents mnuExit As System.Windows.Forms.MenuItem
         Friend WithEvents mnuLGPL As System.Windows.Forms.MenuItem
         Friend WithEvents mnuOptions As System.Windows.Forms.MenuItem
-        WithEvents Friend btnSearch As System.Windows.Forms.Button
+        Friend WithEvents btnSearch As System.Windows.Forms.Button
         Friend WithEvents mnuShowHelp As System.Windows.Forms.MenuItem
         Friend WithEvents mnuWordWrap As System.Windows.Forms.MenuItem
         Friend WithEvents mnuAdvancedOptions As System.Windows.Forms.MenuItem
         Friend WithEvents mnuSaveDisplay As System.Windows.Forms.MenuItem
         Friend txtSenses As System.Windows.Forms.TextBox
-        WithEvents Friend Label1 As System.Windows.Forms.Label
+        Friend WithEvents Label1 As System.Windows.Forms.Label
         Friend WithEvents txtSearchWord As System.Windows.Forms.TextBox
         Friend WithEvents mnuWordNetLicense As System.Windows.Forms.MenuItem
         Friend btnOverview As System.Windows.Forms.Button
         Friend btnVerb As System.Windows.Forms.Button
-        WithEvents Private mnuHistory As System.Windows.Forms.MenuItem
+        Private WithEvents mnuHistory As System.Windows.Forms.MenuItem
         Friend WithEvents mnuClearDisplay As System.Windows.Forms.MenuItem
-        WithEvents Friend SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
-        WithEvents Friend MenuItem17 As System.Windows.Forms.MenuItem
-        
+        Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+        Friend WithEvents MenuItem17 As System.Windows.Forms.MenuItem
+
 #Region "FormVariables"
         Private f3 As AdvancedOptions
         Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
@@ -194,7 +194,6 @@ Namespace wnb
             '
             'btnOverview
             '
-            Me.btnOverview.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnOverview.Location = New System.Drawing.Point(224, 32)
             Me.btnOverview.Name = "btnOverview"
@@ -547,7 +546,7 @@ Namespace wnb
                     End Select
 
                     If sch.senses.Count > 0 Then
-                        fillTreeRoot(list(i), tmppos)
+                        fillTreeRoot(list(i), Nothing, tmppos)
                     End If
                 Next i
                 TreeView1.EndUpdate()
@@ -555,7 +554,7 @@ Namespace wnb
                 MessageBox.Show(ex.Message & vbCrLf & vbCrLf & "Princeton's WordNet not pre-installed to default location?")
             End Try
 
-            FixDisplay()
+            FixDisplay(Nothing)
         End Sub
 
         Dim se As Wnlib.Search
@@ -584,20 +583,20 @@ Namespace wnb
             If (Wnlib.WNOpt.opt("-h").flag) Then
                 help = New Wnlib.WNHelp(opt.sch, opt.pos).help
             End If
-            FixDisplay()
+            FixDisplay(opt)
         End Sub
 
         Dim list As ArrayList = New ArrayList
         Dim help As String = ""
 
-        Public Sub FixDisplay()
+        Public Sub FixDisplay(ByVal opt As Wnlib.Opt)
             pbobject = ""
-            ShowResults()
+            ShowResults(opt)
 
             txtSearchWord.Focus()
         End Sub
 
-        Private Sub ShowResults()
+        Private Sub ShowResults(ByVal opt As Wnlib.Opt)
             Dim tmpstr As String = ""
 
             If list.Count = 0 Then
@@ -636,18 +635,20 @@ Namespace wnb
                     Dim wrd As String
 
                     For Each wrd In se.morphs.Keys
-                        fillTreeRoot(se.morphs(wrd))
+                        fillTreeRoot(se.morphs(wrd), opt)
                     Next
                 Else
-                        ' there are no morphs - all senses exist in se
-                        fillTreeRoot(se)
+                    ' there are no morphs - all senses exist in se
+                    fillTreeRoot(se, opt)
                 End If
                 TreeView1.EndUpdate()
             End If
         End Sub
 
         ' fill the top level of the tree
-        Private Sub fillTreeRoot(ByVal sch As Wnlib.Search, Optional ByVal tmppos As String = "")
+        ' opt is currently a redundant parameter, but since it holds the search
+        ' type, it can remain in case search type needs to be known
+        Private Sub fillTreeRoot(ByVal sch As Wnlib.Search, ByVal opt As Wnlib.Opt, Optional ByVal tmppos As String = "")
             ' do the treeview
             Dim ss As Wnlib.SynSet
             Dim parentnode As TreeNode
@@ -675,6 +676,8 @@ Namespace wnb
                 If Not ss.senses Is Nothing Then
                     fillTreeChild(ss.senses, parentnode)
                 End If
+
+skip:
             Next ss
         End Sub
 
