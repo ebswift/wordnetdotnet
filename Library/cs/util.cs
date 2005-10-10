@@ -179,8 +179,8 @@ namespace Wnlib
 			// TODO: resolve conflict - the wordnet commandline browser still shows derivation
 			new Opt( "-nomnv", "NOMINALIZATIONS", "VERB", 8, "Derived Forms" ); // TDMS 26/8/05 - changed derivation to nominalizations
 			new Opt( "-deriv", "NOMINALIZATIONS", "VERB", 8, "Derived Forms" ); // TDMS 26/8/05 - changed derivation to nominalizations
-//			new Opt( "-nomnv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
-//			new Opt( "-deriv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
+			//new Opt( "-nomnv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
+			//new Opt( "-deriv", "DERIVATION", "VERB", 8, "Derived Forms" );  // TDMS 26/8/05 - replaced by above
 
 			new Opt( "-domnv", "CLASSIFICATION", "VERB", 10, "Domain" );
 			new Opt( "-domtv", "CLASS", "VERB", 11, "Domain Terms" );
@@ -601,7 +601,7 @@ namespace Wnlib
 			new PointerType("=","ATTRIBUTE","Attributes"); // 18
 			new PointerType("$","VERBGROUP",""); // 19
 			new PointerType("+","NOMINALIZATIONS",""); // 20 // TDMS 26/8/05 - re-added nominalizations which was commented
-//			new PointerType("+","DERIVATION",""); // 20 // TDMS 26/8/05 - removed deviation
+			//new PointerType("+","DERIVATION",""); // 20 // TDMS 26/8/05 - removed deviation
 			new PointerType(";","CLASSIFICATION",""); // 21
 			new PointerType("-","CLASS",""); // 22
 			/* Additional searches, but not pointers.  */

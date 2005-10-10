@@ -631,7 +631,17 @@ Namespace wnb
             If Not se Is Nothing Then
                 TreeView1.BeginUpdate()
                 TreeView1.Nodes.Clear()
-                fillTreeRoot(se)
+                If se.morphs.Count > 0 Then
+                    ' use morphs instead of se
+                    Dim wrd As String
+
+                    For Each wrd In se.morphs.Keys
+                        fillTreeRoot(se.morphs(wrd))
+                    Next
+                Else
+                        ' there are no morphs - all senses exist in se
+                        fillTreeRoot(se)
+                End If
                 TreeView1.EndUpdate()
             End If
         End Sub
