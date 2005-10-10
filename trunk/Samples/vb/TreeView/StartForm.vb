@@ -52,7 +52,6 @@ Namespace wnb
         Friend mnuShowHelp As System.Windows.Forms.MenuItem
         Friend mnuWordWrap As System.Windows.Forms.MenuItem
         Friend mnuAdvancedOptions As System.Windows.Forms.MenuItem
-        WithEvents Friend StatusBar1 As System.Windows.Forms.StatusBar
         Friend mnuSaveDisplay As System.Windows.Forms.MenuItem
         Friend txtSenses As System.Windows.Forms.TextBox
         WithEvents Friend Label1 As System.Windows.Forms.Label
@@ -117,8 +116,13 @@ Namespace wnb
         'NOTE: The following procedure is required by the Windows Form Designer
         'It can be modified using the Windows Form Designer.  
         'Do not modify it using the code editor.
-        Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
+        Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
+        Friend WithEvents Panel1 As System.Windows.Forms.Panel
+        Friend WithEvents Panel2 As System.Windows.Forms.Panel
+        Friend WithEvents StatusBar1 As System.Windows.Forms.StatusBar
         Friend WithEvents txtOutput As System.Windows.Forms.TextBox
+        Friend WithEvents Panel3 As System.Windows.Forms.Panel
+        Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.MenuItem17 = New System.Windows.Forms.MenuItem
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
@@ -131,7 +135,6 @@ Namespace wnb
             Me.Label1 = New System.Windows.Forms.Label
             Me.txtSenses = New System.Windows.Forms.TextBox
             Me.mnuSaveDisplay = New System.Windows.Forms.MenuItem
-            Me.StatusBar1 = New System.Windows.Forms.StatusBar
             Me.mnuAdvancedOptions = New System.Windows.Forms.MenuItem
             Me.mnuWordWrap = New System.Windows.Forms.MenuItem
             Me.mnuShowHelp = New System.Windows.Forms.MenuItem
@@ -148,8 +151,16 @@ Namespace wnb
             Me.Label3 = New System.Windows.Forms.Label
             Me.btnNoun = New System.Windows.Forms.Button
             Me.btnAdv = New System.Windows.Forms.Button
-            Me.TreeView1 = New System.Windows.Forms.TreeView
+            Me.Splitter1 = New System.Windows.Forms.Splitter
+            Me.Panel1 = New System.Windows.Forms.Panel
+            Me.Panel2 = New System.Windows.Forms.Panel
+            Me.StatusBar1 = New System.Windows.Forms.StatusBar
             Me.txtOutput = New System.Windows.Forms.TextBox
+            Me.Panel3 = New System.Windows.Forms.Panel
+            Me.TreeView1 = New System.Windows.Forms.TreeView
+            Me.Panel1.SuspendLayout()
+            Me.Panel2.SuspendLayout()
+            Me.Panel3.SuspendLayout()
             Me.SuspendLayout()
             '
             'MenuItem17
@@ -229,14 +240,6 @@ Namespace wnb
             '
             Me.mnuSaveDisplay.Index = 0
             Me.mnuSaveDisplay.Text = "Save Current Display"
-            '
-            'StatusBar1
-            '
-            Me.StatusBar1.Location = New System.Drawing.Point(0, 464)
-            Me.StatusBar1.Name = "StatusBar1"
-            Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
-            Me.StatusBar1.TabIndex = 9
-            Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
             '
             'mnuAdvancedOptions
             '
@@ -346,49 +349,100 @@ Namespace wnb
             Me.btnAdv.Text = "Adverb"
             Me.btnAdv.Visible = False
             '
-            'TreeView1
+            'Splitter1
             '
-            Me.TreeView1.ImageIndex = -1
-            Me.TreeView1.Location = New System.Drawing.Point(0, 56)
-            Me.TreeView1.Name = "TreeView1"
-            Me.TreeView1.SelectedImageIndex = -1
-            Me.TreeView1.Size = New System.Drawing.Size(592, 320)
-            Me.TreeView1.TabIndex = 16
+            Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.Splitter1.Location = New System.Drawing.Point(0, 381)
+            Me.Splitter1.Name = "Splitter1"
+            Me.Splitter1.Size = New System.Drawing.Size(592, 5)
+            Me.Splitter1.TabIndex = 18
+            Me.Splitter1.TabStop = False
+            '
+            'Panel1
+            '
+            Me.Panel1.Controls.Add(Me.btnAdj)
+            Me.Panel1.Controls.Add(Me.btnAdv)
+            Me.Panel1.Controls.Add(Me.txtSenses)
+            Me.Panel1.Controls.Add(Me.btnNoun)
+            Me.Panel1.Controls.Add(Me.Label1)
+            Me.Panel1.Controls.Add(Me.btnSearch)
+            Me.Panel1.Controls.Add(Me.btnVerb)
+            Me.Panel1.Controls.Add(Me.btnOverview)
+            Me.Panel1.Controls.Add(Me.lblSearchInfo)
+            Me.Panel1.Controls.Add(Me.txtSearchWord)
+            Me.Panel1.Controls.Add(Me.Label3)
+            Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
+            Me.Panel1.Location = New System.Drawing.Point(0, 0)
+            Me.Panel1.Name = "Panel1"
+            Me.Panel1.Size = New System.Drawing.Size(592, 56)
+            Me.Panel1.TabIndex = 19
+            '
+            'Panel2
+            '
+            Me.Panel2.Controls.Add(Me.txtOutput)
+            Me.Panel2.Controls.Add(Me.StatusBar1)
+            Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.Panel2.Location = New System.Drawing.Point(0, 386)
+            Me.Panel2.Name = "Panel2"
+            Me.Panel2.Size = New System.Drawing.Size(592, 100)
+            Me.Panel2.TabIndex = 20
+            '
+            'StatusBar1
+            '
+            Me.StatusBar1.Location = New System.Drawing.Point(0, 78)
+            Me.StatusBar1.Name = "StatusBar1"
+            Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
+            Me.StatusBar1.TabIndex = 10
+            Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
             '
             'txtOutput
             '
-            Me.txtOutput.Location = New System.Drawing.Point(0, 384)
+            Me.txtOutput.Location = New System.Drawing.Point(0, 0)
             Me.txtOutput.Multiline = True
             Me.txtOutput.Name = "txtOutput"
             Me.txtOutput.ReadOnly = True
             Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-            Me.txtOutput.Size = New System.Drawing.Size(592, 72)
-            Me.txtOutput.TabIndex = 17
+            Me.txtOutput.Size = New System.Drawing.Size(592, 80)
+            Me.txtOutput.TabIndex = 18
             Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more " & _
             "information"
+            '
+            'Panel3
+            '
+            Me.Panel3.Controls.Add(Me.TreeView1)
+            Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.Panel3.Location = New System.Drawing.Point(0, 56)
+            Me.Panel3.Name = "Panel3"
+            Me.Panel3.Size = New System.Drawing.Size(592, 325)
+            Me.Panel3.TabIndex = 21
+            '
+            'TreeView1
+            '
+            Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                        Or System.Windows.Forms.AnchorStyles.Left) _
+                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.TreeView1.ImageIndex = -1
+            Me.TreeView1.Location = New System.Drawing.Point(0, 0)
+            Me.TreeView1.Name = "TreeView1"
+            Me.TreeView1.SelectedImageIndex = -1
+            Me.TreeView1.Size = New System.Drawing.Size(592, 326)
+            Me.TreeView1.TabIndex = 17
             '
             'StartForm
             '
             Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
             Me.ClientSize = New System.Drawing.Size(592, 486)
-            Me.Controls.Add(Me.txtOutput)
-            Me.Controls.Add(Me.TreeView1)
-            Me.Controls.Add(Me.btnOverview)
-            Me.Controls.Add(Me.txtSenses)
-            Me.Controls.Add(Me.txtSearchWord)
-            Me.Controls.Add(Me.btnSearch)
-            Me.Controls.Add(Me.StatusBar1)
-            Me.Controls.Add(Me.Label3)
-            Me.Controls.Add(Me.btnAdv)
-            Me.Controls.Add(Me.btnAdj)
-            Me.Controls.Add(Me.btnVerb)
-            Me.Controls.Add(Me.btnNoun)
-            Me.Controls.Add(Me.lblSearchInfo)
-            Me.Controls.Add(Me.Label1)
+            Me.Controls.Add(Me.Panel3)
+            Me.Controls.Add(Me.Splitter1)
+            Me.Controls.Add(Me.Panel2)
+            Me.Controls.Add(Me.Panel1)
             Me.Menu = Me.MainMenu1
             Me.Name = "StartForm"
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "WordNet.Net TreeView Sample"
+            Me.Panel1.ResumeLayout(False)
+            Me.Panel2.ResumeLayout(False)
+            Me.Panel3.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -819,7 +873,7 @@ Namespace wnb
             f3.ShowDialog()
         End Sub
 
-        Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
+        Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs)
             txtOutput.Text = e.Node.Tag
         End Sub
     End Class
