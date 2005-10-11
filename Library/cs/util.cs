@@ -364,6 +364,79 @@ namespace Wnlib
 			return binSearch(word,WNDB.index(pos));
 		}
 		
+		public static string binSearchSemCor(string uniqueid, string searchKey,StreamReader fp)
+		{
+			int c,n;
+			long top,bot,mid,diff;
+			string line,key;
+			diff = 666; // ???
+			line = "";
+			bot = fp.BaseStream.Seek(0,SeekOrigin.End);
+			top = 0;
+			mid = (bot-top)/2;
+			do 
+			{
+				fp.DiscardBufferedData();
+				fp.BaseStream.Position = mid-1;
+
+				if (mid!=1)
+					while ((c=fp.Read())!='\n' && c!=-1)
+						;
+				line = fp.ReadLine();
+				if (line==null)
+					return null;
+				n = line.IndexOf('%');
+				key = line.Substring(0,n);
+				if (String.CompareOrdinal(key, searchKey)<0) 
+				{
+					// key is alphabetically less than the search key
+					top = mid;
+					diff = (bot - top)/2;
+					mid = top + diff;
+				}
+				if (String.CompareOrdinal(key, searchKey)>0) 
+				{
+					// key is alphabetically greater than the search key
+					bot = mid;
+					diff = (bot - top)/2;
+					mid = top + diff;
+				}
+			} while (key!=searchKey && diff!=0);
+
+			// we have found an exact match
+			if (line.IndexOf(uniqueid, 0) > 0)
+				return line;
+
+			// set the search down the list and work up
+			fp.DiscardBufferedData();
+			fp.BaseStream.Position -= 4000;
+			//fp.BaseStream.Seek((long)(-1000), SeekOrigin.Current);
+
+			// move down until we find the first matching key
+			do 
+			{
+				line = fp.ReadLine();
+				n = line.IndexOf('%');
+				key = "";
+
+				if(n > 0)
+					key = line.Substring(0,n);
+			} while(key != searchKey);
+
+			// scroll through matching words until the exact identifier is found
+			do 
+			{
+				if(line.IndexOf(uniqueid, 0) > 0)
+					return line;
+
+				line = fp.ReadLine();
+				n = line.IndexOf('%');
+				key = line.Substring(0,n);
+			} while(key == searchKey);
+
+			return null;
+		}
+		
 		public static SearchSet is_defined(string word,string p)
 		{
 			return is_defined(word,PartOfSpeech.of(p));
