@@ -32,52 +32,95 @@ namespace Wnlib
 	/// </summary>	
 	public class SynSetList : CollectionBase
 	{
+		private ArrayList _synSets = new ArrayList();
 		public SynSetList()
 		{
 
 		}
 
-		~SynSetList()
+		~SynSetList() 
 		{
 
-		}
-
-		public int Add(SynSet item)
-		{
-			
-			return List.Add(item);
-		}
-		public void Insert(int index, SynSet item)
-		{
-			List.Insert(index, item);
-		}
-		public void Remove(SynSet item)
-		{
-			List.Remove(item);
-		} 
-		public bool Contains(SynSet item)
-		{
-			return List.Contains(item);
-		}
-		public int IndexOf(SynSet item)
-		{
-			return List.IndexOf(item);
-		}
-		public void CopyTo(SynSet[] array, int index)
-		{
-			List.CopyTo(array, index);
-			
-		}
-		
-		public SynSet this[int index]
-		{
-			get { return (SynSet)List[index]; }
-			set { List[index] = value; }
 		}
 
 		public virtual void Dispose()
 		{
+			_synSets = null;
+		}
+
+		/// 
+		/// <param name="item"></param>
+		public int Add(SynSet item)
+		{
+			return _synSets.Add(item);
+		}
+
+		public int Count
+		{
+			get
+			{
+				return _synSets.Count;	
+			}
 			
+		}
+
+		/// 
+		/// <param name="item"></param>
+		public void Remove(SynSet item)
+		{
+			_synSets.Remove(item);
+		}
+
+		/// 
+		/// <param name="index"></param>
+		/// <param name="item"></param>
+		public void Insert(int index, SynSet item)
+		{
+			_synSets.Insert(index, item);
+		}
+
+		/// 
+		/// <param name="item"></param>
+		public bool Contains(SynSet item)
+		{
+			return _synSets.Contains(item);
+		}
+
+		/// 
+		/// <param name="item"></param>
+		public int IndexOf(SynSet item)
+		{
+			return _synSets.IndexOf(item);
+		}
+
+		/// 
+		/// <param name="array"></param>
+		/// <param name="index"></param>
+		public void CopyTo(SynSet[] array, int index)
+		{
+			_synSets.CopyTo(array,index);
+		}
+
+		/// 
+		/// <param name="index"></param>
+		public SynSet this[int index]
+		{
+
+			get
+			{
+				if(index>=_synSets.Count)
+					throw new Exception("This index is out of the range");
+				else
+					return (SynSet)_synSets[index];
+			}
+
+			set
+			{
+				if(index>=_synSets.Count)
+					throw new Exception("This index is out of the range");
+				else
+					_synSets[index] = value;
+			}
 		}
 	}
 }
