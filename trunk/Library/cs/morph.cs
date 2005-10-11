@@ -48,7 +48,8 @@ namespace Wnlib
 								   /* Adjective endings */
 								   "", "", "e", "e"
 							   };
-		static int[] offsets = { 0, 8, 8, 16 };
+		static int[] offsets = { 0, 8, 8, 16 };  
+//		static int[] offsets = { 0, 0, 8, 16 }; // TODO: investigate this - wordnet "morph.c" defines this as being correct but we are using the above
 		static int[] cnts = { 8, 8, 8, 4 }; // 0 changed to 8 - Troy
 		
 		static string[] prepositions = 
@@ -98,7 +99,7 @@ namespace Wnlib
 				}
 				/* then try simply morph on original string */
 				if (pos.name!="verb" && ((tmp=morphword(str))!=null) && str!=tmp)
-					return tmp;
+						return tmp;
 				if (pos.name=="verb" && cnt>1 && (prep=hasprep(str,cnt))!=0)
 				{
 					svprep = prep;
@@ -201,9 +202,12 @@ namespace Wnlib
 			int offset = offsets[pos.ident];
 			int cnt = cnts[pos.ident];
 			for (int i=0;i<cnt;i++)
-				if (word.EndsWith(sufx[i+offset]))
+				if (tmpbuf.EndsWith(sufx[i+offset]))
 				{
-					string retval = word.Substring(0,word.Length-sufx[i+offset].Length)+addr[i+offset];
+					// TDMS 11 Oct 2005 - bug fix - "word" substituted with "tmpbuf" as per
+					// wordnet code morph.c
+					//string retval = word.Substring(0,word.Length-sufx[i+offset].Length)+addr[i+offset];
+					string retval = tmpbuf.Substring(0,tmpbuf.Length-sufx[i+offset].Length)+addr[i+offset];
 					if (WNDB.is_defined(retval,pos).NonEmpty) 
 						return retval+end;
 				}

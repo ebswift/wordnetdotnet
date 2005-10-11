@@ -529,21 +529,11 @@ Namespace wnb
                 Dim i As Integer
                 Dim tmppos As String
 
-                For i = 0 To 3
+                For i = 0 To list.Count - 1
                     sch = list(i)
-                    Select Case i
-                        Case 0
-                            tmppos = "Noun"
 
-                        Case 1
-                            tmppos = "Verb"
-
-                        Case 2
-                            tmppos = "Adjective"
-
-                        Case 3
-                            tmppos = "Adverb"
-                    End Select
+                    ' capitalise first letter of pos
+                    tmppos = UCase(Mid(sch.pos.name, 1, 1)) & Mid(sch.pos.name, 2)
 
                     If sch.senses.Count > 0 Then
                         fillTreeRoot(list(i), Nothing, tmppos)
