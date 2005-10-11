@@ -106,36 +106,26 @@ namespace Wnlib
 			{
 				Search s = new Search(morphword,pos,sch,whichsense);
 				s.do_search(false);
-				morphs[morphword] = s; //Fill the morphlist - eg. if verb relations of 'drunk' are requested, none are directly found, but the morph 'drink' will have results.  The morph hashtable will be populated into the search results and should be iterated instead of the returned synset if the morphs are non-empty
+				// Fill the morphlist - eg. if verb relations of 'drunk' are requested, none are directly 
+				// found, but the morph 'drink' will have results.  The morph hashtable will be populated 
+				// into the search results and should be iterated instead of the returned synset if the 
+				// morphs are non-empty
+				morphs[morphword] = s;
 				buf += s.buf;
 			}
-
-			// TDMS 10 Oct 2005: fill senses with morphed senses otherwise
-			// sense information is destroyed if there are available morphs
 		}
 
 		// From the WordNet Manual (http://wordnet.princeton.edu/man/wnsearch.3WN.html)
 		// findtheinfo() is the primary search algorithm for use with database interface 
 		// applications. Search results are automatically formatted, and a pointer to the 
 		// text buffer is returned. All searches listed in WNHOME/include/wnconsts.h can be 
-		// done by findtheinfo(). findtheinfo_ds() can be used to perform most of the searches, 
-		// with results returned in a linked list data structure. This is for use with 
-		// applications that need to analyze the search results rather than just display them.
-		//
-		// ***NOTE: findtheinfo_ds is NOT implemented in this library
-		//
-		// findtheinfo_ds() returns a linked list data structures representing synsets. Senses 
-		// are linked through the nextss field of a Synset data structure. For each sense, 
-		// synsets that match the search specified with ptr_type are linked through the ptrlist 
-		// field. See Synset Navigation below, for detailed information on the linked lists 
-		// returned.
+		// done by findtheinfo().
 		void findtheinfo()
 		{
 			SynSet cursyn = null;
 			Indexes ixs = new Indexes(word,pos);
 			Index idx = null;
 			int depth = sch.rec?1:0;
-			//senses = new ArrayList();
 			senses = new SynSetList();
 			switch(sch.ptp.mnemonic) 
 			{
@@ -186,7 +176,8 @@ namespace Wnlib
 										goto skipit;
 								}
 								cursyn = new SynSet(idx,sense,this);
-								senses.Add(cursyn);
+
+								//TODO: moved senses.add(cursyn) from here to each case and handled it differently according to search - this handling needs to be verified to ensure the filter is not to limiting
 								switch(sch.ptp.mnemonic) 
 								{
 									case "ANTPTR": 
@@ -194,31 +185,42 @@ namespace Wnlib
 											cursyn.traceAdjAnt();
 										else
 											cursyn.tracePtrs(sch.ptp,pos,depth); 
+
+										// only build the hierarchy if there are results
+										if(! (cursyn.senses == null))
+											senses.Add(cursyn);
 										break;
 									case "COORDS":
 										cursyn.traceCoords(PointerType.of("HYPOPTR"),pos,depth);
+										senses.Add(cursyn);
 										break;
 									case "FRAMES":
 										cursyn.strFrame(true);
+										senses.Add(cursyn);
 										break;
 									case "MERONYM":
 										cursyn.tracePtrs(PointerType.of("HASMEMBERPTR"),pos,depth);
 										cursyn.tracePtrs(PointerType.of("HASSTUFFPTR"),pos,depth);
 										cursyn.tracePtrs(PointerType.of("HASPARTPTR"),pos,depth);
+										senses.Add(cursyn);
 										break;
 									case "HOLONYM":
 										cursyn.tracePtrs(PointerType.of("ISMEMBERPTR"),pos,depth);
 										cursyn.tracePtrs(PointerType.of("ISSTUFFPTR"),pos,depth);
 										cursyn.tracePtrs(PointerType.of("ISPARTPTR"),pos,depth);
+										senses.Add(cursyn);
 										break;
 									case "HMERONYM":
 										cursyn.partsAll(sch.ptp);
+										senses.Add(cursyn);
 										break;
 									case "HHOLONYM":
 										cursyn.partsAll(sch.ptp);
+										senses.Add(cursyn);
 										break;
 									case "SEEALSOPTR":
 										cursyn.seealso();
+										senses.Add(cursyn);
 										break;
 									case "SIMPTR":
 										goto case "HYPERPTR";
@@ -238,18 +240,25 @@ namespace Wnlib
 											cursyn.tracePtrs(PointerType.of("PERTPTR"),pos,depth);
 										if (pos.name=="verb")
 											cursyn.strFrame(false);
+
+										senses.Add(cursyn);
 										break;
 									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
 										// derivation - TDMS
 										cursyn.tracenomins(sch.ptp);
+										senses.Add(cursyn);
 										break;
 									case "CLASSIFICATION":
 										goto case "CLASS";
 									case "CLASS":
 										cursyn.traceclassif(sch.ptp, new SearchType(false,sch.ptp));
+										if(! (cursyn.senses == null))
+											senses.Add(cursyn);
 										break;
 									default:
 										cursyn.tracePtrs(sch.ptp,pos,depth);
+										if(! (cursyn.senses == null))
+											senses.Add(cursyn);
 										break;
 								}
 							skipit: ;
