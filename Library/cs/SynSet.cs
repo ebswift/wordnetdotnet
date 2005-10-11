@@ -60,7 +60,6 @@ namespace Wnlib
 		public int sense; // "global" variable: will match search.sense-1 if this is nonzero
 		//public ArrayList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
 		public SynSetList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
-		public SemCorList semcors = null; // of SemCor - for providing optional semcor tagging information
 		Search search;
 		public Pointer[] ptrs;		/* number of pointers */
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */

@@ -911,6 +911,7 @@ skip:
             End If
         End Sub
 
+        ' get the semcor value for each lexeme
         Private Sub mnuSemCor(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim outtxt As String
             Dim ss As Wnlib.SynSet
@@ -924,7 +925,10 @@ skip:
             ' build semcor information for each lexeme
             For Each lex In ss.words
                 lex.semcor = New Wnlib.SemCor(lex, ss.hereiam)
+                outtxt += lex.word & ": " & lex.semcor.semcor & vbCrLf
             Next
+
+            txtOutput.Text = outtxt
         End Sub
     End Class
 
