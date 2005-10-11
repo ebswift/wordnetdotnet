@@ -82,6 +82,12 @@ Namespace wnb
 
             'Add any initialization after the InitializeComponent() call
 
+            Dim mitem As MenuItem = New MenuItem
+
+            mitem.Text = "SemCor"
+            mnuNodeMenu.MenuItems.Add(mitem)
+            AddHandler mitem.Click, AddressOf mnuSemCor
+
             txtOutput.Anchor = Anchor.Top Or Anchor.Left Or Anchor.Bottom Or Anchor.Right
             f3 = New AdvancedOptions
             AddHandler mnuSaveDisplay.Click, AddressOf mnuSaveDisplay_Click
@@ -123,6 +129,7 @@ Namespace wnb
         Friend WithEvents txtOutput As System.Windows.Forms.TextBox
         Friend WithEvents Panel3 As System.Windows.Forms.Panel
         Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
+        Friend WithEvents mnuNodeMenu As System.Windows.Forms.ContextMenu
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.MenuItem17 = New System.Windows.Forms.MenuItem
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
@@ -158,6 +165,7 @@ Namespace wnb
             Me.StatusBar1 = New System.Windows.Forms.StatusBar
             Me.Panel3 = New System.Windows.Forms.Panel
             Me.TreeView1 = New System.Windows.Forms.TreeView
+            Me.mnuNodeMenu = New System.Windows.Forms.ContextMenu
             Me.Panel1.SuspendLayout()
             Me.Panel2.SuspendLayout()
             Me.Panel3.SuspendLayout()
@@ -427,6 +435,9 @@ Namespace wnb
             Me.TreeView1.Size = New System.Drawing.Size(592, 326)
             Me.TreeView1.TabIndex = 17
             '
+            'mnuNodeMenu
+            '
+            '
             'StartForm
             '
             Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
@@ -673,7 +684,7 @@ skip:
 
         ' separate sub to fill all the children -
         ' this is done to allow recursive child calls
-        Private Sub fillTreeChild(ByVal ssarray As ArrayList, ByVal parentnode As TreeNode)
+        Private Sub fillTreeChild(ByVal ssarray As Wnlib.SynSetList, ByVal parentnode As TreeNode)
             Dim childnode As TreeNode
             Dim ss As Wnlib.SynSet
 
@@ -704,12 +715,18 @@ skip:
                 End If
 
                 words += Replace(word.word, "_", " ")
+
+                ' append the sense number when the sense is not 1
+                If word.wnsns <> 1 Then
+                    words += "(" & word.wnsns & ")"
+                End If
             Next word
 
             ' define a new child node
             childnode = New TreeNode
             childnode.Text = words
-            childnode.Tag = ss.defn
+            'childnode.Tag = ss.defn
+            childnode.Tag = ss
 
             Return childnode
         End Function
@@ -877,7 +894,37 @@ skip:
         End Sub
 
         Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
-            txtOutput.Text = e.Node.Tag
+            Try
+                txtOutput.Text = e.Node.Tag.defn
+            Catch
+                ' when opening a root node
+            End Try
+        End Sub
+
+        Private Sub TreeView1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView1.MouseDown
+            If e.Button = MouseButtons.Right Then
+                Dim t As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
+
+                TreeView1.SelectedNode = t
+
+                mnuNodeMenu.Show(TreeView1, New Point(e.X, e.Y))
+            End If
+        End Sub
+
+        Private Sub mnuSemCor(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim outtxt As String
+            Dim ss As Wnlib.SynSet
+            Dim lex As Wnlib.Lexeme
+
+            outtxt = "SemCor" & vbCrLf & vbCrLf
+
+
+            ss = TreeView1.SelectedNode.Tag
+
+            ' build semcor information for each lexeme
+            For Each lex In ss.words
+                lex.semcor = New Wnlib.SemCor(lex, ss.hereiam)
+            Next
         End Sub
     End Class
 

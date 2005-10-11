@@ -139,6 +139,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SemCor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SemCorList.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Synonym.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

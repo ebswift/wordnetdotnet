@@ -58,7 +58,9 @@ namespace Wnlib
 		public int whichword=0;     /* 1.. of the words array */
 		public AdjSynSetType sstype;
 		public int sense; // "global" variable: will match search.sense-1 if this is nonzero
-		public ArrayList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
+		//public ArrayList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
+		public SynSetList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
+		public SemCorList semcors = null; // of SemCor - for providing optional semcor tagging information
 		Search search;
 		public Pointer[] ptrs;		/* number of pointers */
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */
@@ -254,7 +256,7 @@ namespace Wnlib
 
 					// TDMS 6 Oct 2005 - build hierarchical results
 					if(this.senses == null)
-						this.senses = new ArrayList();
+						this.senses = new SynSetList();
 					this.senses.Add(cursyn);
 
 					/* For Pertainyms and Participles pointing to a specific
@@ -325,7 +327,7 @@ namespace Wnlib
 					cursyn.tracePtrs(ptp,cursyn.pos,depth);
 					// TDMS 6 Oct 2005 - build hierarchical results
 					if(this.senses == null)
-						this.senses = new ArrayList();
+						this.senses = new SynSetList();
 					this.senses.Add(cursyn);
 					if (depth>0) 
 					{
@@ -334,7 +336,7 @@ namespace Wnlib
 						// TDMS 6 Oct 2005 - build hierarchical results
 						// TODO: verify this
 						if(this.senses == null)
-							this.senses = new ArrayList();
+							this.senses = new SynSetList();
 						this.senses.Add(cursyn);
 					}
 				}
@@ -382,7 +384,7 @@ namespace Wnlib
 					// TDMS 6 Oct 2005 - build hierarchical results
 					// TODO: verify this
 					if(this.senses == null)
-						this.senses = new ArrayList();
+						this.senses = new SynSetList();
 					this.senses.Add(cursyn);
 
 					for (j = 0; j < idx; j++) 
@@ -453,7 +455,7 @@ namespace Wnlib
 					// TDMS 6 Oct 2005 - build hierarchical results
 					// TODO: verify this
 					if(this.senses == null)
-						this.senses = new ArrayList();
+						this.senses = new SynSetList();
 					this.senses.Add(cursyn);
 
 					cursyn.tracePtrs(ptp,cursyn.pos,0);
@@ -493,7 +495,7 @@ namespace Wnlib
 					// TDMS 6 Oct 2005 - build hierarchical results
 					// TODO: verify this
 					if(this.senses == null)
-						this.senses = new ArrayList();
+						this.senses = new SynSetList();
 					this.senses.Add(cursyn);
 
 					cursyn.tracePtrs(pbase,PartOfSpeech.of("noun"),depth);
@@ -754,7 +756,7 @@ namespace Wnlib
 					// TDMS 6 Oct 2005 - build hierarchical results
 					// TODO: verify if this level is required
 					if(this.senses == null)
-						this.senses = new ArrayList();
+						this.senses = new SynSetList();
 					this.senses.Add(newsynptr);
 				} 
 				else
@@ -774,7 +776,7 @@ namespace Wnlib
 						search.wordsFrom(antptr);
 						// TDMS 6 Oct 2005 - build hierarchical results
 						if(this.senses == null)
-							this.senses = new ArrayList();
+							this.senses = new SynSetList();
 						this.senses.Add(antptr);
 						if (anttype==AdjSynSetType.DirectAnt) 
 						{
@@ -787,7 +789,7 @@ namespace Wnlib
 									simptr.str(similar,"\n",1,0,0,1);
 									// TDMS 6 Oct 2005 - build hierarchical results
 									if(antptr.senses == null)
-										antptr.senses = new ArrayList();
+										antptr.senses = new SynSetList();
 									antptr.senses.Add(simptr);
 								}
 						} 
