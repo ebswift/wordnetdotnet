@@ -20,11 +20,13 @@ namespace WordsMatching
 
 		public SemanticSimilarity()
 		{
+			StopWordsHandler stopword=new StopWordsHandler() ;
 		}
 		
 
 		private void MyInit()
 		{
+			
 			AdaptedLesk dis=new AdaptedLesk() ;
 			_senses1=dis.Disambiguate(_source) ;
 			_senses2=dis.Disambiguate(_target) ;
@@ -58,7 +60,7 @@ namespace WordsMatching
 		}
 
 		public float GetScore(string string1, string string2)		
-		{
+		{			
 			Tokeniser tok=new Tokeniser() ;
 			_source=tok.Partition(string1) ;
 			_target=tok.Partition(string2) ;
