@@ -48,21 +48,14 @@ namespace WordsMatching
 
 		public Test()
 		{
-			Tokeniser tok=new Tokeniser() ;
-			//string[] a=tok.Partition("pine cone") ;//0 2
-			//string[] a=tok.Partition("I know I love you very much") ; //0 3
-			string[] a=tok.Partition("church states I know I love you very much") ;
-			string[] b=tok.Partition(" long  fruit of certain evergreen tree.");			
-			//ExtendedLesk extended=new ExtendedLesk() ;
-			//int[] sense=extended.Disambiguate(a) ;
-			PathLengthSimilarity path=new PathLengthSimilarity() ;
+			
 			
 			SemanticSimilarity semsim=new SemanticSimilarity() ;
-			//float score=semsim.GetScore("Defense Ministry", "Department of defence");
+			float score=semsim.GetScore("Defense Ministry", "Department of defence");
 			
 			//float score=semsim.GetScore("Pepsi is being drunk by Shilpa", "Niti is eating softy");
 			
-			float score=semsim.GetScore("drunk", "drink");
+			
 			int i=1;
 			
 			//Trace.WriteLine(match.Score) ;			
