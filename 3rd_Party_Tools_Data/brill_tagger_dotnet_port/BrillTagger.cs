@@ -121,7 +121,8 @@ namespace BrillTagger
 			string [] tlist;
 			int i = 0;
 			int j;
-			StreamReader SR = new StreamReader((Application.StartupPath + "\\Lexiconlong.txt"));
+			//StreamReader SR = new StreamReader((Application.StartupPath + "\\Lexiconlong.txt"));
+			StreamReader SR = new StreamReader((Application.StartupPath + "\\LEXICON.WSJ"));
 			// I usually read in long files with SR.ReadToEnd then do a Split on VBNewLine
 			// But in this case it is MUCH slower than doing it via ReadLine
 			// And reading and hashing this way is MUCH faster than saving the serialized hash table
@@ -135,7 +136,8 @@ namespace BrillTagger
 				s = SR.ReadLine();
 			}
 			SR.Close();
-			SR = new StreamReader((Application.StartupPath + "\\LexicalRuleFile.txt"));
+			//SR = new StreamReader((Application.StartupPath + "\\LexicalRuleFile.txt"));
+			SR = new StreamReader((Application.StartupPath + "\\LEXICALRULEFILE.BROWN"));
 			lx = SR.ReadToEnd();
 			SR.Close();
 			lv = lx.Split('\n');
@@ -145,7 +147,8 @@ namespace BrillTagger
 				// TheRules[i] = lv[i];
 				TheRules.Add((string)lv[i]);
 			}
-			SR = new StreamReader((Application.StartupPath + "\\ContextualRuleFile.txt"));
+			//SR = new StreamReader((Application.StartupPath + "\\ContextualRuleFile.txt"));
+			SR = new StreamReader((Application.StartupPath + "\\CONTEXTUALRULEFILE.BROWN"));
 			lx = SR.ReadToEnd();
 			SR.Close();
 			lv = lx.Split('\n');
