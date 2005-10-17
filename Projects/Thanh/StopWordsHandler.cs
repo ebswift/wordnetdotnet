@@ -28,7 +28,7 @@ namespace WordsMatching
 			return element;
 		}
 
-		public static bool IsStopword(string str)
+		public static bool IsStopWord(string str)
 		{
 			
 			//int index=Array.BinarySearch(stopWordsList, str)
