@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-namespace ServiceRanking
+namespace WordsMatching
 {
 	/// <summary>
 	/// Stop words are frequently occurring, insignificant words words 
