@@ -67,13 +67,18 @@ namespace BrillTagger
 			//
 		}
     
-		public static string BrillTagged(string TheSentence, bool DoLexical, bool DoContextual, bool DoClean) 
+		public static string BrillTagged(string TheSentence, bool DoLexical, bool DoContextual, bool DoClean, string LexiconFile, string LexicalRuleFile, string ContextualRuleFile) 
 		{
 			// , ByVal TheFlagBox As TextBox) As String
-			string[] s;
 			int i;
-			int j;
 			StringBuilder Tagged = new StringBuilder();
+			Lexicon.Clear();
+			TheNBest.Clear();
+			TheWords.Clear();
+			TheTags.Clear();
+			TheRules.Clear();
+			TheContext.Clear();
+
 			TheSentence = Formatter.FormatText(TheSentence, DoClean);
 			// Because we've done a FormatText it is easy to create individual words via Split
 			// Lexical tagger requires the first word of the sentence to be S-T-A-R-T
@@ -84,7 +89,7 @@ namespace BrillTagger
 			{
 				// TheFlagBox.Text = "Reading in the Lexicon and other files..."
 				// TheFlagBox.Refresh()
-				GetLexiconEtc();
+				GetLexiconEtc(LexiconFile, LexicalRuleFile, ContextualRuleFile);
 			}
 			// TheFlagBox.Text = "Tagging..."
 			// TheFlagBox.Refresh()
@@ -113,31 +118,38 @@ namespace BrillTagger
 			return Tagged.ToString();
 		}
     
-		public static void GetLexiconEtc() 
+		public static void GetLexiconEtc(string LexiconFile, string LexicalRuleFile, string ContextualRuleFile) 
 		{
 			string lx;
 			string [] lv;
-			string tags;
 			string [] tlist;
 			int i = 0;
 			int j;
 			//StreamReader SR = new StreamReader((Application.StartupPath + "\\Lexiconlong.txt"));
-			StreamReader SR = new StreamReader((Application.StartupPath + "\\LEXICON.WSJ"));
+			StreamReader SR = new StreamReader((Application.StartupPath + "\\" + LexiconFile));
 			// I usually read in long files with SR.ReadToEnd then do a Split on VBNewLine
 			// But in this case it is MUCH slower than doing it via ReadLine
 			// And reading and hashing this way is MUCH faster than saving the serialized hash table
 			// especially for a very long lexicon. Serializing a big hash table is VERY, VERY slow
 			string s = SR.ReadLine();
-			while (!(s == null)) 
+			// TDMS 20 Oct 2005 - added check for empty string
+			while (!(s == null) && !((string)s == "")) 
 			{
 				j = s.IndexOf(" ");
 				tlist = s.Substring((j + 1)).Split(' ');
-				Lexicon.Add(s.Substring(0, j), tlist);
+				try 
+				{
+					Lexicon.Add(s.Substring(0, j), tlist);
+				} 
+				catch 
+				{
+					//TODO: LEXICON.BROWN.AND.WSJ contains '# #' at the start, find out how this should be stored - a key cannot be duplicated in a hash
+				}
 				s = SR.ReadLine();
 			}
 			SR.Close();
 			//SR = new StreamReader((Application.StartupPath + "\\LexicalRuleFile.txt"));
-			SR = new StreamReader((Application.StartupPath + "\\LEXICALRULEFILE.BROWN"));
+			SR = new StreamReader((Application.StartupPath + "\\" + LexicalRuleFile));
 			lx = SR.ReadToEnd();
 			SR.Close();
 			lv = lx.Split('\n');
@@ -145,18 +157,21 @@ namespace BrillTagger
 			for (i = 0; i <= (lv.Length - 1); i++) 
 			{
 				// TheRules[i] = lv[i];
-				TheRules.Add((string)lv[i]);
+				// TDMS 20 Oct 2005 - added check for empty string
+				if((string)lv[i] != "")
+					TheRules.Add((string)lv[i]);
 			}
 			//SR = new StreamReader((Application.StartupPath + "\\ContextualRuleFile.txt"));
-			SR = new StreamReader((Application.StartupPath + "\\CONTEXTUALRULEFILE.BROWN"));
+			SR = new StreamReader((Application.StartupPath + "\\" + ContextualRuleFile));
 			lx = SR.ReadToEnd();
 			SR.Close();
 			lv = lx.Split('\n');
 			//object TheContext;
-			for (i = 0; (i 
-				<= (lv.Length - 1)); i++) 
+			for (i = 0; (i <= (lv.Length - 1)); i++) 
 			{
-				TheContext.Add(lv[i]);
+				// TDMS 20 Oct 2005 - added check for empty string
+				if((string)lv[i] != "")
+					TheContext.Add(lv[i]);
 			}
 		}
     
@@ -212,7 +227,6 @@ namespace BrillTagger
 			// The code assumes that the rules are all perfectly formed, so don't hand edit the rule file!
 			int i;
 			int j;
-			int k;
 			string[] SubRule;
 			string SR0;
 			string SR1;
