@@ -16,6 +16,12 @@ namespace TestBrill
 		private System.Windows.Forms.Button btnTag;
 		private System.Windows.Forms.TextBox txtCorpus;
 		private System.Windows.Forms.TextBox txtTagged;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.ComboBox cboLexicon;
+		private System.Windows.Forms.ComboBox cboLexicalRuleFile;
+		private System.Windows.Forms.ComboBox cboContextualRuleFile;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -58,6 +64,12 @@ namespace TestBrill
 			this.btnTag = new System.Windows.Forms.Button();
 			this.txtCorpus = new System.Windows.Forms.TextBox();
 			this.txtTagged = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.cboLexicon = new System.Windows.Forms.ComboBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.cboLexicalRuleFile = new System.Windows.Forms.ComboBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.cboContextualRuleFile = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// btnTag
@@ -78,7 +90,7 @@ namespace TestBrill
 			// 
 			// txtTagged
 			// 
-			this.txtTagged.Location = new System.Drawing.Point(8, 40);
+			this.txtTagged.Location = new System.Drawing.Point(8, 136);
 			this.txtTagged.Multiline = true;
 			this.txtTagged.Name = "txtTagged";
 			this.txtTagged.ReadOnly = true;
@@ -87,14 +99,81 @@ namespace TestBrill
 			this.txtTagged.TabIndex = 2;
 			this.txtTagged.Text = "Enter text to tag above.  Ensure you end the corpus with a space.";
 			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(8, 40);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(64, 23);
+			this.label1.TabIndex = 3;
+			this.label1.Text = "Lexicon:";
+			// 
+			// cboLexicon
+			// 
+			this.cboLexicon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboLexicon.Items.AddRange(new object[] {
+															"LEXICON.BROWN.AND.WSJ",
+															"LEXICON.BROWN",
+															"LEXICON.WSJ"});
+			this.cboLexicon.Location = new System.Drawing.Point(112, 40);
+			this.cboLexicon.Name = "cboLexicon";
+			this.cboLexicon.Size = new System.Drawing.Size(184, 21);
+			this.cboLexicon.TabIndex = 4;
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(8, 72);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(104, 23);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "Lexical Rule File:";
+			// 
+			// cboLexicalRuleFile
+			// 
+			this.cboLexicalRuleFile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboLexicalRuleFile.Items.AddRange(new object[] {
+																	"LEXICALRULEFILE.BROWN",
+																	"LEXICALRULEFILE.WSJ"});
+			this.cboLexicalRuleFile.Location = new System.Drawing.Point(112, 72);
+			this.cboLexicalRuleFile.Name = "cboLexicalRuleFile";
+			this.cboLexicalRuleFile.Size = new System.Drawing.Size(184, 21);
+			this.cboLexicalRuleFile.TabIndex = 6;
+			// 
+			// label3
+			// 
+			this.label3.Location = new System.Drawing.Point(8, 104);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(112, 23);
+			this.label3.TabIndex = 7;
+			this.label3.Text = "Contextual Rule File:";
+			// 
+			// cboContextualRuleFile
+			// 
+			this.cboContextualRuleFile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboContextualRuleFile.Items.AddRange(new object[] {
+																	   "CONTEXTUALRULEFILE.BROWN",
+																	   "CONTEXTUALRULEFILE.WSJ",
+																	   "CONTEXTUALRULEFILE.WSJ.NOLEX"});
+			this.cboContextualRuleFile.Location = new System.Drawing.Point(112, 104);
+			this.cboContextualRuleFile.Name = "cboContextualRuleFile";
+			this.cboContextualRuleFile.Size = new System.Drawing.Size(184, 21);
+			this.cboContextualRuleFile.TabIndex = 8;
+			// 
 			// Form1
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(292, 150);
+			this.ClientSize = new System.Drawing.Size(298, 248);
+			this.Controls.Add(this.cboContextualRuleFile);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.cboLexicalRuleFile);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.cboLexicon);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.txtTagged);
 			this.Controls.Add(this.txtCorpus);
 			this.Controls.Add(this.btnTag);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "Form1";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Brill Tagger Test";
 			this.ResumeLayout(false);
 
@@ -112,7 +191,11 @@ namespace TestBrill
 
 		private void btnTag_Click(object sender, System.EventArgs e)
 		{
-			txtTagged.Text = BrillTagger.BrillTagger.BrillTagged(txtCorpus.Text, true, true,true);
+			txtTagged.Text = "";
+			if(cboLexicalRuleFile.SelectedIndex > -1)
+				txtTagged.Text = BrillTagger.BrillTagger.BrillTagged(txtCorpus.Text, cboLexicon.SelectedIndex > -1, cboContextualRuleFile.SelectedIndex > -1, true, cboLexicon.SelectedItem.ToString(), cboLexicalRuleFile.SelectedItem.ToString(), cboContextualRuleFile.SelectedItem.ToString());
+			else
+				MessageBox.Show("You must select a Lexical Rule File.");
 		}
 	}
 }

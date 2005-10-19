@@ -17,7 +17,6 @@ namespace BrillTagger
 
 		public static string FormatText(string TheText, bool Clean) 
 		{
-			int i;
 			// This is not quite the orthodox Penn TreeBank conventions
 			// but it will work and looks (to me) rather nicer, for example I don't like their "``" quotes
 			TheText = (TheText + " ");
