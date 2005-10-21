@@ -676,8 +676,8 @@ namespace Wnlib
 			new PointerType("$","VERBGROUP",""); // 19
 			new PointerType("+","NOMINALIZATIONS",""); // 20 // TDMS 26/8/05 - re-added nominalizations which was commented
 			//new PointerType("+","DERIVATION",""); // 20 // TDMS 26/8/05 - removed deviation
-			new PointerType(";","CLASSIFICATION",""); // 21
-			new PointerType("-","CLASS",""); // 22
+			new PointerType(";","CLASSIFICATION","Domain"); // 21
+			new PointerType("-","CLASS","Domain Terms"); // 22
 			/* Additional searches, but not pointers.  */
 			new PointerType("","SYNS","Synonyms");
 			new PointerType("","FREQ","Frequency");

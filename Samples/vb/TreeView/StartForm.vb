@@ -895,7 +895,11 @@ skip:
 
         Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
             Try
-                txtOutput.Text = e.Node.Tag.defn
+                ' e.node.tag can be nothing if the node is a top level POS identifier
+                ' if we simply let the exception occur this seems to waste a lot of CPU power for some reason
+                If Not e.Node.Tag Is Nothing Then
+                    txtOutput.Text = e.Node.Tag.defn
+                End If
             Catch
                 ' when opening a root node
             End Try
