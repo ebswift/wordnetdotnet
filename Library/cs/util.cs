@@ -369,6 +369,7 @@ namespace Wnlib
 			int c,n;
 			long top,bot,mid,diff;
 			string line,key;
+			searchKey = searchKey.ToLower(); // for some reason some WordNet words are stored with a capitalised first letter, whilst all words in the sense index are lowercase
 			diff = 666; // ???
 			line = "";
 			bot = fp.BaseStream.Seek(0,SeekOrigin.End);
