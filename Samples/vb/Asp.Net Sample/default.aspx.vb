@@ -110,28 +110,32 @@ Public Class WebForm1
         Dim t As String
         Dim b As Boolean ' sets the visibility of noun, verb, adj, adv when showing buttons for a word
 
-        t = TextBox1.Text
-        list = New ArrayList
-        wnc.OverviewFor(t, "noun", b, Session("bobj2"), list)
-        lblNoun.Visible = b
-        Noun.Visible = b
-        SetupDropdown(Noun)
-        wnc.OverviewFor(t, "verb", b, Session("bobj3"), list)
-        lblVerb.Visible = b
-        Verb.Visible = b
-        SetupDropdown(Verb)
-        wnc.OverviewFor(t, "adj", b, Session("bobj4"), list)
-        lblAdj.Visible = b
-        Adj.Visible = b
-        SetupDropdown(Adj)
-        wnc.OverviewFor(t, "adv", b, Session("bobj5"), list)
-        lblAdv.Visible = b
-        Adv.Visible = b
-        SetupDropdown(Adv)
-        TextBox1.Text = t
-        StatusBar1.Text = "Overview of " + t
-        TextBox2.Text = "0"
-        FixDisplay()
+        Try
+            t = TextBox1.Text
+            list = New ArrayList
+            wnc.OverviewFor(t, "noun", b, Session("bobj2"), list)
+            lblNoun.Visible = b
+            Noun.Visible = b
+            SetupDropdown(Noun)
+            wnc.OverviewFor(t, "verb", b, Session("bobj3"), list)
+            lblVerb.Visible = b
+            Verb.Visible = b
+            SetupDropdown(Verb)
+            wnc.OverviewFor(t, "adj", b, Session("bobj4"), list)
+            lblAdj.Visible = b
+            Adj.Visible = b
+            SetupDropdown(Adj)
+            wnc.OverviewFor(t, "adv", b, Session("bobj5"), list)
+            lblAdv.Visible = b
+            Adv.Visible = b
+            SetupDropdown(Adv)
+            TextBox1.Text = t
+            StatusBar1.Text = "Overview of " + t
+            TextBox2.Text = "0"
+            FixDisplay()
+        Catch
+            Session.Abandon() ' this is to try and catch session timeouts - taken from WordNetASPNet; it appears to have been working stable since this code was introduced
+        End Try
     End Sub
 
     ' sets up the dropdown lists for relation searches
