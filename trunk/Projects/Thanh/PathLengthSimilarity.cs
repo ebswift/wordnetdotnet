@@ -90,8 +90,8 @@ namespace WordsMatching
 		{
 			_word[0]=word1;				
 			_word[1]=word2;	
-			_senseIndex[0]= sense1;
-			_senseIndex[1]= sense2;
+			_senseIndex[0]= sense1 + 1;
+			_senseIndex[1]= sense2 + 1;
 			int i=Search_IS_A_Connection (IS_A_NOUN);
 			
 			int	j=Search_IS_A_Connection (IS_A_VERB);
