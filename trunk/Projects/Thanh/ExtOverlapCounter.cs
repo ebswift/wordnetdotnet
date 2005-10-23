@@ -19,7 +19,7 @@ namespace WordsMatching
 		{
 		}
 
-		public enum BackTracking 
+		public enum Back 
 		{
 			NEITHER,
 			UP,
@@ -57,81 +57,97 @@ namespace WordsMatching
 			int n=list2.Length ;
 			
 			int[ , ] lcs=new int[m+1, n+1];
-			BackTracking[ , ] backTracer=new BackTracking[m+1, n+1];
+			Back[ , ] backTracer=new Back[m+1, n+1];
 			int[ , ] w=new int[m+1, n+1];
 			int i, j;
 			
 			for(i=0; i <= m; ++i) 
 			{
 				lcs[i,0]=0;
-				backTracer[i,0]=BackTracking.UP;
+				backTracer[i,0]=Back.UP;
 				
 			}
 			for(j= 0; j <= n; ++j) 
 			{
 				lcs[0,j]=0;
-				backTracer[0,j]=BackTracking.LEFT;				
+				backTracer[0,j]=Back.LEFT;				
 			}
 
-			for(i =1; i <= m; ++i) 
+			for(i =0; i < m; i++) 
 			{
-				for(j=1; j <= n; ++j) 
+				for(j=0; j < n; j++) 
 				{ 
-					if( list1[i-1].Equals(list2[j-1]) ) 
+					if( list1[i] == list2[j] ) 
 					{
-						int k=w[i-1, j-1];
-						//ogrinal LCS lcs[i,j]=lcs[i-1,j-1] + 1; 
-						lcs[i,j]=lcs[i-1,j-1] + ConsecutiveScore(k+1) - ConsecutiveScore(k)  ;
-						backTracer[i,j]=BackTracking.UP_AND_LEFT;
-						w[i,j]=k+1;						
-					}
-					else 
+						int k=0;
+						int prev=0;
+						if (i > 0 && j > 0 )
+						{
+							k= w[i-1, j-1];
+							prev=lcs[i-1,j-1];
+						}
+										
+						lcs[i,j]=prev + ConsecutiveScore(k+1) - ConsecutiveScore(k)  ;
+						backTracer[i,j]=Back.UP_AND_LEFT;
+						w[i,j] = k+1;						
+					};
+					//if (lcs[i,j] == 0)
+				{
+					if (i > 0 && lcs[i - 1, j] >= lcs[i, j])
 					{
-						lcs[i,j]=lcs[i-1,j-1];
-						backTracer [i,j]=BackTracking.NEITHER;
-					}
-
-					if( lcs[i-1,j] >= lcs[i,j] ) 
-					{	
-						lcs[i,j]=lcs[i-1,j];
-						backTracer[i,j]=BackTracking.UP;
-						w[i,j]=0;
-					}
-
-					if( lcs[i,j-1] >= lcs[i,j] ) 
+						lcs[i, j]=lcs[i - 1, j];
+						backTracer[i, j]=Back.UP;
+						w[i, j]=0;
+					};
+					
+					if (j > 0 && lcs[i, j - 1] >= lcs[i, j])
 					{
-						lcs[i,j]=lcs[i,j-1];
-						backTracer [i,j]=BackTracking.LEFT;
-						w[i,j]=0;
+						lcs[i, j]=lcs[i, j - 1];
+						backTracer[i, j]=Back.LEFT;
+						w[i, j]=0;
 					}
+				}
 				}
 			}
 			
-			i=m; 
-			j=n;
+			i=m-1; 
+			j=n-1;
 			
+			string subseq="";
 			int score=lcs[i,j];
 
 			//trace the backtracking matrix.
-			while( i > 0 || j > 0 ) 
+			while( i >= 0 && j >= 0 ) 
 			{
-				if( backTracer[i,j] == BackTracking.UP_AND_LEFT ) 
+				if( backTracer[i,j] == Back.UP_AND_LEFT ) 
 				{
-					i--;
-					j--;
+					subseq = list1[i] + subseq;
+					Trace.WriteLine(i + " " + list1[i] + " " + j) ;
 					++_num;
 					Trace.WriteLine(list1[i]) ;
 					list1[i]="T" + _num;
 					++_num;
 					list2[j]="T" + _num;					
-				}
-				else if( backTracer[i,j] == BackTracking.UP ) 				
-					i--;
-				else if( backTracer[i,j] == BackTracking.LEFT ) 
-					j--;
 
+					i--;
+					j--;
+					
+					
+				}
+	
+				else if( backTracer[i,j] == Back.UP ) 
+				{
+					i--;
+				}
+	
+				else if( backTracer[i,j] == Back.LEFT ) 
+				{
+					j--;
+				}
 			}
 			
+
+						
 			
 			return score;
 		}
