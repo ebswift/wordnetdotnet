@@ -91,16 +91,16 @@ namespace WordsMatching
 						backTracer[i,j]=Back.UP_AND_LEFT;
 						w[i,j] = k+1;						
 					};
-					//if (lcs[i,j] == 0)
+					
 				{
-					if (i > 0 && lcs[i - 1, j] >= lcs[i, j])
+					if (i > 0 && (lcs[i - 1, j] > lcs[i, j] || (lcs[i,j] == 0 &&  lcs[i - 1, j] > 0)))
 					{
 						lcs[i, j]=lcs[i - 1, j];
 						backTracer[i, j]=Back.UP;
 						w[i, j]=0;
 					};
 					
-					if (j > 0 && lcs[i, j - 1] >= lcs[i, j])
+					if (j > 0 && (lcs[i, j - 1] > lcs[i, j] || (lcs[i,j] == 0 &&  lcs[i , j-1] > 0)))
 					{
 						lcs[i, j]=lcs[i, j - 1];
 						backTracer[i, j]=Back.LEFT;
@@ -119,6 +119,7 @@ namespace WordsMatching
 			//trace the backtracking matrix.
 			while( i >= 0 && j >= 0 ) 
 			{
+				if (backTracer[i,j] == Back.NEITHER) break;
 				if( backTracer[i,j] == Back.UP_AND_LEFT ) 
 				{
 					subseq = list1[i] + subseq;
