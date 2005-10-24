@@ -243,19 +243,16 @@ namespace WordsMatching
 			string rels="";
 			if (se.senses[0].senses != null)
 				foreach (SynSet ss in se.senses[0].senses)
-				{		
-						
-					foreach (Lexeme ww in ss.words)
-					{							
+				{								
+					foreach (Lexeme ww in ss.words)											
 						rels += " " + ww.word;
-					}
-					rels += ss.defn ;
-			
+				
+					rels += ss.defn ;			
 				}
 			
-			rels=RemoveBadChars(rels);
 			Tokeniser tok=new Tokeniser() ;
 			string[] toks=tok.Partition(rels);
+
 			return toks;
 		}
 
@@ -267,12 +264,12 @@ namespace WordsMatching
 //				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
 			foreach (Lexeme word in sense.words)
 			{
-				gloss += " " + word.word.Replace("_"," ")  ;
+				gloss += " " + word.word;
 			}
 			Tokeniser tok=new Tokeniser() ;
-			string[] glossToks=tok.Partition(gloss) ;
+			string[] toks=tok.Partition(gloss) ;
 
-			return glossToks;
+			return toks;
 		}
 
 		private string[][][] GetAllRelations(string word, int senseCount)
