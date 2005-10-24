@@ -124,6 +124,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "PathLengthMeasure.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PathLengthSimilarity.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
