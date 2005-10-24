@@ -1,5 +1,5 @@
 /*
-Unsupervised adapted version Lesk WSD
+adapted version Lesk WSD
 Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
 Copyright (c) 2005 by Thanh Ngoc Dao.
 */
