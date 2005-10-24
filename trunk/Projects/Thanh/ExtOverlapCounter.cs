@@ -29,7 +29,7 @@ namespace WordsMatching
 		
 		public int GetScore(string[] a, string[] b)
 		{			
-			if (a == null || b == null) return 0;
+			if (a == null || b == null || a.Length == 0 || b.Length == 0) return 0;
 			string[] l1=(string[])a.Clone()  ;
 			string[] l2=(string[])b.Clone()  ;			
 
