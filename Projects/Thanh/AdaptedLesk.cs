@@ -27,8 +27,8 @@ namespace WordsMatching
 		const int CONTEXT_SIZE=5;//Local disambiguation within the context size 
 
 		static Opt[] NOUN_RELATIONS=new Opt[] { Opt.at(8) , //hyper
-												 // Opt.at(14), //holo
-												//  Opt.at(19), //mero
+												  Opt.at(14), //holo
+												  Opt.at(19), //mero
 												  Opt.at(12) //hypo												
 											  } ;
 		static Opt[] VERB_RELATIONS=new Opt[] {
@@ -222,7 +222,7 @@ namespace WordsMatching
 		
 		private string RemoveBadChars(string s)
 		{
-			string[] badChars=new string[]{"=>", "==","=","->",">","+",";",","} ;
+			string[] badChars=new string[]{"=>", "==","=","->",">","+",";",",","_","-","."} ;
 			foreach(string ch in badChars)			
 			  s=s.Replace(ch, " ") ;
 
@@ -240,34 +240,22 @@ namespace WordsMatching
 
 		public string[] ConcateRel(Search se)
 		{			
-
-			int a=se.buf.IndexOf("\n");
-			if (a>=0) 
-			{
-				if (a==0) 
-				{
-					se.buf = se.buf.Substring(a+1);
-					a = se.buf.IndexOf("\n");
+			string rels="";
+			if (se.senses[0].senses != null)
+				foreach (SynSet ss in se.senses[0].senses)
+				{		
+						
+					foreach (Lexeme ww in ss.words)
+					{							
+						rels += " " + ww.word;
+					}
+					rels += ss.defn ;
+			
 				}
-				se.buf = se.buf.Substring(a+1);
-			}
 			
-			
-			SynSet sense=(SynSet)se.senses [0];
-		
-			
-			string con=se.buf.ToString();
-			if (con == string.Empty) return null;
-			int pIndex=con.IndexOf(sense.defn);
-			if (pIndex == -1) return null;
-			int lcon=con.Length ;
-			int ldef=sense.defn.Length ;
-			
-			string s=con.Substring(pIndex + ldef - 1, lcon - (pIndex + ldef - 1 )) ;					
-			
-			s=RemoveBadChars(s);
+			rels=RemoveBadChars(rels);
 			Tokeniser tok=new Tokeniser() ;
-			string[] toks=tok.Partition(s);
+			string[] toks=tok.Partition(rels);
 			return toks;
 		}
 
@@ -275,9 +263,12 @@ namespace WordsMatching
 		{
 			if (sense == null) return null;
 			string gloss=sense.defn ;
-			if (gloss.IndexOf(";") != -1)
-				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
-			
+//			if (gloss.IndexOf(";") != -1)
+//				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
+			foreach (Lexeme word in sense.words)
+			{
+				gloss += " " + word.word.Replace("_"," ")  ;
+			}
 			Tokeniser tok=new Tokeniser() ;
 			string[] glossToks=tok.Partition(gloss) ;
 
@@ -305,12 +296,18 @@ namespace WordsMatching
 			{
 				Opt rel=_priorRelations [i];				
 				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//				
+				string rels="";
 				if( se.senses != null && se.senses.Count > 0)
-				{														 														 
+				{									
+					if (word == "pine" && i==3)
+					{
+						int yy=0;
+					}
 					if (relations[0] == null  )
 						relations[0]=GetGloss ((SynSet)se.senses [0]);			
+					if (se.senses[0].senses != null)					
+						relations[i + 1]=ConcateRel(se) ;									
 
-					relations[i + 1] = ConcateRel(se);				
 				}				
 				else relations[i+1]= null;
 			}
