@@ -20,14 +20,12 @@ namespace WordsMatching
 		//const int DEPTH=6;
 		const int NO_PATH=0xffff ;
 		static readonly Opt IS_A_NOUN=Opt.at(11); //hypernymy and synonyms  12 FULL TREE
-		static readonly Opt IS_A_VERB=Opt.at(31);//troponymy and synonyms
+		static readonly Opt IS_A_VERB=Opt.at(35);//troponymy and synonyms
 
 		private string[]  _word=new string[2] ;
 		private int[]  _senseIndex=new int[2] ;
 	
 		private SynSet[] _sense=new SynSet[2] ;
-		//		private Thread[] _thread=new Thread[2] ;
-		//		private ThreadStart[] _threadStart=new ThreadStart[2] ;
 		ArrayList[] queue=new ArrayList[2] ;// List of hypernymy for nound and troponymy for verb
 		ArrayList[] depth=new ArrayList[2] ;// Depth of node		
 
