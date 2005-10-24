@@ -238,7 +238,7 @@ namespace WordsMatching
 			return _bestSenses;
 		}
 
-		public string[] ConcateRel(Search se)
+		public string[] GetRelativeGlosses(Search se)
 		{			
 			string rels="";
 			if (se.senses[0].senses != null)
@@ -256,7 +256,7 @@ namespace WordsMatching
 			return toks;
 		}
 
-		private string[] GetGloss(SynSet sense)
+		private string[] GetDefinition(SynSet sense)
 		{
 			if (sense == null) return null;
 			string gloss=sense.defn ;
@@ -292,18 +292,18 @@ namespace WordsMatching
 			for(int i=0; i < _priorRelations.Length; i++ )
 			{
 				Opt rel=_priorRelations [i];				
-				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//				
-				string rels="";
+				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//								
 				if( se.senses != null && se.senses.Count > 0)
-				{									
+				{						
 					if (word == "pine" && i==3)
 					{
 						int yy=0;
 					}
+			
 					if (relations[0] == null  )
-						relations[0]=GetGloss ((SynSet)se.senses [0]);			
+						relations[0]=GetDefinition (se.senses [0]);			
 					if (se.senses[0].senses != null)					
-						relations[i + 1]=ConcateRel(se) ;									
+						relations[i + 1]=GetRelativeGlosses(se) ;									
 
 				}				
 				else relations[i+1]= null;
