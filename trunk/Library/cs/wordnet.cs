@@ -123,103 +123,109 @@ namespace Wnlib
 		void findtheinfo()
 		{
 			SynSet cursyn = null;
-			Indexes ixs = new Indexes(word,pos);
+			Indexes ixs = new Indexes(word, pos);
 			Index idx = null;
-			int depth = sch.rec?1:0;
+			int depth = sch.rec ? 1 : 0;
 			senses = new SynSetList();
-			switch(sch.ptp.mnemonic) 
+			switch (sch.ptp.mnemonic)
 			{
 				case "OVERVIEW":
 					WNOverview();
 					break;
 				case "FREQ":
-					if (countSenses==null)
+					if (countSenses == null)
 						countSenses = new ArrayList();
-					while ((idx=ixs.next())!=null) 
+					while ((idx = ixs.next()) != null)
 					{
 						countSenses.Add(idx.offs.Length);
-						buf += "Sense "+countSenses.Count+": "+
+						buf += "Sense " + countSenses.Count + ": " +
 							idx.offs.Length;
 					}
 					break;
 				case "WNGREP":
-					strings = WNDB.wngrep(word,pos);
-					for (int wi=0;wi<strings.Count;wi++)
+					strings = WNDB.wngrep(word, pos);
+					for (int wi = 0; wi < strings.Count; wi++)
 						buf += (string)strings[wi] + "\n";
 					break;
 				case "VERBGROUP":
 					goto case "RELATIVES";
 				case "RELATIVES":
-					while ((idx=ixs.next())!=null) 
+					while ((idx = ixs.next()) != null)
 						relatives(idx);
 					break;
 				default:
 					/* look at all spellings of word */
-					while ((idx=ixs.next())!=null) 
+					while ((idx = ixs.next()) != null)
 					{
 						/* Print extra sense msgs if looking at all senses */
-						if (whichsense==ALLSENSES)
+						if (whichsense == ALLSENSES)
 							buf += "\n";
 
 						/* Go through all of the searchword's senses in the
 						   database and perform the search requested. */
-						for (int sense=0;sense<idx.offs.Length;sense++)
-							if (whichsense==ALLSENSES||whichsense==sense+1) 
+						for (int sense = 0; sense < idx.offs.Length; sense++)
+							if (whichsense == ALLSENSES || whichsense == sense + 1)
 							{
 								prflag = false;
 								/* Determine if this synset has already been done
 								   with a different spelling. If so, skip it. */
-								for (int j=0;j<senses.Count;j++)
+								for (int j = 0; j < senses.Count; j++)
 								{
-									SynSet ss=(SynSet)senses[j];
-									if (ss.hereiam==idx.offs[sense])
+									SynSet ss = (SynSet)senses[j];
+									if (ss.hereiam == idx.offs[sense])
 										goto skipit;
 								}
-								cursyn = new SynSet(idx,sense,this);
+								cursyn = new SynSet(idx, sense, this);
 
 								//TODO: moved senses.add(cursyn) from here to each case and handled it differently according to search - this handling needs to be verified to ensure the filter is not to limiting
-								switch(sch.ptp.mnemonic) 
+								switch (sch.ptp.mnemonic)
 								{
-									case "ANTPTR": 
-										if (pos.name=="adj")
+									case "ANTPTR":
+										if (pos.name == "adj")
 											cursyn.traceAdjAnt();
 										else
-											cursyn.tracePtrs(sch.ptp,pos,depth); 
+											cursyn.tracePtrs(sch.ptp, pos, depth);
 
-										// only build the hierarchy if there are results
-										if(! (cursyn.senses == null))
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "COORDS":
-										cursyn.traceCoords(PointerType.of("HYPOPTR"),pos,depth);
+										//TODO: check if cursyn needs to be tested for null
+										cursyn.traceCoords(PointerType.of("HYPOPTR"), pos, depth);
 										senses.Add(cursyn);
 										break;
 									case "FRAMES":
+										//TODO: check if cursyn needs to be tested for null
 										cursyn.strFrame(true);
 										senses.Add(cursyn);
 										break;
 									case "MERONYM":
-										cursyn.tracePtrs(PointerType.of("HASMEMBERPTR"),pos,depth);
-										cursyn.tracePtrs(PointerType.of("HASSTUFFPTR"),pos,depth);
-										cursyn.tracePtrs(PointerType.of("HASPARTPTR"),pos,depth);
-										senses.Add(cursyn);
+										cursyn.tracePtrs(PointerType.of("HASMEMBERPTR"), pos, depth);
+										cursyn.tracePtrs(PointerType.of("HASSTUFFPTR"), pos, depth);
+										cursyn.tracePtrs(PointerType.of("HASPARTPTR"), pos, depth);
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "HOLONYM":
-										cursyn.tracePtrs(PointerType.of("ISMEMBERPTR"),pos,depth);
-										cursyn.tracePtrs(PointerType.of("ISSTUFFPTR"),pos,depth);
-										cursyn.tracePtrs(PointerType.of("ISPARTPTR"),pos,depth);
-										senses.Add(cursyn);
+										cursyn.tracePtrs(PointerType.of("ISMEMBERPTR"), pos, depth);
+										cursyn.tracePtrs(PointerType.of("ISSTUFFPTR"), pos, depth);
+										cursyn.tracePtrs(PointerType.of("ISPARTPTR"), pos, depth);
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "HMERONYM":
 										cursyn.partsAll(sch.ptp);
-										senses.Add(cursyn);
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "HHOLONYM":
 										cursyn.partsAll(sch.ptp);
-										senses.Add(cursyn);
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "SEEALSOPTR":
 										cursyn.seealso();
+										//TODO: check if cursyn needs to be tested for null
 										senses.Add(cursyn);
 										break;
 									case "SIMPTR":
@@ -228,36 +234,38 @@ namespace Wnlib
 										goto case "HYPERPTR";
 									case "HYPERPTR":
 										wordsFrom(cursyn);
-										cursyn.strsns(sense+1);
-										prflag= true;
-										cursyn.tracePtrs(sch.ptp,pos,depth);
-										if (pos.name=="adj") 
+										cursyn.strsns(sense + 1);
+										prflag = true;
+										cursyn.tracePtrs(sch.ptp, pos, depth);
+										if (pos.name == "adj")
 										{
-											cursyn.tracePtrs(PointerType.of("PERTPTR"),pos,depth);
-											cursyn.tracePtrs(PointerType.of("PPLPTR"),pos,depth);
-										} 
-										else if (pos.name=="adv")
-											cursyn.tracePtrs(PointerType.of("PERTPTR"),pos,depth);
-										if (pos.name=="verb")
+											cursyn.tracePtrs(PointerType.of("PERTPTR"), pos, depth);
+											cursyn.tracePtrs(PointerType.of("PPLPTR"), pos, depth);
+										}
+										else if (pos.name == "adv")
+											cursyn.tracePtrs(PointerType.of("PERTPTR"), pos, depth);
+										if (pos.name == "verb")
 											cursyn.strFrame(false);
 
-										senses.Add(cursyn);
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
 										// derivation - TDMS
 										cursyn.tracenomins(sch.ptp);
+										//TODO: check if cursyn needs to be tested for null
 										senses.Add(cursyn);
 										break;
 									case "CLASSIFICATION":
 										goto case "CLASS";
 									case "CLASS":
-										cursyn.traceclassif(sch.ptp, new SearchType(false,sch.ptp));
-										if(! (cursyn.senses == null))
+										cursyn.traceclassif(sch.ptp, new SearchType(false, sch.ptp));
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									default:
-										cursyn.tracePtrs(sch.ptp,pos,depth);
-										if(! (cursyn.senses == null))
+										cursyn.tracePtrs(sch.ptp, pos, depth);
+										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 								}
