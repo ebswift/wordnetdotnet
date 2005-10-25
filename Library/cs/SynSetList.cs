@@ -32,9 +32,10 @@ namespace Wnlib
 	/// </summary>	
 	public class SynSetList : CollectionBase
 	{
+		public bool isDirty = false;
+		
 		public SynSetList()
 		{
-
 		}
 
 		~SynSetList()
@@ -44,7 +45,7 @@ namespace Wnlib
 
 		public int Add(SynSet item)
 		{
-			
+			isDirty = true;
 			return List.Add(item);
 		}
 		public void Insert(int index, SynSet item)
@@ -53,6 +54,7 @@ namespace Wnlib
 		}
 		public void Remove(SynSet item)
 		{
+			isDirty = true;
 			List.Remove(item);
 		} 
 		public bool Contains(SynSet item)
