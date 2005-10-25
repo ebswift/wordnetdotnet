@@ -50,6 +50,7 @@ namespace Wnlib
 		private static int CLASS_END =       CLASS_REGIONAL;
 		private static int INSTANCE =         (CLASS_END + 1);        /* @i */
 		private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
+		private static bool isDirty = false;
 
 		public int hereiam;
 		public int fnum;
@@ -178,21 +179,7 @@ namespace Wnlib
 			for (i=0;i<ptrs.Length;i++)
 			{
 				Pointer pt = ptrs[i];
-				//				if (pt.ptp==ptp && (pt.sce==0 || pt.sce==whichword))
 				// following if statement is WN2.1 - TDMS
-
-				/*
-				
-								if ((ptp.ident == HYPERPTR && (pt.ptp.ident == HYPERPTR ||
-									pt.ptp.ident == INSTANCE)) ||
-									(ptp.ident == HYPOPTR && (pt.ptp.ident == HYPOPTR ||
-
-								   pt.ptp.ident == INSTANCES)) ||
-									((pt.ptp==ptp) &&
-									 ((pt.sce == 0) ||
-									(pt.sce == whichword))))
-				*/					
-
 				if ((ptp.ident == HYPERPTR && (pt.ptp.ident == HYPERPTR ||
 					pt.ptp.ident == INSTANCE)) ||
 					(ptp.ident == HYPOPTR && (pt.ptp.ident == HYPOPTR ||
@@ -754,9 +741,10 @@ namespace Wnlib
 					newsynptr = new SynSet(ptrs[i].off,PartOfSpeech.of("adj"),this);
 					// TDMS 6 Oct 2005 - build hierarchical results
 					// TODO: verify if this level is required
-					if(this.senses == null)
-						this.senses = new SynSetList();
-					this.senses.Add(newsynptr);
+					// <- not required - newsynptr is filled only for comparison and verification
+					//if(this.senses == null)
+					//	this.senses = new SynSetList();
+					//this.senses.Add(newsynptr);
 				} 
 				else
 					newsynptr = this;

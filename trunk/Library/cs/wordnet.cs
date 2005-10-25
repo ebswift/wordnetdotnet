@@ -52,17 +52,18 @@ namespace Wnlib
 		public int taggedSenses;
 		public const int ALLSENSES = 0;
 
-		public Search(string w,bool doMorphs,string p,string s,int sn) :
-			this(w,doMorphs,PartOfSpeech.of(p),new SearchType(s),sn) {}
+		public Search(string w, bool doMorphs, string p, string s, int sn)
+			:
+			this(w, doMorphs, PartOfSpeech.of(p), new SearchType(s), sn) { }
 
-		public Search(string w,bool doMorphs,PartOfSpeech p,SearchType s,int sn) 
-			: this(w,p,s,sn) 
+		public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn)
+			: this(w, p, s, sn)
 		{
-			if (p!=null)
+			if (p != null)
 				do_search(doMorphs);
 		}
 
-		internal Search(string w,PartOfSpeech p,SearchType s,int sn) 
+		internal Search(string w, PartOfSpeech p, SearchType s, int sn)
 		{
 			word = w;
 			pos = p;
@@ -79,14 +80,14 @@ namespace Wnlib
 
 		internal void trunc()
 		{
-			buf = buf.Substring(0,lastholomero);
+			buf = buf.Substring(0, lastholomero);
 		}
 
-		public void do_search(bool m,string p)
+		public void do_search(bool m, string p)
 		{
-			if (parts==null)
+			if (parts == null)
 				parts = new Hashtable();
-			Search s = new Search(word,PartOfSpeech.of(p),sch,whichsense);
+			Search s = new Search(word, PartOfSpeech.of(p), sch, whichsense);
 			s.do_search(m);
 			parts[p] = s;
 			buf += s.buf;
@@ -95,16 +96,16 @@ namespace Wnlib
 		internal void do_search(bool doMorphs)
 		{
 			findtheinfo();
-			if (buf.Length>0)
-				buf = "\n"+sch.label+" of "+pos.name+" "+word+"\n"+buf;
+			if (buf.Length > 0)
+				buf = "\n" + sch.label + " of " + pos.name + " " + word + "\n" + buf;
 			if (!doMorphs)
 				return;
 			morphs = new Hashtable();
-			MorphStr st = new MorphStr(word,pos);
+			MorphStr st = new MorphStr(word, pos);
 			string morphword;
-			while ((morphword=st.next())!=null) 
+			while ((morphword = st.next()) != null)
 			{
-				Search s = new Search(morphword,pos,sch,whichsense);
+				Search s = new Search(morphword, pos, sch, whichsense);
 				s.do_search(false);
 				// Fill the morphlist - eg. if verb relations of 'drunk' are requested, none are directly 
 				// found, but the morph 'drink' will have results.  The morph hashtable will be populated 
@@ -186,48 +187,69 @@ namespace Wnlib
 										else
 											cursyn.tracePtrs(sch.ptp, pos, depth);
 
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
+
 										// perform the senses restrictions based upon pos
-									switch(pos.name) 
-									{
-										case "verb":
-											if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
-											break;
+										/*
+																					switch(pos.name) {
+																						case "verb":
+																							if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+																								senses.Add(cursyn);
+																							break;
 													
-										default:
-											if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
-											break;
-									}
+																						default:
+																							if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+																								senses.Add(cursyn);
+																							break;
+																					}
+										*/											
 										break;
 									case "COORDS":
+										//eg. search for 'car', select Noun -> 'Coordinate Terms'
 										cursyn.traceCoords(PointerType.of("HYPOPTR"), pos, depth);
-										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										//if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+										//	senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
 										break;
 									case "FRAMES":
+										//eg. search for 'right', select Verb -> 'Sample Sentences'
 										cursyn.strFrame(true);
 										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "MERONYM":
+										//eg. search for 'car', select Noun -> 'Meronym'
+										senses.isDirty = false;
 										cursyn.tracePtrs(PointerType.of("HASMEMBERPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("HASSTUFFPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("HASPARTPTR"), pos, depth);
-										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
 										break;
 									case "HOLONYM":
+										//eg. search for 'car', select Noun -> 'Holonyms'
 										cursyn.tracePtrs(PointerType.of("ISMEMBERPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("ISSTUFFPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("ISPARTPTR"), pos, depth);
-										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										//											if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+										//												senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
 										break;
 									case "HMERONYM":
+										//eg. search for 'car', select Noun -> 'Meronyms Tree'
 										cursyn.partsAll(sch.ptp);
-										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
+										//											if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+										//												senses.Add(cursyn);
 										break;
 									case "HHOLONYM":
 										cursyn.partsAll(sch.ptp);
@@ -244,6 +266,7 @@ namespace Wnlib
 									case "SYNS":
 										goto case "HYPERPTR";
 									case "HYPERPTR":
+										//eg. search for 'car', select Noun -> 'Synonyms/Hypernyms, ordered by estimated frequency'
 										wordsFrom(cursyn);
 										cursyn.strsns(sense + 1);
 										prflag = true;
@@ -258,9 +281,9 @@ namespace Wnlib
 										if (pos.name == "verb")
 											cursyn.strFrame(false);
 
-										//TODO: senses are still incorrectly allowed through - search for "right", then Adjective->similarity.  The lexemes have sense values of (0), but the sense does not
-										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
 										break;
 									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
 										// derivation - TDMS
@@ -271,21 +294,28 @@ namespace Wnlib
 									case "CLASSIFICATION":
 										goto case "CLASS";
 									case "CLASS":
+										//eg. search for 'car', select Noun -> 'Domain Terms'
 										cursyn.traceclassif(sch.ptp, new SearchType(false, sch.ptp));
-										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
+										//											if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+										//												senses.Add(cursyn);
 										break;
 											
 									case "HYPOPTR":
+										//eg. search for 'car', select Noun -> 'Hyponyms'
 										cursyn.tracePtrs(sch.ptp, pos, depth);
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
 										break;
 											
 									default:
 										cursyn.tracePtrs(sch.ptp, pos, depth);
-										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										if (cursyn.senses != null )
+											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
 										break;
 								}
 							skipit: ;
@@ -297,7 +327,7 @@ namespace Wnlib
 
 		public void wordsFrom(SynSet s)
 		{
-			for (int j=0;j<s.words.Length;j++) 
+			for (int j = 0; j < s.words.Length; j++)
 			{
 				Lexeme lx = s.words[j];
 				//				lx.wnsns = s.sense+1;
@@ -309,33 +339,33 @@ namespace Wnlib
 		void relatives(Index idx)
 		{
 			RelList rellist = null;
-			switch (pos.name) 
+			switch (pos.name)
 			{
 				case "verb":
-					rellist = findVerbGroups(idx,rellist);
-					doRelList(idx,rellist);
+					rellist = findVerbGroups(idx, rellist);
+					doRelList(idx, rellist);
 					break;
 			}
 		}
 
-		RelList findVerbGroups(Index idx,RelList rellist)
+		RelList findVerbGroups(Index idx, RelList rellist)
 		{
-			int i,j,k;
+			int i, j, k;
 			/* Read all senses */
-			for (i=0;i<idx.offs.Length;i++)
+			for (i = 0; i < idx.offs.Length; i++)
 			{
-				SynSet synset = new SynSet(idx.offs[i],pos,idx.wd,this,i);
+				SynSet synset = new SynSet(idx.offs[i], pos, idx.wd, this, i);
 				/* Look for VERBGROUP ptr(s) for this sense.  If found,
 				   create group for senses, or add to existing group. */
-				for (j=0;j<synset.ptrs.Length;j++) 
+				for (j = 0; j < synset.ptrs.Length; j++)
 				{
 					Pointer p = synset.ptrs[j];
-					if (p.ptp.mnemonic=="VERBGROUP") 
+					if (p.ptp.mnemonic == "VERBGROUP")
 						/* Need to find sense number for ptr offset */
-						for (k=0;k<idx.offs.Length;k++) 
-							if (p.off==idx.offs[k]) 
+						for (k = 0; k < idx.offs.Length; k++)
+							if (p.off == idx.offs[k])
 							{
-								rellist=addRelatives(idx,i,k,rellist);
+								rellist = addRelatives(idx, i, k, rellist);
 								break;
 							}
 				}
@@ -343,20 +373,20 @@ namespace Wnlib
 			return rellist;
 		}
 
-		RelList addRelatives(Index idx,int rel1,int rel2,RelList rellist)
+		RelList addRelatives(Index idx, int rel1, int rel2, RelList rellist)
 		{
 			/* If either of the new relatives are already in a relative group,
 			   then add the other to the existing group (transitivity).
-			   Otherwise create a new group and add these 2 senses to it. */
-			RelList rel,last=null;
-			for (rel = rellist;rel!=null;rel=rel.next) 
+				   Otherwise create a new group and add these 2 senses to it. */
+			RelList rel, last = null;
+			for (rel = rellist; rel != null; rel = rel.next)
 			{
-				if (rel.senses[rel1]||rel.senses[rel2]) 
+				if (rel.senses[rel1] || rel.senses[rel2])
 				{
 					rel.senses[rel1] = rel.senses[rel2] = true;
 					/* If part of another relative group, merge the groups */
-					for (RelList r=rellist;r!=null;r=r.next) 
-						if (r!=rel && r.senses[rel1] || r.senses[rel2])
+					for (RelList r = rellist; r != null; r = r.next)
+						if (r != rel && r.senses[rel1] || r.senses[rel2])
 							rel.senses = rel.senses.Or(r.senses);
 					return rellist;
 				}
@@ -364,29 +394,29 @@ namespace Wnlib
 			}
 			rel = new RelList();
 			rel.senses[rel1] = rel.senses[rel2] = true;
-			if (rellist==null)
+			if (rellist == null)
 				return rel;
 			last.next = rel;
 			return rellist;
 		}
 
-		void doRelList(Index idx,RelList rellist)
+		void doRelList(Index idx, RelList rellist)
 		{
 			int i;
 			bool flag;
 			SynSet synptr;
 			BitSet outsenses = new BitSet(300);
 			prflag = true;
-			for (RelList rel = rellist;rel!=null;rel=rel.next)
+			for (RelList rel = rellist; rel != null; rel = rel.next)
 			{
 				flag = false;
-				for (i=0;i<idx.offs.Length;i++)
-					if (rel.senses[i] && !outsenses[i]) 
+				for (i = 0; i < idx.offs.Length; i++)
+					if (rel.senses[i] && !outsenses[i])
 					{
 						flag = true;
-						synptr = new SynSet(idx.offs[i],pos,"",this,i);
-						synptr.strsns(i+1);
-						synptr.tracePtrs(PointerType.of("HYPERPTR"),pos,0);
+						synptr = new SynSet(idx.offs[i], pos, "", this, i);
+						synptr.strsns(i + 1);
+						synptr.tracePtrs(PointerType.of("HYPERPTR"), pos, 0);
 						// TDMS 11 Oct 2005 - build hierarchical results
 						senses.Add(synptr);
 						outsenses[i] = true;
@@ -394,12 +424,12 @@ namespace Wnlib
 				if (flag)
 					buf += "--------------\n";
 			}
-			for (i=0;i<idx.offs.Length;i++)
-				if (!outsenses[i]) 
+			for (i = 0; i < idx.offs.Length; i++)
+				if (!outsenses[i])
 				{
-					synptr = new SynSet(idx.offs[i],pos,"",this,i);
-					synptr.strsns(i+1);
-					synptr.tracePtrs(PointerType.of("HYPERPTR"),pos,0);
+					synptr = new SynSet(idx.offs[i], pos, "", this, i);
+					synptr.strsns(i + 1);
+					synptr.tracePtrs(PointerType.of("HYPERPTR"), pos, 0);
 					// TDMS 11 Oct 2005 - build hierarchical results
 					senses.Add(synptr);
 					buf += "---------------\n";
@@ -411,22 +441,22 @@ namespace Wnlib
 			Index idx;
 			//senses = new ArrayList();
 			senses = new SynSetList();
-			Indexes ixs = new Indexes(word,pos);
-			while ((idx=ixs.next())!=null) 
+			Indexes ixs = new Indexes(word, pos);
+			while ((idx = ixs.next()) != null)
 			{
 				buf += "\n";
 				/* Print synset for each sense.  If requested, precede
 				   synset with synset offset and/or lexical file information.*/
-				for (int sens=0;sens<idx.offs.Length;sens++) 
+				for (int sens = 0; sens < idx.offs.Length; sens++)
 				{
-					for (int j=0;j<senses.Count;j++)
+					for (int j = 0; j < senses.Count; j++)
 					{
 						SynSet ss = (SynSet)senses[j];
-						if (ss.hereiam==idx.offs[sens])
+						if (ss.hereiam == idx.offs[sens])
 							goto skipit;
 
 					}
-					SynSet cursyn = new SynSet(idx,sens,this);
+					SynSet cursyn = new SynSet(idx, sens, this);
 
 					bool svdflag = WNOpt.opt("-g").flag;
 					WNOpt.opt("-g").flag = true;
@@ -435,28 +465,28 @@ namespace Wnlib
 					bool svoflag = WNOpt.opt("-o").flag;
 					WNOpt.opt("-o").flag = WNOpt.opt("-O").flag;
 
-					cursyn.str(""+(sens+1)+". ","\n",1,0,0,0);
+					cursyn.str("" + (sens + 1) + ". ", "\n", 1, 0, 0, 0);
 
-					WNOpt.opt("-g").flag=svdflag;
-					WNOpt.opt("-a").flag=svaflag;
-					WNOpt.opt("-o").flag=svoflag;
+					WNOpt.opt("-g").flag = svdflag;
+					WNOpt.opt("-a").flag = svaflag;
+					WNOpt.opt("-o").flag = svoflag;
 					wordsFrom(cursyn);
 					senses.Add(cursyn);
 				skipit: ;
 				}
 				/* Print sense summary message */
-				if (senses.Count>0) 
+				if (senses.Count > 0)
 				{
 					taggedSenses = 0;
 
-					if (senses.Count==1)	
-						buf += "\nThe "+pos.name+" "+idx.wd+" has 1 sense";
+					if (senses.Count == 1)
+						buf += "\nThe " + pos.name + " " + idx.wd + " has 1 sense";
 					else
-						buf += "\nThe "+pos.name+" "+idx.wd+" has "+senses.Count+" senses";
-					if (idx.tagsense_cnt>0) 
+						buf += "\nThe " + pos.name + " " + idx.wd + " has " + senses.Count + " senses";
+					if (idx.tagsense_cnt > 0)
 					{
 						taggedSenses = idx.tagsense_cnt;
-						buf += " (first "+idx.tagsense_cnt+" from tagged texts)\n";
+						buf += " (first " + idx.tagsense_cnt + " from tagged texts)\n";
 					}
 					else
 						buf += " (no senses from tagged texts)\n";
@@ -465,11 +495,11 @@ namespace Wnlib
 		}
 	}
 
-	internal class RelList 
+	internal class RelList
 	{
-		public BitSet senses = new BitSet(300); 
+		public BitSet senses = new BitSet(300);
 		public RelList next = null;
-		public RelList() {}
+		public RelList() { }
 		public RelList(RelList n) { next = n; }
 	}
 
@@ -477,10 +507,10 @@ namespace Wnlib
 	{
 		public Frame fr;
 		public int to;
-		internal SynSetFrame(Frame f,int t) { fr=f; to=t; }
+		internal SynSetFrame(Frame f, int t) { fr = f; to = t; }
 	}
 
-	public enum AdjSynSetType { DontKnow,DirectAnt,IndirectAnt,Pertainym }
+	public enum AdjSynSetType { DontKnow, DirectAnt, IndirectAnt, Pertainym }
 
 	public class AdjMarker
 	{
@@ -493,20 +523,18 @@ namespace Wnlib
 			return (AdjMarker)marks[s];
 		}
 
-		AdjMarker(string n,string k)
+		AdjMarker(string n, string k)
 		{
-			mnem=n; mark=k;
+			mnem = n; mark = k;
 			marks[n] = this;
 		}
 
-		static AdjMarker() 
+		static AdjMarker()
 		{
-			new AdjMarker("UNKNOWN_MARKER","");
-			new AdjMarker("ATTRIBUTIVE","(prenominal)");
-			new AdjMarker("IMMED_POSTNOMINAL","(postnominal)");
-			new AdjMarker("PREDICATIVE","(predicate)" );
+			new AdjMarker("UNKNOWN_MARKER", "");
+			new AdjMarker("ATTRIBUTIVE", "(prenominal)");
+			new AdjMarker("IMMED_POSTNOMINAL", "(postnominal)");
+			new AdjMarker("PREDICATIVE", "(predicate)");
 		}
 	}
-
-
 }
