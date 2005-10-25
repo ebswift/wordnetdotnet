@@ -186,47 +186,58 @@ namespace Wnlib
 										else
 											cursyn.tracePtrs(sch.ptp, pos, depth);
 
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+										// perform the senses restrictions based upon pos
+									switch(pos.name) 
+									{
+										case "verb":
+											if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
+											break;
+													
+										default:
+											if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+												senses.Add(cursyn);
+											break;
+									}
 										break;
 									case "COORDS":
-										//TODO: check if cursyn needs to be tested for null
 										cursyn.traceCoords(PointerType.of("HYPOPTR"), pos, depth);
-										senses.Add(cursyn);
+										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "FRAMES":
-										//TODO: check if cursyn needs to be tested for null
 										cursyn.strFrame(true);
-										senses.Add(cursyn);
+										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "MERONYM":
 										cursyn.tracePtrs(PointerType.of("HASMEMBERPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("HASSTUFFPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("HASPARTPTR"), pos, depth);
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "HOLONYM":
 										cursyn.tracePtrs(PointerType.of("ISMEMBERPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("ISSTUFFPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("ISPARTPTR"), pos, depth);
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "HMERONYM":
 										cursyn.partsAll(sch.ptp);
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "HHOLONYM":
 										cursyn.partsAll(sch.ptp);
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "SEEALSOPTR":
 										cursyn.seealso();
-										//TODO: check if cursyn needs to be tested for null
-										senses.Add(cursyn);
+										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "SIMPTR":
 										goto case "HYPERPTR";
@@ -247,25 +258,33 @@ namespace Wnlib
 										if (pos.name == "verb")
 											cursyn.strFrame(false);
 
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+										//TODO: senses are still incorrectly allowed through - search for "right", then Adjective->similarity.  The lexemes have sense values of (0), but the sense does not
+										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
 										// derivation - TDMS
 										cursyn.tracenomins(sch.ptp);
-										//TODO: check if cursyn needs to be tested for null
-										senses.Add(cursyn);
+										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
 										break;
 									case "CLASSIFICATION":
 										goto case "CLASS";
 									case "CLASS":
 										cursyn.traceclassif(sch.ptp, new SearchType(false, sch.ptp));
+										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+											senses.Add(cursyn);
+										break;
+											
+									case "HYPOPTR":
+										cursyn.tracePtrs(sch.ptp, pos, depth);
 										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
+											
 									default:
 										cursyn.tracePtrs(sch.ptp, pos, depth);
-										if (cursyn.senses != null) // TDMS 25 Oct 2005 - restrict to relevant values
+										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 								}

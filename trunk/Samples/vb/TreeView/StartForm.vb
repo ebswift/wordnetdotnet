@@ -908,10 +908,21 @@ skip:
         Private Sub TreeView1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView1.MouseDown
             If e.Button = MouseButtons.Right Then
                 Dim t As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
+                Dim ss As Wnlib.SynSet
 
                 TreeView1.SelectedNode = t
 
-                mnuNodeMenu.Show(TreeView1, New Point(e.X, e.Y))
+                ss = t.Tag
+                Dim wrd As Wnlib.Lexeme
+
+                ' it is possible to have a word list, all with a sense of (0) which will prevent semcor from
+                ' working.  In that case, prevent the semcor menu.  A test search for this condition is overview of "right" -> adjective -> similarity
+                For Each wrd In ss.words
+                    If wrd.wnsns > 0 Then
+                        mnuNodeMenu.Show(TreeView1, New Point(e.X, e.Y))
+                        Exit For
+                    End If
+                Next
             End If
         End Sub
 
