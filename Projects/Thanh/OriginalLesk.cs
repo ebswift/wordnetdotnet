@@ -115,8 +115,8 @@ namespace WordsMatching
 
 		private int GetOverlap(string[] a,string[] b)
 		{
-			//IOverlapCounter overlap=new SimpleOverlapCounter() ;
-			IOverlapCounter overlap=new ExtOverlapCounter() ;
+			IOverlapCounter overlap=new SimpleOverlapCounter() ;
+			//IOverlapCounter overlap=new ExtOverlapCounter() ;
 			return overlap.GetScore(a, b) ;
 		}
 			
