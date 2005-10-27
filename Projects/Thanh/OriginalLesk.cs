@@ -10,17 +10,14 @@ using Wnlib;
 namespace WordsMatching
 {
 
-	public interface IDisambiguator
-	{
-		int[] Disambiguate(string[] contextWords);
-	}
+
 
 	/// <summary>
 	/// Summary description for Overlap.
 	/// </summary>
-	public class AdaptedLesk: IDisambiguator 
+	public class OriginalLesk: IDisambiguator 
 	{		
-		public AdaptedLesk()
+		public OriginalLesk()
 		{
 		}
 		const int THRESHOLD=0;
