@@ -157,10 +157,10 @@ namespace WordsMatching
 				{
 					queue[index].Add(mysen);
 					depth[index].Add(dpt) ;
-					int hypernym=-1;
-					if (_word[1 - index] == mysen.word )
+					
+					if (_word[1 - index] == mysen.word  && dpt == 1) 
 					{
-						hypernym=dpt;						
+						return 1;
 					}
 
 					int subsumer=IsContain(mysen, queue[1 -index]);
