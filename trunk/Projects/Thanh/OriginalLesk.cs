@@ -1,27 +1,39 @@
+/*
+adapted version Lesk WSD
+Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
+Copyright (c) 2005 by Thanh Ngoc Dao.
+*/
+
 using System;
 using Wnlib;
 
 namespace WordsMatching
 {
+
+	public interface IDisambiguator
+	{
+		int[] Disambiguate(string[] contextWords);
+	}
+
 	/// <summary>
-	/// Summary description for OriginalLesk.
+	/// Summary description for Overlap.
 	/// </summary>
-	public class OriginalLesk: IDisambiguator 
+	public class AdaptedLesk: IDisambiguator 
 	{		
-		public OriginalLesk()
+		public AdaptedLesk()
 		{
 		}
 		const int THRESHOLD=0;
 		const int CONTEXT_SIZE=5;//Local disambiguation within the context size 
 
 		static Opt[] NOUN_RELATIONS=new Opt[] { Opt.at(8) , //hyper
-												  // Opt.at(14), //holo
-												  //  Opt.at(19), //mero
-												  //Opt.at(12) //hypo												
+//												  Opt.at(14), //holo
+//												  Opt.at(19), //mero
+												  Opt.at(12) //hypo												
 											  } ;
 		static Opt[] VERB_RELATIONS=new Opt[] {
 												  Opt.at(31),//hyper
-												  //Opt.at(36)//tropo // may be 38
+												  Opt.at(36)//tropo // may be 38
 											  } ;
 
 		private string[][][][] _relCube ;//[words][senses][relations]
@@ -106,8 +118,8 @@ namespace WordsMatching
 
 		private int GetOverlap(string[] a,string[] b)
 		{
-			IOverlapCounter overlap=new SimpleOverlapCounter() ;
-			//IOverlapCounter overlap=new ExtOverlapCounter() ;
+			//IOverlapCounter overlap=new SimpleOverlapCounter() ;
+			IOverlapCounter overlap=new ExtOverlapCounter() ;
 			return overlap.GetScore(a, b) ;
 		}
 			
@@ -210,7 +222,7 @@ namespace WordsMatching
 		
 		private string RemoveBadChars(string s)
 		{
-			string[] badChars=new string[]{"=>", "==","=","->",">","+",";",","} ;
+			string[] badChars=new string[]{"=>", "==","=","->",">","+",";",",","_","-","."} ;
 			foreach(string ch in badChars)			
 				s=s.Replace(ch, " ") ;
 
@@ -226,50 +238,38 @@ namespace WordsMatching
 			return _bestSenses;
 		}
 
-		public string[] ConcateRel(Search se)
+		public string[] GetRelativeGlosses(Search se)
 		{			
-
-			int a=se.buf.IndexOf("\n");
-			if (a>=0) 
-			{
-				if (a==0) 
-				{
-					se.buf = se.buf.Substring(a+1);
-					a = se.buf.IndexOf("\n");
+			string rels="";
+			if (se.senses[0].senses != null)
+				foreach (SynSet ss in se.senses[0].senses)
+				{								
+					foreach (Lexeme ww in ss.words)											
+						rels += " " + ww.word;
+				
+					rels += ss.defn ;			
 				}
-				se.buf = se.buf.Substring(a+1);
-			}
 			
-			
-			SynSet sense=(SynSet)se.senses [0];
-		
-			
-			string con=se.buf.ToString();
-			if (con == string.Empty) return null;
-			int pIndex=con.IndexOf(sense.defn);
-			if (pIndex == -1) return null;
-			int lcon=con.Length ;
-			int ldef=sense.defn.Length ;
-			
-			string s=con.Substring(pIndex + ldef - 1, lcon - (pIndex + ldef - 1 )) ;					
-			
-			s=RemoveBadChars(s);
 			Tokeniser tok=new Tokeniser() ;
-			string[] toks=tok.Partition(s);
+			string[] toks=tok.Partition(rels);
+
 			return toks;
 		}
 
-		private string[] GetGloss(SynSet sense)
+		private string[] GetDefinition(SynSet sense)
 		{
 			if (sense == null) return null;
 			string gloss=sense.defn ;
-			if (gloss.IndexOf(";") != -1)
-				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
-			
+			//			if (gloss.IndexOf(";") != -1)
+			//				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
+			foreach (Lexeme word in sense.words)
+			{
+				gloss += " " + word.word;
+			}
 			Tokeniser tok=new Tokeniser() ;
-			string[] glossToks=tok.Partition(gloss) ;
+			string[] toks=tok.Partition(gloss) ;
 
-			return glossToks;
+			return toks;
 		}
 
 		private string[][][] GetAllRelations(string word, int senseCount)
@@ -292,13 +292,19 @@ namespace WordsMatching
 			for(int i=0; i < _priorRelations.Length; i++ )
 			{
 				Opt rel=_priorRelations [i];				
-				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//				
+				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//								
 				if( se.senses != null && se.senses.Count > 0)
-				{														 														 
+				{						
+					if (word == "pine" && i==3)
+					{
+						int yy=0;
+					}
+			
 					if (relations[0] == null  )
-						relations[0]=GetGloss ((SynSet)se.senses [0]);			
+						relations[0]=GetDefinition (se.senses [0]);			
+					if (se.senses[0].senses != null)					
+						relations[i + 1]=GetRelativeGlosses(se) ;									
 
-					relations[i + 1] = ConcateRel(se);				
 				}				
 				else relations[i+1]= null;
 			}
