@@ -161,6 +161,7 @@ namespace WordsMatching
 					if (subsumer != -1)
 					{												
 						int distance=dpt + ((MyWordSense )(queue[1- index][subsumer])).depth - 1;
+						if (distance == 0) distance=1;
 						return distance;
 					}					
 				}
