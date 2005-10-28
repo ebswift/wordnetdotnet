@@ -126,7 +126,7 @@ namespace WordsMatching
 			foreach (SynSet sense in senList)
 			{						
 				path=Add_WordSenses(sense, index, dpt);
-				if (path == -1 && sense.senses != null)				
+				if (path == NO_PATH && sense.senses != null)				
 					path=HierarchicalWalk(sense.senses, index, dpt + 1);
 				else 
 					break;
