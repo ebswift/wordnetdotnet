@@ -181,7 +181,7 @@ namespace WordsMatching
 					}
 				}
 			}			
-			return -1;
+			return NO_PATH;
 		}
 
 		public int FindPath(int index, Opt opt)
