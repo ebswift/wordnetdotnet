@@ -12,9 +12,6 @@ namespace WordsMatching
 	{
 		public PathLengthMeasure()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		//const int DEPTH=6;
