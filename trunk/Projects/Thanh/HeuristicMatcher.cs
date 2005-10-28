@@ -17,28 +17,7 @@ namespace WordsMatching
 		public HeuristicMatcher()
 		{
 		}
-		
-		public static float[][] Transpose(float[][] simMatrix)
-		{
-			if (simMatrix == null)
-				return null;
-			int m=simMatrix.Length;
-			int n=simMatrix[0].Length;
-			float[][] transMatrix=new float[n][];
-			for (int i=0; i < n; i++)
-			{
-				transMatrix[i]=new float[m];
-			}
-			for (int i=0; i < m; i++)
-			{
-				for (int j=0; j < n; j++)
-					transMatrix[j][i]=simMatrix[i][j];
-			}
-			
-			return transMatrix;
-		}
-		
-		
+						
 		public static float ComputeSetSimilarity(float[][] simMatrix, int setStrategy, float threshold)
 		{
 			if (simMatrix == null)

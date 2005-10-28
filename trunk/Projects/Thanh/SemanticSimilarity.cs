@@ -28,7 +28,9 @@ namespace WordsMatching
 		{
 			
 			AdaptedLesk dis=new AdaptedLesk() ;
+			//OriginalLesk dis=new OriginalLesk() ;
 			_senses1=dis.Disambiguate(_source) ;
+
 			_senses2=dis.Disambiguate(_target) ;
 			
 			m=_senses1.Length; n=_senses2.Length ;
@@ -46,7 +48,9 @@ namespace WordsMatching
 					if (s2 == -1 ) s2=0;
 
 					string word2=_target[j];
-					PathLengthSimilarity is_a=new PathLengthSimilarity() ;
+					//PathLengthSimilarity is_a=new PathLengthSimilarity() ;
+					PathLengthMeasure is_a=new PathLengthMeasure () ;
+
 					float weight=is_a.Similarity1(word1, s1, word2, s2)  ;
 					if (weight <= 0)
 					{
@@ -68,10 +72,12 @@ namespace WordsMatching
 				return 0F;
 			
 			MyInit();
-			
+			//
+			//HeuristicMatcher match=new HeuristicMatcher() ;
 			BipartiteMatcher match=new BipartiteMatcher(_source , _target, _cost) ;
+		
 			float[] matches=match.GetMatches() ;
-
+			//float score=HeuristicMatcher.ComputeSetSimilarity(_cost, 1) ;
 			float score=SimilarityCombiner.MatchingAverage(matches, m, n) ;
 			return score;	
 		}
