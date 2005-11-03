@@ -44,7 +44,7 @@ namespace WordsMatching
 
 		public string[] Partition(string input)
 		{
-			Regex r=new Regex("([ \\t{}():;._,\\- \"?\n])");
+			Regex r=new Regex("([ \\t{}():;._,\\-! \"?\n])");
 			
 			Normalize_Casing(ref input);		
 			input=input.ToLower() ;
