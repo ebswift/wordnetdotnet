@@ -558,8 +558,9 @@ namespace Wnlib
 					if (i<wdcnt-1)
 						search.buf +=", ";
 				}
-			if (definition!=0 &&  WNOpt.opt("-g").flag && defn!=null)
+			if (definition!=0 &&  WNOpt.opt("-g").flag && defn!=null) 
 				search.buf +=" -- "+defn;
+			
 			search.buf += tail;
 		}
 		
@@ -794,6 +795,7 @@ namespace Wnlib
 		
 		internal void strFrame(bool prsynset)
 		{
+			//TODO: do senses also need to have frames added?
 			int i;
 			if(prsynset)
 				strsns(sense+1);
