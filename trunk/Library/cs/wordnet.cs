@@ -281,8 +281,8 @@ namespace Wnlib
 										if (pos.name == "verb")
 											cursyn.strFrame(false);
 
-										if (cursyn.senses != null )
-											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+										//if (cursyn.senses != null )
+										//	if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
 												senses.Add(cursyn);
 										break;
 									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
