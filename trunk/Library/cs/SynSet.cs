@@ -117,6 +117,11 @@ namespace Wnlib
 				words[j] = new Lexeme();
 				words[j].word = st.next();
 				words[j].uniq = int.Parse(st.next(),NumberStyles.HexNumber);
+
+				// Thanh Dao 7 Nov 2005 - Added missing word sense values
+				int ss = getsearchsense(j+1);
+				words[j].wnsns = ss;
+
 				if (words[j].word.ToLower()==word)
 					whichword = j+1;
 			}
