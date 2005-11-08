@@ -130,7 +130,10 @@ Namespace wnb
         Friend WithEvents Panel3 As System.Windows.Forms.Panel
         Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
         Friend WithEvents mnuNodeMenu As System.Windows.Forms.ContextMenu
+        Friend WithEvents wnIcons As System.Windows.Forms.ImageList
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+            Me.components = New System.ComponentModel.Container
+            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(StartForm))
             Me.MenuItem17 = New System.Windows.Forms.MenuItem
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.mnuClearDisplay = New System.Windows.Forms.MenuItem
@@ -166,6 +169,7 @@ Namespace wnb
             Me.Panel3 = New System.Windows.Forms.Panel
             Me.TreeView1 = New System.Windows.Forms.TreeView
             Me.mnuNodeMenu = New System.Windows.Forms.ContextMenu
+            Me.wnIcons = New System.Windows.Forms.ImageList(Me.components)
             Me.Panel1.SuspendLayout()
             Me.Panel2.SuspendLayout()
             Me.Panel3.SuspendLayout()
@@ -428,15 +432,17 @@ Namespace wnb
             Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                         Or System.Windows.Forms.AnchorStyles.Left) _
                         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.TreeView1.ImageIndex = -1
+            Me.TreeView1.ImageList = Me.wnIcons
             Me.TreeView1.Location = New System.Drawing.Point(0, 0)
             Me.TreeView1.Name = "TreeView1"
-            Me.TreeView1.SelectedImageIndex = -1
             Me.TreeView1.Size = New System.Drawing.Size(592, 326)
             Me.TreeView1.TabIndex = 17
             '
-            'mnuNodeMenu
+            'wnIcons
             '
+            Me.wnIcons.ImageSize = New System.Drawing.Size(16, 16)
+            Me.wnIcons.ImageStream = CType(resources.GetObject("wnIcons.ImageStream"), System.Windows.Forms.ImageListStreamer)
+            Me.wnIcons.TransparentColor = System.Drawing.Color.Transparent
             '
             'StartForm
             '
@@ -681,9 +687,12 @@ Namespace wnb
 
                 ' fill in sense frames
                 Dim fr As Wnlib.SynSetFrame
+                Dim frnode As TreeNode
                 If ss.frames.Count > 0 Then
                     For Each fr In ss.frames
-                        parentnode.Nodes.Add(fr.fr.str)
+                        frnode = New TreeNode(fr.fr.str)
+                        frnode.ImageIndex = 1
+                        parentnode.Nodes.Add(frnode)
                     Next
                 End If
 
