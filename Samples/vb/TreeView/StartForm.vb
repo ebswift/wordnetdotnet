@@ -674,11 +674,20 @@ Namespace wnb
                     TreeView1.Nodes.Add(parentnode)
                 End If
 
+                ' do child senses
                 If Not ss.senses Is Nothing Then
                     fillTreeChild(ss.senses, parentnode)
                 End If
 
-skip:
+                ' fill in sense frames
+                Dim fr As Wnlib.SynSetFrame
+                If ss.frames.Count > 0 Then
+                    For Each fr In ss.frames
+                        parentnode.Nodes.Add(fr.fr.str)
+                    Next
+                End If
+
+                'skip:
             Next ss
         End Sub
 
