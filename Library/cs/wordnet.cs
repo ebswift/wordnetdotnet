@@ -253,7 +253,7 @@ namespace Wnlib
 										break;
 									case "HHOLONYM":
 										cursyn.partsAll(sch.ptp);
-										if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+										if (cursyn.senses != null) // && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
 										break;
 									case "SEEALSOPTR":

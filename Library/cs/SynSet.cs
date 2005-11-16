@@ -63,6 +63,7 @@ namespace Wnlib
 		public SynSetList senses = null; // of SynSet (creates our hierarchy) - TDMS 6 Oct 2005
 		Search search;
 		public Pointer[] ptrs;		/* number of pointers */
+		public Pointer thisptr; // the current pointertype - TDMS 17 Nov 2005
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */
 		public string defn;		/* synset gloss (definition) */
 		public AdjMarker adj_marker;
@@ -248,6 +249,7 @@ namespace Wnlib
 					// TDMS 6 Oct 2005 - build hierarchical results
 					if(this.senses == null)
 						this.senses = new SynSetList();
+					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 					this.senses.Add(cursyn);
 
 					/* For Pertainyms and Participles pointing to a specific
@@ -319,7 +321,9 @@ namespace Wnlib
 					// TDMS 6 Oct 2005 - build hierarchical results
 					if(this.senses == null)
 						this.senses = new SynSetList();
+					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 					this.senses.Add(cursyn);
+
 					if (depth>0) 
 					{
 						depth = depthcheck(depth);
@@ -328,6 +332,7 @@ namespace Wnlib
 						// TODO: verify this
 						if(this.senses == null)
 							this.senses = new SynSetList();
+						cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 						this.senses.Add(cursyn);
 					}
 				}
@@ -376,6 +381,7 @@ namespace Wnlib
 					// TODO: verify this
 					if(this.senses == null)
 						this.senses = new SynSetList();
+					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 					this.senses.Add(cursyn);
 
 					for (j = 0; j < idx; j++) 
@@ -447,6 +453,7 @@ namespace Wnlib
 					// TODO: verify this
 					if(this.senses == null)
 						this.senses = new SynSetList();
+					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 					this.senses.Add(cursyn);
 
 					cursyn.tracePtrs(ptp,cursyn.pos,0);
@@ -487,6 +494,7 @@ namespace Wnlib
 					// TODO: verify this
 					if(this.senses == null)
 						this.senses = new SynSetList();
+					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 					this.senses.Add(cursyn);
 
 					cursyn.tracePtrs(pbase,PartOfSpeech.of("noun"),depth);
@@ -770,6 +778,8 @@ namespace Wnlib
 						// TDMS 6 Oct 2005 - build hierarchical results
 						if(this.senses == null)
 							this.senses = new SynSetList();
+						//TODO: check the ptrs reference
+						antptr.thisptr = newsynptr.ptrs[i];  // TDMS 17 Nov 2005 - add this pointer type
 						this.senses.Add(antptr);
 						if (anttype==AdjSynSetType.DirectAnt) 
 						{
@@ -795,7 +805,6 @@ namespace Wnlib
 		
 		internal void strFrame(bool prsynset)
 		{
-			//TODO: do senses also need to have frames added?
 			int i;
 			if(prsynset)
 				strsns(sense+1);
