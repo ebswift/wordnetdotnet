@@ -168,8 +168,8 @@ Namespace wnb
             Me.StatusBar1 = New System.Windows.Forms.StatusBar
             Me.Panel3 = New System.Windows.Forms.Panel
             Me.TreeView1 = New System.Windows.Forms.TreeView
-            Me.mnuNodeMenu = New System.Windows.Forms.ContextMenu
             Me.wnIcons = New System.Windows.Forms.ImageList(Me.components)
+            Me.mnuNodeMenu = New System.Windows.Forms.ContextMenu
             Me.Panel1.SuspendLayout()
             Me.Panel2.SuspendLayout()
             Me.Panel3.SuspendLayout()
@@ -691,7 +691,7 @@ Namespace wnb
                 If ss.frames.Count > 0 Then
                     For Each fr In ss.frames
                         frnode = New TreeNode(fr.fr.str)
-                        frnode.ImageIndex = 1
+                        frnode.ImageIndex = 23 'TODO: change this number
                         parentnode.Nodes.Add(frnode)
                     Next
                 End If
@@ -744,6 +744,13 @@ Namespace wnb
             childnode = New TreeNode
             childnode.Text = words
             'childnode.Tag = ss.defn
+
+            ' assign an icon according to the ident number of the ptr
+            ' (see static void classinit() in util.cs)
+            If Not ss.thisptr Is Nothing Then
+                childnode.ImageIndex = ss.thisptr.ptp.ident
+            End If
+
             childnode.Tag = ss
 
             Return childnode
