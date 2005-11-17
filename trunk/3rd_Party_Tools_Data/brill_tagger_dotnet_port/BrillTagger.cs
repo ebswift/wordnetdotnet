@@ -171,7 +171,8 @@ namespace BrillTagger
 			{
 				// TDMS 20 Oct 2005 - added check for empty string
 				if((string)lv[i] != "")
-					TheContext.Add(lv[i]);
+					//TDMS 17 Nov 2005 - fixed the rules matching by removing \r from each entry in the array - the last entry contained \r which breaks contextual comparisons
+					TheContext.Add(lv[i].Replace("\r", ""));
 			}
 		}
     
@@ -396,6 +397,7 @@ namespace BrillTagger
 				SubRule = TheContext[i].Split(' ');
 				// We have to refer to the individual items in the rule
 				// The code is much clearer if we name them now
+
 				SR0 = SubRule[0];
 				SR1 = SubRule[1];
 				SR2 = SubRule[2];
