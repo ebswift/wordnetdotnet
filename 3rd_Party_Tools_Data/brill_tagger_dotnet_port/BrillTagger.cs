@@ -210,7 +210,11 @@ namespace BrillTagger
 				}
 				else if (ebString.vbLike(TheWords[i].Substring(0, 1), "[0-9]")) 
 				{
-					TheTags.Add("CD");
+					// TDMS 18 Nov 2005 - changed unknown words to noun, which duplicates
+					// functionality of the original Brill Tagger.  Numbers were being
+					// incorrectly tagged as /CD instead of /JJ.
+					TheTags.Add("NN");
+//					TheTags.Add("CD");
 				}
 				else 
 				{
