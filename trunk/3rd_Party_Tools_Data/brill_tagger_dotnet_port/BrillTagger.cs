@@ -137,14 +137,7 @@ namespace BrillTagger
 			{
 				j = s.IndexOf(" ");
 				tlist = s.Substring((j + 1)).Split(' ');
-				try 
-				{
-					Lexicon.Add(s.Substring(0, j), tlist);
-				} 
-				catch 
-				{
-					//TODO: LEXICON.BROWN.AND.WSJ contains '# #' at the start, find out how this should be stored - a key cannot be duplicated in a hash
-				}
+				Lexicon.Add(s.Substring(0, j), tlist);
 				s = SR.ReadLine();
 			}
 			SR.Close();
