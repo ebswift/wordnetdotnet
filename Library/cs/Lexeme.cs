@@ -35,7 +35,7 @@ namespace Wnlib
 		public int wnsns;    // sense number in wordnet: filled in during search
 		public SemCor semcor; // information from sense.index
 
-		internal Lexeme()
+		public Lexeme()
 		{ 
 		}
 	}

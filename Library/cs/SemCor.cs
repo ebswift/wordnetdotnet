@@ -43,9 +43,11 @@ namespace Wnlib
 
 			// locate our word and key via a binary search
 			string semline = Wnlib.WNDB.binSearchSemCor(key, lex.word, indexFile);
-
 			string [] lexinfo = semline.Split(' ');
 			semcor = Convert.ToInt16(lexinfo[lexinfo.GetUpperBound(0)]);
+
+			// TDMS 18 Nov 2005 - added file close
+			indexFile.Close();
 		}
 	}
 }
