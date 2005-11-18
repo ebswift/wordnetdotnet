@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTagger", "TestTagger.csproj", "{DBB61984-E59A-49FF-9ED6-DF297C383C9B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{DBB61984-E59A-49FF-9ED6-DF297C383C9B}.Debug.ActiveCfg = Debug|.NET
+		{DBB61984-E59A-49FF-9ED6-DF297C383C9B}.Debug.Build.0 = Debug|.NET
+		{DBB61984-E59A-49FF-9ED6-DF297C383C9B}.Release.ActiveCfg = Release|.NET
+		{DBB61984-E59A-49FF-9ED6-DF297C383C9B}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
