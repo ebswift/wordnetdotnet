@@ -1,0 +1,14 @@
+<Configuration>
+  <RecentFilesTracker>
+    <RecentFilesTracker>
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\brill_tagger\TestTagger\Form1.cs" offset="0" line="87" column="0" />
+      <TrackedFile location="D:\Project\SchemaMatching\Similarity\brill_tagger\TestTagger\ProcessCaller.cs" offset="0" line="7" column="0" />
+    </RecentFilesTracker>
+  </RecentFilesTracker>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean />
+  </SettingsComponent>
+  <CompletionStatisticsManager />
+</Configuration>
