@@ -1,1 +1,0 @@
-tagger lexicon.brown %1 BIGRAMS lexicalrulefile.brown contextualrulefile.brown > %2
