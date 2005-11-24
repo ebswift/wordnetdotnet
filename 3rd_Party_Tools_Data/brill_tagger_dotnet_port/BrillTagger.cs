@@ -152,7 +152,7 @@ namespace BrillTagger
 				// TheRules[i] = lv[i];
 				// TDMS 20 Oct 2005 - added check for empty string
 				if((string)lv[i] != "")
-					TheRules.Add((string)lv[i]);
+					TheRules.Add((string)lv[i].Replace("\r", ""));
 			}
 			//SR = new StreamReader((Application.StartupPath + "\\ContextualRuleFile.txt"));
 			SR = new StreamReader((Application.StartupPath + "\\" + ContextualRuleFile));
@@ -244,10 +244,14 @@ namespace BrillTagger
 				if ((SubRule.Length >= 4)) 
 				{
 					SR3 = SubRule[3];
+				} else {
+					SR3 = null;
 				}
-				if ((SubRule.Length == 5)) 
+					if ((SubRule.Length == 5)) 
 				{
 					SR4 = SubRule[4];
+				} else {
+					SR4 = null;
 				}
 				for (j = 0; (j <= LastWord); j++) 
 				{
@@ -255,8 +259,8 @@ namespace BrillTagger
 					// is NOT in the lexicon. You can easily disable this check if you think I'm wrong
 					// If the word is unknown then it's probably best to try the substitution
 					tlist = ((string[])(Lexicon[TheWords[j]]));
-					if ((tlist == null)) 
-					{
+//					if ((tlist == null)) 
+//					{
 						//  Change this to If True then... if you want everything checked
 						if ((SR2.Substring(0, 1) != "f")) 
 						{
@@ -370,7 +374,7 @@ namespace BrillTagger
 									break;
 							}
 						}
-					}
+					//}
 				}
 			}
 		}
@@ -401,10 +405,16 @@ namespace BrillTagger
 				if ((SubRule.Length >= 4)) 
 				{
 					SR3 = SubRule[3];
+				} 
+				else 
+				{
+					SR3 = null;
 				}
 				if ((SubRule.Length == 5)) 
 				{
 					SR4 = SubRule[4];
+				} else {
+					SR4 = null;
 				}
 				for (j = 0; (j <= LastWord); j++) 
 				{
@@ -437,8 +447,7 @@ namespace BrillTagger
 							case "PREVTAG":
 								if ((j > 0)) 
 								{
-									if (((TheTags[j] == SR0) 
-										&& (TheTags[(j - 1)] == SR3))) 
+									if ((TheTags[j] == SR0) && (TheTags[(j - 1)] == SR3)) 
 									{
 										TheTags[j] = SR1;
 									}
