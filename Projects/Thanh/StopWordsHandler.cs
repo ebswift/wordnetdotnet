@@ -5,9 +5,7 @@ using System.Collections;
 namespace WordsMatching
 {
 	/// <summary>
-	/// Stop words are frequently occurring, insignificant words words 
-	/// that appear in a database record, article or web page. 
-	/// Common stop words include
+	/// Stop words are frequently occurring, insignificant words 	
 	/// </summary>
 	public class StopWordsHandler
 	{		
@@ -476,9 +474,7 @@ namespace WordsMatching
 		}
 
 		public static bool IsStopWord(string str)
-		{
-			
-			//int index=Array.BinarySearch(stopWordsList, str)
+		{					
 			return _stopwords.ContainsKey(str.ToLower());
 		}
 	

@@ -89,6 +89,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "Acronym.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AdaptedLesk.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -104,17 +109,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "EditDistance.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ExtOverlapCounter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "GlossMatcher.cs"
+                    RelPath = "HeuristicMatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -139,12 +139,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "POSTaggerWSD.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "POSWordDistance.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SemanticSimilarity.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SimilarityCombiner.cs"
+                    RelPath = "SimilarGenerator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -159,17 +169,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SyntacticSimilarity.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Test.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Tokeniser.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WordDistance.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

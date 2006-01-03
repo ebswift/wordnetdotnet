@@ -14,8 +14,14 @@ namespace WordsMatching
 	/// Summary description for Tokeniser.
 	/// Partition string off into subwords
 	/// </summary>
-	internal class Tokeniser
+	public class Tokeniser
 	{
+
+        private bool _useStemming = false;
+        public bool UseStemming
+        {
+            set { value=_useStemming; }
+        }
 
 		private void Normalize_Casing(ref string input)
 		{
@@ -44,14 +50,14 @@ namespace WordsMatching
 
 		public string[] Partition(string input)
 		{
-			Regex r=new Regex("([ \\t{}():;._,\\-! \"?\n])");
-			
-			Normalize_Casing(ref input);		
-			input=input.ToLower() ;
+            Regex r = new Regex("([ \\t{}():;._,\\-! \"?\n])");
 
-			String [] tokens=r.Split(input); 									
+            Normalize_Casing(ref input);
+            input = input.ToLower();
 
-			ArrayList filter=new ArrayList() ;
+            String[] tokens = r.Split(input);
+
+            ArrayList filter = new ArrayList();
 
 			for (int i=0; i < tokens.Length ; i++)
 			{
@@ -63,39 +69,23 @@ namespace WordsMatching
 				
 			}
 
-			tokens=new string[filter.Count] ;
-			for(int i=0; i < filter.Count ; i++) tokens[i]=(string) filter[i];
-			
-			return tokens;
-		}
-
-		private ArrayList Tokenize(System.String input)
-		{
-			ArrayList returnVect = new ArrayList(10);
-			int nextGapPos;
-			for (int curPos = 0; curPos < input.Length; curPos = nextGapPos)
+			if (_useStemming)
 			{
-				char ch = input[curPos];
-				if (System.Char.IsWhiteSpace(ch))
-					curPos++;
-				nextGapPos = input.Length;
-				for (int i = 0; i < "\r\n\t \x00A0".Length; i++)
-				{					
-					int testPos = input.IndexOf((Char) "\r\n\t \x00A0"[i], curPos);
-					if (testPos < nextGapPos && testPos != - 1)
-						nextGapPos = testPos;
-				}
-				
-				System.String term = input.Substring(curPos, (nextGapPos) - (curPos));
-				//if (!stopWordHandler.isWord(term))
-				returnVect.Add(term);
+				StemmerInterface stem=new PorterStemmer() ;						
+				tokens=new string[filter.Count] ;
+				for(int i=0; i < filter.Count ; i++) tokens[i]=stem.stemTerm( (string) filter[i]);
+
+				return tokens;
 			}
+			else
+				return (string[])filter.ToArray( typeof( string ) );
 			
-			return returnVect;
 		}
 
+		
 		public Tokeniser()
 		{
+            StopWordsHandler stop=new StopWordsHandler() ;
 		}
 	}
 }
