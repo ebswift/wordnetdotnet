@@ -1,6 +1,6 @@
 /*
 Maximize the total weight of bipartite grapth 
-Heuristic method
+Local Optimize method
 Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
 Copyright (c) 2005 by Thanh Ngoc Dao.
 */
