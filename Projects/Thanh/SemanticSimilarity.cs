@@ -99,42 +99,42 @@ namespace WordsMatching
             _myWordsInfo2 = new MyWordInfo [n];
             
             Wnlib.PartsOfSpeech[] posEnum = (Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
-            WordHierarchical[][] wordData1 = new WordHierarchical[m][];
-            WordHierarchical[][] wordData2 = new WordHierarchical[n][];
+        	HierarchicalWordData[][] Data1 = new HierarchicalWordData[m][];
+        	HierarchicalWordData[][] Data2 = new HierarchicalWordData[n][];
 
             for (int i = 0; i < m; i++)             
             {
                 _simMatrix[i] = new float[n];
-                wordData1[i] = new WordHierarchical[posEnum.Length];
+            	Data1[i] = new HierarchicalWordData[posEnum.Length];
                 for (int pos1 = 0; pos1 < posEnum.Length; pos1++)
                 {
                     _myWordsInfo1[i] = new MyWordInfo(_source[i], posEnum[pos1]);
 
-                    if (wordData1[i][pos1] == null)
+                    if (Data1[i][pos1] == null)
                     {
-                        wordData1[i][pos1] = new WordHierarchical(_myWordsInfo1[i]);
+                    	Data1[i][pos1] = new HierarchicalWordData(_myWordsInfo1[i]);
                     }
    
                      _myWordsInfo1[i].Sense = 0;
                      for (int j = 0; j < n; j++)
                      {
-                         if (wordData2[j] == null)
-                             wordData2[j] = new WordHierarchical[posEnum.Length];
+                         if (Data2[j] == null)
+                         	Data2[j] = new HierarchicalWordData[posEnum.Length];
 
                          for (int pos2 = 0; pos2 < posEnum.Length; pos2++)
                          {
                               _myWordsInfo2[j] = new MyWordInfo(_target[j], posEnum[pos2]);
 
-                              if (wordData2[j][pos2] == null)
+                              if (Data2[j][pos2] == null)
                               {
-                                  wordData2[j][pos2] = new WordHierarchical(_myWordsInfo2[j]);
+                              	Data2[j][pos2] = new HierarchicalWordData(_myWordsInfo2[j]);
                               }
 
                               _myWordsInfo2[j].Sense = 0;
                               WordDistance wordDistance= new WordDistance();
-                              float semDist = wordDistance.GetSimilarity(wordData1[i][pos1], wordData2[j][pos2]);
+                              float semDist = wordDistance.GetSimilarity(Data1[i][pos1], Data2[j][pos2]);
 
-                              float synDist=AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[i]);
+                              float synDist=AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[j]);
                               float weight=Math.Max (synDist, semDist);
 
                               if (_simMatrix[i][j] < weight)
