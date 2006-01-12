@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="D:\Troy Devel\WordNet.Net\Samples\vb\TreeView\..\..\..\Library\cs\WordNet.Net.csproj">
+    <ProjectReference Include="..\..\..\Library\cs\WordNet.Net.csproj">
       <Project>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</Project>
       <Name>WordNet.Net</Name>
       <Private />
