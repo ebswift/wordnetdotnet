@@ -18,7 +18,7 @@ namespace WordsMatching
     /// </summary>
     /// 
 
-    public class WordHierarchical
+    public class HierarchicalWordData
     {
         static readonly Opt IS_A_NOUN = Opt.at(11);
         static readonly Opt IS_A_VERB = Opt.at(35);
@@ -27,7 +27,7 @@ namespace WordsMatching
         public int MaxDepth = -1;
         public MyWordInfo WordInfo;
 
-        public WordHierarchical(MyWordInfo wordInfo)
+        public HierarchicalWordData(MyWordInfo wordInfo)
         {
             this.WordInfo = wordInfo;
             GetWordInfo();
@@ -128,7 +128,7 @@ namespace WordsMatching
             else return -1;
         }
 
-        public int GetCommonAncestorDistance(WordHierarchical partner)
+        public int GetCommonAncestorDistance(HierarchicalWordData partner)
         {
             IDictionaryEnumerator getEnum = this.Track.GetEnumerator();
             int distance=int.MaxValue;
@@ -160,7 +160,7 @@ namespace WordsMatching
         }
         
 
-        public float GetSimilarity(WordHierarchical word1, WordHierarchical word2)
+        public float GetSimilarity(HierarchicalWordData word1, HierarchicalWordData word2)
         {
             if (word1.WordInfo.Pos != word2.WordInfo.Pos || word1.WordInfo.Pos == PartsOfSpeech.Unknown) return 0.0F;
             if (word1.WordInfo.Word == word2.WordInfo.Word) return 1.0F;
