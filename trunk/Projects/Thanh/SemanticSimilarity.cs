@@ -1,5 +1,6 @@
 /*
  Semantic between two phrasals/sentences
+ (disregards PartOfSpeech tagging and WordSenseDisambiguation)
  Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
  Copyright (c) 2005 by Thanh Ngoc Dao.
 */
@@ -106,7 +107,7 @@ namespace WordsMatching
             {
                 _simMatrix[i] = new float[n];
             	Data1[i] = new HierarchicalWordData[posEnum.Length];
-                for (int pos1 = 0; pos1 < posEnum.Length; pos1++)
+                for (int pos1 = 1; pos1 < posEnum.Length; pos1++)
                 {
                     _myWordsInfo1[i] = new MyWordInfo(_source[i], posEnum[pos1]);
 
@@ -120,8 +121,9 @@ namespace WordsMatching
                      {
                          if (Data2[j] == null)
                          	Data2[j] = new HierarchicalWordData[posEnum.Length];
+                        float synDist = AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[j]);
 
-                         for (int pos2 = 0; pos2 < posEnum.Length; pos2++)
+                        for (int pos2 = 1; pos2 < posEnum.Length ; pos2++)
                          {
                               _myWordsInfo2[j] = new MyWordInfo(_target[j], posEnum[pos2]);
 
@@ -132,9 +134,7 @@ namespace WordsMatching
 
                               _myWordsInfo2[j].Sense = 0;
                               WordDistance wordDistance= new WordDistance();
-                              float semDist = wordDistance.GetSimilarity(Data1[i][pos1], Data2[j][pos2]);
-
-                              float synDist=AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[j]);
+                              float semDist = wordDistance.GetSimilarity(Data1[i][pos1], Data2[j][pos2]);                              
                               float weight=Math.Max (synDist, semDist);
 
                               if (_simMatrix[i][j] < weight)

@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace WordsMatching
 {
@@ -38,9 +39,23 @@ namespace WordsMatching
 
             return distance[n, m];
         }
-
+		
+        
+        static bool IsAcronym(string text)
+        {        
+        	Regex r = new Regex("([A-Z])([A-Z])*");
+			MatchCollection mc=r.Matches(text);
+			
+			if (mc.Count >0 )
+				return true;
+			
+			return false;
+        	
+        }
+        
         public static float GetEditDistanceSimilarity(string string1, string string2)
         {
+        	
             if ((Object)string1 == null || (Object)string2 == null || string2.Length == 0 || string1.Length == 0)
             {
                 return 0.0F;

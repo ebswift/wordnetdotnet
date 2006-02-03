@@ -295,11 +295,6 @@ namespace WordsMatching
 				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//								
 				if( se.senses != null && se.senses.Count > 0)
 				{						
-					if (word == "pine" && i==3)
-					{
-						int yy=0;
-					}
-			
 					if (relations[0] == null  )
 						relations[0]=GetDefinition (se.senses [0]);			
 					if (se.senses[0].senses != null)					

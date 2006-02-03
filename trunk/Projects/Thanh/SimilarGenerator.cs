@@ -6,7 +6,7 @@ using WordsMatching;
 namespace SimilarSentence
 {
 	/// <summary>
-	/// This class input a sentence and produce a list of assume similar sentences
+	/// This class input a sentence and produce a list of approximately similar sentences
     /// 
 	/// </summary>
 	public class SimilarGenerator
