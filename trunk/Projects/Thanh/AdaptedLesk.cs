@@ -105,10 +105,6 @@ namespace WordsMatching
 					if (stop) 						
 					{
 						string[][][] tmp=GetAllRelations(_contextWords[i], senseCount );						
-						if (tmp == null)
-						{
-							int w=0;
-						}
 						_relCube[i]=tmp;
 					}
 

@@ -48,11 +48,8 @@ namespace WordsMatching
             //SemanticSimilarity semsim = new SemanticSimilarity();
             //float score = semsim.GetScore("Defense Ministry", "Department of defence"); //0.75
             //score = semsim.GetScore("Tom is a doctor", "Tom is a teacher");
-            //score = semsim.GetScore("car", "auto");
-			
-			//semsim.GetScore("Pepsi is being drunk by Shilpa", "Niti is eating softy");
-			
-			//score = semsim.GetScore("Pepsi is being drunk by Shilpa", "Shilpa is drinking pepsi");
+            //score = semsim.GetScore("car", "auto");			
+			//float score = semsim.GetScore("Pepsi is being drunk by Shilpa", "Shilpa is drinking pepsi");
 			
 			int i=1;
 			

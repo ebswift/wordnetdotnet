@@ -69,16 +69,7 @@ namespace WordsMatching
 				
 			}
 
-			if (_useStemming)
-			{
-				StemmerInterface stem=new PorterStemmer() ;						
-				tokens=new string[filter.Count] ;
-				for(int i=0; i < filter.Count ; i++) tokens[i]=stem.stemTerm( (string) filter[i]);
-
-				return tokens;
-			}
-			else
-				return (string[])filter.ToArray( typeof( string ) );
+			return (string[])filter.ToArray( typeof( string ) );
 			
 		}
 

@@ -54,7 +54,7 @@ namespace WordsMatching
                 }
             }
 
-            POSWordSenseDisambiguate wsd = new POSWordSenseDisambiguate();
+            WordSenseDisambiguator wsd = new WordSenseDisambiguator();
             wordInfos=wsd.Disambiguate(wordInfos);
 
             return wordInfos;
@@ -133,7 +133,7 @@ namespace WordsMatching
                               }
 
                               _myWordsInfo2[j].Sense = 0;
-                              WordDistance wordDistance= new WordDistance();
+                              SimilarityMeasure wordDistance= new SimilarityMeasure();
                               float semDist = wordDistance.GetSimilarity(Data1[i][pos1], Data2[j][pos2]);                              
                               float weight=Math.Max (synDist, semDist);
 
