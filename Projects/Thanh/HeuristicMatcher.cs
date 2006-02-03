@@ -1,6 +1,5 @@
 /*
-Maximize the total weight of bipartite grapth 
-Local Optimize method
+Compute the similarity of two sets
 Author: Thanh Ngoc Dao - Thanh.dao@gmx.net
 Copyright (c) 2005 by Thanh Ngoc Dao.
 */
@@ -18,6 +17,13 @@ namespace WordsMatching
 		{
 		}
 						
+        /// <summary>
+        /// Return the similarity of two sets. 
+        /// </summary>
+        /// <param name="simMatrix"></param>
+        /// <param name="setStrategy">specifies either average or threshold selection strategy is being used</param>
+        /// <param name="threshold"></param>
+        /// <returns></returns>
 		public static float ComputeSetSimilarity(float[][] simMatrix, int setStrategy, float threshold)
 		{
 			if (simMatrix == null)

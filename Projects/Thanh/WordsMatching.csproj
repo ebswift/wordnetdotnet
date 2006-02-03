@@ -51,15 +51,14 @@
     <Compile Include="ExtOverlapCounter.cs" />
     <Compile Include="HeuristicMatcher.cs" />
     <Compile Include="ISimilarity.cs" />
-    <Compile Include="PorterStemmer.cs" />
-    <Compile Include="POSTaggerWSD.cs" />
+    <Compile Include="WordSenseDisambiguator.cs" />
     <Compile Include="SemanticSimilarity.cs" />
     <Compile Include="SimilarGenerator.cs" />
     <Compile Include="SimpleOverlapCounter.cs" />
     <Compile Include="StopWordsHandler.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Tokeniser.cs" />
-    <Compile Include="WordDistance.cs" />
+    <Compile Include="SimilarityMeasure.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\cs\WordNet.Net.csproj">

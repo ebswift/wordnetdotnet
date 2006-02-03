@@ -1,3 +1,7 @@
+/* Generate similar sentences of a given setence
+ * Author : Dao Ngoc Thanh , thanh.dao@gmx.net 
+ */
+
 using System;
 using System.Collections;
 using Wnlib;
@@ -6,7 +10,7 @@ using WordsMatching;
 namespace SimilarSentence
 {
 	/// <summary>
-	/// This class input a sentence and produce a list of approximately similar sentences
+	/// This class inputs a sentence and produces a list of approximately similar sentences
     /// 
 	/// </summary>
 	public class SimilarGenerator
