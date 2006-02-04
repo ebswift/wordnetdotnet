@@ -52,13 +52,13 @@
     <Compile Include="Matcher\HeuristicMatcher.cs" />
     <Compile Include="ISimilarity.cs" />
     <Compile Include="WordSenseDisambiguator.cs" />
-    <Compile Include="SemanticSimilarity.cs" />
+    <Compile Include="SentenceSimilarity.cs" />
     <Compile Include="SimilarGenerator.cs" />
     <Compile Include="TextHelper\SimpleOverlapCounter.cs" />
     <Compile Include="TextHelper\StopWordsHandler.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="DemoTest.cs" />
     <Compile Include="TextHelper\Tokeniser.cs" />
-    <Compile Include="SimilarityMeasure.cs" />
+    <Compile Include="WordSimilarity.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\cs\WordNet.Net.csproj">
