@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acronym.cs" />
-    <Compile Include="AdaptedLesk.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BipartiteMatcher.cs" />
     <Compile Include="ExtOverlapCounter.cs" />

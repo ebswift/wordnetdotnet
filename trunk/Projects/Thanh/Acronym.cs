@@ -1,3 +1,9 @@
+/*
+ * Heuristic Checking for abbreviation/acronym
+ * Author: Dao Ngoc Thanh , thanh.dao@gmx.net
+ * Copyright (c) 2006 Dao Ngoc Thanh
+*/
+
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
