@@ -1,5 +1,5 @@
 
-/* Compute similarity between two words 
+/* Compute similarity between two words (IS_A - based approach)
  * Author : Dao Ngoc Thanh , thanh.dao@gmx.net 
  * $Update : 01 Feb 2006
  *  - Add Wu & Palmer similarity measure
@@ -14,10 +14,9 @@ using System.Text.RegularExpressions;
 namespace WordsMatching
 {
     /// <summary>
-    /// Summary description for PathLengthMeasure.
+    /// This retrieves data of a word given partOfSpeech and wordSense
     /// </summary>
-    /// 
-
+    ///
     public class HierarchicalWordData
     {
         static readonly Opt IS_A_NOUN = Opt.at(11);
@@ -35,23 +34,14 @@ namespace WordsMatching
         }
 
         Opt GetSearchType(PartsOfSpeech pos)
-        {
-            Opt opt = null;
+        {            
             switch (pos)
             {
-                case Wnlib.PartsOfSpeech.Noun:
-                    {
-                        opt = IS_A_NOUN;
-                        break;
-                    }
-                case Wnlib.PartsOfSpeech.Verb:
-                    {
-                        opt = IS_A_VERB;
-                        break;
-                    }
+                case Wnlib.PartsOfSpeech.Noun: return IS_A_NOUN;                        
+                case Wnlib.PartsOfSpeech.Verb: return IS_A_VERB;                                            
             };
 
-            return opt;
+            return null;
         }
 
         void Build_WordData()
@@ -79,42 +69,48 @@ namespace WordsMatching
             }
             
             if (se.senses != null)
-                Traverse(se.senses, null, 1);
+                Walk(se.senses, null, 1);
             Compute_DepthMatrix();
         }
 
 
-        void Traverse(SynSetList synsets, SynSet prevSynset, int depth)
+        void Walk(SynSetList synsets, SynSet fromSS, int depth)
         {
             foreach (SynSet wsense in synsets)
             {                            
-                Add_WordSenses(prevSynset, wsense, depth);
+                Add_WordSenses(fromSS, wsense, depth);
 
                 if (wsense.senses != null)
-                    Traverse(wsense.senses, wsense, depth + 1);
+                    Walk(wsense.senses, wsense, depth + 1);
             }
             
         }
 
-        void Add_WordSenses(SynSet prev, SynSet next, int depth)
+        void Add_WordSenses(SynSet fromSS, SynSet toSS, int depth)
         {
-            SynWord[next.hereiam] = next.words[0].word;
-            if (prev != null)
-                DepthMatrix[GetKey(prev.hereiam , next.hereiam)] = 1;
-            if (!Distance.ContainsKey(next.hereiam))
+            SynWord[toSS.hereiam] = toSS.words[0].word;
+            if (fromSS != null)
+                DepthMatrix[GetKey(fromSS.hereiam , toSS.hereiam)] = 1;
+            if (!Distance.ContainsKey(toSS.hereiam))
             { 
-                Distance[next.hereiam] = depth; 
+                Distance[toSS.hereiam] = depth; 
             }
             else
             {
-                int bestDepth = (int)Distance[next.hereiam];
+                int bestDepth = (int)Distance[toSS.hereiam];
 
                 if (bestDepth > depth)
-                    Distance[next.hereiam] = depth;
+                    Distance[toSS.hereiam] = depth;
             }            
             return;           
         }
         
+        /// <summary>
+        /// Generate an unique key which denotes the encoded path of going from i upto j
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <returns></returns>
         object GetKey(object i, object j)
         {            
             double encode_i = Math.Log10(Convert.ToDouble(i));
@@ -126,7 +122,7 @@ namespace WordsMatching
         int _rootNode=int.MaxValue;
         void Compute_DepthMatrix()
         {
-           IDictionaryEnumerator k = Distance.GetEnumerator();
+           IDictionaryEnumerator k = Distance.GetEnumerator();            
            while (k.MoveNext())
            {
                object k_key = k.Key;
@@ -156,6 +152,11 @@ namespace WordsMatching
            }           
         }
 
+        /// <summary>
+        /// Return distance of the entrySynset and the synset "key"
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public int GetDistance(int key)
         {
             if (Distance.ContainsKey(key))            
@@ -163,6 +164,12 @@ namespace WordsMatching
             else return -1;
         }
 
+        /// <summary>
+        /// Return the depth of a node, which is the shortest path between the root of the 
+        /// taxonomy and the synset "key"
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public int GetDepth(int key)
         {
             int rootDepth =(int) DepthMatrix[GetKey(key, _rootNode)];
@@ -170,14 +177,25 @@ namespace WordsMatching
         }
 
     }
-
-    public class WordDistance
+    /// <summary>
+    /// Measuring similarity between Words
+    /// </summary>
+    public class SimilarityMeasure
     {   
 
-        public WordDistance()
+        public SimilarityMeasure()
         {
         }
-
+        /// <summary>
+        /// Return the least common ancestor/subsummer of two words
+        /// No unique "join root node" is at present in use. 
+        /// </summary>
+        /// <param name="words"></param>
+        /// <param name="distance"></param>
+        /// <param name="lcaDepth"></param>
+        /// <param name="depth1"></param>
+        /// <param name="depth2"></param>
+        /// <returns></returns>
         public long FindLeastCommonAncestor(HierarchicalWordData[] words, out int distance, out int lcaDepth, out int depth1, out int depth2)
         {            
             long LCA = -1;
@@ -229,44 +247,45 @@ namespace WordsMatching
                 case 1: return "Shortest path Length";
                 case 2: return "Wu & Palmer";
                 case 3: return "Leacock & Chodorow";
-                case 4: return "Li 2003 et. al ";                
+                case 4: return "Li 2003 et. al (IS_A + HAS_A)";                
                 default:
                     return string.Empty;
             }
         }
         
+        /// <summary>
+        /// Return the similarity of two given words with a taxonomy.
+        /// </summary>
+        /// <param name="word1"></param>
+        /// <param name="word2"></param>
+        /// <param name="strategy"></param>
+        /// <returns></returns>
         float GetSimilarity(HierarchicalWordData word1, HierarchicalWordData word2, int strategy)
         {
             if (word1.WordInfo.Pos != word2.WordInfo.Pos || word1.WordInfo.Pos == PartsOfSpeech.Unknown) return 0.0F;
             if (word1.WordInfo.Word == word2.WordInfo.Word) return 1.0F;
 
-            int length, lcaDepth, depth1, depth2;
-            FindLeastCommonAncestor(new HierarchicalWordData[2] { word1, word2 }, out length, out lcaDepth, out depth1, out depth2);
-
-            if (length == int.MaxValue) return 0.0F;
+            int pathLength, lcaDepth, depth_1, depth_2;
+            FindLeastCommonAncestor(new HierarchicalWordData[2] { word1, word2 }, out pathLength, out lcaDepth, out depth_1, out depth_2);
+             
+            if (pathLength == int.MaxValue) return 0.0F;
+            float sim=0.0F;
             if (strategy == 1)//Path Length
             {
 
-                if (length == 0) return 1.0F;
-            	else                	
-            	{
-                    float tmp = 1.0F / (float)length;
-                	return (float)Math.Round(tmp, 2);
-            	}
+                if (pathLength == 0) return 1.0F;
+            	else                	            	
+                    sim=1.0F / (float)pathLength;
             }
             else
                 if (strategy == 2) //Wu & Palmer
                 {
-                    if (length == 0) return 1.0F;
-                    else                        
-                        {
-                            float tmp = (float)(lcaDepth) / (float)(depth1 + depth2);
-                            return (float)Math.Round(tmp, 2);
-                        }
-
+                    if (pathLength == 0) return 1.0F;
+                    else                                                
+                        sim=(float)(lcaDepth) / (float)(depth_1 + depth_2);                            
                 }
-            
-            return 0;
+
+            return (float)Math.Round(sim, 2);
         }
 
 
