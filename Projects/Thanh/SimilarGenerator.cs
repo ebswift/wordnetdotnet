@@ -1,5 +1,10 @@
 /* Generate similar sentences of a given setence
  * Author : Dao Ngoc Thanh , thanh.dao@gmx.net 
+ * (c) Dao Ngoc Thanh.
+ * Methods Used: Simulated Annealing & BackTracking generator
+ * 
+ * Acknowledgements: To J. Martin for the reuse of his original function "FindSynonyms" .
+ * 
  */
 
 using System;
