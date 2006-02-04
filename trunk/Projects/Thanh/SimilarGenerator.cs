@@ -17,25 +17,6 @@ namespace SimilarSentence
 	{
 		private string _originalSentence;
 		const int CONTEXT_SIZE=6;//Local disambiguation within the context size 
-
-		static Opt[] NOUN_RELATIONS=new Opt[] { Opt.at(8) , //hyper
-												  Opt.at(14), //holo
-												  Opt.at(19), //mero
-												  Opt.at(12) //hypo												
-											  } ;
-		static Opt[] VERB_RELATIONS=new Opt[] {
-												  Opt.at(31),//hyper
-												  Opt.at(36)//tropo // may be 38
-											  } ;
-
-		static Opt[] ADJECTIVE_RELATIONS=new Opt[] {
-												 Opt.at(0)												  
-											 } ;
-
-		static Opt[] ADVEB_RELATIONS=new Opt[] {
-												 Opt.at(48)												  
-											 } ;
-
 		private string[][][][] _dictInfo ;//[words][relations][tokens]
 		
 		Tokeniser tokenize=new Tokeniser() ;
@@ -52,7 +33,7 @@ namespace SimilarSentence
 		const int _max=50;
 
 		private MyWordInfo[] _contextWords;		
-		private Opt[] _priorRelations=null;
+		private Opt[] _relatedness=null;
 		private int _overallScore=0;					
 		private int[][][][] _scores;//[i][alter_i][j][alter_j]
 
@@ -516,35 +497,35 @@ namespace SimilarSentence
 			}
 		}
 
-		private int ComputeScore(int curIndex)
+		private int ComputeScore(int currentIndex)
 		{
 			int total=0;
 			{
-				if (_dictInfo[curIndex] == null) return 0;
+				if (_dictInfo[currentIndex] == null) return 0;
 				int med=CONTEXT_SIZE/2;
 				
-				for (int i=curIndex - med; i < curIndex; i++)
+				for (int i=currentIndex - med; i < currentIndex; i++)
 					if ( i >= 0 && _dictInfo[i] != null && _selected[i] >= 0)
 					{
-						if (_scores[i][_selected[i]][curIndex][_selected[curIndex]] > 0)
-							total += _scores[i][_selected[i]][curIndex][_selected[curIndex]];
+						if (_scores[i][_selected[i]][currentIndex][_selected[currentIndex]] > 0)
+							total += _scores[i][_selected[i]][currentIndex][_selected[currentIndex]];
 						else
 						{
-							int score=ScoringSensePair (_dictInfo[i][_selected[i]], _dictInfo[curIndex][_selected[curIndex]]);
+							int score=ScoringSensePair (_dictInfo[i][_selected[i]], _dictInfo[currentIndex][_selected[currentIndex]]);
 							total += score;
 							if (score > 0 )
 							{
-								_scores[i][_selected[i]][curIndex][_selected[curIndex]]=score;
-								_scores[curIndex][_selected[curIndex]][i][_selected[i]]=score;
+								_scores[i][_selected[i]][currentIndex][_selected[currentIndex]]=score;
+								_scores[currentIndex][_selected[currentIndex]][i][_selected[i]]=score;
 								
 								for (int a_i=0; a_i < _alterWord[i].Length; a_i++ )
 									if (_alterWord[i][a_i].SynsetIndex == _alterWord[i][_selected[i]].SynsetIndex)
 								{
-									for (int a_j=0; a_j < _alterWord[curIndex].Length; a_j++ )
-										if (_alterWord[curIndex][a_j].SynsetIndex == _alterWord[curIndex][_selected[curIndex]].SynsetIndex)
+									for (int a_j=0; a_j < _alterWord[currentIndex].Length; a_j++ )
+										if (_alterWord[currentIndex][a_j].SynsetIndex == _alterWord[currentIndex][_selected[currentIndex]].SynsetIndex)
 									{
-										_scores[i][a_i][curIndex][a_j]=score;
-										_scores[curIndex][a_j][i][a_i]=score;
+										_scores[i][a_i][currentIndex][a_j]=score;
+										_scores[currentIndex][a_j][i][a_i]=score;
 									}
 								}
 							}
@@ -572,34 +553,11 @@ namespace SimilarSentence
 		{
 			if (_dictInfo[wordIndex][_selected[wordIndex]] != null) return true;
 
-			switch (_contextWords[wordIndex].Pos)
-			{
-				case Wnlib.PartsOfSpeech.Noun:
-				{
-						_priorRelations = NOUN_RELATIONS;
-						break;
-				}
-				case Wnlib.PartsOfSpeech.Verb:
-				{
-						_priorRelations = VERB_RELATIONS;						
-						break;
-				}
-				case Wnlib.PartsOfSpeech.Adj:
-				{
-					_priorRelations = ADJECTIVE_RELATIONS;						
-					break;
-				}
-				case Wnlib.PartsOfSpeech.Adv:
-				{
-					_priorRelations = ADVEB_RELATIONS;						
-					break;
-				}				
-			};
-
+            _relatedness = Relatedness.GetRelatedness(_contextWords[wordIndex].Pos);
 
 			//if (stop) 						
 			{
-				string[][] tmp=GetAllRelations(_contextWords[wordIndex].Word ,  _contextWords[wordIndex].Sense );						
+                string[][] tmp = Relatedness.GetRelatednessGlosses(_contextWords[wordIndex].Word, _contextWords[wordIndex].Sense, _relatedness);						
 				_dictInfo[wordIndex][_selected[wordIndex]]=tmp;
 
 				for (int i=0; i < _dictInfo[wordIndex].Length ; i++)				
@@ -607,10 +565,8 @@ namespace SimilarSentence
 				{
 					_dictInfo[wordIndex][i]=tmp;
 				}
-					
-				
-
 			}
+
 			if (_dictInfo[wordIndex][_selected[wordIndex]] != null && _dictInfo[wordIndex][_selected[wordIndex]].Length > 0 ) 
 				return true;
 			else 
@@ -658,69 +614,6 @@ namespace SimilarSentence
 			return s;
 		}
 		
-		public string[] GetRelativeGlosses(Search se)
-		{			
-			string rels="";
-			if (se.senses[0].senses != null)
-				foreach (SynSet ss in se.senses[0].senses)
-				{								
-					foreach (Lexeme ww in ss.words)											
-						rels += " " + ww.word;
-				
-					rels += ss.defn ;			
-				}
-			
-			
-			string[] toks=tokenize.Partition(rels);
-
-			return toks;
-		}
-
-		private string[] GetDefinition(SynSet sense)
-		{
-			if (sense == null) return null;
-			string gloss=sense.defn ;
-			foreach (Lexeme word in sense.words)			
-				gloss += " " + word.word;
-			
-			
-			string[] toks=tokenize.Partition(gloss) ;
-
-			return toks;
-		}
-
-		private string[][] GetAllRelations(string word, int sense)
-		{
-			if (_priorRelations == null) return null;			
-			//string[][] matrix=GetRelations(word, sense + 1);	
-			string[][] matrix=GetRelations(word, sense );	
-									
-			return matrix;
-		}
-
-		private string[][] GetRelations(string word, int senseIndex)
-		{			
-			string[][] relations=new string[_priorRelations.Length + 1][] ;						
-		
-			for(int i=0; i < _priorRelations.Length; i++ )
-			{
-				Opt rel=_priorRelations [i];			
-				
-				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//								
-
-				if( se.senses != null && se.senses.Count > 0)
-				{						
-					if (relations[0] == null  )
-						relations[0]=GetDefinition (se.senses [0]);			
-					if (se.senses[0].senses != null)					
-						relations[i + 1]=GetRelativeGlosses(se) ;									
-
-				}				
-				else relations[i+1]= null;
-			}
-			
-			return relations;
-		}
 
 
 	}

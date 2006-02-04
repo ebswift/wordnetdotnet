@@ -1,9 +1,7 @@
 
 /* Disambiguate word sense (Adapted Lesk based approach)
  * Author : Dao Ngoc Thanh , thanh.dao@gmx.net 
- * $Update : 01 Feb 2006
- *  - Add Wu & Palmer similarity measure
- *  - Tested on the dataSet RG (Li 2003, et al )
+ * (c) Dao Ngoc Thanh, 2005
  */
 
 using System;
@@ -48,22 +46,6 @@ namespace WordsMatching
 		const int THRESHOLD=0;
 		const int CONTEXT_SIZE=8;//Local disambiguation within the context size 
 
-		static Opt[] NOUN_RELATIONS=new Opt[] { Opt.at(8) , //hyper
-												  Opt.at(14), //holo
-												  Opt.at(19), //mero
-												  Opt.at(12) //hypo												
-											  } ;
-		static Opt[] VERB_RELATIONS=new Opt[] {
-												  Opt.at(31),//hyper
-												  Opt.at(36)//tropo // may be 38
-											  } ;
-		static Opt[] ADJECTIVE_RELATIONS=new Opt[] {
-													   Opt.at(0)												  
-												   } ;
-
-		static Opt[] ADVEB_RELATIONS=new Opt[] {
-												   Opt.at(48)												  
-											   } ;
 
 		Tokeniser tokenize=new Tokeniser() ;		
 			
@@ -71,7 +53,7 @@ namespace WordsMatching
 
 		private MyWordInfo[] _contextWords;
 		private int[] _bestSenses;
-		private Opt[] _priorRelations=null;
+		
 		private int _overallScore=0;
 		
 
@@ -100,6 +82,7 @@ namespace WordsMatching
 
 		private void Init_Relations()
 		{
+            Opt[] relatedness = null;
 			for (int i=0; i < _contextWords.Length; i++)
 			{
 				WnLexicon.WordInfo wordInfo=WnLexicon.Lexicon.FindWordInfo( _contextWords[i].Word , true );
@@ -113,51 +96,22 @@ namespace WordsMatching
 					bool stop=false;
 					int senseCount=0;
                     
-					for( int j=0; j < posEnum.Length && !stop; j++ )
+					for( int j=1; j < posEnum.Length && !stop; j++ )
 					{
-						Wnlib.PartsOfSpeech pos=posEnum[j];	
-											
+						Wnlib.PartsOfSpeech pos=posEnum[j];												
 						
 						if (wordInfo.senseCounts[j] > 0 && _contextWords[i].Pos == pos)					
 						{																							
 							senseCount=wordInfo.senseCounts[j];
-
-							switch (pos)
-							{
-								case Wnlib.PartsOfSpeech.Noun:
-								{
-									stop=true;
-									_priorRelations = NOUN_RELATIONS;
-									break;
-								}
-								case Wnlib.PartsOfSpeech.Verb:
-								{
-									stop=true;
-									_priorRelations = VERB_RELATIONS;						
-									break;
-								}
-								case Wnlib.PartsOfSpeech.Adj:
-								{
-									stop=true;
-									_priorRelations = ADJECTIVE_RELATIONS;						
-									break;
-								}
-								case Wnlib.PartsOfSpeech.Adv:
-								{
-									stop=true;
-									_priorRelations = ADVEB_RELATIONS;						
-									break;
-								}				
-
-							};						
-
+                            relatedness = Relatedness.GetRelatedness(pos);
+                            stop = relatedness != null;
 							break;
 						}
 					}
 
 					if (stop) 						
 					{
-						string[][][] tmp=GetAllRelations(_contextWords[i].Word , senseCount );						
+						string[][][] tmp=Relatedness.GetAllRelatednessData (_contextWords[i].Word , senseCount, relatedness);						
 						_relCube[i]=tmp;
 					}
 				}
@@ -301,72 +255,6 @@ namespace WordsMatching
 			return _contextWords;
 		}
 
-		public string[] GetRelativeGlosses(Search se)
-		{			
-			string rels="";
-			if (se.senses[0].senses != null)
-				foreach (SynSet ss in se.senses[0].senses)
-				{								
-					foreach (Lexeme ww in ss.words)											
-						rels += " " + ww.word;
-				
-					rels += ss.defn ;			
-				}
-						
-			string[] toks=tokenize.Partition(rels);
-
-			return toks;
-		}
-
-		private string[] GetDefinition(SynSet sense)
-		{
-			if (sense == null) return null;
-			string gloss=sense.defn ;
-			//			if (gloss.IndexOf(";") != -1)
-			//				gloss=gloss.Substring(0, gloss.IndexOf(";")) ;
-			foreach (Lexeme word in sense.words)
-			{
-				gloss += " " + word.word;
-			}
-			string[] toks=tokenize.Partition(gloss) ;
-
-			return toks;
-		}
-
-		private string[][][] GetAllRelations(string word, int senseCount)
-		{
-			if (_priorRelations == null) return null;
-			string[][][] matrix=new string[senseCount][][] ;
-			for (int i=0; i < senseCount; i++)
-			{				
-				matrix[i]=GetRelations(word, i + 1);	
-							
-			}
-
-			return matrix;
-		}
-
-		private string[][] GetRelations(string word, int senseIndex)
-		{			
-			string[][] relations=new string[_priorRelations.Length + 1][] ;						
-		
-			for(int i=0; i < _priorRelations.Length; i++ )
-			{
-				Opt rel=_priorRelations [i];				
-				Search se=new Search(word, true, rel.pos, rel.sch, senseIndex);//								
-				if( se.senses != null && se.senses.Count > 0)
-				{						
-					if (relations[0] == null  )
-						relations[0]=GetDefinition (se.senses [0]);			
-					if (se.senses[0].senses != null)					
-						relations[i + 1]=GetRelativeGlosses(se) ;									
-
-				}				
-				else relations[i+1]= null;
-			}
-			
-			return relations;
-		}
 
 	}
 }

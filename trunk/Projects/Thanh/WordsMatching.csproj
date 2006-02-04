@@ -44,19 +44,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acronym.cs" />
+    <Compile Include="Relatedness.cs" />
+    <Compile Include="TextHelper\Acronym.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BipartiteMatcher.cs" />
-    <Compile Include="ExtOverlapCounter.cs" />
-    <Compile Include="HeuristicMatcher.cs" />
+    <Compile Include="Matcher\BipartiteMatcher.cs" />
+    <Compile Include="TextHelper\ExtOverlapCounter.cs" />
+    <Compile Include="Matcher\HeuristicMatcher.cs" />
     <Compile Include="ISimilarity.cs" />
     <Compile Include="WordSenseDisambiguator.cs" />
     <Compile Include="SemanticSimilarity.cs" />
     <Compile Include="SimilarGenerator.cs" />
-    <Compile Include="SimpleOverlapCounter.cs" />
-    <Compile Include="StopWordsHandler.cs" />
+    <Compile Include="TextHelper\SimpleOverlapCounter.cs" />
+    <Compile Include="TextHelper\StopWordsHandler.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Tokeniser.cs" />
+    <Compile Include="TextHelper\Tokeniser.cs" />
     <Compile Include="SimilarityMeasure.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,12 @@
 
 /* Compute similarity between two words (IS_A - based approach)
  * Author : Dao Ngoc Thanh , thanh.dao@gmx.net 
+ * (c) Dao Ngoc Thanh, 2005
+ * 
  * $Update : 01 Feb 2006
  *  - Add Wu & Palmer similarity measure
  *  - Tested on the dataSet RG (Li 2003, et al )
+ * 
  */
 using System;
 using System.Collections;
@@ -237,7 +240,7 @@ namespace WordsMatching
 
         public float GetSimilarity(HierarchicalWordData word1, HierarchicalWordData word2)
         {
-            return GetSimilarity(word1, word2, 2);
+            return GetSimilarity(word1, word2, 1);
         }
 
         public string MeasureToString(int measure)
