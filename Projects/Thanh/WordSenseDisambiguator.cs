@@ -31,14 +31,6 @@ namespace WordsMatching
 	public class WordSenseDisambiguator
 	{
 
-		public int GetOverallScore
-		{
-			get
-			{
-				return _overallScore;
-			}
-		}
-
 		public WordSenseDisambiguator()
 		{
 		}
