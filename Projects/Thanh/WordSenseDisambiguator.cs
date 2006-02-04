@@ -1,3 +1,11 @@
+
+/* Disambiguate word sense (Adapted Lesk based approach)
+ * Author : Dao Ngoc Thanh , thanh.dao@gmx.net 
+ * $Update : 01 Feb 2006
+ *  - Add Wu & Palmer similarity measure
+ *  - Tested on the dataSet RG (Li 2003, et al )
+ */
+
 using System;
 using Wnlib;
 
@@ -22,7 +30,7 @@ namespace WordsMatching
 		}
 	}
 
-	public class POSWordSenseDisambiguate
+	public class WordSenseDisambiguator
 	{
 
 		public int GetOverallScore
@@ -33,7 +41,7 @@ namespace WordsMatching
 			}
 		}
 
-		public POSWordSenseDisambiguate()
+		public WordSenseDisambiguator()
 		{
 		}
 
@@ -282,9 +290,9 @@ namespace WordsMatching
 			return s;
 		}
 		
-		public MyWordInfo[] Disambiguate(MyWordInfo[] poses)
+		public MyWordInfo[] Disambiguate(MyWordInfo[] words)
 		{			
-			_contextWords=poses;
+			_contextWords=words;
 			MyInit();
 			Scoring_Overlaps();			
 			for (int i=0; i < _contextWords.Length ; i++)			
