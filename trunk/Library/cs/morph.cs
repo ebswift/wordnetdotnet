@@ -213,7 +213,10 @@ namespace Wnlib
 				}
 			return null;
 		}
-		int hasprep(string s,int wdcnt)
+
+        /* Find a preposition in the verb string and return its
+           corresponding word number. */
+        int hasprep(string s, int wdcnt)
 		{
 			int i, wdnum;
 			int pos = 0;
@@ -227,7 +230,8 @@ namespace Wnlib
 						&& (len==s.Length-pos || s[pos+len]=='_'))
 						return wdnum;
 				}
-				return 0;
+//				return 0; TDMS 8 Feb 2006 - this always returned zero if the first iteration did not return a result
+//                                          Removed the return to allow the outer loop to run correctly
 			}
 			return 0;
 		}
