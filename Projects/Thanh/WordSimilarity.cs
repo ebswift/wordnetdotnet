@@ -165,6 +165,7 @@ namespace WordsMatching
         /// <returns></returns>
         public int GetDepth(int key)
         {
+            if (key == _rootNode) return 1;            
             int rootDepth =(int) DepthMatrix[GetKey(key, _rootNode)];
             return  rootDepth + 1;
         }
