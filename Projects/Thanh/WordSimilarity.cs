@@ -118,42 +118,32 @@ namespace WordsMatching
         {            
             double encode_i = Math.Log10(Convert.ToDouble(i));
             double encode_j = Math.Log10(Convert.ToDouble(j));
-            return Convert.ToString(i) + "_" + Convert.ToString(j);             
+            //return Convert.ToString(i) + "_" + Convert.ToString(j);             
             return encode_i * 1000.0d + encode_j; 
         }
 
         int _rootNode=int.MaxValue;
         void Compute_DepthMatrix()
-        {
-           IDictionaryEnumerator k = Distance.GetEnumerator();            
-           while (k.MoveNext())
-           {
-               object k_key = k.Key;
-               if (_rootNode > (int)k_key) _rootNode = (int)k_key;
-
-               IDictionaryEnumerator i = Distance.GetEnumerator();
-               while (i.MoveNext())
-               {
-                   object i_key = i.Key;
-                   IDictionaryEnumerator j = Distance.GetEnumerator();
-
-                   while (j.MoveNext())
-                   {
-                       object j_key = j.Key;
-                       if (i_key != j_key && j_key != k_key && i_key != k_key &&
-                           DepthMatrix.ContainsKey(GetKey(i_key, k_key)) &&
-                           DepthMatrix.ContainsKey(GetKey(k_key, j_key)))                            
-                       {                           
-                           if (!DepthMatrix.ContainsKey(GetKey(i_key, j_key))
-                            || (int)DepthMatrix[GetKey(i_key, j_key)] > (int)DepthMatrix[GetKey(i_key, k_key)] + (int)DepthMatrix[GetKey(k_key, j_key)])
-                           {
-                               DepthMatrix[GetKey(i_key, j_key)] = (int)DepthMatrix[GetKey(i_key, k_key)] + (int)DepthMatrix[GetKey(k_key, j_key)];                               
-                           }
-                       }                       
-                   }
-               }
-           }           
+        {            
+            foreach (int k in Distance.Keys)            
+            {                
+                if (_rootNode > (int)k) _rootNode = (int)k;
+                foreach (int i in Distance.Keys) 
+                    if (i != k && DepthMatrix.ContainsKey(GetKey(i, k))) 
+                {
+                    foreach (int j in Distance.Keys) 
+                        if (i != j && j != k && DepthMatrix.ContainsKey(GetKey(k, j)))
+                    {                         
+                        if (!DepthMatrix.ContainsKey(GetKey(i, j))
+                             || (int)DepthMatrix[GetKey(i, j)] > (int)DepthMatrix[GetKey(i, k)] + (int)DepthMatrix[GetKey(k, j)])                            
+                                DepthMatrix[GetKey(i, j)] = (int)DepthMatrix[GetKey(i, k)] + (int)DepthMatrix[GetKey(k, j)];
+                            
+                    }
+                }
+            }
         }
+
+
 
         /// <summary>
         /// Return distance of the entrySynset and the synset "key"
