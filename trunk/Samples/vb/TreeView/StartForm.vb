@@ -193,9 +193,9 @@ Namespace wnb
         	'btnVerb
         	'
         	Me.btnVerb.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnVerb.Location = New System.Drawing.Point(348, 27)
+        	Me.btnVerb.Location = New System.Drawing.Point(350, 53)
         	Me.btnVerb.Name = "btnVerb"
-        	Me.btnVerb.Size = New System.Drawing.Size(40, 22)
+        	Me.btnVerb.Size = New System.Drawing.Size(40, 18)
         	Me.btnVerb.TabIndex = 4
         	Me.btnVerb.Text = "Verb"
         	Me.btnVerb.Visible = false
@@ -203,9 +203,9 @@ Namespace wnb
         	'btnOverview
         	'
         	Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnOverview.Location = New System.Drawing.Point(221, 27)
+        	Me.btnOverview.Location = New System.Drawing.Point(223, 53)
         	Me.btnOverview.Name = "btnOverview"
-        	Me.btnOverview.Size = New System.Drawing.Size(75, 22)
+        	Me.btnOverview.Size = New System.Drawing.Size(75, 18)
         	Me.btnOverview.TabIndex = 15
         	Me.btnOverview.Text = "Overview"
         	Me.btnOverview.Visible = false
@@ -230,7 +230,7 @@ Namespace wnb
         	'
         	Me.Label1.Location = New System.Drawing.Point(0, 6)
         	Me.Label1.Name = "Label1"
-        	Me.Label1.Size = New System.Drawing.Size(80, 19)
+        	Me.Label1.Size = New System.Drawing.Size(80, 13)
         	Me.Label1.TabIndex = 0
         	Me.Label1.Text = "Search Word:"
         	'
@@ -270,7 +270,7 @@ Namespace wnb
         	Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
         	Me.btnSearch.Location = New System.Drawing.Point(304, 6)
         	Me.btnSearch.Name = "btnSearch"
-        	Me.btnSearch.Size = New System.Drawing.Size(56, 15)
+        	Me.btnSearch.Size = New System.Drawing.Size(56, 21)
         	Me.btnSearch.TabIndex = 13
         	Me.btnSearch.Text = "Search"
         	'
@@ -313,17 +313,17 @@ Namespace wnb
         	'
         	'lblSearchInfo
         	'
-        	Me.lblSearchInfo.Location = New System.Drawing.Point(0, 32)
+        	Me.lblSearchInfo.Location = New System.Drawing.Point(2, 58)
         	Me.lblSearchInfo.Name = "lblSearchInfo"
-        	Me.lblSearchInfo.Size = New System.Drawing.Size(296, 11)
+        	Me.lblSearchInfo.Size = New System.Drawing.Size(296, 21)
         	Me.lblSearchInfo.TabIndex = 2
         	'
         	'btnAdj
         	'
         	Me.btnAdj.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnAdj.Location = New System.Drawing.Point(394, 27)
+        	Me.btnAdj.Location = New System.Drawing.Point(396, 53)
         	Me.btnAdj.Name = "btnAdj"
-        	Me.btnAdj.Size = New System.Drawing.Size(64, 22)
+        	Me.btnAdj.Size = New System.Drawing.Size(64, 18)
         	Me.btnAdj.TabIndex = 5
         	Me.btnAdj.Text = "Adjective"
         	Me.btnAdj.Visible = false
@@ -333,16 +333,16 @@ Namespace wnb
         	Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         	Me.Label3.Location = New System.Drawing.Point(480, 6)
         	Me.Label3.Name = "Label3"
-        	Me.Label3.Size = New System.Drawing.Size(100, 15)
+        	Me.Label3.Size = New System.Drawing.Size(100, 11)
         	Me.Label3.TabIndex = 7
         	Me.Label3.Text = "Senses:"
         	'
         	'btnNoun
         	'
         	Me.btnNoun.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnNoun.Location = New System.Drawing.Point(302, 27)
+        	Me.btnNoun.Location = New System.Drawing.Point(304, 53)
         	Me.btnNoun.Name = "btnNoun"
-        	Me.btnNoun.Size = New System.Drawing.Size(40, 22)
+        	Me.btnNoun.Size = New System.Drawing.Size(40, 18)
         	Me.btnNoun.TabIndex = 3
         	Me.btnNoun.Text = "Noun"
         	Me.btnNoun.Visible = false
@@ -350,9 +350,9 @@ Namespace wnb
         	'btnAdv
         	'
         	Me.btnAdv.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnAdv.Location = New System.Drawing.Point(464, 27)
+        	Me.btnAdv.Location = New System.Drawing.Point(466, 53)
         	Me.btnAdv.Name = "btnAdv"
-        	Me.btnAdv.Size = New System.Drawing.Size(48, 22)
+        	Me.btnAdv.Size = New System.Drawing.Size(48, 18)
         	Me.btnAdv.TabIndex = 6
         	Me.btnAdv.Text = "Adverb"
         	Me.btnAdv.Visible = false
@@ -361,7 +361,7 @@ Namespace wnb
         	'
         	Me.Splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         	Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        	Me.Splitter1.Location = New System.Drawing.Point(0, 416)
+        	Me.Splitter1.Location = New System.Drawing.Point(0, 394)
         	Me.Splitter1.Name = "Splitter1"
         	Me.Splitter1.Size = New System.Drawing.Size(592, 5)
         	Me.Splitter1.TabIndex = 18
@@ -383,7 +383,7 @@ Namespace wnb
         	Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         	Me.Panel1.Location = New System.Drawing.Point(0, 0)
         	Me.Panel1.Name = "Panel1"
-        	Me.Panel1.Size = New System.Drawing.Size(592, 53)
+        	Me.Panel1.Size = New System.Drawing.Size(592, 77)
         	Me.Panel1.TabIndex = 19
         	'
         	'Panel2
@@ -391,9 +391,9 @@ Namespace wnb
         	Me.Panel2.Controls.Add(Me.txtOutput)
         	Me.Panel2.Controls.Add(Me.StatusBar1)
         	Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        	Me.Panel2.Location = New System.Drawing.Point(0, 421)
+        	Me.Panel2.Location = New System.Drawing.Point(0, 399)
         	Me.Panel2.Name = "Panel2"
-        	Me.Panel2.Size = New System.Drawing.Size(592, 117)
+        	Me.Panel2.Size = New System.Drawing.Size(592, 94)
         	Me.Panel2.TabIndex = 20
         	'
         	'txtOutput
@@ -403,16 +403,16 @@ Namespace wnb
         	Me.txtOutput.Name = "txtOutput"
         	Me.txtOutput.ReadOnly = true
         	Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        	Me.txtOutput.Size = New System.Drawing.Size(592, 88)
+        	Me.txtOutput.Size = New System.Drawing.Size(592, 69)
         	Me.txtOutput.TabIndex = 18
         	Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more "& _ 
         	"information"
         	'
         	'StatusBar1
         	'
-        	Me.StatusBar1.Location = New System.Drawing.Point(0, 95)
+        	Me.StatusBar1.Location = New System.Drawing.Point(0, 76)
         	Me.StatusBar1.Name = "StatusBar1"
-        	Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
+        	Me.StatusBar1.Size = New System.Drawing.Size(592, 18)
         	Me.StatusBar1.TabIndex = 10
         	Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
         	'
@@ -420,9 +420,9 @@ Namespace wnb
         	'
         	Me.Panel3.Controls.Add(Me.treeControl1)
         	Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
-        	Me.Panel3.Location = New System.Drawing.Point(0, 53)
+        	Me.Panel3.Location = New System.Drawing.Point(0, 77)
         	Me.Panel3.Name = "Panel3"
-        	Me.Panel3.Size = New System.Drawing.Size(592, 363)
+        	Me.Panel3.Size = New System.Drawing.Size(592, 317)
         	Me.Panel3.TabIndex = 21
         	'
         	'treeControl1
@@ -433,15 +433,15 @@ Namespace wnb
         	Me.treeControl1.Location = New System.Drawing.Point(0, 0)
         	Me.treeControl1.Name = "treeControl1"
         	Me.treeControl1.SelectedNode = Nothing
-        	Me.treeControl1.Size = New System.Drawing.Size(592, 362)
+        	Me.treeControl1.Size = New System.Drawing.Size(592, 316)
         	Me.treeControl1.TabIndex = 0
-        	AddHandler Me.treeControl1.MouseDown, AddressOf Me.TreeControl1MouseDown
+        	AddHandler Me.treeControl1.TreeRightClick, AddressOf Me.TreeControl1TreeRightClick
         	AddHandler Me.treeControl1.AfterSelect, AddressOf Me.TreeControl1AfterSelect
         	'
         	'StartForm
         	'
         	Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-        	Me.ClientSize = New System.Drawing.Size(592, 538)
+        	Me.ClientSize = New System.Drawing.Size(592, 493)
         	Me.Controls.Add(Me.Panel3)
         	Me.Controls.Add(Me.Splitter1)
         	Me.Controls.Add(Me.Panel2)
@@ -467,13 +467,14 @@ Namespace wnb
             Application.Run(New StartForm)
         End Sub
 
-
         Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
             LoadAbout()
         End Sub
 
+		''' <summary>
+		''' Loads the 'about' summary text.
+		''' </summary>
         Private Sub LoadAbout()
-            ' load the license text file
             Dim myFile As System.IO.StreamReader = New System.IO.StreamReader(MyPath() & "\license.txt")
             Dim mystring As String = myFile.ReadToEnd()
 
@@ -484,6 +485,10 @@ Namespace wnb
             showFeedback(mystring)
         End Sub
 
+		''' <summary>
+		''' Gets the path of the application.
+		''' </summary>
+		''' <returns>String representing the path of the application.</returns>
         Private Function MyPath() As String
             'get the app path
             Dim fullAppName As String = [Assembly].GetExecutingAssembly().GetName().CodeBase
@@ -497,10 +502,12 @@ Namespace wnb
             FullAppPath = Mid(FullAppPath, 1, InStrRev(FullAppPath, "\"))
 #End If
 
-
             Return FullAppPath
         End Function
 
+		''' <summary>
+		''' This is an overview search - the basis for any advanced search.
+		''' </summary>
         Private Sub Overview()
             'overview for 'search'
             Dim t As String
@@ -550,6 +557,8 @@ Namespace wnb
                     tmppos = UCase(Mid(sch.pos.name, 1, 1)) & Mid(sch.pos.name, 2)
 
                     If sch.senses.Count > 0 Then
+                    	' Build the treecontrol with the search results.
+                    	' Node hierarchy is automatically constructed in the TreeControl.
                         TreeControl1.fillTreeRoot(list(i), Nothing, tmppos)
                     End If
                 Next i
@@ -593,6 +602,10 @@ Namespace wnb
         Dim list As ArrayList = New ArrayList
         Dim help As String = ""
 
+		''' <summary>
+		''' Helper for displaying output and associated housekeeping.
+		''' </summary>
+		''' <param name="opt"></param>
         Public Sub FixDisplay(ByVal opt As Wnlib.Opt)
             pbobject = ""
             ShowResults(opt)
@@ -600,6 +613,10 @@ Namespace wnb
             txtSearchWord.Focus()
         End Sub
 
+		''' <summary>
+		''' Displays the results of the search.
+		''' </summary>
+		''' <param name="opt">The opt object holds the user-defined search options</param>
         Private Sub ShowResults(ByVal opt As Wnlib.Opt)
             Dim tmpstr As String = ""
 
@@ -639,29 +656,40 @@ Namespace wnb
                     Dim wrd As String
 
                     For Each wrd In se.morphs.Keys
+                    	' Build the treecontrol with the search results.
+                    	' Node hierarchy is automatically constructed in the TreeControl.
                         TreeControl1.fillTreeRoot(se.morphs(wrd), opt)
                     Next
                 Else
                     ' there are no morphs - all senses exist in se
+                  	' Build the treecontrol with the search results.
+                   	' Node hierarchy is automatically constructed in the TreeControl.
                     TreeControl1.fillTreeRoot(se, opt)
                 End If
                 TreeControl1.EndUpdate()
             End If
         End Sub
 
-        ' fill the top level of the tree
-        ' opt is currently a redundant parameter, but since it holds the search
-        ' type, it can remain in case search type needs to be known
         Public bobj2 As Wnlib.SearchSet
         Public bobj3 As Wnlib.SearchSet
         Public bobj4 As Wnlib.SearchSet
         Public bobj5 As Wnlib.SearchSet
 
+		''' <summary>
+		''' Perform the overview search.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
             Overview()
             txtSearchWord.Focus()
         End Sub
 
+		''' <summary>
+		''' When the enter key is pressed in the search text field, perform an overview search.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub txtSearchWord_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearchWord.KeyDown
             If e.KeyCode = Keys.Enter Then
                 e.Handled = True
@@ -671,6 +699,12 @@ Namespace wnb
 
         Dim opts As ArrayList = Nothing
 
+		''' <summary>
+		''' Handles the sense buttons to build and display the appropriate dropdown menu for 
+		''' searches on word relationships.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub btnWordType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim b As Button = sender
             Dim ss As Wnlib.SearchSet
@@ -718,6 +752,11 @@ Namespace wnb
             cm.Show(b.Parent, New Point(sender.left, b.Bottom))
         End Sub
 
+        ''' <summary>
+        ''' Handles all word relationship menu selections.  Performs a relationship search.
+        ''' </summary>
+        ''' <param name="sender"></param>
+        ''' <param name="e"></param>
         Private Sub searchMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs)
             ' one of the options for button2_click was selected
             Dim mi As MenuItem = sender
@@ -744,6 +783,11 @@ Namespace wnb
             Refresh()
         End Sub
 
+        ''' <summary>
+        ''' Toggles the wordwrap menu option and sets wrapping on the output text field accordingly.
+        ''' </summary>
+        ''' <param name="sender"></param>
+        ''' <param name="e"></param>
         Private Sub mnuWordWrap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             sender.checked = Not sender.checked
 
@@ -751,24 +795,49 @@ Namespace wnb
             showFeedback(txtOutput.Text)
         End Sub
 
+		''' <summary>
+		''' Option for controlling whether descriptive help is displayed alongside relationship searches.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuShowHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             sender.Checked = (Not sender.Checked)
             Wnlib.WNOpt.opt("-h").flag = sender.Checked
         End Sub
 
+		''' <summary>
+		''' Toggles whether a glossary is displayed for relationship searches.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuShowGloss_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             sender.Checked = Not sender.Checked
             Wnlib.WNOpt.opt("-g").flag = Not sender.Checked
         End Sub
 
+		''' <summary>
+		''' Re-displays the overview search.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub btnOverview_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Overview()
         End Sub
 
+		''' <summary>
+		''' Exits the application.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Application.Exit()
         End Sub
 
+		''' <summary>
+		''' Clears and resets the entire application interface.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuClearDisplay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             txtOutput.Text = ""
             txtSearchWord.Text = ""
@@ -782,6 +851,11 @@ Namespace wnb
             btnSearch.Visible = True
         End Sub
 
+		''' <summary>
+		''' Displays Princeton's WordNet license.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuWordNetLicense_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuWordNetLicense.Click
             Dim myFile As System.IO.StreamReader = New System.IO.StreamReader(MyPath() & "\wordnetlicense.txt")
             Dim mystring As String = myFile.ReadToEnd()
@@ -791,10 +865,20 @@ Namespace wnb
             showFeedback(mystring)
         End Sub
 
+		''' <summary>
+		''' Displays the 'about' text.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuLGPL_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             LoadAbout()
         End Sub
 
+		''' <summary>
+		''' Saves the text in the output field.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuSaveDisplay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             SaveFileDialog1.FileName = txtSearchWord.Text
             If (SaveFileDialog1.ShowDialog() = DialogResult.OK) Then
@@ -805,16 +889,29 @@ Namespace wnb
             End If
         End Sub
 
+		''' <summary>
+		''' Display the passed text in the output textbox and set the focus to the search input field.
+		''' </summary>
+		''' <param name="mystring">The text to display in the output field</param>
         Private Sub showFeedback(ByVal mystring As String)
             txtOutput.Text = mystring
             txtSearchWord.Focus()
         End Sub
 
+		''' <summary>
+		''' Displays the advanced options dialog.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Private Sub mnuAdvancedOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             f3.ShowDialog()
         End Sub
 
-        ' get the semcor value for each lexeme
+        ''' <summary>
+        ''' Get the semcor values for the selected node.
+        ''' </summary>
+        ''' <param name="sender"></param>
+        ''' <param name="e"></param>
         Private Sub mnuSemCor(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim outtxt As String
             Dim ss As Wnlib.SynSet
@@ -833,27 +930,11 @@ Namespace wnb
             txtOutput.Text = outtxt
         End Sub
         
-        Sub TreeControl1MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs)
-            If e.Button = MouseButtons.Right Then
-                Dim t As TreeNode = TreeControl1.GetNodeAt(e.X, e.Y)
-                Dim ss As Wnlib.SynSet
-
-                TreeControl1.SelectedNode = t
-
-                ss = t.Tag
-                Dim wrd As Wnlib.Lexeme
-
-                ' it is possible to have a word list, all with a sense of (0) which will prevent semcor from
-                ' working.  In that case, prevent the semcor menu.  A test search for this condition is overview of "right" -> adjective -> similarity
-                For Each wrd In ss.words
-                    If wrd.wnsns > 0 Then
-                        mnuNodeMenu.Show(TreeControl1, New Point(e.X, e.Y))
-                        Exit For
-                    End If
-                Next
-            End If
-        End Sub
-        
+		''' <summary>
+		''' Handles a TreeNode left-click selection.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
         Sub TreeControl1AfterSelect(sender As Object, e As System.Windows.Forms.TreeViewEventArgs)
             Try
                 ' e.node.tag can be nothing if the node is a top level POS identifier
@@ -865,10 +946,35 @@ Namespace wnb
                 ' when opening a root node
             End Try
         End Sub
+        
+		''' <summary>
+		''' Handles a right-click on a TreeControl TreeNode and displays a custom popup menu for the node.
+		''' </summary>
+		''' <param name="sender"></param>
+		''' <param name="e"></param>
+		''' <param name="tn">TreeNode that was right-clicked</param>
+        Sub TreeControl1TreeRightClick(sender As Object, e As System.Windows.Forms.MouseEventArgs, tn As System.Windows.Forms.TreeNode)
+            Dim ss As Wnlib.SynSet
+
+            ss = tn.Tag
+
+            Dim wrd As Wnlib.Lexeme
+
+            ' it is possible to have a word list, all with a sense of (0) which will prevent semcor from
+            ' working.  In that case, prevent the semcor menu.  A test search for this condition is overview of "right" -> adjective -> similarity
+            For Each wrd In ss.words
+                If wrd.wnsns > 0 Then
+                    mnuNodeMenu.Show(TreeControl1, New Point(e.X, e.Y))
+                    Exit For
+                End If
+            Next
+        End Sub
     End Class
 
+	''' <summary>
+	''' Displays the basic overview text which is the 'buf' result returned from the WordNet.Net library.
+	''' </summary>
     Public Class Overview
-        ' really basic thrown together class which makes the plain text search results
         Private cont As ArrayList
         Private totLines As Integer
         Private sw As String
