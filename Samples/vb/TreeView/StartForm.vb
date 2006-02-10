@@ -193,9 +193,9 @@ Namespace wnb
         	'btnVerb
         	'
         	Me.btnVerb.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnVerb.Location = New System.Drawing.Point(348, 29)
+        	Me.btnVerb.Location = New System.Drawing.Point(348, 27)
         	Me.btnVerb.Name = "btnVerb"
-        	Me.btnVerb.Size = New System.Drawing.Size(40, 24)
+        	Me.btnVerb.Size = New System.Drawing.Size(40, 22)
         	Me.btnVerb.TabIndex = 4
         	Me.btnVerb.Text = "Verb"
         	Me.btnVerb.Visible = false
@@ -203,9 +203,9 @@ Namespace wnb
         	'btnOverview
         	'
         	Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnOverview.Location = New System.Drawing.Point(221, 29)
+        	Me.btnOverview.Location = New System.Drawing.Point(221, 27)
         	Me.btnOverview.Name = "btnOverview"
-        	Me.btnOverview.Size = New System.Drawing.Size(75, 24)
+        	Me.btnOverview.Size = New System.Drawing.Size(75, 22)
         	Me.btnOverview.TabIndex = 15
         	Me.btnOverview.Text = "Overview"
         	Me.btnOverview.Visible = false
@@ -230,7 +230,7 @@ Namespace wnb
         	'
         	Me.Label1.Location = New System.Drawing.Point(0, 6)
         	Me.Label1.Name = "Label1"
-        	Me.Label1.Size = New System.Drawing.Size(80, 21)
+        	Me.Label1.Size = New System.Drawing.Size(80, 19)
         	Me.Label1.TabIndex = 0
         	Me.Label1.Text = "Search Word:"
         	'
@@ -270,7 +270,7 @@ Namespace wnb
         	Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
         	Me.btnSearch.Location = New System.Drawing.Point(304, 6)
         	Me.btnSearch.Name = "btnSearch"
-        	Me.btnSearch.Size = New System.Drawing.Size(56, 17)
+        	Me.btnSearch.Size = New System.Drawing.Size(56, 15)
         	Me.btnSearch.TabIndex = 13
         	Me.btnSearch.Text = "Search"
         	'
@@ -313,7 +313,7 @@ Namespace wnb
         	'
         	'lblSearchInfo
         	'
-        	Me.lblSearchInfo.Location = New System.Drawing.Point(0, 35)
+        	Me.lblSearchInfo.Location = New System.Drawing.Point(0, 32)
         	Me.lblSearchInfo.Name = "lblSearchInfo"
         	Me.lblSearchInfo.Size = New System.Drawing.Size(296, 11)
         	Me.lblSearchInfo.TabIndex = 2
@@ -321,9 +321,9 @@ Namespace wnb
         	'btnAdj
         	'
         	Me.btnAdj.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnAdj.Location = New System.Drawing.Point(394, 29)
+        	Me.btnAdj.Location = New System.Drawing.Point(394, 27)
         	Me.btnAdj.Name = "btnAdj"
-        	Me.btnAdj.Size = New System.Drawing.Size(64, 24)
+        	Me.btnAdj.Size = New System.Drawing.Size(64, 22)
         	Me.btnAdj.TabIndex = 5
         	Me.btnAdj.Text = "Adjective"
         	Me.btnAdj.Visible = false
@@ -333,16 +333,16 @@ Namespace wnb
         	Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
         	Me.Label3.Location = New System.Drawing.Point(480, 6)
         	Me.Label3.Name = "Label3"
-        	Me.Label3.Size = New System.Drawing.Size(100, 17)
+        	Me.Label3.Size = New System.Drawing.Size(100, 15)
         	Me.Label3.TabIndex = 7
         	Me.Label3.Text = "Senses:"
         	'
         	'btnNoun
         	'
         	Me.btnNoun.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnNoun.Location = New System.Drawing.Point(302, 29)
+        	Me.btnNoun.Location = New System.Drawing.Point(302, 27)
         	Me.btnNoun.Name = "btnNoun"
-        	Me.btnNoun.Size = New System.Drawing.Size(40, 24)
+        	Me.btnNoun.Size = New System.Drawing.Size(40, 22)
         	Me.btnNoun.TabIndex = 3
         	Me.btnNoun.Text = "Noun"
         	Me.btnNoun.Visible = false
@@ -350,9 +350,9 @@ Namespace wnb
         	'btnAdv
         	'
         	Me.btnAdv.FlatStyle = System.Windows.Forms.FlatStyle.System
-        	Me.btnAdv.Location = New System.Drawing.Point(464, 29)
+        	Me.btnAdv.Location = New System.Drawing.Point(464, 27)
         	Me.btnAdv.Name = "btnAdv"
-        	Me.btnAdv.Size = New System.Drawing.Size(48, 24)
+        	Me.btnAdv.Size = New System.Drawing.Size(48, 22)
         	Me.btnAdv.TabIndex = 6
         	Me.btnAdv.Text = "Adverb"
         	Me.btnAdv.Visible = false
@@ -361,7 +361,7 @@ Namespace wnb
         	'
         	Me.Splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         	Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-        	Me.Splitter1.Location = New System.Drawing.Point(0, 555)
+        	Me.Splitter1.Location = New System.Drawing.Point(0, 416)
         	Me.Splitter1.Name = "Splitter1"
         	Me.Splitter1.Size = New System.Drawing.Size(592, 5)
         	Me.Splitter1.TabIndex = 18
@@ -383,7 +383,7 @@ Namespace wnb
         	Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         	Me.Panel1.Location = New System.Drawing.Point(0, 0)
         	Me.Panel1.Name = "Panel1"
-        	Me.Panel1.Size = New System.Drawing.Size(592, 57)
+        	Me.Panel1.Size = New System.Drawing.Size(592, 53)
         	Me.Panel1.TabIndex = 19
         	'
         	'Panel2
@@ -391,9 +391,9 @@ Namespace wnb
         	Me.Panel2.Controls.Add(Me.txtOutput)
         	Me.Panel2.Controls.Add(Me.StatusBar1)
         	Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        	Me.Panel2.Location = New System.Drawing.Point(0, 560)
+        	Me.Panel2.Location = New System.Drawing.Point(0, 421)
         	Me.Panel2.Name = "Panel2"
-        	Me.Panel2.Size = New System.Drawing.Size(592, 126)
+        	Me.Panel2.Size = New System.Drawing.Size(592, 117)
         	Me.Panel2.TabIndex = 20
         	'
         	'txtOutput
@@ -403,16 +403,16 @@ Namespace wnb
         	Me.txtOutput.Name = "txtOutput"
         	Me.txtOutput.ReadOnly = true
         	Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        	Me.txtOutput.Size = New System.Drawing.Size(592, 95)
+        	Me.txtOutput.Size = New System.Drawing.Size(592, 88)
         	Me.txtOutput.TabIndex = 18
         	Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more "& _ 
         	"information"
         	'
         	'StatusBar1
         	'
-        	Me.StatusBar1.Location = New System.Drawing.Point(0, 102)
+        	Me.StatusBar1.Location = New System.Drawing.Point(0, 95)
         	Me.StatusBar1.Name = "StatusBar1"
-        	Me.StatusBar1.Size = New System.Drawing.Size(592, 24)
+        	Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
         	Me.StatusBar1.TabIndex = 10
         	Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
         	'
@@ -420,9 +420,9 @@ Namespace wnb
         	'
         	Me.Panel3.Controls.Add(Me.treeControl1)
         	Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
-        	Me.Panel3.Location = New System.Drawing.Point(0, 57)
+        	Me.Panel3.Location = New System.Drawing.Point(0, 53)
         	Me.Panel3.Name = "Panel3"
-        	Me.Panel3.Size = New System.Drawing.Size(592, 498)
+        	Me.Panel3.Size = New System.Drawing.Size(592, 363)
         	Me.Panel3.TabIndex = 21
         	'
         	'treeControl1
@@ -433,7 +433,7 @@ Namespace wnb
         	Me.treeControl1.Location = New System.Drawing.Point(0, 0)
         	Me.treeControl1.Name = "treeControl1"
         	Me.treeControl1.SelectedNode = Nothing
-        	Me.treeControl1.Size = New System.Drawing.Size(592, 497)
+        	Me.treeControl1.Size = New System.Drawing.Size(592, 362)
         	Me.treeControl1.TabIndex = 0
         	AddHandler Me.treeControl1.MouseDown, AddressOf Me.TreeControl1MouseDown
         	AddHandler Me.treeControl1.AfterSelect, AddressOf Me.TreeControl1AfterSelect
@@ -441,7 +441,7 @@ Namespace wnb
         	'StartForm
         	'
         	Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-        	Me.ClientSize = New System.Drawing.Size(592, 686)
+        	Me.ClientSize = New System.Drawing.Size(592, 538)
         	Me.Controls.Add(Me.Panel3)
         	Me.Controls.Add(Me.Splitter1)
         	Me.Controls.Add(Me.Panel2)
