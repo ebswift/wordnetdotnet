@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="D:\Troy Devel\WordNet.Net\3rd_Party_Tools_Data\brill_tagger_dotnet_port\..\vbLike\vbLike.vbproj">
+    <ProjectReference Include="..\vbLike\vbLike.vbproj">
       <Project>{561328C6-14C6-4B50-961B-E93A93291B26}</Project>
       <Name>vbLike</Name>
       <Private />
