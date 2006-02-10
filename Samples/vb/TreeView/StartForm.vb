@@ -128,340 +128,336 @@ Namespace wnb
         Friend WithEvents StatusBar1 As System.Windows.Forms.StatusBar
         Friend WithEvents txtOutput As System.Windows.Forms.TextBox
         Friend WithEvents Panel3 As System.Windows.Forms.Panel
-        Friend WithEvents TreeView1 As System.Windows.Forms.TreeView
         Friend WithEvents mnuNodeMenu As System.Windows.Forms.ContextMenu
-        Friend WithEvents wnIcons As System.Windows.Forms.ImageList
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(StartForm))
-            Me.MenuItem17 = New System.Windows.Forms.MenuItem
-            Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-            Me.mnuClearDisplay = New System.Windows.Forms.MenuItem
-            Me.mnuHistory = New System.Windows.Forms.MenuItem
-            Me.btnVerb = New System.Windows.Forms.Button
-            Me.btnOverview = New System.Windows.Forms.Button
-            Me.mnuWordNetLicense = New System.Windows.Forms.MenuItem
-            Me.txtSearchWord = New System.Windows.Forms.TextBox
-            Me.Label1 = New System.Windows.Forms.Label
-            Me.txtSenses = New System.Windows.Forms.TextBox
-            Me.mnuSaveDisplay = New System.Windows.Forms.MenuItem
-            Me.mnuAdvancedOptions = New System.Windows.Forms.MenuItem
-            Me.mnuWordWrap = New System.Windows.Forms.MenuItem
-            Me.mnuShowHelp = New System.Windows.Forms.MenuItem
-            Me.btnSearch = New System.Windows.Forms.Button
-            Me.mnuOptions = New System.Windows.Forms.MenuItem
-            Me.mnuShowGloss = New System.Windows.Forms.MenuItem
-            Me.mnuLGPL = New System.Windows.Forms.MenuItem
-            Me.mnuExit = New System.Windows.Forms.MenuItem
-            Me.MainMenu1 = New System.Windows.Forms.MainMenu
-            Me.mnuFile = New System.Windows.Forms.MenuItem
-            Me.mnuHelp = New System.Windows.Forms.MenuItem
-            Me.lblSearchInfo = New System.Windows.Forms.Label
-            Me.btnAdj = New System.Windows.Forms.Button
-            Me.Label3 = New System.Windows.Forms.Label
-            Me.btnNoun = New System.Windows.Forms.Button
-            Me.btnAdv = New System.Windows.Forms.Button
-            Me.Splitter1 = New System.Windows.Forms.Splitter
-            Me.Panel1 = New System.Windows.Forms.Panel
-            Me.Panel2 = New System.Windows.Forms.Panel
-            Me.txtOutput = New System.Windows.Forms.TextBox
-            Me.StatusBar1 = New System.Windows.Forms.StatusBar
-            Me.Panel3 = New System.Windows.Forms.Panel
-            Me.TreeView1 = New System.Windows.Forms.TreeView
-            Me.wnIcons = New System.Windows.Forms.ImageList(Me.components)
-            Me.mnuNodeMenu = New System.Windows.Forms.ContextMenu
-            Me.Panel1.SuspendLayout()
-            Me.Panel2.SuspendLayout()
-            Me.Panel3.SuspendLayout()
-            Me.SuspendLayout()
-            '
-            'MenuItem17
-            '
-            Me.MenuItem17.Index = 1
-            Me.MenuItem17.Text = "-"
-            '
-            'SaveFileDialog1
-            '
-            Me.SaveFileDialog1.Filter = "Text files (*.txt)|*.txt"
-            '
-            'mnuClearDisplay
-            '
-            Me.mnuClearDisplay.Index = 1
-            Me.mnuClearDisplay.Text = "Clear Current Display"
-            '
-            'mnuHistory
-            '
-            Me.mnuHistory.Index = -1
-            Me.mnuHistory.Text = ""
-            '
-            'btnVerb
-            '
-            Me.btnVerb.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnVerb.Location = New System.Drawing.Point(352, 32)
-            Me.btnVerb.Name = "btnVerb"
-            Me.btnVerb.Size = New System.Drawing.Size(40, 23)
-            Me.btnVerb.TabIndex = 4
-            Me.btnVerb.Text = "Verb"
-            Me.btnVerb.Visible = False
-            '
-            'btnOverview
-            '
-            Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnOverview.Location = New System.Drawing.Point(224, 32)
-            Me.btnOverview.Name = "btnOverview"
-            Me.btnOverview.TabIndex = 15
-            Me.btnOverview.Text = "Overview"
-            Me.btnOverview.Visible = False
-            '
-            'mnuWordNetLicense
-            '
-            Me.mnuWordNetLicense.Index = 0
-            Me.mnuWordNetLicense.Text = "WordNet License (Princeton)"
-            '
-            'txtSearchWord
-            '
-            Me.txtSearchWord.AcceptsReturn = True
-            Me.txtSearchWord.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.txtSearchWord.Location = New System.Drawing.Point(80, 8)
-            Me.txtSearchWord.Name = "txtSearchWord"
-            Me.txtSearchWord.Size = New System.Drawing.Size(216, 20)
-            Me.txtSearchWord.TabIndex = 1
-            Me.txtSearchWord.Text = ""
-            '
-            'Label1
-            '
-            Me.Label1.Location = New System.Drawing.Point(0, 8)
-            Me.Label1.Name = "Label1"
-            Me.Label1.Size = New System.Drawing.Size(80, 23)
-            Me.Label1.TabIndex = 0
-            Me.Label1.Text = "Search Word:"
-            '
-            'txtSenses
-            '
-            Me.txtSenses.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.txtSenses.Location = New System.Drawing.Point(544, 8)
-            Me.txtSenses.Name = "txtSenses"
-            Me.txtSenses.Size = New System.Drawing.Size(40, 20)
-            Me.txtSenses.TabIndex = 8
-            Me.txtSenses.Text = "0"
-            '
-            'mnuSaveDisplay
-            '
-            Me.mnuSaveDisplay.Index = 0
-            Me.mnuSaveDisplay.Text = "Save Current Display"
-            '
-            'mnuAdvancedOptions
-            '
-            Me.mnuAdvancedOptions.Index = 3
-            Me.mnuAdvancedOptions.Text = "Advanced search options"
-            '
-            'mnuWordWrap
-            '
-            Me.mnuWordWrap.Checked = True
-            Me.mnuWordWrap.Index = 0
-            Me.mnuWordWrap.Text = "Word Wrap"
-            '
-            'mnuShowHelp
-            '
-            Me.mnuShowHelp.Index = 1
-            Me.mnuShowHelp.Text = "Show help with each search"
-            '
-            'btnSearch
-            '
-            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(304, 8)
-            Me.btnSearch.Name = "btnSearch"
-            Me.btnSearch.Size = New System.Drawing.Size(56, 23)
-            Me.btnSearch.TabIndex = 13
-            Me.btnSearch.Text = "Search"
-            '
-            'mnuOptions
-            '
-            Me.mnuOptions.Index = 1
-            Me.mnuOptions.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordWrap, Me.mnuShowHelp, Me.mnuShowGloss, Me.mnuAdvancedOptions})
-            Me.mnuOptions.Text = "Options"
-            '
-            'mnuShowGloss
-            '
-            Me.mnuShowGloss.Index = 2
-            Me.mnuShowGloss.Text = "Show descriptive gloss"
-            '
-            'mnuLGPL
-            '
-            Me.mnuLGPL.Index = 2
-            Me.mnuLGPL.Text = "License"
-            '
-            'mnuExit
-            '
-            Me.mnuExit.Index = 2
-            Me.mnuExit.Text = "Exit"
-            '
-            'MainMenu1
-            '
-            Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuFile, Me.mnuOptions, Me.mnuHelp})
-            '
-            'mnuFile
-            '
-            Me.mnuFile.Index = 0
-            Me.mnuFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuSaveDisplay, Me.mnuClearDisplay, Me.mnuExit})
-            Me.mnuFile.Text = "File"
-            '
-            'mnuHelp
-            '
-            Me.mnuHelp.Index = 2
-            Me.mnuHelp.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordNetLicense, Me.MenuItem17, Me.mnuLGPL})
-            Me.mnuHelp.Text = "Help"
-            '
-            'lblSearchInfo
-            '
-            Me.lblSearchInfo.Location = New System.Drawing.Point(0, 32)
-            Me.lblSearchInfo.Name = "lblSearchInfo"
-            Me.lblSearchInfo.Size = New System.Drawing.Size(296, 23)
-            Me.lblSearchInfo.TabIndex = 2
-            '
-            'btnAdj
-            '
-            Me.btnAdj.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnAdj.Location = New System.Drawing.Point(400, 32)
-            Me.btnAdj.Name = "btnAdj"
-            Me.btnAdj.Size = New System.Drawing.Size(64, 23)
-            Me.btnAdj.TabIndex = 5
-            Me.btnAdj.Text = "Adjective"
-            Me.btnAdj.Visible = False
-            '
-            'Label3
-            '
-            Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.Label3.Location = New System.Drawing.Point(480, 8)
-            Me.Label3.Name = "Label3"
-            Me.Label3.TabIndex = 7
-            Me.Label3.Text = "Senses:"
-            '
-            'btnNoun
-            '
-            Me.btnNoun.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnNoun.Location = New System.Drawing.Point(304, 32)
-            Me.btnNoun.Name = "btnNoun"
-            Me.btnNoun.Size = New System.Drawing.Size(40, 23)
-            Me.btnNoun.TabIndex = 3
-            Me.btnNoun.Text = "Noun"
-            Me.btnNoun.Visible = False
-            '
-            'btnAdv
-            '
-            Me.btnAdv.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnAdv.Location = New System.Drawing.Point(472, 32)
-            Me.btnAdv.Name = "btnAdv"
-            Me.btnAdv.Size = New System.Drawing.Size(48, 23)
-            Me.btnAdv.TabIndex = 6
-            Me.btnAdv.Text = "Adverb"
-            Me.btnAdv.Visible = False
-            '
-            'Splitter1
-            '
-            Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.Splitter1.Location = New System.Drawing.Point(0, 381)
-            Me.Splitter1.Name = "Splitter1"
-            Me.Splitter1.Size = New System.Drawing.Size(592, 5)
-            Me.Splitter1.TabIndex = 18
-            Me.Splitter1.TabStop = False
-            '
-            'Panel1
-            '
-            Me.Panel1.Controls.Add(Me.btnAdj)
-            Me.Panel1.Controls.Add(Me.btnAdv)
-            Me.Panel1.Controls.Add(Me.txtSenses)
-            Me.Panel1.Controls.Add(Me.btnNoun)
-            Me.Panel1.Controls.Add(Me.Label1)
-            Me.Panel1.Controls.Add(Me.btnSearch)
-            Me.Panel1.Controls.Add(Me.btnVerb)
-            Me.Panel1.Controls.Add(Me.btnOverview)
-            Me.Panel1.Controls.Add(Me.lblSearchInfo)
-            Me.Panel1.Controls.Add(Me.txtSearchWord)
-            Me.Panel1.Controls.Add(Me.Label3)
-            Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
-            Me.Panel1.Location = New System.Drawing.Point(0, 0)
-            Me.Panel1.Name = "Panel1"
-            Me.Panel1.Size = New System.Drawing.Size(592, 56)
-            Me.Panel1.TabIndex = 19
-            '
-            'Panel2
-            '
-            Me.Panel2.Controls.Add(Me.txtOutput)
-            Me.Panel2.Controls.Add(Me.StatusBar1)
-            Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.Panel2.Location = New System.Drawing.Point(0, 386)
-            Me.Panel2.Name = "Panel2"
-            Me.Panel2.Size = New System.Drawing.Size(592, 100)
-            Me.Panel2.TabIndex = 20
-            '
-            'txtOutput
-            '
-            Me.txtOutput.Location = New System.Drawing.Point(0, 0)
-            Me.txtOutput.Multiline = True
-            Me.txtOutput.Name = "txtOutput"
-            Me.txtOutput.ReadOnly = True
-            Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-            Me.txtOutput.Size = New System.Drawing.Size(592, 80)
-            Me.txtOutput.TabIndex = 18
-            Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more " & _
-            "information"
-            '
-            'StatusBar1
-            '
-            Me.StatusBar1.Location = New System.Drawing.Point(0, 78)
-            Me.StatusBar1.Name = "StatusBar1"
-            Me.StatusBar1.Size = New System.Drawing.Size(592, 22)
-            Me.StatusBar1.TabIndex = 10
-            Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
-            '
-            'Panel3
-            '
-            Me.Panel3.Controls.Add(Me.TreeView1)
-            Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.Panel3.Location = New System.Drawing.Point(0, 56)
-            Me.Panel3.Name = "Panel3"
-            Me.Panel3.Size = New System.Drawing.Size(592, 325)
-            Me.Panel3.TabIndex = 21
-            '
-            'TreeView1
-            '
-            Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.TreeView1.ImageList = Me.wnIcons
-            Me.TreeView1.Location = New System.Drawing.Point(0, 0)
-            Me.TreeView1.Name = "TreeView1"
-            Me.TreeView1.Size = New System.Drawing.Size(592, 326)
-            Me.TreeView1.TabIndex = 17
-            '
-            'wnIcons
-            '
-            Me.wnIcons.ImageSize = New System.Drawing.Size(16, 16)
-            Me.wnIcons.ImageStream = CType(resources.GetObject("wnIcons.ImageStream"), System.Windows.Forms.ImageListStreamer)
-            Me.wnIcons.TransparentColor = System.Drawing.Color.Transparent
-            '
-            'StartForm
-            '
-            Me.AutoScaleBaseSize = New System.Drawing.Size(5, 13)
-            Me.ClientSize = New System.Drawing.Size(592, 486)
-            Me.Controls.Add(Me.Panel3)
-            Me.Controls.Add(Me.Splitter1)
-            Me.Controls.Add(Me.Panel2)
-            Me.Controls.Add(Me.Panel1)
-            Me.Menu = Me.MainMenu1
-            Me.Name = "StartForm"
-            Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-            Me.Text = "WordNet.Net TreeView Sample"
-            Me.Panel1.ResumeLayout(False)
-            Me.Panel2.ResumeLayout(False)
-            Me.Panel3.ResumeLayout(False)
-            Me.ResumeLayout(False)
-
+        	Me.components = New System.ComponentModel.Container
+        	Me.MenuItem17 = New System.Windows.Forms.MenuItem
+        	Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+        	Me.mnuClearDisplay = New System.Windows.Forms.MenuItem
+        	Me.mnuHistory = New System.Windows.Forms.MenuItem
+        	Me.btnVerb = New System.Windows.Forms.Button
+        	Me.btnOverview = New System.Windows.Forms.Button
+        	Me.mnuWordNetLicense = New System.Windows.Forms.MenuItem
+        	Me.txtSearchWord = New System.Windows.Forms.TextBox
+        	Me.Label1 = New System.Windows.Forms.Label
+        	Me.txtSenses = New System.Windows.Forms.TextBox
+        	Me.mnuSaveDisplay = New System.Windows.Forms.MenuItem
+        	Me.mnuAdvancedOptions = New System.Windows.Forms.MenuItem
+        	Me.mnuWordWrap = New System.Windows.Forms.MenuItem
+        	Me.mnuShowHelp = New System.Windows.Forms.MenuItem
+        	Me.btnSearch = New System.Windows.Forms.Button
+        	Me.mnuOptions = New System.Windows.Forms.MenuItem
+        	Me.mnuShowGloss = New System.Windows.Forms.MenuItem
+        	Me.mnuLGPL = New System.Windows.Forms.MenuItem
+        	Me.mnuExit = New System.Windows.Forms.MenuItem
+        	Me.MainMenu1 = New System.Windows.Forms.MainMenu(Me.components)
+        	Me.mnuFile = New System.Windows.Forms.MenuItem
+        	Me.mnuHelp = New System.Windows.Forms.MenuItem
+        	Me.lblSearchInfo = New System.Windows.Forms.Label
+        	Me.btnAdj = New System.Windows.Forms.Button
+        	Me.Label3 = New System.Windows.Forms.Label
+        	Me.btnNoun = New System.Windows.Forms.Button
+        	Me.btnAdv = New System.Windows.Forms.Button
+        	Me.Splitter1 = New System.Windows.Forms.Splitter
+        	Me.Panel1 = New System.Windows.Forms.Panel
+        	Me.Panel2 = New System.Windows.Forms.Panel
+        	Me.txtOutput = New System.Windows.Forms.TextBox
+        	Me.StatusBar1 = New System.Windows.Forms.StatusBar
+        	Me.Panel3 = New System.Windows.Forms.Panel
+        	Me.treeControl1 = New WordNetControls.TreeControl
+        	Me.mnuNodeMenu = New System.Windows.Forms.ContextMenu
+        	Me.Panel1.SuspendLayout
+        	Me.Panel2.SuspendLayout
+        	Me.Panel3.SuspendLayout
+        	Me.SuspendLayout
+        	'
+        	'MenuItem17
+        	'
+        	Me.MenuItem17.Index = 1
+        	Me.MenuItem17.Text = "-"
+        	'
+        	'SaveFileDialog1
+        	'
+        	Me.SaveFileDialog1.Filter = "Text files (*.txt)|*.txt"
+        	'
+        	'mnuClearDisplay
+        	'
+        	Me.mnuClearDisplay.Index = 1
+        	Me.mnuClearDisplay.Text = "Clear Current Display"
+        	'
+        	'mnuHistory
+        	'
+        	Me.mnuHistory.Index = -1
+        	Me.mnuHistory.Text = ""
+        	'
+        	'btnVerb
+        	'
+        	Me.btnVerb.FlatStyle = System.Windows.Forms.FlatStyle.System
+        	Me.btnVerb.Location = New System.Drawing.Point(348, 29)
+        	Me.btnVerb.Name = "btnVerb"
+        	Me.btnVerb.Size = New System.Drawing.Size(40, 24)
+        	Me.btnVerb.TabIndex = 4
+        	Me.btnVerb.Text = "Verb"
+        	Me.btnVerb.Visible = false
+        	'
+        	'btnOverview
+        	'
+        	Me.btnOverview.FlatStyle = System.Windows.Forms.FlatStyle.System
+        	Me.btnOverview.Location = New System.Drawing.Point(221, 29)
+        	Me.btnOverview.Name = "btnOverview"
+        	Me.btnOverview.Size = New System.Drawing.Size(75, 24)
+        	Me.btnOverview.TabIndex = 15
+        	Me.btnOverview.Text = "Overview"
+        	Me.btnOverview.Visible = false
+        	'
+        	'mnuWordNetLicense
+        	'
+        	Me.mnuWordNetLicense.Index = 0
+        	Me.mnuWordNetLicense.Text = "WordNet License (Princeton)"
+        	'
+        	'txtSearchWord
+        	'
+        	Me.txtSearchWord.AcceptsReturn = true
+        	Me.txtSearchWord.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+        	        	        	Or System.Windows.Forms.AnchorStyles.Left)  _
+        	        	        	Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        	Me.txtSearchWord.Location = New System.Drawing.Point(80, 6)
+        	Me.txtSearchWord.Name = "txtSearchWord"
+        	Me.txtSearchWord.Size = New System.Drawing.Size(216, 21)
+        	Me.txtSearchWord.TabIndex = 1
+        	'
+        	'Label1
+        	'
+        	Me.Label1.Location = New System.Drawing.Point(0, 6)
+        	Me.Label1.Name = "Label1"
+        	Me.Label1.Size = New System.Drawing.Size(80, 21)
+        	Me.Label1.TabIndex = 0
+        	Me.Label1.Text = "Search Word:"
+        	'
+        	'txtSenses
+        	'
+        	Me.txtSenses.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        	Me.txtSenses.Location = New System.Drawing.Point(544, 6)
+        	Me.txtSenses.Name = "txtSenses"
+        	Me.txtSenses.Size = New System.Drawing.Size(40, 21)
+        	Me.txtSenses.TabIndex = 8
+        	Me.txtSenses.Text = "0"
+        	'
+        	'mnuSaveDisplay
+        	'
+        	Me.mnuSaveDisplay.Index = 0
+        	Me.mnuSaveDisplay.Text = "Save Current Display"
+        	'
+        	'mnuAdvancedOptions
+        	'
+        	Me.mnuAdvancedOptions.Index = 3
+        	Me.mnuAdvancedOptions.Text = "Advanced search options"
+        	'
+        	'mnuWordWrap
+        	'
+        	Me.mnuWordWrap.Checked = true
+        	Me.mnuWordWrap.Index = 0
+        	Me.mnuWordWrap.Text = "Word Wrap"
+        	'
+        	'mnuShowHelp
+        	'
+        	Me.mnuShowHelp.Index = 1
+        	Me.mnuShowHelp.Text = "Show help with each search"
+        	'
+        	'btnSearch
+        	'
+        	Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        	Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+        	Me.btnSearch.Location = New System.Drawing.Point(304, 6)
+        	Me.btnSearch.Name = "btnSearch"
+        	Me.btnSearch.Size = New System.Drawing.Size(56, 17)
+        	Me.btnSearch.TabIndex = 13
+        	Me.btnSearch.Text = "Search"
+        	'
+        	'mnuOptions
+        	'
+        	Me.mnuOptions.Index = 1
+        	Me.mnuOptions.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordWrap, Me.mnuShowHelp, Me.mnuShowGloss, Me.mnuAdvancedOptions})
+        	Me.mnuOptions.Text = "Options"
+        	'
+        	'mnuShowGloss
+        	'
+        	Me.mnuShowGloss.Index = 2
+        	Me.mnuShowGloss.Text = "Show descriptive gloss"
+        	'
+        	'mnuLGPL
+        	'
+        	Me.mnuLGPL.Index = 2
+        	Me.mnuLGPL.Text = "License"
+        	'
+        	'mnuExit
+        	'
+        	Me.mnuExit.Index = 2
+        	Me.mnuExit.Text = "Exit"
+        	'
+        	'MainMenu1
+        	'
+        	Me.MainMenu1.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuFile, Me.mnuOptions, Me.mnuHelp})
+        	'
+        	'mnuFile
+        	'
+        	Me.mnuFile.Index = 0
+        	Me.mnuFile.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuSaveDisplay, Me.mnuClearDisplay, Me.mnuExit})
+        	Me.mnuFile.Text = "File"
+        	'
+        	'mnuHelp
+        	'
+        	Me.mnuHelp.Index = 2
+        	Me.mnuHelp.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.mnuWordNetLicense, Me.MenuItem17, Me.mnuLGPL})
+        	Me.mnuHelp.Text = "Help"
+        	'
+        	'lblSearchInfo
+        	'
+        	Me.lblSearchInfo.Location = New System.Drawing.Point(0, 35)
+        	Me.lblSearchInfo.Name = "lblSearchInfo"
+        	Me.lblSearchInfo.Size = New System.Drawing.Size(296, 11)
+        	Me.lblSearchInfo.TabIndex = 2
+        	'
+        	'btnAdj
+        	'
+        	Me.btnAdj.FlatStyle = System.Windows.Forms.FlatStyle.System
+        	Me.btnAdj.Location = New System.Drawing.Point(394, 29)
+        	Me.btnAdj.Name = "btnAdj"
+        	Me.btnAdj.Size = New System.Drawing.Size(64, 24)
+        	Me.btnAdj.TabIndex = 5
+        	Me.btnAdj.Text = "Adjective"
+        	Me.btnAdj.Visible = false
+        	'
+        	'Label3
+        	'
+        	Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        	Me.Label3.Location = New System.Drawing.Point(480, 6)
+        	Me.Label3.Name = "Label3"
+        	Me.Label3.Size = New System.Drawing.Size(100, 17)
+        	Me.Label3.TabIndex = 7
+        	Me.Label3.Text = "Senses:"
+        	'
+        	'btnNoun
+        	'
+        	Me.btnNoun.FlatStyle = System.Windows.Forms.FlatStyle.System
+        	Me.btnNoun.Location = New System.Drawing.Point(302, 29)
+        	Me.btnNoun.Name = "btnNoun"
+        	Me.btnNoun.Size = New System.Drawing.Size(40, 24)
+        	Me.btnNoun.TabIndex = 3
+        	Me.btnNoun.Text = "Noun"
+        	Me.btnNoun.Visible = false
+        	'
+        	'btnAdv
+        	'
+        	Me.btnAdv.FlatStyle = System.Windows.Forms.FlatStyle.System
+        	Me.btnAdv.Location = New System.Drawing.Point(464, 29)
+        	Me.btnAdv.Name = "btnAdv"
+        	Me.btnAdv.Size = New System.Drawing.Size(48, 24)
+        	Me.btnAdv.TabIndex = 6
+        	Me.btnAdv.Text = "Adverb"
+        	Me.btnAdv.Visible = false
+        	'
+        	'Splitter1
+        	'
+        	Me.Splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        	Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Bottom
+        	Me.Splitter1.Location = New System.Drawing.Point(0, 555)
+        	Me.Splitter1.Name = "Splitter1"
+        	Me.Splitter1.Size = New System.Drawing.Size(592, 5)
+        	Me.Splitter1.TabIndex = 18
+        	Me.Splitter1.TabStop = false
+        	'
+        	'Panel1
+        	'
+        	Me.Panel1.Controls.Add(Me.btnAdj)
+        	Me.Panel1.Controls.Add(Me.btnAdv)
+        	Me.Panel1.Controls.Add(Me.txtSenses)
+        	Me.Panel1.Controls.Add(Me.btnNoun)
+        	Me.Panel1.Controls.Add(Me.Label1)
+        	Me.Panel1.Controls.Add(Me.btnSearch)
+        	Me.Panel1.Controls.Add(Me.btnVerb)
+        	Me.Panel1.Controls.Add(Me.btnOverview)
+        	Me.Panel1.Controls.Add(Me.lblSearchInfo)
+        	Me.Panel1.Controls.Add(Me.txtSearchWord)
+        	Me.Panel1.Controls.Add(Me.Label3)
+        	Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
+        	Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        	Me.Panel1.Name = "Panel1"
+        	Me.Panel1.Size = New System.Drawing.Size(592, 57)
+        	Me.Panel1.TabIndex = 19
+        	'
+        	'Panel2
+        	'
+        	Me.Panel2.Controls.Add(Me.txtOutput)
+        	Me.Panel2.Controls.Add(Me.StatusBar1)
+        	Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        	Me.Panel2.Location = New System.Drawing.Point(0, 560)
+        	Me.Panel2.Name = "Panel2"
+        	Me.Panel2.Size = New System.Drawing.Size(592, 126)
+        	Me.Panel2.TabIndex = 20
+        	'
+        	'txtOutput
+        	'
+        	Me.txtOutput.Location = New System.Drawing.Point(0, 1)
+        	Me.txtOutput.Multiline = true
+        	Me.txtOutput.Name = "txtOutput"
+        	Me.txtOutput.ReadOnly = true
+        	Me.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        	Me.txtOutput.Size = New System.Drawing.Size(592, 95)
+        	Me.txtOutput.TabIndex = 18
+        	Me.txtOutput.Text = "Licensed under the LGPL.  See http://opensource.ebswift.com/WordNet.Net for more "& _ 
+        	"information"
+        	'
+        	'StatusBar1
+        	'
+        	Me.StatusBar1.Location = New System.Drawing.Point(0, 102)
+        	Me.StatusBar1.Name = "StatusBar1"
+        	Me.StatusBar1.Size = New System.Drawing.Size(592, 24)
+        	Me.StatusBar1.TabIndex = 10
+        	Me.StatusBar1.Text = "WordNet.Net TreeView Sample"
+        	'
+        	'Panel3
+        	'
+        	Me.Panel3.Controls.Add(Me.treeControl1)
+        	Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
+        	Me.Panel3.Location = New System.Drawing.Point(0, 57)
+        	Me.Panel3.Name = "Panel3"
+        	Me.Panel3.Size = New System.Drawing.Size(592, 498)
+        	Me.Panel3.TabIndex = 21
+        	'
+        	'treeControl1
+        	'
+        	Me.treeControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+        	        	        	Or System.Windows.Forms.AnchorStyles.Left)  _
+        	        	        	Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        	Me.treeControl1.Location = New System.Drawing.Point(0, 0)
+        	Me.treeControl1.Name = "treeControl1"
+        	Me.treeControl1.SelectedNode = Nothing
+        	Me.treeControl1.Size = New System.Drawing.Size(592, 497)
+        	Me.treeControl1.TabIndex = 0
+        	AddHandler Me.treeControl1.MouseDown, AddressOf Me.TreeControl1MouseDown
+        	AddHandler Me.treeControl1.AfterSelect, AddressOf Me.TreeControl1AfterSelect
+        	'
+        	'StartForm
+        	'
+        	Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
+        	Me.ClientSize = New System.Drawing.Size(592, 686)
+        	Me.Controls.Add(Me.Panel3)
+        	Me.Controls.Add(Me.Splitter1)
+        	Me.Controls.Add(Me.Panel2)
+        	Me.Controls.Add(Me.Panel1)
+        	Me.Menu = Me.MainMenu1
+        	Me.Name = "StartForm"
+        	Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        	Me.Text = "WordNet.Net TreeView Sample"
+        	Me.Panel1.ResumeLayout(false)
+        	Me.Panel1.PerformLayout
+        	Me.Panel2.ResumeLayout(false)
+        	Me.Panel2.PerformLayout
+        	Me.Panel3.ResumeLayout(false)
+        	Me.ResumeLayout(false)
         End Sub
+        Private treeControl1 As WordNetControls.TreeControl
 
 #End Region
 
@@ -540,8 +536,9 @@ Namespace wnb
                 txtSearchWord.Text = t
                 txtSenses.Text = "0"
 
-                TreeView1.BeginUpdate()
-                TreeView1.Nodes.Clear()
+                TreeControl1.BeginUpdate()
+                TreeControl1.Clear()
+                
                 Dim sch As Wnlib.Search
                 Dim i As Integer
                 Dim tmppos As String
@@ -553,10 +550,10 @@ Namespace wnb
                     tmppos = UCase(Mid(sch.pos.name, 1, 1)) & Mid(sch.pos.name, 2)
 
                     If sch.senses.Count > 0 Then
-                        fillTreeRoot(list(i), Nothing, tmppos)
+                        TreeControl1.fillTreeRoot(list(i), Nothing, tmppos)
                     End If
                 Next i
-                TreeView1.EndUpdate()
+                TreeControl1.EndUpdate()
             Catch ex As Exception
                 MessageBox.Show(ex.Message & vbCrLf & vbCrLf & "Princeton's WordNet not pre-installed to default location?")
             End Try
@@ -635,127 +632,26 @@ Namespace wnb
             txtSearchWord.Focus()
 
             If Not se Is Nothing Then
-                TreeView1.BeginUpdate()
-                TreeView1.Nodes.Clear()
+                TreeControl1.BeginUpdate()
+                TreeControl1.Clear()
                 If se.morphs.Count > 0 Then
                     ' use morphs instead of se
                     Dim wrd As String
 
                     For Each wrd In se.morphs.Keys
-                        fillTreeRoot(se.morphs(wrd), opt)
+                        TreeControl1.fillTreeRoot(se.morphs(wrd), opt)
                     Next
                 Else
                     ' there are no morphs - all senses exist in se
-                    fillTreeRoot(se, opt)
+                    TreeControl1.fillTreeRoot(se, opt)
                 End If
-                TreeView1.EndUpdate()
+                TreeControl1.EndUpdate()
             End If
         End Sub
 
         ' fill the top level of the tree
         ' opt is currently a redundant parameter, but since it holds the search
         ' type, it can remain in case search type needs to be known
-        Private Sub fillTreeRoot(ByVal sch As Wnlib.Search, ByVal opt As Wnlib.Opt, Optional ByVal tmppos As String = "")
-            ' do the treeview
-            Dim ss As Wnlib.SynSet
-            Dim parentnode As TreeNode
-            Dim posnode As TreeNode ' part of speech node used for overview search
-
-            ' a part of speech has been given as a parameter
-            ' so create a new top level node
-            If tmppos <> "" Then
-                posnode = New TreeNode(tmppos)
-                TreeView1.Nodes.Add(posnode)
-            End If
-
-            ' iterate the returned senses
-            For Each ss In sch.senses
-                parentnode = newTreeNode(ss)
-
-                ' if a part of speech node has been created
-                ' then it becomes the top level
-                If Not posnode Is Nothing Then
-                    posnode.Nodes.Add(parentnode)
-                Else
-                    TreeView1.Nodes.Add(parentnode)
-                End If
-
-                ' do child senses
-                If Not ss.senses Is Nothing Then
-                    fillTreeChild(ss.senses, parentnode)
-                End If
-
-                ' fill in sense frames
-                Dim fr As Wnlib.SynSetFrame
-                Dim frnode As TreeNode
-                If ss.frames.Count > 0 Then
-                    For Each fr In ss.frames
-                        frnode = New TreeNode(fr.fr.str)
-                        frnode.ImageIndex = 23 'TODO: change this number
-                        parentnode.Nodes.Add(frnode)
-                    Next
-                End If
-
-                'skip:
-            Next ss
-        End Sub
-
-        ' separate sub to fill all the children -
-        ' this is done to allow recursive child calls
-        Private Sub fillTreeChild(ByVal ssarray As Wnlib.SynSetList, ByVal parentnode As TreeNode)
-            Dim childnode As TreeNode
-            Dim ss As Wnlib.SynSet
-
-            For Each ss In ssarray
-                ' define a new child node
-                childnode = newTreeNode(ss)
-
-                parentnode.Nodes.Add(childnode)
-
-                ' increase the depth of the tree via recursion
-                If Not ss.senses Is Nothing Then
-                    fillTreeChild(ss.senses, childnode)
-                End If
-            Next ss
-        End Sub
-
-        Private Function newTreeNode(ByVal ss As Wnlib.SynSet) As TreeNode
-            Dim word As Wnlib.Lexeme
-            Dim words As String
-            Dim childnode As TreeNode
-
-            words = ""
-
-            ' these are the returned lexemes
-            For Each word In ss.words
-                If words <> "" Then
-                    words += ", "
-                End If
-
-                words += Replace(word.word, "_", " ")
-
-                ' append the sense number when the sense is not 1
-                If word.wnsns <> 1 Then
-                    words += "(" & word.wnsns & ")"
-                End If
-            Next word
-
-            ' define a new child node
-            childnode = New TreeNode
-            childnode.Text = words
-            'childnode.Tag = ss.defn
-
-            ' assign an icon according to the ident number of the ptr
-            ' (see static void classinit() in util.cs)
-            If Not ss.thisptr Is Nothing Then
-                childnode.ImageIndex = ss.thisptr.ptp.ident
-            End If
-
-            childnode.Tag = ss
-
-            Return childnode
-        End Function
-
         Public bobj2 As Wnlib.SearchSet
         Public bobj3 As Wnlib.SearchSet
         Public bobj4 As Wnlib.SearchSet
@@ -918,7 +814,47 @@ Namespace wnb
             f3.ShowDialog()
         End Sub
 
-        Private Sub TreeView1_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles TreeView1.AfterSelect
+        ' get the semcor value for each lexeme
+        Private Sub mnuSemCor(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim outtxt As String
+            Dim ss As Wnlib.SynSet
+            Dim lex As Wnlib.Lexeme
+
+            outtxt = "SemCor" & vbCrLf & vbCrLf
+
+            ss = TreeControl1.SelectedNode.Tag
+
+            ' build semcor information for each lexeme
+            For Each lex In ss.words
+                lex.semcor = New Wnlib.SemCor(lex, ss.hereiam)
+                outtxt += lex.word & ": " & lex.semcor.semcor & vbCrLf
+            Next
+
+            txtOutput.Text = outtxt
+        End Sub
+        
+        Sub TreeControl1MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs)
+            If e.Button = MouseButtons.Right Then
+                Dim t As TreeNode = TreeControl1.GetNodeAt(e.X, e.Y)
+                Dim ss As Wnlib.SynSet
+
+                TreeControl1.SelectedNode = t
+
+                ss = t.Tag
+                Dim wrd As Wnlib.Lexeme
+
+                ' it is possible to have a word list, all with a sense of (0) which will prevent semcor from
+                ' working.  In that case, prevent the semcor menu.  A test search for this condition is overview of "right" -> adjective -> similarity
+                For Each wrd In ss.words
+                    If wrd.wnsns > 0 Then
+                        mnuNodeMenu.Show(TreeControl1, New Point(e.X, e.Y))
+                        Exit For
+                    End If
+                Next
+            End If
+        End Sub
+        
+        Sub TreeControl1AfterSelect(sender As Object, e As System.Windows.Forms.TreeViewEventArgs)
             Try
                 ' e.node.tag can be nothing if the node is a top level POS identifier
                 ' if we simply let the exception occur this seems to waste a lot of CPU power for some reason
@@ -928,47 +864,6 @@ Namespace wnb
             Catch
                 ' when opening a root node
             End Try
-        End Sub
-
-        Private Sub TreeView1_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles TreeView1.MouseDown
-            If e.Button = MouseButtons.Right Then
-                Dim t As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
-                Dim ss As Wnlib.SynSet
-
-                TreeView1.SelectedNode = t
-
-                ss = t.Tag
-                Dim wrd As Wnlib.Lexeme
-
-                ' it is possible to have a word list, all with a sense of (0) which will prevent semcor from
-                ' working.  In that case, prevent the semcor menu.  A test search for this condition is overview of "right" -> adjective -> similarity
-                For Each wrd In ss.words
-                    If wrd.wnsns > 0 Then
-                        mnuNodeMenu.Show(TreeView1, New Point(e.X, e.Y))
-                        Exit For
-                    End If
-                Next
-            End If
-        End Sub
-
-        ' get the semcor value for each lexeme
-        Private Sub mnuSemCor(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim outtxt As String
-            Dim ss As Wnlib.SynSet
-            Dim lex As Wnlib.Lexeme
-
-            outtxt = "SemCor" & vbCrLf & vbCrLf
-
-
-            ss = TreeView1.SelectedNode.Tag
-
-            ' build semcor information for each lexeme
-            For Each lex In ss.words
-                lex.semcor = New Wnlib.SemCor(lex, ss.hereiam)
-                outtxt += lex.word & ": " & lex.semcor.semcor & vbCrLf
-            Next
-
-            txtOutput.Text = outtxt
         End Sub
     End Class
 
