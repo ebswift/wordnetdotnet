@@ -90,18 +90,16 @@ namespace WordsMatching
 
 
 
-        float[][] _simMatrix;
-        private void MyInit()
+        float[][] GetSimilarityMatrix(string[] string1, string[] string2)
         {
-            m = _source.Length; n = _target.Length;
-
-            _simMatrix = new float[m][];            
+            m = string1.Length; n = string2.Length;            
+            float[][] simMatrix = new float[m][];            
             
             Wnlib.PartsOfSpeech[] POSEnum = (Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
         	HierarchicalWordData[][] wordData_1 = new HierarchicalWordData[m][];
         	HierarchicalWordData[][] wordData_2 = new HierarchicalWordData[n][];
             for (int i = 0; i < m; i++) 
-                _simMatrix[i] = new float[n];
+                simMatrix[i] = new float[n];
 
             for (int i = 0; i < m; i++)
                 wordData_1[i] = new HierarchicalWordData[POSEnum.Length];
@@ -115,27 +113,28 @@ namespace WordsMatching
                 	
                    if (wordData_1[i][partOfSpeech] == null)
                    {
-                       MyWordInfo myWordsInfo_i = new MyWordInfo(_source[i], POSEnum[partOfSpeech]);
+                       MyWordInfo myWordsInfo_i = new MyWordInfo(string1[i], POSEnum[partOfSpeech]);
                        wordData_1[i][partOfSpeech] = new HierarchicalWordData(myWordsInfo_i); 
                    }
                                             
                    for (int j = 0; j < n; j++)
                    {
-                       float synDist = AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[j]);
+                       float synDist = AcronymChecker.GetEditDistanceSimilarity(string1[i], string2[j]);
                        if (wordData_2[j][partOfSpeech] == null)
                        {
-                           MyWordInfo myWordsInfo_j = new MyWordInfo(_target[j], POSEnum[partOfSpeech]);
+                           MyWordInfo myWordsInfo_j = new MyWordInfo(string2[j], POSEnum[partOfSpeech]);
                            wordData_2[j][partOfSpeech] = new HierarchicalWordData(myWordsInfo_j);
                        }    
                        
                        WordSimilarity wordDistance= new WordSimilarity();
                        float semDist = wordDistance.GetSimilarity(wordData_1[i][partOfSpeech], wordData_2[j][partOfSpeech]);                              
                        float weight=Math.Max (synDist, semDist);
-                       if (_simMatrix[i][j] < weight)
-                           _simMatrix[i][j] = weight;
+                       if (simMatrix[i][j] < weight)
+                           simMatrix[i][j] = weight;
                     }                                    
                }            
             }
+            return simMatrix;
         }
 
         public float GetScore(string string1, string string2)		
@@ -148,11 +147,11 @@ namespace WordsMatching
 
 			if (_source.Length == 0 || _target.Length == 0 )
 				return 0F;
-			
-			MyInit();		
+
+            float[][] simMatrix = GetSimilarityMatrix(_source, _target);		
 			HeuristicMatcher match=new HeuristicMatcher() ;
-            //float score = HeuristicMatcher.ComputeSetSimilarity(_simMatrix, 2, 0.3F);
-            float score = HeuristicMatcher.ComputeSetSimilarity(_simMatrix, 1);
+            //float score = HeuristicMatcher.ComputeSetSimilarity(simMatrix, 2, 0.3F);
+            float score = HeuristicMatcher.ComputeSetSimilarity(simMatrix, 1);
 			return score;	
 		}
 	}
