@@ -25,6 +25,7 @@ namespace WordsMatching
 		{
 			this.Word=word;
 			this.Pos=pos;
+            this.Sense =0;
 		}
 	}
 
