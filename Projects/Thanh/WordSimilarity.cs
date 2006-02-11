@@ -229,9 +229,24 @@ namespace WordsMatching
             return LCA;
         }
 
+        public float GetSimilarity(string word1, string word2)
+        {
+            Wnlib.PartsOfSpeech[] POSEnum = (Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
+
+            float minSim = float.MaxValue;
+            for (int partOfSpeech = 1; partOfSpeech < POSEnum.Length; partOfSpeech++)
+            {
+                HierarchicalWordData data_1 = new HierarchicalWordData(new MyWordInfo(word1, POSEnum[partOfSpeech]));
+                HierarchicalWordData data_2 = new HierarchicalWordData(new MyWordInfo(word2, POSEnum[partOfSpeech]));
+                float sim=GetSimilarity(data_1, data_2 );
+                if (minSim > sim) minSim = sim;
+            }
+            return minSim;
+        }
+
         public float GetSimilarity(HierarchicalWordData word1, HierarchicalWordData word2)
         {
-            return GetSimilarity(word1, word2, 1);
+            return GetSimilarity(word1, word2, 2);
         }
 
         public string MeasureToString(int measure)
