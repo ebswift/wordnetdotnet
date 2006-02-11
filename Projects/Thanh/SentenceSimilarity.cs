@@ -60,8 +60,8 @@ namespace WordsMatching
             return wordInfos;
         }
 
-        MyWordInfo[] _myWordsInfo1, _myWordsInfo2;
 
+        //MyWordInfo[] _myWordsInfo_i, _myWordsInfo_j;        
         //private void MyInitOld()
         //{
         //    _myWordsInfo1 = Disambiguate(_source);
@@ -96,55 +96,46 @@ namespace WordsMatching
             m = _source.Length; n = _target.Length;
 
             _simMatrix = new float[m][];            
-            _myWordsInfo1 = new MyWordInfo [m];
-            _myWordsInfo2 = new MyWordInfo [n];
             
-            Wnlib.PartsOfSpeech[] posEnum = (Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
-        	HierarchicalWordData[][] Data1 = new HierarchicalWordData[m][];
-        	HierarchicalWordData[][] Data2 = new HierarchicalWordData[n][];
-
-            for (int i = 0; i < m; i++)             
-            {
+            Wnlib.PartsOfSpeech[] POSEnum = (Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
+        	HierarchicalWordData[][] wordData_1 = new HierarchicalWordData[m][];
+        	HierarchicalWordData[][] wordData_2 = new HierarchicalWordData[n][];
+            for (int i = 0; i < m; i++) 
                 _simMatrix[i] = new float[n];
-            	Data1[i] = new HierarchicalWordData[posEnum.Length];
-                for (int pos1 = 1; pos1 < posEnum.Length; pos1++)
-                {
-                    _myWordsInfo1[i] = new MyWordInfo(_source[i], posEnum[pos1]);
 
-                    if (Data1[i][pos1] == null)
-                    {
-                    	Data1[i][pos1] = new HierarchicalWordData(_myWordsInfo1[i]);
-                    }
-   
-                     _myWordsInfo1[i].Sense = 0;
-                     for (int j = 0; j < n; j++)
-                     {
-                         if (Data2[j] == null)
-                         	Data2[j] = new HierarchicalWordData[posEnum.Length];
-                        float synDist = AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[j]);
+            for (int i = 0; i < m; i++)
+                wordData_1[i] = new HierarchicalWordData[POSEnum.Length];
+            for (int j = 0; j < n; j++)
+                wordData_2[j] = new HierarchicalWordData[POSEnum.Length];
 
-                        for (int pos2 = 1; pos2 < posEnum.Length ; pos2++)
-                         {
-                              _myWordsInfo2[j] = new MyWordInfo(_target[j], posEnum[pos2]);
-
-                              if (Data2[j][pos2] == null)
-                              {
-                              	Data2[j][pos2] = new HierarchicalWordData(_myWordsInfo2[j]);
-                              }
-
-                              _myWordsInfo2[j].Sense = 0;
-                              WordSimilarity wordDistance= new WordSimilarity();
-                              float semDist = wordDistance.GetSimilarity(Data1[i][pos1], Data2[j][pos2]);                              
-                              float weight=Math.Max (synDist, semDist);
-
-                              if (_simMatrix[i][j] < weight)
-                                  _simMatrix[i][j] = weight;
-                                        
-                          }
-                      }
-                  }                  
+            for (int partOfSpeech = 1; partOfSpeech < POSEnum.Length; partOfSpeech++)
+            {
+               for (int i = 0; i < m; i++)             
+               {                    
+                	
+                   if (wordData_1[i][partOfSpeech] == null)
+                   {
+                       MyWordInfo myWordsInfo_i = new MyWordInfo(_source[i], POSEnum[partOfSpeech]);
+                       wordData_1[i][partOfSpeech] = new HierarchicalWordData(myWordsInfo_i); 
+                   }
+                                            
+                   for (int j = 0; j < n; j++)
+                   {
+                       float synDist = AcronymChecker.GetEditDistanceSimilarity(_source[i], _target[j]);
+                       if (wordData_2[j][partOfSpeech] == null)
+                       {
+                           MyWordInfo myWordsInfo_j = new MyWordInfo(_target[j], POSEnum[partOfSpeech]);
+                           wordData_2[j][partOfSpeech] = new HierarchicalWordData(myWordsInfo_j);
+                       }    
+                       
+                       WordSimilarity wordDistance= new WordSimilarity();
+                       float semDist = wordDistance.GetSimilarity(wordData_1[i][partOfSpeech], wordData_2[j][partOfSpeech]);                              
+                       float weight=Math.Max (synDist, semDist);
+                       if (_simMatrix[i][j] < weight)
+                           _simMatrix[i][j] = weight;
+                    }                                    
                }            
-
+            }
         }
 
         public float GetScore(string string1, string string2)		
