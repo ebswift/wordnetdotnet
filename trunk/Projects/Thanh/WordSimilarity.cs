@@ -123,7 +123,7 @@ namespace WordsMatching
         {            
             double encode_i = Math.Log10(Convert.ToDouble(i));
             double encode_j = Math.Log10(Convert.ToDouble(j));
-            return Convert.ToString(i) + "_" + Convert.ToString(j);             
+            //return Convert.ToString(i) + "_" + Convert.ToString(j);             
             return encode_i * 1000.0d + encode_j; 
         }
 
@@ -133,8 +133,7 @@ namespace WordsMatching
         {
             ArrayList rootnodes = new ArrayList();           
             foreach (int k in Distance.Keys)            
-            {
-                //if (_rootNode > (int)k) _rootNode = (int)k;                
+            {                
                 foreach (int i in Distance.Keys) 
                     if (i != k && DepthMatrix.ContainsKey(GetKey(i, k))) 
                 {
