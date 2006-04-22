@@ -70,7 +70,12 @@ namespace WordsMatching
                     }
                 }
             }
-            
+
+            if (WordInfo.Pos == Wnlib.PartsOfSpeech.Verb)
+            {
+                int AA = 0;
+            }
+
             if (se.senses != null)
                 Walk(se.senses, null, 1);
             Compute_DepthMatrix();
@@ -118,16 +123,18 @@ namespace WordsMatching
         {            
             double encode_i = Math.Log10(Convert.ToDouble(i));
             double encode_j = Math.Log10(Convert.ToDouble(j));
-            //return Convert.ToString(i) + "_" + Convert.ToString(j);             
+            return Convert.ToString(i) + "_" + Convert.ToString(j);             
             return encode_i * 1000.0d + encode_j; 
         }
 
-        int _rootNode=int.MaxValue;
+        //int _rootNode = int.MaxValue;
+        int[] _rootNodes;
         void Compute_DepthMatrix()
-        {            
+        {
+            ArrayList rootnodes = new ArrayList();           
             foreach (int k in Distance.Keys)            
-            {                
-                if (_rootNode > (int)k) _rootNode = (int)k;
+            {
+                //if (_rootNode > (int)k) _rootNode = (int)k;                
                 foreach (int i in Distance.Keys) 
                     if (i != k && DepthMatrix.ContainsKey(GetKey(i, k))) 
                 {
@@ -141,6 +148,20 @@ namespace WordsMatching
                     }
                 }
             }
+
+            foreach (int i in Distance.Keys)               
+              {
+                  bool isRooted = true;
+                  foreach (int j in Distance.Keys)
+                      if (DepthMatrix.ContainsKey(GetKey(i, j)))
+                      {
+                          isRooted = false;
+                      }
+
+                  if (isRooted) rootnodes.Add(i);
+              }
+
+              _rootNodes = (int[])rootnodes.ToArray(typeof(int));
         }
 
 
@@ -165,8 +186,14 @@ namespace WordsMatching
         /// <returns></returns>
         public int GetDepth(int key)
         {
-            if (key == _rootNode) return 1;            
-            int rootDepth =(int) DepthMatrix[GetKey(key, _rootNode)];
+            
+            int rootDepth = -2;
+            foreach (int rootNode in _rootNodes)
+            {
+                if (key == rootNode) return 1;
+                if (DepthMatrix.ContainsKey(GetKey(key, rootNode)))
+                    rootDepth = (int)DepthMatrix[GetKey(key, rootNode)];
+            }
             return  rootDepth + 1;
         }
 
