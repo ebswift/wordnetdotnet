@@ -31,12 +31,16 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedOptions.vb" />
+    <Compile Include="AdvancedOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="AdvancedOptions.resx">
       <DependentUpon>AdvancedOptions.vb</DependentUpon>
     </EmbeddedResource>
     <Compile Include="AssemblyInfo.vb" />
-    <Compile Include="StartForm.vb" />
+    <Compile Include="StartForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="StartForm.resx">
       <DependentUpon>StartForm.vb</DependentUpon>
     </EmbeddedResource>

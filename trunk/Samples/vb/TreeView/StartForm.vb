@@ -707,7 +707,7 @@ Namespace wnb
 		''' <param name="e"></param>
         Private Sub btnWordType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim b As Button = sender
-            Dim ss As Wnlib.SearchSet
+            Dim ss As Wnlib.SearchSet = Nothing
             Dim btext As String = b.Text
 
             If btext = "Adjective" Then
@@ -760,7 +760,7 @@ Namespace wnb
         Private Sub searchMenu_Click(ByVal sender As Object, ByVal e As System.EventArgs)
             ' one of the options for button2_click was selected
             Dim mi As MenuItem = sender
-            Dim opt As Wnlib.Opt
+            Dim opt As Wnlib.Opt = Nothing
             Dim i As Integer
             Dim tmpstr As String
 
