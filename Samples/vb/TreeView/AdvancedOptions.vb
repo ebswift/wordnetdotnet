@@ -282,7 +282,7 @@ Public Class AdvancedOptions
         
         Dim g As GroupBox = CType(b.Parent, GroupBox)
         Dim t As String = g.Tag
-        Select Case b.Tag
+        Select Case CType(b.Tag, String)
             Case "off"
                 WNOpt.opt(t).flag = False
                 WNOpt.opt(t.ToUpper()).flag = False

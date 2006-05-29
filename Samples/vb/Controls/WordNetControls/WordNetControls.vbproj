@@ -40,7 +40,9 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TreeControl.vb" />
+    <Compile Include="TreeControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TreeControl.Designer.vb">
       <DependentUpon>TreeControl.vb</DependentUpon>
     </Compile>
