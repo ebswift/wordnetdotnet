@@ -56,65 +56,80 @@ Partial Class TreeControl
 	''' not be able to load this method if it was changed manually.
 	''' </summary>
 	Private Sub InitializeComponent()
-		Me.components = New System.ComponentModel.Container
-		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TreeControl))
-		Me.TreeView1 = New System.Windows.Forms.TreeView
-		Me.wnIcons = New System.Windows.Forms.ImageList(Me.components)
-		Me.SuspendLayout
-		'
-		'TreeView1
-		'
-		Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-						Or System.Windows.Forms.AnchorStyles.Left)  _
-						Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-		Me.TreeView1.ImageIndex = 0
-		Me.TreeView1.ImageList = Me.wnIcons
-		Me.TreeView1.Location = New System.Drawing.Point(0, 0)
-		Me.TreeView1.Name = "TreeView1"
-		Me.TreeView1.SelectedImageIndex = 0
-		Me.TreeView1.Size = New System.Drawing.Size(350, 381)
-		Me.TreeView1.TabIndex = 18
-		AddHandler Me.TreeView1.AfterSelect, AddressOf Me.TreeView1AfterSelect
-		AddHandler Me.TreeView1.MouseDown, AddressOf Me.TreeView1MouseDown
-		'
-		'wnIcons
-		'
-		Me.wnIcons.ImageStream = CType(resources.GetObject("wnIcons.ImageStream"),System.Windows.Forms.ImageListStreamer)
-		Me.wnIcons.TransparentColor = System.Drawing.Color.Transparent
-		Me.wnIcons.Images.SetKeyName(0, "")
-		Me.wnIcons.Images.SetKeyName(1, "")
-		Me.wnIcons.Images.SetKeyName(2, "")
-		Me.wnIcons.Images.SetKeyName(3, "")
-		Me.wnIcons.Images.SetKeyName(4, "")
-		Me.wnIcons.Images.SetKeyName(5, "")
-		Me.wnIcons.Images.SetKeyName(6, "")
-		Me.wnIcons.Images.SetKeyName(7, "")
-		Me.wnIcons.Images.SetKeyName(8, "")
-		Me.wnIcons.Images.SetKeyName(9, "")
-		Me.wnIcons.Images.SetKeyName(10, "")
-		Me.wnIcons.Images.SetKeyName(11, "")
-		Me.wnIcons.Images.SetKeyName(12, "")
-		Me.wnIcons.Images.SetKeyName(13, "")
-		Me.wnIcons.Images.SetKeyName(14, "")
-		Me.wnIcons.Images.SetKeyName(15, "")
-		Me.wnIcons.Images.SetKeyName(16, "")
-		Me.wnIcons.Images.SetKeyName(17, "")
-		Me.wnIcons.Images.SetKeyName(18, "")
-		Me.wnIcons.Images.SetKeyName(19, "")
-		Me.wnIcons.Images.SetKeyName(20, "")
-		Me.wnIcons.Images.SetKeyName(21, "")
-		Me.wnIcons.Images.SetKeyName(22, "")
-		Me.wnIcons.Images.SetKeyName(23, "")
-		'
-		'TreeControl
-		'
-		Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
-		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.Controls.Add(Me.TreeView1)
-		Me.Name = "TreeControl"
-		Me.Size = New System.Drawing.Size(350, 381)
-		Me.ResumeLayout(false)
-	End Sub
+        Me.components = New System.ComponentModel.Container
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(TreeControl))
+        Me.TreeView1 = New System.Windows.Forms.TreeView
+        Me.wnIcons = New System.Windows.Forms.ImageList(Me.components)
+        Me.SuspendLayout()
+        '
+        'TreeView1
+        '
+        Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TreeView1.ImageIndex = 0
+        Me.TreeView1.ImageList = Me.wnIcons
+        Me.TreeView1.Location = New System.Drawing.Point(0, 0)
+        Me.TreeView1.Name = "TreeView1"
+        Me.TreeView1.SelectedImageIndex = 0
+        Me.TreeView1.ShowNodeToolTips = True
+        Me.TreeView1.Size = New System.Drawing.Size(350, 381)
+        Me.TreeView1.TabIndex = 18
+        '
+        'wnIcons
+        '
+        Me.wnIcons.ImageStream = CType(resources.GetObject("wnIcons.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.wnIcons.TransparentColor = System.Drawing.Color.Transparent
+        Me.wnIcons.Images.SetKeyName(0, "")
+        Me.wnIcons.Images.SetKeyName(1, "")
+        Me.wnIcons.Images.SetKeyName(2, "MISC18.ICO")
+        Me.wnIcons.Images.SetKeyName(3, "BINOCULR.ICO")
+        Me.wnIcons.Images.SetKeyName(4, "MISC08.ICO")
+        Me.wnIcons.Images.SetKeyName(5, "MISC28.ICO")
+        Me.wnIcons.Images.SetKeyName(6, "")
+        Me.wnIcons.Images.SetKeyName(7, "WATER.ICO")
+        Me.wnIcons.Images.SetKeyName(8, "EAR.ICO")
+        Me.wnIcons.Images.SetKeyName(9, "MISC33.ICO")
+        Me.wnIcons.Images.SetKeyName(10, "MISC44.ICO")
+        Me.wnIcons.Images.SetKeyName(11, "SECUR06.ICO")
+        Me.wnIcons.Images.SetKeyName(12, "MOUSE01.ICO")
+        Me.wnIcons.Images.SetKeyName(13, "PC02.ICO")
+        Me.wnIcons.Images.SetKeyName(14, "KEY04.ICO")
+        Me.wnIcons.Images.SetKeyName(15, "MOUSE04.ICO")
+        Me.wnIcons.Images.SetKeyName(16, "DRAG3PG.ICO")
+        Me.wnIcons.Images.SetKeyName(17, "NET07.ICO")
+        Me.wnIcons.Images.SetKeyName(18, "RULERS.ICO")
+        Me.wnIcons.Images.SetKeyName(19, "POINT06.ICO")
+        Me.wnIcons.Images.SetKeyName(20, "POINT10.ICO")
+        Me.wnIcons.Images.SetKeyName(21, "HOUSE.ICO")
+        Me.wnIcons.Images.SetKeyName(22, "MAIL08.ICO")
+        Me.wnIcons.Images.SetKeyName(23, "MISC22.ICO")
+        Me.wnIcons.Images.SetKeyName(24, "GRAPH01.ICO")
+        Me.wnIcons.Images.SetKeyName(25, "CRDFLE04.ICO")
+        Me.wnIcons.Images.SetKeyName(26, "BULLSEYE.ICO")
+        Me.wnIcons.Images.SetKeyName(27, "MISC29.ICO")
+        Me.wnIcons.Images.SetKeyName(28, "MOUSE01.ICO")
+        Me.wnIcons.Images.SetKeyName(29, "PC02.ICO")
+        Me.wnIcons.Images.SetKeyName(30, "CRDFLE12.ICO")
+        Me.wnIcons.Images.SetKeyName(31, "GRAPH11.ICO")
+        Me.wnIcons.Images.SetKeyName(32, "CLIP07.ICO")
+        Me.wnIcons.Images.SetKeyName(33, "PLANE.ICO")
+        Me.wnIcons.Images.SetKeyName(34, "CLOUD.ICO")
+        Me.wnIcons.Images.SetKeyName(35, "FOLDER04.ICO")
+        Me.wnIcons.Images.SetKeyName(36, "SECUR05.ICO")
+        Me.wnIcons.Images.SetKeyName(37, "BOOK02.ICO")
+        Me.wnIcons.Images.SetKeyName(38, "")
+        '
+        'TreeControl
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.TreeView1)
+        Me.Name = "TreeControl"
+        Me.Size = New System.Drawing.Size(350, 381)
+        Me.ResumeLayout(False)
+
+    End Sub
 	Friend wnIcons As System.Windows.Forms.ImageList
 	Friend TreeView1 As System.Windows.Forms.TreeView
 	

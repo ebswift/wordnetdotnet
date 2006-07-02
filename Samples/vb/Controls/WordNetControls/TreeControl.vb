@@ -44,7 +44,10 @@ Public Partial Class TreeControl
 		
 		'
 		' TODO : Add constructor code after InitializeComponents
-		'
+        '
+
+        AddHandler TreeView1.AfterSelect, AddressOf TreeView1AfterSelect
+        AddHandler TreeView1.MouseDown, AddressOf TreeView1MouseDown
 	End Sub
 	
 	''' <summary>
@@ -89,7 +92,7 @@ Public Partial Class TreeControl
             If ss.frames.Count > 0 Then
                 For Each fr In ss.frames
                     frnode = New TreeNode(fr.fr.str)
-                    frnode.ImageIndex = 23 'TODO: change this number
+                    frnode.ImageIndex = 38
                     parentnode.Nodes.Add(frnode)
                 Next
             End If
@@ -156,6 +159,7 @@ Public Partial Class TreeControl
         ' (see static void classinit() in util.cs)
         If Not ss.thisptr Is Nothing Then
             childnode.ImageIndex = ss.thisptr.ptp.ident
+            childnode.ToolTipText = ss.thisptr.ptp.label
         End If
 
         childnode.Tag = ss
@@ -189,9 +193,9 @@ Public Partial Class TreeControl
 	''' </summary>
 	''' <param name="sender"></param>
 	''' <param name="e"></param>
-	Sub TreeView1AfterSelect(sender As Object, e As System.Windows.Forms.TreeViewEventArgs)
-		RaiseEvent AfterSelect(sender, e)
-	End Sub
+    Sub TreeView1AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) 'Handles TreeView1.AfterSelect
+        RaiseEvent AfterSelect(sender, e)
+    End Sub
 	
 	''' <summary>
 	''' If the action was a right-click find the node that was at the right-click position and pass it along
@@ -199,21 +203,21 @@ Public Partial Class TreeControl
 	''' </summary>
 	''' <param name="sender"></param>
 	''' <param name="e"></param>
-	Sub TreeView1MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs)
+    Sub TreeView1MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) 'Handles TreeView1.MouseDown
         If e.Button = MouseButtons.Right Then
-        	' get the treenode at the mouse location
+            ' get the treenode at the mouse location
             Dim t As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
 
-        	' only proceed if there was a valid clicked node
-        	If t Is Nothing Then
-        		Exit Sub
-        	End If
+            ' only proceed if there was a valid clicked node
+            If t Is Nothing Then
+                Exit Sub
+            End If
 
             TreeView1.SelectedNode = t
 
-			RaiseEvent TreeRightClick(sender, e, t)
-		End If
-	End Sub
+            RaiseEvent TreeRightClick(sender, e, t)
+        End If
+    End Sub
 	
 	''' <summary>
 	''' Clears the TreeView nodes.
