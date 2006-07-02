@@ -188,8 +188,11 @@ namespace Wnlib
 											cursyn.tracePtrs(sch.ptp, pos, depth);
 
 										if (cursyn.senses != null )
-											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
+                                            if (cursyn.senses.isDirty)
+                                            { // TDMS 25 Oct 2005 - restrict to relevant values
+                                                cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                                                senses.Add(cursyn);
+                                            }
 
 										// perform the senses restrictions based upon pos
 										/*
@@ -218,8 +221,9 @@ namespace Wnlib
 									case "FRAMES":
 										//eg. search for 'right', select Verb -> 'Sample Sentences'
 										cursyn.strFrame(true);
-										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+// TDMS 03 JUL 2006 fixed relevancy check										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+                                        if (cursyn.frames.Count != 0) // TDMS 03 Jul 2006 - only add frame if there are any retrieved
+                                            senses.Add(cursyn);
 										break;
 									case "MERONYM":
 										//eg. search for 'car', select Noun -> 'Meronym'
@@ -307,8 +311,11 @@ namespace Wnlib
 										//eg. search for 'car', select Noun -> 'Hyponyms'
 										cursyn.tracePtrs(sch.ptp, pos, depth);
 										if (cursyn.senses != null )
-											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
+                                            if (cursyn.senses.isDirty)
+                                            { // TDMS 25 Oct 2005 - restrict to relevant values
+                                                cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                                                senses.Add(cursyn);
+                                            }
 										break;
 											
 									default:
@@ -417,7 +424,8 @@ namespace Wnlib
 						synptr = new SynSet(idx.offs[i], pos, "", this, i);
 						synptr.strsns(i + 1);
 						synptr.tracePtrs(PointerType.of("HYPERPTR"), pos, 0);
-						// TDMS 11 Oct 2005 - build hierarchical results
+                        synptr.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                        // TDMS 11 Oct 2005 - build hierarchical results
 						senses.Add(synptr);
 						outsenses[i] = true;
 					}
@@ -430,7 +438,8 @@ namespace Wnlib
 					synptr = new SynSet(idx.offs[i], pos, "", this, i);
 					synptr.strsns(i + 1);
 					synptr.tracePtrs(PointerType.of("HYPERPTR"), pos, 0);
-					// TDMS 11 Oct 2005 - build hierarchical results
+                    synptr.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                    // TDMS 11 Oct 2005 - build hierarchical results
 					senses.Add(synptr);
 					buf += "---------------\n";
 				}
@@ -471,6 +480,7 @@ namespace Wnlib
 					WNOpt.opt("-a").flag = svaflag;
 					WNOpt.opt("-o").flag = svoflag;
 					wordsFrom(cursyn);
+                    cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
 					senses.Add(cursyn);
 				skipit: ;
 				}
