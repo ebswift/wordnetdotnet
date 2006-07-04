@@ -50,6 +50,15 @@
     <EmbeddedResource Include="TreeControl.resx">
       <DependentUpon>TreeControl.vb</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="WordNetColourFormat.Designer.vb">
+      <DependentUpon>WordNetColourFormat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WordNetColourFormat.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="WordNetColourFormat.resx">
+      <DependentUpon>WordNetColourFormat.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Library\cs\WordNet.Net.csproj">
