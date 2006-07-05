@@ -26,6 +26,7 @@ using System.IO;
 using System.Collections;
 using System.Reflection;
 using System.Windows.Forms;
+[assembly:CLSCompliant(true)]
 
 namespace Wnlib
 {
@@ -91,6 +92,7 @@ namespace Wnlib
 		}
 	}
 	
+	[CLSCompliant(true)]
 	public class Opt
 	{
 		public string arg;
@@ -101,7 +103,7 @@ namespace Wnlib
 		public int id;
 		public static int Count { get { return opts.Count; }}
 		public static Opt at(int ix) { return (Opt)opts[ix]; }
-		static ArrayList opts = new ArrayList();
+		private static ArrayList opts = new ArrayList();
 		
 		Opt(string a,string m,string p,int h,string b) 
 		{
