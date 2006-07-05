@@ -1,3 +1,26 @@
+'/*
+' * This file is a part of the WordNet.Net open source project.
+' * 
+' * Copyright (C) 2005 Malcolm Crowe, Troy Simpson 
+' * 
+' * Project Home: http://www.ebswift.com
+' *
+' * This library is free software; you can redistribute it and/or
+' * modify it under the terms of the GNU Lesser General Public
+' * License as published by the Free Software Foundation; either
+' * version 2.1 of the License, or (at your option) any later version.
+' *
+' * This library is distributed in the hope that it will be useful,
+' * but WITHOUT ANY WARRANTY; without even the implied warranty of
+' * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+' * Lesser General Public License for more details.
+' *
+' * You should have received a copy of the GNU Lesser General Public
+' * License along with this library; if not, write to the Free Software
+' * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+' * 
+' * */
+
 '
 ' Created by SharpDevelop.
 ' User: Troy
@@ -9,53 +32,125 @@
 Partial Public Class WordNetColourFormat
     Public Event CanvasNavigating(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
 
+	' define the CSS for the display elements
+	Private m_cssbody As String = "font-family:'Verdana';font-size:10pt;"
+	Private m_csslexeme As String = "color: #0000FF; font-weight:bold; text-decoration: none"
+	Private m_csspos As String = "font-size: 12pt; color: #FFFFFF; font-weight: bold; background-color: #808080"
+	Private m_cssdefn As String = "color: #000000; text-decoration: none"
+	Private m_cssquote As String = "color: #800000; text-decoration: none; font-style:italic"
+	Private m_csshover As String = "background-color: yellow"
+	
     Public Sub New()
         ' The Me.InitializeComponent call is required for Windows Forms designer support.
         Me.InitializeComponent()
 
-        AddHandler Canvas.Navigating, AddressOf NavigateCanvas
         '
         ' TODO : Add constructor code after InitializeComponents
         '
+
+		' setup our custom event for the application to handle
+        AddHandler Canvas.Navigating, AddressOf NavigateCanvas
     End Sub
 
+	''' <summary>
+	''' Event handler for a user clicking on a word hyperlink inside the webbrowser.
+	''' This raises an event that can be handled by the application.
+	''' </summary>
+	''' <param name="sender"></param>
+	''' <param name="e"></param>
     Public Sub NavigateCanvas(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
         RaiseEvent CanvasNavigating(sender, e)
     End Sub
 
-    ' iterates each pos
-    Public Function buildContents(ByVal list As ArrayList, ByVal opt As Wnlib.Opt, Optional ByVal tmppos As String = "") As String
+	''' <summary>
+	''' Iterates each part of speech which intern calls the iteration to the search 
+	''' object to create the hierarchical output.
+	''' </summary>
+	''' <param name="list"></param>
+	''' <param name="tmppos"></param>
+	''' <returns></returns>
+    Public Function buildContents(ByVal list As ArrayList) As String
         Dim outstr As String = ""
-        Dim i As Integer
         Dim headstyle As String
+        Dim ss As Wnlib.Search
 
+		' define the CSS
+		' TODO: move this to properties (property sheet)
         headstyle = "<style>" & vbCrLf & _
             "<!--" & vbCrLf & _
-            "*	{ font-family:'Verdana'; font-size:10pt }" & vbCrLf & _
-            ".Word   { color: #0000FF; font-weight:bold }" & vbCrLf & _
-            ".Word a { color: #0000FF; font-weight:bold; text-decoration: none }" & vbCrLf & _
-            ".pos        { font-size: 12pt; color: #FFFFFF; font-weight: bold; background-color: #808080 }" & vbCrLf & _
-            ".Defn   { color: #000000 }" & vbCrLf & _
-            ".Defn a { color: #000000; text-decoration: none }" & vbCrLf & _
-            ".Quote   { color: #800000; font-style:italic }" & vbCrLf & _
-            ".Quote a { color: #800000; text-decoration: none }" & vbCrLf & _
+            "*	{ " & CSSBody & " }" & vbCrLf & _
+            ".Word a { " & CSSLexeme & " }" & vbCrLf & _
+            ".pos        { " & CSSPOS & " }" & vbCrLf & _
+            ".Defn a { " & CSSDefinition & " }" & vbCrLf & _
+            ".Quote a { " & CSSQuote & " }" & vbCrLf & _
             "a 		{ text-decoration: none }" & vbCrLf & _
+            "a:hover { " & CSSHover & " }" & vbCrLf & _
             "-->" & vbCrLf & _
             "</style>" & vbCrLf & vbCrLf
 
-        outstr = headstyle
+        outstr = "<html><body>" & headstyle
 
-        For i = 0 To list.Count - 1
-            If CType(list(i), Wnlib.Search).senses.Count > 0 Then
-                outstr += FormatPOS(CType(list(i), Wnlib.Search).pos.name)
-                outstr += contentIteration(CType(list(i), Wnlib.Search), opt, tmppos)
+        'For i = 0 To list.Count - 1
+        For Each ss In list
+            If ss.senses.Count > 0 Then
+                outstr += FormatPOS(ss.pos.name)
+                outstr += contentIteration(ss)
             End If
-        Next i
+        Next
+
+        Return outstr & "</body></html>"
+    End Function
+
+	''' <summary>
+	''' Takes a given Part Of Speech and iterates the Search object to build the 
+	''' hierarchical output.
+	''' </summary>
+	''' <param name="sch"></param>
+	''' <param name="tmppos"></param>
+	''' <returns></returns>
+    Public Function contentIteration(ByVal sch As Wnlib.Search) As String
+        Dim ss As Wnlib.SynSet
+        Dim lx As Wnlib.Lexeme
+        Dim outstr As String = ""
+
+        outstr += "<ul>"
+
+        ' iterate the returned senses
+        For Each ss In sch.senses
+            outstr += "<li>"
+
+            ' format the WORDs
+            For Each lx In ss.words
+                outstr += FormatLexeme(lx.word) & ", "
+            Next
+
+            ' remove last comma
+            outstr = Mid(outstr, 1, outstr.Length - 2)
+
+            outstr += ": "
+
+            ' show the definition
+            outstr += FormatDefn(ss.defn)
+
+            ' children
+            If Not ss.senses Is Nothing Then
+                outstr += FormatWN(ss.senses)
+            End If
+
+            outstr += "</li>"
+        Next ss
+
+        outstr += "</ul>"
 
         Return outstr
     End Function
 
-    ' turns all words in a definition into hyperlinks
+    ''' <summary>
+    ''' Takes a definition (a phrase) and breaks each word apart, creating 
+    ''' a hyperlink that can be clicked in order to drill down.
+    ''' </summary>
+    ''' <param name="tmpstr"></param>
+    ''' <returns></returns>
     Private Function linkDefinition(ByVal tmpstr As String) As String
         Dim wrdstart As Integer = -1
         Dim wrdend As Integer = -1
@@ -109,7 +204,13 @@ Partial Public Class WordNetColourFormat
         Return tmpstr
     End Function
 
-    Private Function italicizeQuotes(ByVal tmpstr As String) As String
+	''' <summary>
+	''' Takes a sample sentence (defined by being enclosed in quotes) and
+	''' defines it for CSS formatting.
+	''' </summary>
+	''' <param name="tmpstr">The complete definition including sample sentences wrapped in quotes</param>
+	''' <returns></returns>
+    Private Function formatSampleSentence(ByVal tmpstr As String) As String
         Dim i As Integer = 1
         Dim iflag As Boolean = True
 
@@ -131,6 +232,12 @@ Partial Public Class WordNetColourFormat
         Return tmpstr
     End Function
 
+	''' <summary>
+	''' Takes the Part Of Speech heading and wraps it in a span for further 
+	''' CSS formatting.
+	''' </summary>
+	''' <param name="pos">Part Of Speech description (noun, verb, adj, adv)</param>
+	''' <returns></returns>
     Public Function FormatPOS(ByVal pos As String) As String
         Dim retstr As String = ""
 
@@ -154,64 +261,12 @@ Partial Public Class WordNetColourFormat
         Return retstr
     End Function
 
-    ' formats each pos
-    Public Function contentIteration(ByVal sch As Wnlib.Search, ByVal opt As Wnlib.Opt, Optional ByVal tmppos As String = "") As String
-        Dim ss As Wnlib.SynSet
-        Dim lx As Wnlib.Lexeme
-        Dim outstr As String = ""
-
-        outstr += "<ul>"
-
-        ' iterate the returned senses
-        For Each ss In sch.senses
-            outstr += "<li>"
-
-            ' format the WORDs
-            For Each lx In ss.words
-                outstr += FormatLexeme(lx.word) & ", "
-            Next
-
-            ' remove last comma
-            outstr = Mid(outstr, 1, outstr.Length - 2)
-
-            outstr += ": "
-
-            ' show the definition
-            outstr += FormatDefn(ss.defn)
-
-            ' children
-            If Not ss.senses Is Nothing Then
-                outstr += FormatWN(ss.senses)
-            End If
-
-            outstr += "</li>"
-        Next ss
-
-        outstr += "</ul>"
-
-        Return outstr
-    End Function
-
-    Private Function FormatDefn(ByVal defn As String) As String
-        Dim retstr As String = ""
-
-        defn = Replace(defn, "_", " ")
-
-        retstr = "<span class='Defn'>" & italicizeQuotes(linkDefinition(defn)) & "</span>"
-
-        Return retstr
-    End Function
-
-    Private Function FormatLexeme(ByVal lx As String) As String
-        Dim retstr As String = ""
-
-        lx = Replace(lx, "_", " ")
-
-        retstr = "<a href='" & lx & "' class='Word'>" & lx & "</a>"
-
-        Return retstr
-    End Function
-
+	''' <summary>
+	''' Iterates and formats all of the children of the given top-level Search 
+	''' object for a given Part Of Speech.
+	''' </summary>
+	''' <param name="ssarray">The SynSetList for a given Part Of Speech</param>
+	''' <returns></returns>
     Private Function FormatWN(ByVal ssarray As Wnlib.SynSetList) As String
         Dim retstr As String = ""
         Dim ss As Wnlib.SynSet
@@ -244,4 +299,88 @@ Partial Public Class WordNetColourFormat
 
         Return retstr
     End Function
+
+	''' <summary>
+	''' Formats each lexeme by turning it into a hyperlink.
+	''' </summary>
+	''' <param name="lx">A lexeme (word)</param>
+	''' <returns></returns>
+    Private Function FormatLexeme(ByVal lx As String) As String
+        Dim retstr As String = ""
+
+        lx = Replace(lx, "_", " ")
+
+        retstr = "<a href='" & lx & "' class='Word'>" & lx & "</a>"
+
+        Return retstr
+    End Function
+
+	''' <summary>
+	''' Formats the definition (defn) part of the Search object.
+	''' </summary>
+	''' <param name="defn">The definition part of the Search object</param>
+	''' <returns></returns>
+    Private Function FormatDefn(ByVal defn As String) As String
+        Dim retstr As String = ""
+
+        defn = Replace(defn, "_", " ")
+
+        retstr = "<span class='Defn'>" & formatSampleSentence(linkDefinition(defn)) & "</span>"
+
+        Return retstr
+    End Function
+    
+    Public Property CSSLexeme() As String
+    	Get
+    		Return m_csslexeme
+    	End Get
+    	Set
+    		m_csslexeme = value
+    	End Set
+    End Property
+    
+    Public Property CSSPOS() As String
+    	Get
+    		Return m_csspos
+    	End Get
+    	Set
+    		m_csspos = value
+    	End Set
+    End Property
+    
+    Public Property CSSDefinition() As String
+    	Get
+    		Return m_cssdefn
+    	End Get
+    	Set
+    		m_cssdefn = value
+    	End Set
+    End Property
+    
+    Public Property CSSQuote() As String
+    	Get
+    		Return m_cssquote
+    	End Get
+    	Set
+    		m_cssquote = value
+    	End Set
+    End Property
+    
+    Public Property CSSBody() As String
+    	Get
+    		Return m_cssbody
+    	End Get
+    	Set
+    		m_cssbody = value
+    	End Set
+    End Property
+    
+    Public Property CSSHover() As String
+    	Get
+    		Return m_csshover
+    	End Get
+    	Set
+    		m_csshover = value
+    	End Set
+    End Property
 End Class

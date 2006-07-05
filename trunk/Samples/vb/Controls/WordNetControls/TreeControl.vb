@@ -49,6 +49,32 @@ Public Partial Class TreeControl
         AddHandler TreeView1.AfterSelect, AddressOf TreeView1AfterSelect
         AddHandler TreeView1.MouseDown, AddressOf TreeView1MouseDown
 	End Sub
+
+	''' <summary>
+	''' Begins the iterative process of filling the tree.
+	''' </summary>
+	''' <param name="list">An ArrayList of search objects to iterate</param>
+	''' <param name="usepos">A Boolean to specify whether a part of speech should be used as ArrayList top node.  Generally this is not used when searching POS relations because the POS is already specified</param>
+    Public Sub fillTree(ByVal list As ArrayList, ByVal usepos As Boolean)
+        Dim ss As Wnlib.Search
+        Dim posnode As TreeNode = Nothing ' part of speech node used for overview search
+
+        BeginUpdate()
+        Clear()
+
+        For Each ss In list
+            If ss.senses.Count > 0 Then
+				If usepos Then
+    	        	posnode = New TreeNode(ss.pos.name)
+	            	TreeView1.Nodes.Add(posnode)
+				End If
+				
+            	fillTreeRoot(ss, posnode)
+            End If
+        Next
+
+        EndUpdate()
+	End Sub
 	
 	''' <summary>
 	''' Fill the top level of the tree.
@@ -56,18 +82,10 @@ Public Partial Class TreeControl
 	''' <param name="sch"></param>
 	''' <param name="opt">Currently a redundant parameter, but since it holds the search type, it can remain in case search type needs to be known.</param>
 	''' <param name="tmppos"></param>
-    Public Sub fillTreeRoot(ByVal sch As Wnlib.Search, ByVal opt As Wnlib.Opt, Optional ByVal tmppos As String = "")
+    Private Sub fillTreeRoot(ByVal sch As Wnlib.Search, ByRef posnode As TreeNode)
         ' do the treeview
         Dim ss As Wnlib.SynSet
         Dim parentnode As TreeNode
-        Dim posnode As TreeNode = Nothing ' part of speech node used for overview search
-
-        ' a part of speech has been given as a parameter
-        ' so create a new top level node
-        If tmppos <> "" Then
-            posnode = New TreeNode(tmppos)
-            TreeView1.Nodes.Add(posnode)
-        End If
 
         ' iterate the returned senses
         For Each ss In sch.senses
@@ -96,8 +114,6 @@ Public Partial Class TreeControl
                     parentnode.Nodes.Add(frnode)
                 Next
             End If
-
-            'skip:
         Next ss
     End Sub
 
@@ -204,7 +220,7 @@ Public Partial Class TreeControl
 	''' <param name="sender"></param>
 	''' <param name="e"></param>
     Sub TreeView1MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) 'Handles TreeView1.MouseDown
-        If e.Button = MouseButtons.Right Then
+        If e.Button = System.Windows.Forms.MouseButtons.Right Then
             ' get the treenode at the mouse location
             Dim t As TreeNode = TreeView1.GetNodeAt(e.X, e.Y)
 

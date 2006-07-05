@@ -543,26 +543,7 @@ Namespace wnb
                 txtSearchWord.Text = t
                 txtSenses.Text = "0"
 
-                TreeControl1.BeginUpdate()
-                TreeControl1.Clear()
-                
-                Dim sch As Wnlib.Search
-                Dim i As Integer
-                Dim tmppos As String
-
-                For i = 0 To list.Count - 1
-                    sch = list(i)
-
-                    ' capitalise first letter of pos
-                    tmppos = UCase(Mid(sch.pos.name, 1, 1)) & Mid(sch.pos.name, 2)
-
-                    If sch.senses.Count > 0 Then
-                    	' Build the treecontrol with the search results.
-                    	' Node hierarchy is automatically constructed in the TreeControl.
-                        TreeControl1.fillTreeRoot(list(i), Nothing, tmppos)
-                    End If
-                Next i
-                TreeControl1.EndUpdate()
+				TreeControl1.fillTree(list, True)
             Catch ex As Exception
                 MessageBox.Show(ex.Message & vbCrLf & vbCrLf & "Princeton's WordNet not pre-installed to default location?")
             End Try
@@ -649,24 +630,26 @@ Namespace wnb
             txtSearchWord.Focus()
 
             If Not se Is Nothing Then
-                TreeControl1.BeginUpdate()
-                TreeControl1.Clear()
                 If se.morphs.Count > 0 Then
                     ' use morphs instead of se
                     Dim wrd As String
 
+                   	list = New ArrayList
+					
                     For Each wrd In se.morphs.Keys
                     	' Build the treecontrol with the search results.
                     	' Node hierarchy is automatically constructed in the TreeControl.
-                        TreeControl1.fillTreeRoot(se.morphs(wrd), opt)
+                    	list.Add(se.morphs(wrd))
+                        TreeControl1.fillTree(list, False)
                     Next
                 Else
                     ' there are no morphs - all senses exist in se
                   	' Build the treecontrol with the search results.
                    	' Node hierarchy is automatically constructed in the TreeControl.
-                    TreeControl1.fillTreeRoot(se, opt)
+                   	list = New ArrayList
+                   	list.Add(se)
+                    TreeControl1.fillTree(list, False)
                 End If
-                TreeControl1.EndUpdate()
             End If
         End Sub
 
