@@ -681,25 +681,25 @@ namespace Wnlib
 			new PointerType(";","CLASSIFICATION","Domain"); // 21
 			new PointerType("-","CLASS","Domain Terms"); // 22
 			/* Additional searches, but not pointers.  */
-			new PointerType("","SYNS","Synonyms");
-			new PointerType("","FREQ","Frequency");
-			new PointerType("+","FRAMES","Sample Sentences");
-			new PointerType("","COORDS","Coordinate Terms");
-			new PointerType("","RELATIVES","Relatives");
-			new PointerType("","HMERONYM","Meronyms");
-			new PointerType("","HHOLONYM","Holonyms");
-			new PointerType("","WNGREP","Grep");
-			new PointerType("","OVERVIEW","Overview");
-			new PointerType(";c","CLASSIF_CATEGORY","Classification Category");
-			new PointerType(";u","CLASSIF_USAGE","Classification Usage");
-			new PointerType(";r","CLASSIF_REGIONAL","Classification Regional");
-			new PointerType("-c","CLASS_CATEGORY","Class Category");
-			new PointerType("-u","CLASS_USAGE","Class Usage");
-			new PointerType("-r","CLASS_REGIONAL","Class Regional");
+			new PointerType("","SYNS","Synonyms"); // 23
+			new PointerType("","FREQ","Frequency"); // 24
+			new PointerType("+","FRAMES","Sample Sentences"); // 25
+			new PointerType("","COORDS","Coordinate Terms"); // 26
+			new PointerType("","RELATIVES","Relatives"); // 27
+			new PointerType("","HMERONYM","Meronyms"); // 28
+			new PointerType("","HHOLONYM","Holonyms"); // 29
+			new PointerType("","WNGREP","Grep"); // 30
+			new PointerType("","OVERVIEW","Overview"); // 31
+			new PointerType(";c","CLASSIF_CATEGORY","Classification Category"); // 32
+			new PointerType(";u","CLASSIF_USAGE","Classification Usage"); // 33
+			new PointerType(";r","CLASSIF_REGIONAL","Classification Regional"); // 34
+			new PointerType("-c","CLASS_CATEGORY","Class Category"); // 35
+			new PointerType("-u","CLASS_USAGE","Class Usage"); // 36
+			new PointerType("-r","CLASS_REGIONAL","Class Regional"); // 37
 
 			// WN2.1 - TDMS
-			new PointerType("@i","INSTANCE","Instance");
-			new PointerType("~i","INSTANCES","Instances");
+			new PointerType("@i","INSTANCE","Instance"); // 38
+			new PointerType("~i","INSTANCES","Instances"); // 39
 		}
 		
 		public static bool operator>=(PointerType a,string s) 
