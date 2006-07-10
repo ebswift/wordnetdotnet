@@ -33,23 +33,53 @@ namespace Wnlib
 	/// </summary>
 	public class SynSet
 	{
-		private static int ANTPTR =          1;	/* ! */
-		private static int HYPERPTR =        2;	/* @ */
-		private static int HYPOPTR =         3;	/* ~ */
-		private static int ENTAILPTR =       4;	/* * */
-		private static int SIMPTR =          5;	/* & */
-		private static int CLASS =          22;	/* - */
-		private static int LASTTYPE =	CLASS;
-		private static int OVERVIEW	= (LASTTYPE + 9);
-		private static int MAXSEARCH =       OVERVIEW;
-		private static int CLASSIF_START =    (MAXSEARCH + 1);
-		private static int CLASSIF_REGIONAL = (CLASSIF_START + 2);    /* ;r */
-		private static int CLASSIF_END =     CLASSIF_REGIONAL;
-		private static int CLASS_START =      (CLASSIF_END + 1);
-		private static int CLASS_REGIONAL =   (CLASS_START + 2);      /* -r */
-		private static int CLASS_END =       CLASS_REGIONAL;
-		private static int INSTANCE =         (CLASS_END + 1);        /* @i */
-		private static int INSTANCES =        (CLASS_END + 2);        /* ~i */
+		/* directly correlates to classinit in util.cs */
+		// TODO: try to unify this list to the one in classinit in util.cs
+		private const int ANTPTR =          1;	/* ! */
+		private const int HYPERPTR =        2;	/* @ */
+		private const int HYPOPTR =         3;	/* ~ */
+		private const int ENTAILPTR =       4;	/* * */
+		private const int SIMPTR =          5;	/* & */
+		private const int ISMEMBERPTR = 	 6; /* #m */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int ISSTUFFPTR = 	 7; /* #s */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int ISPARTPTR = 		 8; /* #p */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int HASMEMBERPTR = 	 9; /* %m */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int HASSTUFFPTR = 	10; /* %s */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int HASPARTPTR = 	11; /* %p */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int MERONYM = 		12; /* % */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int HOLONYM = 		13; /* # */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int CAUSETO = 		14; /* > */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int PPLPTR = 		15; /* < */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int SEEALSOPTR = 	16; /* ^ */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int PERTPTR = 		17; /* \\ */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int ATTRIBUTE = 		18; /* = */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int VERBGROUP = 		19; /* $ */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int NOMINALIZATIONS = 20; /* + */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int CLASSIFICATION = 21; /* ; */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int CLASS =          22;	/* - */
+		private const int SYNS = 			23; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int FREQ = 			24; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+		// TODO: FRAMES symbol is the same as NOMINALIZATIONS - check
+		private const int FRAMES = 		25; /* + */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int COORDS = 		26; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int RELATIVES = 		27; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int HMERONYM = 		28; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int HHOLONYM = 		29; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+		private const int WNGREP = 		30; /* */ // TDMS 11 JUL 2006 - Added new ident matcher
+
+		/* Additional searches, but not pointers.  */
+		private const int LASTTYPE =	CLASS;
+		private const int OVERVIEW	= (LASTTYPE + 9);
+		private const int MAXSEARCH =       OVERVIEW;
+		private const int CLASSIF_START =    (MAXSEARCH + 1);
+		private const int CLASSIF_REGIONAL = (CLASSIF_START + 2);    // ;r
+		private const int CLASSIF_END =     CLASSIF_REGIONAL;
+		private const int CLASS_START =      (CLASSIF_END + 1);
+		private const int CLASS_REGIONAL =   (CLASS_START + 2);      // -r
+		private const int CLASS_END =       CLASS_REGIONAL;
+		private const int INSTANCE =         (CLASS_END + 1);        // @i
+		private const int INSTANCES =        (CLASS_END + 2);        // ~i
+
 		private static bool isDirty = false;
 
 		public int hereiam;
@@ -134,9 +164,9 @@ namespace Wnlib
 				ptrs[j] = new Pointer(p);
 				if (fpos.name=="adj" && sstype==AdjSynSetType.DontKnow) 
 				{
-					if (ptrs[j].ptp.mnemonic=="ANTPTR")
+					if (ptrs[j].ptp.ident == ANTPTR) // TDMS 11 JUL 2006 - change comparison to int //.mnemonic=="ANTPTR")
 						sstype = AdjSynSetType.DirectAnt;
-					else if (ptrs[j].ptp.mnemonic=="PERTPTR") 
+					else if (ptrs[j].ptp.ident==PERTPTR) // TDMS 11 JUL 2006 - change comparison to int //mnemonic=="PERTPTR")
 						sstype = AdjSynSetType.Pertainym;
 				}
 				ptrs[j].off = int.Parse(st.next());
@@ -201,41 +231,42 @@ namespace Wnlib
 					search.prflag = true;
 					spaces("TRACEP",depth+(stp.rec?2:0));
 					//					switch (ptp.mnemonic) 
-					switch (pt.ptp.mnemonic) // TDMS - WN2.1 MOD
+// TDMS 11 JUL 2006 - changed switch to ident	switch (pt.ptp.mnemonic) // TDMS - WN2.1 MOD
+					switch (pt.ptp.ident) // TDMS 11 JUL 2006 - changed switch to ident
 					{
-						case "PERTPTR":
+						case PERTPTR:
 							if (fpos.name=="adv") // TDMS "adverb")
 								prefix = "Derived from "+pt.pos.name+" ";
 							else
 								prefix = "Pertains to "+pt.pos.name+" ";
 							break;
-						case "ANTPTR": // TDMS 26/8/05
+						case ANTPTR: // TDMS 26/8/05
 							if(fpos.name=="adj") //TODO: which adjective will fall into the below?
 								prefix = "Antonym of ";
 							else
 								prefix = "";
 							break;
-						case "PPLPTR":
+						case PPLPTR:
 							prefix = "Participle of verb";
 							break;
-						case "INSTANCE":
+						case INSTANCE:
 							prefix = "INSTANCE OF=> ";
 							break;
-						case "INSTANCES":
+						case INSTANCES:
 							prefix = "HAS INSTANCE=> ";
 							break;
-						case "HASMEMBERPTR":
+						case HASMEMBERPTR:
 							prefix = "   HAS MEMBER: "; break;
-						case "HASSTUFFPTR":
+						case HASSTUFFPTR:
 							prefix = "   HAS SUBSTANCE: "; break;
-						case "HASPARTPTR":
+						case HASPARTPTR:
 							prefix = "   HAS PART:  "; break;
-						case "ISMEMBERPTR":
+						case ISMEMBERPTR:
 							prefix = "   MEMBER OF:  "; break;
-						case "ISSTUFFPTR": // TDMS 26/8/05
+						case ISSTUFFPTR: // TDMS 26/8/05
 							prefix = "   SUBSTANCE OF: ";
 							break;
-						case "ISPARTPTR": // TDMS 26/8/05
+						case ISPARTPTR: // TDMS 26/8/05
 							prefix = "   PART OF: ";
 							break;
 						default:
@@ -256,12 +287,12 @@ namespace Wnlib
 					   sense, indicate the sense then retrieve the synset
 					   pointed to and other info as determined by type.
 					   Otherwise, just print the synset pointed to. */
-					if ((ptp.mnemonic=="PERTPTR"||ptp.mnemonic=="PPLPTR")&&
+					if ((ptp.ident==PERTPTR||ptp.ident==PPLPTR)&&
 						pt.dst!=0) 
 					{
 						string tbuf = " (Sense "+cursyn.getsearchsense(pt.dst)+")";
 						cursyn.str(prefix,tbuf,0,pt.dst,0,1);
-						if (ptp.mnemonic=="PPLPTR") // adj pointing to verb
+						if (ptp.ident==PPLPTR) // adj pointing to verb
 						{
 							cursyn.str("     =>","\n",1,0,1,1);
 							cursyn.tracePtrs(PointerType.of("HYPERPTR"),cursyn.pos,0);
@@ -304,7 +335,7 @@ namespace Wnlib
 									 pt.sce==whichword))
 				*/
 				// WN2.1 if statement change - TDMS
-				if((pt.ptp.mnemonic=="HYPERPTR" || pt.ptp.mnemonic=="INSTANCE") &&
+				if((pt.ptp.ident==HYPERPTR || pt.ptp.ident==INSTANCE) &&
 					((pt.sce==0) ||
 					(pt.sce==whichword)))
 				{
@@ -438,7 +469,7 @@ namespace Wnlib
 			{
 				Pointer pt = ptrs[i];
 				// TDMS 26/8/05 changed DERIVATION to NOMINALIZATIONS - verify this
-				if (pt.ptp.mnemonic=="NOMINALIZATIONS" && (pt.sce==0 ||pt.sce==whichword)) 
+				if (pt.ptp.ident==NOMINALIZATIONS && (pt.sce==0 ||pt.sce==whichword)) 
 				{
 					if(!search.prflag) 
 					{
@@ -484,7 +515,7 @@ namespace Wnlib
 			for (int i=0;i<ptrs.Length;i++) 
 			{
 				Pointer pt = ptrs[i];
-				if (pt.ptp.mnemonic=="HYPERPTR" && (pt.sce==0||pt.sce==whichword)) 
+				if (pt.ptp.ident==HYPERPTR && (pt.sce==0||pt.sce==whichword)) 
 				{
 					spaces("TRACEI",depth);
 					SynSet cursyn = new SynSet(pt.off,pt.pos,this);
@@ -642,13 +673,13 @@ namespace Wnlib
 			for (i=0;i<ptrs.Length;i++) 
 			{
 				Pointer pt = ptrs[i];
-				if (pt.ptp.mnemonic=="ANTPTR" && pt.sce==wdnum) 
+				if (pt.ptp.ident==ANTPTR && pt.sce==wdnum) 
 				{
 					SynSet psyn = new SynSet(pt.off,pos,this);
 					for (j=0;j<psyn.ptrs.Length;j++) 
 					{
 						Pointer ppt = psyn.ptrs[j];
-						if (ppt.ptp.mnemonic=="ANTPTR" &&
+						if (ppt.ptp.ident==ANTPTR &&
 							ppt.dst==wdnum &&
 							ppt.off==hereiam) 
 						{
@@ -715,7 +746,7 @@ namespace Wnlib
 		internal void partsAll(PointerType ptp)
 		{
 			int hasptr = 0;
-			PointerType ptrbase = PointerType.of((ptp.mnemonic=="HMERONYM")?"HASMEMBERPTR":"ISMEMBERPTR");
+			PointerType ptrbase = PointerType.of((ptp.ident==HMERONYM)?"HASMEMBERPTR":"ISMEMBERPTR");
 			/* First, print out the MEMBER, STUFF, PART info for this synset */
 			for (int i=0;i<3;i++) 
 				if (has(ptrbase+i)) 
@@ -725,7 +756,7 @@ namespace Wnlib
 				}
 			/* Print out MEMBER, STUFF, PART info for hypernyms on
 	   HMERONYM search only */
-			if (hasptr>0 && ptp.mnemonic=="HMERONYM") 
+			if (hasptr>0 && ptp.ident==HMERONYM) 
 			{
 				search.mark();
 				traceInherit(ptrbase,PartOfSpeech.of("noun"),1);
@@ -750,7 +781,7 @@ namespace Wnlib
 				{
 					anttype = AdjSynSetType.IndirectAnt;
 					i = 0;
-					while (ptrs[i].ptp.mnemonic!="SIMPTR")
+					while (ptrs[i].ptp.ident!=SIMPTR)
 						i++;
 					newsynptr = new SynSet(ptrs[i].off,PartOfSpeech.of("adj"),this);
 					// TDMS 6 Oct 2005 - build hierarchical results
@@ -766,7 +797,7 @@ namespace Wnlib
 				   ptr we're looking at is from this word */
 				for (i=0;i<newsynptr.ptrs.Length;i++) 
 				{
-					if (newsynptr.ptrs[i].ptp.mnemonic=="ANTPTR" &&
+					if (newsynptr.ptrs[i].ptp.ident==ANTPTR && // TDMS 11 JUL 2006 // mnemonic=="ANTPTR" &&
 						((anttype==AdjSynSetType.DirectAnt &&
 						newsynptr.ptrs[i].sce == newsynptr.whichword) ||
 						anttype==AdjSynSetType.IndirectAnt)) 
@@ -785,7 +816,7 @@ namespace Wnlib
 						{
 							antptr.str("","\n",1,0,1,1);
 							for (j=0;j<antptr.ptrs.Length;j++) 
-								if (antptr.ptrs[j].ptp.mnemonic=="SIMPTR") 
+								if (antptr.ptrs[j].ptp.ident == SIMPTR) // TDMS 11 JUL 2006 - changed to INT //.mnemonic=="SIMPTR")
 								{
 									simptr = new SynSet(antptr.ptrs[j].off,PartOfSpeech.of("adj"),this);
 									search.wordsFrom(simptr);
@@ -877,7 +908,7 @@ namespace Wnlib
 			for (int i=0;i<ptrs.Length;i++)
 			{
 				Pointer p = ptrs[i];
-				if (p.ptp.mnemonic=="SEEALSOPTR" &&
+				if (p.ptp.ident==SEEALSOPTR &&
 					(p.sce==0 || (p.sce==whichword))) 
 				{
 					SynSet cursyn = new SynSet(p.off,p.pos,"",this);
