@@ -34,7 +34,9 @@ namespace Wnlib
 	public class SynSet
 	{
 		/* directly correlates to classinit in util.cs */
-		// TODO: try to unify this list to the one in classinit in util.cs
+		// This should remain a duplicated list to the one
+		// in util.cs for performance reasons.  Using a hashtable
+		// in loops will slow searches down.
 		private const int ANTPTR =          1;	/* ! */
 		private const int HYPERPTR =        2;	/* @ */
 		private const int HYPOPTR =         3;	/* ~ */

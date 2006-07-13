@@ -3,7 +3,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid />
+    <ProjectGuid>{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}</ProjectGuid>
     <RootNamespace />
     <AssemblyName>WordNet.Net Sample</AssemblyName>
     <OutputType>WinExe</OutputType>
@@ -46,12 +46,16 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedOptions.vb" />
+    <Compile Include="AdvancedOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="AdvancedOptions.resx">
       <DependentUpon>AdvancedOptions.vb</DependentUpon>
     </EmbeddedResource>
     <Compile Include="AssemblyInfo.vb" />
-    <Compile Include="StartForm.vb" />
+    <Compile Include="StartForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="StartForm.resx">
       <DependentUpon>StartForm.vb</DependentUpon>
     </EmbeddedResource>

@@ -29,10 +29,7 @@
 Imports WordNetClasses.WN
 
 Public Partial Class MainForm
-	' you must set the path to the WordNet database before performing 
-	' any operation with the library.
     Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
-    Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
 
 	Public Sub New()
 		' The Me.InitializeComponent call is required for Windows Forms designer support.
@@ -41,6 +38,9 @@ Public Partial Class MainForm
 		'
 		' TODO : Add constructor code after InitializeComponents
 		'
+
+		' you must set the path to the WordNet database before performing 
+		' any operation with the library.
 		Wnlib.WNCommon.path = dictpath
 		cboPOS.SelectedIndex = 0 ' ensure our combobox can't have a null value
 	End Sub
