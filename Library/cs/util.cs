@@ -40,12 +40,14 @@ namespace Wnlib
 		{
 			try 
 			{
+                Console.WriteLine("WNDBpart");
 				index = new StreamReader(WNDB.IndexFile(p));
 				data = new StreamReader(WNDB.DataFile(p));
 				fps[p] = this;
 			} 
 			catch 
 			{
+                MessageBox.Show("Bad dict path");
 				// TODO: handle bad dict path
 				// ignore errors - as the user is locating the dictionary location
 				// wordnet classes are trying to instantiate based on an incorrect dict path
@@ -54,7 +56,7 @@ namespace Wnlib
 
 		public static WNDBpart of(PartOfSpeech p)
 		{
-			return (WNDBpart)fps[p];
+            return (WNDBpart)fps[p];
 		}
 	}
 	
@@ -215,6 +217,7 @@ namespace Wnlib
 
 		static WNDB()
 		{
+            Console.WriteLine("WNDB");
 			path=WNCommon.path;
 			IDictionaryEnumerator d = PartOfSpeech.parts.GetEnumerator();
 			while (d.MoveNext()) 
@@ -442,16 +445,19 @@ namespace Wnlib
 		
 		public static SearchSet is_defined(string word,string p)
 		{
+            Console.WriteLine("is_defined string, string");
 			return is_defined(word,PartOfSpeech.of(p));
 		}
 		
-		// From the WordNet Manual (http://wordnet.princeton.edu/man/wnsearch.3WN.html)
-		// is_defined() sets a bit for each search type that is valid for searchstr in pos, 
-		// and returns the resulting unsigned integer. Each bit number corresponds to a pointer 
-		// type constant defined in WNHOME/include/wnconsts.h . For example, if bit 2 is set, 
-		// the HYPERPTR search is valid for searchstr . There are 29 possible searches. 
+		/// <summary>
+		/// Determines if a word is defined in the WordNet database.
+		/// </summary>
+		/// <param name="searchstr">The word to search for</param>
+		/// <param name="fpos">Part of Speech (noun, verb, adjective, adverb)</param>
+		/// <returns>A SearchSet or null if the word does not exist in the dictionary</returns>
 		public static SearchSet is_defined(string searchstr,PartOfSpeech fpos)
 		{
+			new WNDBpart(fpos); // TDMS 13 July 2006 - reset WNDBpart for direct calls to is_defined
 			Indexes ixs = new Indexes(searchstr,fpos);
 			Index index;
 			int i;
@@ -553,6 +559,7 @@ namespace Wnlib
 			strings[1] = str.Replace('_','-');
 			strings[2] = str.Replace('-','_');
 			strings[3] = str.Replace("-","").Replace("_","");
+			// TODO: this eliminates words like '.45' and '.22' which is a bug
 			strings[4] = str.Replace(".","");
 			// TDMS - 14 Aug 2005 - added two more possibilities
 			// to allow for spaces to be transformed
