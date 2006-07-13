@@ -452,6 +452,12 @@ namespace Wnlib
 		/// <summary>
 		/// Determines if a word is defined in the WordNet database.
 		/// </summary>
+		/// <example>
+		/// <code>
+		/// Wnlib.WNCommon.path = "C:\Program Files\WordNet\2.1\dict\"
+		/// lblResult.Text = Wnlib.WNDB.is_defined(txtWord.Text, cboPOS.SelectedItem).NonEmpty.ToString
+		/// </code>
+		/// </example>
 		/// <param name="searchstr">The word to search for</param>
 		/// <param name="fpos">Part of Speech (noun, verb, adjective, adverb)</param>
 		/// <returns>A SearchSet or null if the word does not exist in the dictionary</returns>
