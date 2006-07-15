@@ -46,6 +46,6 @@ Public Partial Class MainForm
 	End Sub
 	
 	Sub BtnGoClick(sender As Object, e As System.EventArgs)
-        lblResult.Text = Wnlib.WNDB.is_defined(txtWord.Text, cboPOS.SelectedItem).NonEmpty.ToString
-	End Sub
+        lblResult.Text = Wnlib.WNDB.is_defined(txtWord.Text, Wnlib.PartOfSpeech.of(cboPOS.SelectedItem.ToString)).NonEmpty.ToString
+    End Sub
 End Class
