@@ -443,19 +443,35 @@ namespace Wnlib
 			return null;
 		}
 		
-		public static SearchSet is_defined(string word,string p)
+        // TDMS 16 July 2006 - removed this method.
+        // Method removed because if called externally
+        // WNDBPart was not correctly constructed.
+        // Calling is_defined(string searchstr,PartOfSpeech fpos)
+        // correctly constructs WNDBPart.
+/*
+        private static SearchSet is_defined(string word,string p)
 		{
             Console.WriteLine("is_defined string, string");
 			return is_defined(word,PartOfSpeech.of(p));
 		}
-		
+*/
+
 		/// <summary>
 		/// Determines if a word is defined in the WordNet database.
 		/// </summary>
-		/// <example>
+		/// <example> This sample displays a message stating whether the 
+		/// word "car" exists as the part of speech "noun".
 		/// <code>
 		/// Wnlib.WNCommon.path = "C:\Program Files\WordNet\2.1\dict\"
-		/// lblResult.Text = Wnlib.WNDB.is_defined(txtWord.Text, cboPOS.SelectedItem).NonEmpty.ToString
+		/// Dim wrd As String = "car"
+		/// Dim POS As String = "noun"
+        /// Dim b As Boolean = Wnlib.WNDB.is_defined(wrd, Wnlib.PartOfSpeech.of(POS)).NonEmpty.ToString
+		/// 
+		/// If b Then
+		/// 	MessageBox.Show("The word " & wrd & " exists as a " & POS & ".")
+		/// Else
+		/// 	MessageBox.Show("The word " & wrd & " does not exist as a " & POS & ".")
+		/// End If
 		/// </code>
 		/// </example>
 		/// <param name="searchstr">The word to search for</param>
@@ -463,7 +479,7 @@ namespace Wnlib
 		/// <returns>A SearchSet or null if the word does not exist in the dictionary</returns>
 		public static SearchSet is_defined(string searchstr,PartOfSpeech fpos)
 		{
-			new WNDBpart(fpos); // TDMS 13 July 2006 - reset WNDBpart for direct calls to is_defined
+// TDMS 16 July 2006 - permanent fix - removed is_defined(string word,string p)			new WNDBpart(fpos); // TDMS 13 July 2006 - reset WNDBpart for direct calls to is_defined
 			Indexes ixs = new Indexes(searchstr,fpos);
 			Index index;
 			int i;
