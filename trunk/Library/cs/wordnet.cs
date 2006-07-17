@@ -83,6 +83,12 @@ namespace Wnlib
 			buf = buf.Substring(0, lastholomero);
 		}
 
+		/// <summary>
+		/// Performs a search based on the parameters setup
+		/// in the Search constructor.
+		/// </summary>
+		/// <param name="m">Specify if morphs should be searched</param>
+		/// <param name="p">The Part Of Speech to perform the search on</param>
 		public void do_search(bool m, string p)
 		{
 			if (parts == null)
@@ -93,6 +99,15 @@ namespace Wnlib
 			buf += s.buf;
 		}
 
+		/// <summary>
+		/// Performs a search based on the parameters setup
+		/// in the Search constructor.
+		/// </summary>
+		/// <param name="doMorphs">Specifies whether to perform a search on morphs.  
+		/// This parameter is retrieved in the first
+		/// call from do_search(bool m, string p).  If morph searching is specified
+		/// and a morph is found, then on a recursive call to this method
+		/// morphing will be turned off to prevent unnecessary morph searching.</param>
 		internal void do_search(bool doMorphs)
 		{
 			findtheinfo();
@@ -103,6 +118,10 @@ namespace Wnlib
 			morphs = new Hashtable();
 			MorphStr st = new MorphStr(word, pos);
 			string morphword;
+			
+			// if there are morphs then perform iterative searches
+			// on each morph, filling the morph tree in the search
+			// object.
 			while ((morphword = st.next()) != null)
 			{
 				Search s = new Search(morphword, pos, sch, whichsense);
