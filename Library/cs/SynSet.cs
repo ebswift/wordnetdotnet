@@ -280,6 +280,7 @@ namespace Wnlib
 					search.wordsFrom(cursyn);
 
 					// TDMS 6 Oct 2005 - build hierarchical results
+					
 					if(this.senses == null)
 						this.senses = new SynSetList();
 					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type

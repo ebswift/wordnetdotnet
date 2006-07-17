@@ -581,7 +581,6 @@ namespace Wnlib
 			strings[1] = str.Replace('_','-');
 			strings[2] = str.Replace('-','_');
 			strings[3] = str.Replace("-","").Replace("_","");
-			// TODO: this eliminates words like '.45' and '.22' which is a bug
 			strings[4] = str.Replace(".","");
 			// TDMS - 14 Aug 2005 - added two more possibilities
 			// to allow for spaces to be transformed
