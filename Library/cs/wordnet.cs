@@ -205,14 +205,20 @@ namespace Wnlib
 											cursyn.traceAdjAnt();
 										else
 											cursyn.tracePtrs(sch.ptp, pos, depth);
-
-										if (cursyn.senses != null )
-                                            if (cursyn.senses.isDirty)
-                                            { // TDMS 25 Oct 2005 - restrict to relevant values
-                                                cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
-                                                senses.Add(cursyn);
-                                            }
-
+                                        
+                                        if (cursyn.isDirty)
+                                        { // TDMS 25 Oct 2005 - restrict to relevant values
+                                            cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                                            senses.Add(cursyn);
+                                        }
+                                        /*
+                                                                                if (cursyn.senses != null )
+                                                                                    if (cursyn.senses.isDirty)
+                                                                                    { // TDMS 25 Oct 2005 - restrict to relevant values
+                                                                                        cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                                                                                        senses.Add(cursyn);
+                                                                                    }
+                                        */
 										// perform the senses restrictions based upon pos
 										/*
 																					switch(pos.name) {
@@ -231,18 +237,26 @@ namespace Wnlib
 									case "COORDS":
 										//eg. search for 'car', select Noun -> 'Coordinate Terms'
 										cursyn.traceCoords(PointerType.of("HYPOPTR"), pos, depth);
-										//if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-										//	senses.Add(cursyn);
-										if (cursyn.senses != null )
-											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
+
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                            if (cursyn.senses != null )
+                                                if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                                    senses.Add(cursyn);
+    */
 										break;
 									case "FRAMES":
 										//eg. search for 'right', select Verb -> 'Sample Sentences'
 										cursyn.strFrame(true);
 // TDMS 03 JUL 2006 fixed relevancy check										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+                                        if (cursyn.isDirty)
+                                            senses.Add(cursyn);
+
+                                    /*
                                         if (cursyn.frames.Count != 0) // TDMS 03 Jul 2006 - only add frame if there are any retrieved
                                             senses.Add(cursyn);
+*/
 										break;
 									case "MERONYM":
 										//eg. search for 'car', select Noun -> 'Meronym'
@@ -250,9 +264,15 @@ namespace Wnlib
 										cursyn.tracePtrs(PointerType.of("HASMEMBERPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("HASSTUFFPTR"), pos, depth);
 										cursyn.tracePtrs(PointerType.of("HASPARTPTR"), pos, depth);
-										if (cursyn.senses != null )
+
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+
+                                    /*
+                                        if (cursyn.senses != null )
 											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
 												senses.Add(cursyn);
+ */
 										break;
 									case "HOLONYM":
 										//eg. search for 'car', select Noun -> 'Holonyms'
@@ -261,28 +281,44 @@ namespace Wnlib
 										cursyn.tracePtrs(PointerType.of("ISPARTPTR"), pos, depth);
 										//											if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 										//												senses.Add(cursyn);
-										if (cursyn.senses != null )
-											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                                                                if (cursyn.senses != null )
+                                                                                    if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                                                                        senses.Add(cursyn);
+                                         */
 										break;
 									case "HMERONYM":
 										//eg. search for 'car', select Noun -> 'Meronyms Tree'
 										cursyn.partsAll(sch.ptp);
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
 										if (cursyn.senses != null )
 											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
 												senses.Add(cursyn);
+                                         */
 										//											if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 										//												senses.Add(cursyn);
 										break;
 									case "HHOLONYM":
 										cursyn.partsAll(sch.ptp);
-										if (cursyn.senses != null) // && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                        if (cursyn.senses != null) // && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
+                                         */
 										break;
 									case "SEEALSOPTR":
 										cursyn.seealso();
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
 										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
 											senses.Add(cursyn);
+                                         */
 										break;
 									case "SIMPTR":
 										goto case "HYPERPTR";
@@ -304,44 +340,58 @@ namespace Wnlib
 										if (pos.name == "verb")
 											cursyn.strFrame(false);
 
-										//if (cursyn.senses != null )
-										//	if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        //												senses.Add(cursyn);
 										break;
 									case "NOMINALIZATIONS": // 26/8/05 - changed "DERIVATION" to "NOMINALIZATIONS" - this needs to be verified
 										// derivation - TDMS
 										cursyn.tracenomins(sch.ptp);
-										if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-											senses.Add(cursyn);
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                                                                if (cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
+                                                                                    senses.Add(cursyn);
+                                         */
 										break;
 									case "CLASSIFICATION":
 										goto case "CLASS";
 									case "CLASS":
 										//eg. search for 'car', select Noun -> 'Domain Terms'
 										cursyn.traceclassif(sch.ptp, new SearchType(false, sch.ptp));
-										if (cursyn.senses != null )
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                        if (cursyn.senses != null )
 											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
 												senses.Add(cursyn);
-										//											if (cursyn.senses != null && cursyn.sense != 0) // TDMS 25 Oct 2005 - restrict to relevant values
-										//												senses.Add(cursyn);
+                                         */
 										break;
 											
 									case "HYPOPTR":
 										//eg. search for 'car', select Noun -> 'Hyponyms'
 										cursyn.tracePtrs(sch.ptp, pos, depth);
-										if (cursyn.senses != null )
-                                            if (cursyn.senses.isDirty)
-                                            { // TDMS 25 Oct 2005 - restrict to relevant values
-                                                cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
-                                                senses.Add(cursyn);
-                                            }
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                                                                if (cursyn.senses != null )
+                                                                                    if (cursyn.senses.isDirty)
+                                                                                    { // TDMS 25 Oct 2005 - restrict to relevant values
+                                                                                        cursyn.frames.Clear(); // TDMS 03 Jul 2006 - frames get added in wordnet.cs after filtering
+                                                                                        senses.Add(cursyn);
+                                                                                    }
+                                         */
 										break;
 											
 									default:
 										cursyn.tracePtrs(sch.ptp, pos, depth);
-										if (cursyn.senses != null )
-											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
-												senses.Add(cursyn);
+                                        if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                            senses.Add(cursyn);
+                                        /*
+                                                                                if (cursyn.senses != null )
+                                                                                    if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
+                                                                                        senses.Add(cursyn);
+                                         */
 										break;
 								}
 							skipit: ;
