@@ -82,7 +82,7 @@ namespace Wnlib
 		private const int INSTANCE =         (CLASS_END + 1);        // @i
 		private const int INSTANCES =        (CLASS_END + 2);        // ~i
 
-		private static bool isDirty = false;
+		public bool isDirty = false;
 
 		public int hereiam;
 		public int fnum;
@@ -529,6 +529,7 @@ namespace Wnlib
 					if(this.senses == null)
 						this.senses = new SynSetList();
 					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
+                    // TODO: This is adding senses incorrectly
 					this.senses.Add(cursyn);
 
 					cursyn.tracePtrs(pbase,PartOfSpeech.of("noun"),depth);
@@ -580,7 +581,7 @@ namespace Wnlib
 		{
 			int i, wdcnt;
 			search.buf += head;
-			/* Precede synset with additional information as indiecated
+			/* Precede synset with additional information as indicated
 			   by flags */
 			if (WNOpt.opt("-o").flag)
 				search.buf+="("+hereiam+") ";
@@ -600,11 +601,17 @@ namespace Wnlib
 					if (i<wdcnt-1)
 						search.buf +=", ";
 				}
-			if (definition!=0 &&  WNOpt.opt("-g").flag && defn!=null) 
-				search.buf +=" -- "+defn;
+            if (definition != 0 && WNOpt.opt("-g").flag && defn != null)
+            {
+                search.buf += " -- " + defn;
+
+                isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                // populates buf to the logic that defines whether the 
+                // synset is populated with relevant information
+            }
 			
 			search.buf += tail;
-		}
+        }
 		
 		void strAnt(string tail,AdjSynSetType attype,int definition)
 		{
@@ -639,8 +646,14 @@ namespace Wnlib
 				if (i<wdcnt-1)
 					search.buf += ", ";
 			}
-			if (WNOpt.opt("-g").flag&&  defn!=null && definition!=0)
-				search.buf += " -- "+defn;
+            if (WNOpt.opt("-g").flag && defn != null && definition != 0)
+            {
+                search.buf += " -- " + defn;
+
+                isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                // populates buf to the logic that defines whether the 
+                // synset is populated with relevant information
+            }
 			search.buf += tail;
 		}
 		
@@ -649,20 +662,35 @@ namespace Wnlib
 			search.buf += deadjify(words[wdnum].word);
 			/* Print additional lexicographer information and WordNet sense
 			   number as indicated by flags */
-			if (words[wdnum].uniq!=0)
-				search.buf += ""+words[wdnum].uniq;
+            if (words[wdnum].uniq != 0)
+            {
+                search.buf += "" + words[wdnum].uniq;
+                isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                // populates buf to the logic that defines whether the 
+                // synset is populated with relevant information
+            }
 			int s = getsearchsense(wdnum+1);
 			words[wdnum].wnsns = s;
-			if (WNOpt.opt("-s").flag)
-				search.buf += "#"+s;
+            if (WNOpt.opt("-s").flag)
+            {
+                search.buf += "#" + s;
+                isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                // populates buf to the logic that defines whether the 
+                // synset is populated with relevant information
+            }
 			/* For adjectives, append adjective marker if present, and
 			   print antonym if flag is passed */
 			if (pos.name=="adj") 
 			{
-				if (adjmarker>0)
-					search.buf += ""+adj_marker.mark;
-				if (antflag>0)
-					strAnt(PartOfSpeech.of("adj"),wdnum+1,"(vs. ",")");
+                if (adjmarker > 0)
+                {
+                    search.buf += "" + adj_marker.mark;
+                    isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                    // populates buf to the logic that defines whether the 
+                    // synset is populated with relevant information
+                }
+                if (antflag > 0)
+                    strAnt(PartOfSpeech.of("adj"), wdnum + 1, "(vs. ", ")");
 			}
 		}
 		
@@ -693,12 +721,21 @@ namespace Wnlib
 							search.buf += deadjify(psyn.words[wdoff].word);
 							/* Print additional lexicographer information and
 							   WordNet sense number as indicated by flags */
-							if (search.prlexid && psyn.words[wdoff].uniq!=0)
+                            isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                            // populates buf to the logic that defines whether the 
+                            // synset is populated with relevant information
+
+                            if (search.prlexid && psyn.words[wdoff].uniq != 0)
 								search.buf += psyn.words[wdoff].uniq;
 							int s = getsearchsense(wdoff+1);
 							psyn.words[wdoff].wnsns = s;
-							if (WNOpt.opt("-s").flag)
-								search.buf += "#"+s;
+                            if (WNOpt.opt("-s").flag)
+                            {
+                                search.buf += "#" + s;
+                                isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                                // populates buf to the logic that defines whether the 
+                                // synset is populated with relevant information
+                            }
 							search.buf += tail;
 						}
 					}
@@ -737,7 +774,11 @@ namespace Wnlib
 				search.buf += "\nSense "+sense+" in file \""+WNDB.lexfiles[fnum]+"\"\n";
 			else
 				search.buf += "\nSense "+sense+"\n";
-		}
+
+            isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+            // populates buf to the logic that defines whether the 
+            // synset is populated with relevant information
+        }
 		
 		internal int depthcheck(int depth)
 		{
@@ -787,12 +828,6 @@ namespace Wnlib
 					while (ptrs[i].ptp.ident!=SIMPTR)
 						i++;
 					newsynptr = new SynSet(ptrs[i].off,PartOfSpeech.of("adj"),this);
-					// TDMS 6 Oct 2005 - build hierarchical results
-					// TODO: verify if this level is required
-					// <- not required - newsynptr is filled only for comparison and verification
-					//if(this.senses == null)
-					//	this.senses = new SynSetList();
-					//this.senses.Add(newsynptr);
 				} 
 				else
 					newsynptr = this;
@@ -853,7 +888,11 @@ namespace Wnlib
 						else
 							search.buf += "          *> ";
 						search.buf += sf.fr.str + "\n";
-					}
+
+                        isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+                        // populates buf to the logic that defines whether the 
+                        // synset is populated with relevant information
+                    }
 
 				}
 		}
@@ -889,7 +928,11 @@ namespace Wnlib
 			line = line.Substring(line.IndexOf(' ')+1);
 			search.buf += "         EX: "+line.Replace("%s",wd);
 			fp.Close();
-		}
+
+            isDirty = true; // TDMS 19 July 2006 - attempt to tie the logic which 
+            // populates buf to the logic that defines whether the 
+            // synset is populated with relevant information
+        }
 
 		public int getsearchsense(int which)
 		{
