@@ -457,7 +457,8 @@ namespace Wnlib
 */
 
 		/// <summary>
-		/// Determines if a word is defined in the WordNet database.
+		/// Determines if a word is defined in the WordNet database and returns
+        /// all possible searches of the word.
 		/// </summary>
 		/// <example> This sample displays a message stating whether the 
 		/// word "car" exists as the part of speech "noun".
@@ -479,7 +480,6 @@ namespace Wnlib
 		/// <returns>A SearchSet or null if the word does not exist in the dictionary</returns>
 		public static SearchSet is_defined(string searchstr,PartOfSpeech fpos)
 		{
-// TDMS 16 July 2006 - permanent fix - removed is_defined(string word,string p)			new WNDBpart(fpos); // TDMS 13 July 2006 - reset WNDBpart for direct calls to is_defined
 			Indexes ixs = new Indexes(searchstr,fpos);
 			Index index;
 			int i;

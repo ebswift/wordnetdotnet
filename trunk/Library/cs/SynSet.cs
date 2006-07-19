@@ -205,7 +205,12 @@ namespace Wnlib
 			tracePtrs(new SearchType(false,ptp),p,depth);
 		}
 
-		// Recursive search algorithm to trace a pointer tree
+        /// <summary>
+        /// Traces pointer hierarchy.
+        /// </summary>
+        /// <param name="stp"></param>
+        /// <param name="fpos"></param>
+        /// <param name="depth"></param>
 		internal void tracePtrs(SearchType stp,PartOfSpeech fpos, int depth)
 		{
 			int i;
@@ -315,9 +320,11 @@ namespace Wnlib
 						cursyn.str(prefix,"\n",1,0,1,1);
 					/* For HOLONYMS and MERONYMS, keep track of last one
 					   printed in buffer so results can be truncated later. */
-					if (ptp.ident>=PointerType.of("ISMEMBERPTR").ident &&
-						ptp.ident<=PointerType.of("HASPARTPTR").ident)
-						search.mark();
+                    if (ptp.ident >= PointerType.of("ISMEMBERPTR").ident &&
+                        ptp.ident <= PointerType.of("HASPARTPTR").ident)
+                    {
+                        search.mark();
+                    }
 					if (depth>0) 
 					{
 						depth = cursyn.depthcheck(depth);
@@ -327,7 +334,13 @@ namespace Wnlib
 			}
 		}
 		
-		internal void traceCoords(PointerType ptp,PartOfSpeech fpos,int depth)
+        /// <summary>
+        /// Trace coordinate terms.
+        /// </summary>
+        /// <param name="ptp"></param>
+        /// <param name="fpos"></param>
+        /// <param name="depth"></param>
+        internal void traceCoords(PointerType ptp,PartOfSpeech fpos,int depth)
 		{
 			for (int i=0;i<ptrs.Length;i++)
 			{
@@ -373,6 +386,11 @@ namespace Wnlib
 			}
 		}
 		
+        /// <summary>
+        /// Trace classification.
+        /// </summary>
+        /// <param name="ptp"></param>
+        /// <param name="stp"></param>
 		internal void traceclassif(PointerType ptp, SearchType stp) //,PartOfSpeech fpos)
 		{
 			int j;
@@ -462,6 +480,10 @@ namespace Wnlib
 			}
 		}
 		
+        /// <summary>
+        /// Trace nominalizations.
+        /// </summary>
+        /// <param name="ptp"></param>
 		internal void tracenomins(PointerType ptp) //,PartOfSpeech fpos)
 		{
 			int j;
@@ -511,9 +533,13 @@ namespace Wnlib
 			}
 		}
 
-		/* Trace through the hypernym tree and print all MEMBER, STUFF
-		   and PART info. */
-		void traceInherit(PointerType pbase,PartOfSpeech fpos,int depth)
+        /// <summary>
+        /// Trace meronyms.
+        /// </summary>
+        /// <param name="pbase"></param>
+        /// <param name="fpos"></param>
+        /// <param name="depth"></param>
+        void traceInherit(PointerType pbase,PartOfSpeech fpos,int depth)
 		{
 			for (int i=0;i<ptrs.Length;i++) 
 			{
@@ -542,10 +568,78 @@ namespace Wnlib
 					}
 				}
 			}
-			search.trunc(); 
+			search.trunc();
 		}
 
-		void spaces(string trace,int n)
+        /// <summary>
+        /// Trace adjective antonyms.
+        /// </summary>
+        internal void traceAdjAnt()
+        {
+            SynSet newsynptr;
+            int i, j;
+            AdjSynSetType anttype = AdjSynSetType.DirectAnt;
+            SynSet simptr, antptr;
+            string similar = "        => ";
+            /* This search is only applicable for ADJ synsets which have
+               either direct or indirect antonyms (not valid for pertainyms). */
+            if (sstype == AdjSynSetType.DirectAnt || sstype == AdjSynSetType.IndirectAnt)
+            {
+                strsns(sense + 1);
+                search.buf += "\n";
+                /* if indirect, get cluster head */
+                if (sstype == AdjSynSetType.IndirectAnt)
+                {
+                    anttype = AdjSynSetType.IndirectAnt;
+                    i = 0;
+                    while (ptrs[i].ptp.ident != SIMPTR)
+                        i++;
+                    newsynptr = new SynSet(ptrs[i].off, PartOfSpeech.of("adj"), this);
+                }
+                else
+                    newsynptr = this;
+                /* find antonyms - if direct, make sure that the antonym
+                   ptr we're looking at is from this word */
+                for (i = 0; i < newsynptr.ptrs.Length; i++)
+                {
+                    if (newsynptr.ptrs[i].ptp.ident == ANTPTR && // TDMS 11 JUL 2006 // mnemonic=="ANTPTR" &&
+                        ((anttype == AdjSynSetType.DirectAnt &&
+                        newsynptr.ptrs[i].sce == newsynptr.whichword) ||
+                        anttype == AdjSynSetType.IndirectAnt))
+                    {
+                        /* read the antonym's synset and print it.  if a
+                           direct antonym, print it's satellites. */
+                        antptr = new SynSet(newsynptr.ptrs[i].off, PartOfSpeech.of("adj"), this);
+                        search.wordsFrom(antptr);
+                        // TDMS 6 Oct 2005 - build hierarchical results
+                        if (this.senses == null)
+                            this.senses = new SynSetList();
+                        //TODO: check the ptrs reference
+                        antptr.thisptr = newsynptr.ptrs[i];  // TDMS 17 Nov 2005 - add this pointer type
+                        this.senses.Add(antptr);
+                        if (anttype == AdjSynSetType.DirectAnt)
+                        {
+                            antptr.str("", "\n", 1, 0, 1, 1);
+                            for (j = 0; j < antptr.ptrs.Length; j++)
+                                if (antptr.ptrs[j].ptp.ident == SIMPTR) // TDMS 11 JUL 2006 - changed to INT //.mnemonic=="SIMPTR")
+                                {
+                                    simptr = new SynSet(antptr.ptrs[j].off, PartOfSpeech.of("adj"), this);
+                                    search.wordsFrom(simptr);
+                                    simptr.str(similar, "\n", 1, 0, 0, 1);
+                                    // TDMS 6 Oct 2005 - build hierarchical results
+                                    if (antptr.senses == null)
+                                        antptr.senses = new SynSetList();
+                                    antptr.senses.Add(simptr);
+                                }
+                        }
+                        else
+                            antptr.strAnt("\n", anttype, 1);
+                    }
+                }
+            }
+        }
+
+        void spaces(string trace, int n)
 		{
 			for (int j=0;j<n;j++)
 				search.buf += "     ";
@@ -803,72 +897,8 @@ namespace Wnlib
 			if (hasptr>0 && ptp.ident==HMERONYM) 
 			{
 				search.mark();
-				traceInherit(ptrbase,PartOfSpeech.of("noun"),1);
-			}
-		}
-		
-		internal void traceAdjAnt()
-		{
-			SynSet newsynptr;
-			int i,j;
-			AdjSynSetType anttype = AdjSynSetType.DirectAnt;
-			SynSet simptr,antptr;
-			string similar = "        => ";
-			/* This search is only applicable for ADJ synsets which have
-			   either direct or indirect antonyms (not valid for pertainyms). */
-			if (sstype==AdjSynSetType.DirectAnt||sstype==AdjSynSetType.IndirectAnt) 
-			{
-				strsns(sense+1);
-				search.buf+= "\n";
-				/* if indirect, get cluster head */
-				if (sstype==AdjSynSetType.IndirectAnt) 
-				{
-					anttype = AdjSynSetType.IndirectAnt;
-					i = 0;
-					while (ptrs[i].ptp.ident!=SIMPTR)
-						i++;
-					newsynptr = new SynSet(ptrs[i].off,PartOfSpeech.of("adj"),this);
-				} 
-				else
-					newsynptr = this;
-				/* find antonyms - if direct, make sure that the antonym
-				   ptr we're looking at is from this word */
-				for (i=0;i<newsynptr.ptrs.Length;i++) 
-				{
-					if (newsynptr.ptrs[i].ptp.ident==ANTPTR && // TDMS 11 JUL 2006 // mnemonic=="ANTPTR" &&
-						((anttype==AdjSynSetType.DirectAnt &&
-						newsynptr.ptrs[i].sce == newsynptr.whichword) ||
-						anttype==AdjSynSetType.IndirectAnt)) 
-					{
-						/* read the antonym's synset and print it.  if a
-						   direct antonym, print it's satellites. */
-						antptr = new SynSet(newsynptr.ptrs[i].off,PartOfSpeech.of("adj"),this);
-						search.wordsFrom(antptr);
-						// TDMS 6 Oct 2005 - build hierarchical results
-						if(this.senses == null)
-							this.senses = new SynSetList();
-						//TODO: check the ptrs reference
-						antptr.thisptr = newsynptr.ptrs[i];  // TDMS 17 Nov 2005 - add this pointer type
-						this.senses.Add(antptr);
-						if (anttype==AdjSynSetType.DirectAnt) 
-						{
-							antptr.str("","\n",1,0,1,1);
-							for (j=0;j<antptr.ptrs.Length;j++) 
-								if (antptr.ptrs[j].ptp.ident == SIMPTR) // TDMS 11 JUL 2006 - changed to INT //.mnemonic=="SIMPTR")
-								{
-									simptr = new SynSet(antptr.ptrs[j].off,PartOfSpeech.of("adj"),this);
-									search.wordsFrom(simptr);
-									simptr.str(similar,"\n",1,0,0,1);
-									// TDMS 6 Oct 2005 - build hierarchical results
-									if(antptr.senses == null)
-										antptr.senses = new SynSetList();
-									antptr.senses.Add(simptr);
-								}
-						} 
-						else
-							antptr.strAnt("\n",anttype,1);
-					}
-				}
+                //lastholomero = cursyn;
+                traceInherit(ptrbase, PartOfSpeech.of("noun"), 1);
 			}
 		}
 		
