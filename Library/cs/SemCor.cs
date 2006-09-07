@@ -30,9 +30,14 @@ namespace Wnlib
 	/// <summary>
 	/// Summary description for SemCor.
 	/// </summary>
+	[Serializable]
 	public class SemCor
 	{
 		public int semcor = 0;
+
+        public SemCor() {
+            // empty constructor for serialization
+        }
 
 		public SemCor(Lexeme lex, int hereiam)
 		{

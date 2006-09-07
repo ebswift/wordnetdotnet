@@ -28,6 +28,7 @@ namespace Wnlib
 	/// <summary>
 	/// Summary description for Lexeme.
 	/// </summary>
+	[Serializable]
 	public class Lexeme 
 	{
 		public string word;  // word in synset

@@ -29,7 +29,8 @@ namespace Wnlib
 {
 	/// <summary>
 	/// 
-	/// </summary>	
+	/// </summary>
+	[Serializable]	
 	public class SynSetList : CollectionBase
 	{
 		public bool isDirty = false;
