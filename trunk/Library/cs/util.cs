@@ -629,10 +629,15 @@ namespace Wnlib
 		}
 	}
 
+	[Serializable]
 	public class PointerType
 	{
 		static Hashtable ptypes = new Hashtable();
 		
+        PointerType() {
+            // empty constructor for serialization
+        }
+
 		public static PointerType of(string s) // lookup by symbol or mnemonic
 		{
 			if (uniq==0)
@@ -773,6 +778,7 @@ namespace Wnlib
 		public bool NonEmpty { get {	return b.GetHashCode()!=0; }}
 	}
 
+	[Serializable]
 	public class SearchType : IComparable
 	{
 		public bool rec;
@@ -815,6 +821,7 @@ namespace Wnlib
 		}
 	}
 
+	[Serializable]
 	public class Pointer
 	{
 		public PointerType ptp;
@@ -823,14 +830,21 @@ namespace Wnlib
 		public int dst;   // which word in target synset
 		public int off; // target offset
 		public SynSet target; // cached version of off
+
+        Pointer() {
+            // empty constructor for serialization
+        }
+
 		internal Pointer(string s) { ptp=PointerType.of(s); }
 	}
 
 	[FlagsAttribute]
 	public enum PartsOfSpeech { Unknown=0, Noun=1, Verb=2, Adj=4, Adv=8 } ;
+	[Serializable]
 	public class PartOfSpeech 
 	{
-		public static Hashtable parts = new Hashtable();
+        [NonSerialized()]
+        public static Hashtable parts = new Hashtable();
 		string sy;
 
 		public string symbol { get { return sy; }}
@@ -853,6 +867,10 @@ namespace Wnlib
 		static int uniq = 0;
 		internal Hashtable help = new Hashtable(); // string searchtype->string help: see WnHelp
 		
+        PartOfSpeech() {
+            // empty constructor for serialization
+        }
+
 		PartOfSpeech(string s,string n, string c,PartsOfSpeech f) 
 		{
 			sy = s;

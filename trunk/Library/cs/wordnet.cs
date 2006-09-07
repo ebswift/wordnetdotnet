@@ -33,6 +33,7 @@ namespace Wnlib
 	// WordNet is from Princton University
 	// this interface by Malcolm Crowe
 	// update to latest WordNet version by Troy Simpson
+	[Serializable]
 	public class Search
 	{
 		public string word;
@@ -294,6 +295,7 @@ namespace Wnlib
 										cursyn.partsAll(sch.ptp);
                                         if (cursyn.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
                                             senses.Add(cursyn);
+//                                            senses.Add(SearchTrack.ssParent);
                                         /*
 										if (cursyn.senses != null )
 											if (cursyn.senses.isDirty) // TDMS 25 Oct 2005 - restrict to relevant values
@@ -591,11 +593,16 @@ namespace Wnlib
 
 	public enum AdjSynSetType { DontKnow, DirectAnt, IndirectAnt, Pertainym }
 
+	[Serializable]
 	public class AdjMarker
 	{
 		static Hashtable marks = new Hashtable();
 		public string mnem;
 		public string mark;
+
+        AdjMarker() {
+            // empty constructor for serialization
+        }
 
 		public static AdjMarker of(string s)
 		{

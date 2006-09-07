@@ -25,12 +25,16 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Wnlib
 {
 	/// <summary>
 	/// Summary description for SynSet.
 	/// </summary>
+    [Serializable]
 	public class SynSet
 	{
 		/* directly correlates to classinit in util.cs */
@@ -99,6 +103,8 @@ namespace Wnlib
 		public ArrayList frames = new ArrayList(); /* of SynSetFrame */
 		public string defn;		/* synset gloss (definition) */
 		public AdjMarker adj_marker;
+
+        public SynSet() { } // for serialization
 
 		public SynSet (int off,PartOfSpeech p, string wd,Search sch,int sens)
 		{
@@ -333,7 +339,7 @@ namespace Wnlib
 				}
 			}
 		}
-		
+
         /// <summary>
         /// Trace coordinate terms.
         /// </summary>
@@ -486,10 +492,11 @@ namespace Wnlib
         /// <param name="ptp"></param>
 		internal void tracenomins(PointerType ptp) //,PartOfSpeech fpos)
 		{
-			int j;
+/*
+            int j;
 			int idx = 0;
 			ArrayList prlist = new ArrayList();
-
+*/
 			for (int i=0;i<ptrs.Length;i++)
 			{
 				Pointer pt = ptrs[i];
@@ -512,8 +519,9 @@ namespace Wnlib
 					cursyn.thisptr = pt;  // TDMS 17 Nov 2005 - add this pointer type
 					this.senses.Add(cursyn);
 
-					cursyn.tracePtrs(ptp,cursyn.pos,0);
-					for (j = 0; j < idx; j++) 
+                    cursyn.tracePtrs(ptp,cursyn.pos,0);
+/*
+                    for (j = 0; j < idx; j++) 
 					{
 						//#ifdef FOOP
 						//						if (synptr->ptroff[i] == prlist[j]) 
@@ -528,7 +536,8 @@ namespace Wnlib
 						prlist.Add(pt.off);
 						spaces("TRACEP",2);
 						cursyn.str("=> ","\n",1,0,0,1);
-					}				
+					}
+*/
 				}
 			}
 		}
@@ -541,7 +550,7 @@ namespace Wnlib
         /// <param name="depth"></param>
         void traceInherit(PointerType pbase,PartOfSpeech fpos,int depth)
 		{
-			for (int i=0;i<ptrs.Length;i++) 
+            for (int i = 0; i < ptrs.Length; i++) 
 			{
 				Pointer pt = ptrs[i];
 				if (pt.ptp.ident==HYPERPTR && (pt.sce==0||pt.sce==whichword)) 
@@ -569,7 +578,7 @@ namespace Wnlib
 				}
 			}
 			search.trunc();
-		}
+        }
 
         /// <summary>
         /// Trace adjective antonyms.
@@ -897,9 +906,9 @@ namespace Wnlib
 			if (hasptr>0 && ptp.ident==HMERONYM) 
 			{
 				search.mark();
-                //lastholomero = cursyn;
+
                 traceInherit(ptrbase, PartOfSpeech.of("noun"), 1);
-			}
+            }
 		}
 		
 		internal void strFrame(bool prsynset)
