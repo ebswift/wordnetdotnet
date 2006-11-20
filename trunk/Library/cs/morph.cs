@@ -323,10 +323,21 @@ namespace Wnlib
 		}
 		string line = null;
 		int beglp=0, endlp= -1;
+        private static string laststr = "";
+        private static MemoryStream exc;
+
 		public Exceptions(string word,string p) : this (word,PartOfSpeech.of(p)) { }
 		public Exceptions(string word,PartOfSpeech pos)
 		{
-			line = WNDB.binSearch(word,excfps[pos.ident]);
+            if(laststr != ((System.IO.FileStream)(excfps[pos.ident].BaseStream)).Name) 
+            {
+                laststr = ((System.IO.FileStream)(excfps[pos.ident].BaseStream)).Name;
+                StreamReader fs = excfps[pos.ident];
+                Byte[] b = System.Text.Encoding.Unicode.GetBytes(fs.ReadToEnd());
+
+                exc = new MemoryStream(b);
+            }
+			line = WNDB.binSearch(word,exc); //excfps[pos.ident]);
 			if (line!=null)
 				endlp = line.IndexOf(' ');
 		}

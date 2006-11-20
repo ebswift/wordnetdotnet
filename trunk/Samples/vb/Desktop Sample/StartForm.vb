@@ -458,6 +458,8 @@ Namespace wnb
             StatusBar1.Text = "Overview of " + t
             Refresh()
 
+            WordNetClasses.WN.hasmatch = False
+
             Try
                 Dim b As Boolean ' sets the visibility of noun, verb, adj, adv when showing buttons for a word
 

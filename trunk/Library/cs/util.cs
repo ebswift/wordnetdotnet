@@ -26,6 +26,7 @@ using System.IO;
 using System.Collections;
 using System.Reflection;
 using System.Windows.Forms;
+
 [assembly:CLSCompliant(true)]
 
 namespace Wnlib
@@ -224,9 +225,24 @@ namespace Wnlib
 				new WNDBpart((PartOfSpeech)(d.Value));
 		}
 		
-		public static StreamReader index(PartOfSpeech p) 
+        private static string laststr = "";
+        private static MemoryStream ms;
+
+		public static MemoryStream index(PartOfSpeech p) //StreamReader index(PartOfSpeech p) 
 		{
-			return WNDBpart.of(p).index;
+            if(laststr == ((System.IO.FileStream)(WNDBpart.of(p).index.BaseStream)).Name) 
+            {
+                return ms; //WNDBpart.of(p).index;
+            }
+            else
+            {
+                laststr = ((System.IO.FileStream)(WNDBpart.of(p).index.BaseStream)).Name;
+                StreamReader fs = WNDBpart.of(p).index;
+                fs.BaseStream.Position = 0;
+                Byte[] b = System.Text.Encoding.Unicode.GetBytes(fs.ReadToEnd());
+                ms = new MemoryStream(b);
+			    return ms; //WNDBpart.of(p).index;
+            }
 		}
 		
 		public static StreamReader data(PartOfSpeech p) 
@@ -307,51 +323,49 @@ namespace Wnlib
 			return path+"data."+n.name; // WN2.1 - TDMS
 		}
 		
-		public static string binSearch(string searchKey,StreamReader fp)
+		public static string binSearch(string searchKey,MemoryStream fp) //StreamReader fp)
 		{
-			int c,n;
+			int c, n;
 			long top,bot,mid,diff;
 			string line,key;
+            StreamReader sr;
+            sr = new StreamReader(fp);
+            
+            bot = sr.BaseStream.Seek(0,SeekOrigin.End);
+	    	top = 0;
+
 			diff = 666; // ???
 			line = "";
-			bot = fp.BaseStream.Seek(0,SeekOrigin.End);
-			top = 0;
-			mid = (bot-top)/2;
+			mid = (bot-top)/2 + top;
+            int x = 0;
 			do 
 			{
-				fp.DiscardBufferedData();
-				//				fp.BaseStream.Seek(mid-1,SeekOrigin.Begin);
-				fp.BaseStream.Position = mid-1;
+                x ++;
+    			sr.DiscardBufferedData();
+				sr.BaseStream.Position = mid-1;
 
 				if (mid!=1)
-					while ((c=fp.Read())!='\n' && c!=-1)
-						;
-				//				fp.DiscardBufferedData();
-				line = fp.ReadLine();
+                    sr.ReadLine();
+					//while ((c=sr.Read())!='\n' && c!=-1)
+					//	;
+
+				line = sr.ReadLine().Replace("\0", "");
 				if (line==null)
 					return null;
 				n = line.IndexOf(' ');
 				key = line.Substring(0,n);
-				// TDMS - 14/Aug/2005 - no need for key
-				// transformation - that is done in index lookup
-				//key=key.Replace("-"," ").Replace("_"," ");
-				//TDMS - 13/Aug/2005 fixed comparison
-				//an example of the previous problem was a search for 'mammal'.
-				//'mamma's boy' was rated as greater than mammal, however it is
-				//stored logically in the WordNet database as less than.
-				//CompareOrdinal correctly returns less than in that scenario
-				//rather than greater than.
-				//if (key.CompareTo(searchKey)<0) 
-				if (String.CompareOrdinal(key, searchKey)<0) 
+				int co; // compareordinal result
+				
+				co = String.CompareOrdinal(key, searchKey);
+				
+				if (co<0) 
 				{
 					// key is alphabetically less than the search key
 					top = mid;
 					diff = (bot - top)/2;
 					mid = top + diff;
 				}
-				//TDMS - 13/Aug/2005 fixed comparison
-				//if (key.CompareTo(searchKey)>0)
-				if (String.CompareOrdinal(key, searchKey)>0) 
+				if (co>0) 
 				{
 					// key is alphabetically greater than the search key
 					bot = mid;
@@ -359,6 +373,7 @@ namespace Wnlib
 					mid = top + diff;
 				}
 			} while (key!=searchKey && diff!=0);
+            //MessageBox.Show(x.ToString());
 			if (key==searchKey)
 				return line;
 			return null;
@@ -386,21 +401,26 @@ namespace Wnlib
 				fp.BaseStream.Position = mid-1;
 
 				if (mid!=1)
-					while ((c=fp.Read())!='\n' && c!=-1)
-						;
+                    fp.ReadLine();
+//					while ((c=fp.Read())!='\n' && c!=-1)
+//						;
 				line = fp.ReadLine();
 				if (line==null)
 					return null;
 				n = line.IndexOf('%');
 				key = line.Substring(0,n);
-				if (String.CompareOrdinal(key, searchKey)<0) 
+   				int co; // compareordinal result
+				
+				co = String.CompareOrdinal(key, searchKey);
+
+				if (co<0) 
 				{
 					// key is alphabetically less than the search key
 					top = mid;
 					diff = (bot - top)/2;
 					mid = top + diff;
 				}
-				if (String.CompareOrdinal(key, searchKey)>0) 
+				if (co>0) 
 				{
 					// key is alphabetically greater than the search key
 					bot = mid;
@@ -540,7 +560,8 @@ namespace Wnlib
 		internal static ArrayList wngrep(string wordPassed,PartOfSpeech pos)
 		{
 			ArrayList r = new ArrayList();
-			StreamReader inputFile = index(pos);
+            MemoryStream ms = index(pos);
+			StreamReader inputFile = new StreamReader(ms); //= index(pos);
 			inputFile.BaseStream.Seek(0L,SeekOrigin.Begin);
 			inputFile.DiscardBufferedData();
 			string word = wordPassed.Replace(" ","_");
