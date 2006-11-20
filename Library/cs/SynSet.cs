@@ -940,11 +940,17 @@ namespace Wnlib
 		bool findExample()
 		{
 			bool retval = false;
+            
 			StreamReader fp = new StreamReader(WNDB.path+"SENTIDX.VRB");
-			int wdnum = whichword -1;
+            Byte[] b = System.Text.Encoding.Unicode.GetBytes(fp.ReadToEnd());
+
+            MemoryStream ms = new MemoryStream(b);
+            //StreamReader fp = new StreamReader(mms);
+
+            int wdnum = whichword -1;
 			Lexeme lx = words[wdnum];
 			string tbuf = lx.word+"%"+pos.ident+":"+fnum+":"+lx.uniq+"::";
-			string str = WNDB.binSearch(tbuf,fp);
+			string str = WNDB.binSearch(tbuf,ms); //fp);
 			if (str!=null) 
 			{
 				str = str.Substring(lx.word.Length+11);
@@ -963,7 +969,9 @@ namespace Wnlib
 		void getExample(string off,string wd)
 		{
 			StreamReader fp = new StreamReader(WNDB.path+"SENTS.VRB");
-			string line = WNDB.binSearch(off,fp);
+            Byte[] b = System.Text.Encoding.Unicode.GetBytes(fp.ReadToEnd());
+            MemoryStream ms = new MemoryStream(b);
+			string line = WNDB.binSearch(off,ms); //fp);
 			line = line.Substring(line.IndexOf(' ')+1);
 			search.buf += "         EX: "+line.Replace("%s",wd);
 			fp.Close();
