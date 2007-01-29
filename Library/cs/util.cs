@@ -350,7 +350,7 @@ namespace Wnlib
 					//	;
 
 				line = sr.ReadLine().Replace("\0", "");
-				if (line==null)
+				if ((line==null) || (line == "")) 
 					return null;
 				n = line.IndexOf(' ');
 				key = line.Substring(0,n);

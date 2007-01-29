@@ -334,6 +334,7 @@ namespace Wnlib
                 laststr = ((System.IO.FileStream)(excfps[pos.ident].BaseStream)).Name;
                 StreamReader fs = excfps[pos.ident];
                 Byte[] b = System.Text.Encoding.Unicode.GetBytes(fs.ReadToEnd());
+                excfps[pos.ident].BaseStream.Seek(0, SeekOrigin.Begin);
 
                 exc = new MemoryStream(b);
             }
