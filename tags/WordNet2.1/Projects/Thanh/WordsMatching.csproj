@@ -1,0 +1,70 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFFEA5F4-2374-4336-956B-F6EDB9E2FBF1}</ProjectGuid>
+    <RootNamespace>WordsMatching</RootNamespace>
+    <AssemblyName>WordsMatching</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
+    <NoConfig>false</NoConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Relatedness.cs" />
+    <Compile Include="TextHelper\Acronym.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Matcher\BipartiteMatcher.cs" />
+    <Compile Include="TextHelper\ExtOverlapCounter.cs" />
+    <Compile Include="Matcher\HeuristicMatcher.cs" />
+    <Compile Include="ISimilarity.cs" />
+    <Compile Include="WordSenseDisambiguator.cs" />
+    <Compile Include="SentenceSimilarity.cs" />
+    <Compile Include="SimilarGenerator.cs" />
+    <Compile Include="TextHelper\SimpleOverlapCounter.cs" />
+    <Compile Include="TextHelper\StopWordsHandler.cs" />
+    <Compile Include="DemoTest.cs" />
+    <Compile Include="TextHelper\Tokeniser.cs" />
+    <Compile Include="WordSimilarity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\cs\WordNet.Net.csproj">
+      <Project>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</Project>
+      <Name>WordNet.Net</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+</Project>

@@ -1,0 +1,50 @@
+﻿Microsoft Visual Studio Solution File, Format Version 9.00
+# SharpDevelop 2.0.0.986
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBrill", "TestBrill.csproj", "{D8737E15-3E3E-4152-8D6E-58C74320A0BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrillTagger", "..\BrillTagger.csproj", "{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "vbLike", "..\..\vbLike\vbLike.vbproj", "{561328C6-14C6-4B50-961B-E93A93291B26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Debug.ActiveCfg = Debug|.NET
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Debug.Build.0 = Debug|.NET
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Release.ActiveCfg = Release|.NET
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Release.Build.0 = Release|.NET
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Debug.ActiveCfg = Debug|.NET
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Debug.Build.0 = Debug|.NET
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Release.ActiveCfg = Release|.NET
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Release.Build.0 = Release|.NET
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Debug.ActiveCfg = Debug|.NET
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Debug.Build.0 = Debug|.NET
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Release.ActiveCfg = Release|.NET
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{561328C6-14C6-4B50-961B-E93A93291B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC7E5EA-CF61-4F9A-82A1-6F436D8DBE64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8737E15-3E3E-4152-8D6E-58C74320A0BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+EndGlobal

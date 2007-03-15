@@ -1,0 +1,59 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <AssemblyName>WordNet.Net Sample</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
+    <NoConfig>false</NoConfig>
+    <ProjectGuid>{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>1</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>.\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <WarningLevel>1</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdvancedOptions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="AdvancedOptions.resx">
+      <DependentUpon>AdvancedOptions.vb</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="StartForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Library\cs\WordNet.Net.csproj">
+      <Project>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</Project>
+      <Name>WordNet.Net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\WordNetControls\WordNetControls.vbproj">
+      <Project>{D794B3DE-0081-4CDD-994F-3E3AC648C4AB}</Project>
+      <Name>WordNetControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.Targets" />
+</Project>

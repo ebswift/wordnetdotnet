@@ -1,0 +1,40 @@
+﻿Microsoft Visual Studio Solution File, Format Version 9.00
+# SharpDevelop 2.0.0.986
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WordNet.Net Sample", "WordNet.Net Sample.vbproj", "{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "..\..\..\Library\cs\WordNet.Net.csproj", "{F12805B0-D74A-4E5B-A482-7C7CCB69D572}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Debug.ActiveCfg = Debug|.NET
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Debug.Build.0 = Debug|.NET
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Release.ActiveCfg = Release|.NET
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Release.Build.0 = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.ActiveCfg = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug.Build.0 = Debug|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.ActiveCfg = Release|.NET
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12805B0-D74A-4E5B-A482-7C7CCB69D572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+EndGlobal

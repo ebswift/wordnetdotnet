@@ -1,0 +1,30 @@
+﻿Microsoft Visual Studio Solution File, Format Version 9.00
+# SharpDevelop 2.0.0.986
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordNet.Net", "WordNet.Net.csproj", "{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Debug.ActiveCfg = Debug|.NET
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Debug.Build.0 = Debug|.NET
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Release.ActiveCfg = Release|.NET
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44EC45BE-C1D2-4AC0-93F8-B892EE5C69C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+EndGlobal

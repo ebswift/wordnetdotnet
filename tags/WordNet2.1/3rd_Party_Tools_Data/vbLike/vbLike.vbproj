@@ -1,0 +1,59 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:Conversion="urn:Conversion">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{561328C6-14C6-4B50-961B-E93A93291B26}</ProjectGuid>
+    <RootNamespace />
+    <AssemblyName>vbLike</AssemblyName>
+    <OutputType>Library</OutputType>
+    <ApplicationIcon />
+    <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent />
+    <StartupObject />
+    <NoConfig>false</NoConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <NoStdLib />
+    <WarningLevel>1</WarningLevel>
+    <NoWarn />
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks />
+    <CheckForOverflowUnderflow />
+    <DefineConstants />
+    <OutputPath>bin\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <NoStdLib />
+    <WarningLevel>1</WarningLevel>
+    <NoWarn />
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks />
+    <CheckForOverflowUnderflow />
+    <DefineConstants />
+    <OutputPath>bin\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="Class1.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.Targets" />
+</Project>
