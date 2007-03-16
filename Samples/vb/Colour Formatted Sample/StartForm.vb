@@ -66,7 +66,7 @@ Namespace wnb
 
 #Region "FormVariables"
         Private f3 As AdvancedOptions
-        Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
+        Private dictpath As String = "C:\Program Files\WordNet\3.0\dict\"
         Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
         Friend WithEvents wnColour As WordNetControls.WordNetColourFormat
         Private pbobject As Object = New Object
@@ -414,20 +414,22 @@ Namespace wnb
 
 #End Region
 
-        Public Sub CanvasNavigating(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
-            Dim tmpstr As String
-            tmpstr = e.Url.ToString()
-            tmpstr = Replace(tmpstr, "about:blank", "")
-            If tmpstr = "" Then
-                Exit Sub
-            End If
+        Public Sub CanvasNavigating(ByVal sender As Object, url As String) 'ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
+'            Dim tmpstr As String
+'            tmpstr = e.Url.ToString()
+'            tmpstr = Replace(tmpstr, "about:blank", "")
+'            tmpstr = Replace(tmpstr, "about:", "")
+'            If tmpstr = "" Then
+'                Exit Sub
+'            End If
 
-            e.Cancel = True
+'            e.Cancel = True
 
-            Dim myWriter As New StringWriter
+'            Dim myWriter As New StringWriter
             ' Decode the encoded string.
 
-            txtSearchWord.Text = Replace(tmpstr, "%20", " ")
+'            txtSearchWord.Text = Replace(tmpstr, "%20", " ")
+			txtSearchWord.Text = url
             btnSearch_Click(Nothing, Nothing)
         End Sub
 

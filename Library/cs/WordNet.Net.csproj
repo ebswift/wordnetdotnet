@@ -48,7 +48,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="bitset.cs" />
     <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Lexeme.cs" />
     <Compile Include="LexemeList.cs" />

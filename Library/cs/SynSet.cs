@@ -997,7 +997,13 @@ namespace Wnlib
 		{
 			/* Find all SEEALSO pointers from the searchword and print the
 			   word or synset pointed to. */
-			string prefix = "      Also See-> ";
+			string prefix; // = "      Also See-> ";
+			//WN3.0 added updated wording for verb see also
+			if(pos.name == "verb")
+				prefix = "      Phrasal Verb-> ";
+			else
+				prefix = "      Also See-> ";
+			
 			for (int i=0;i<ptrs.Length;i++)
 			{
 				Pointer p = ptrs[i];

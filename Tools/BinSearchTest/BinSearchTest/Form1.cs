@@ -117,10 +117,10 @@ namespace BinSearchTest
 		private void testoverview(string pos)
 		{
 			SearchSet bobj = null; // = new SearchSet();
-            WordNetClasses.WN wnc = new WordNetClasses.WN(@"C:\Program Files\WordNet\2.1\dict\");
+            WordNetClasses.WN wnc = new WordNetClasses.WN(@"C:\Program Files\WordNet\3.0\dict\");
             bool b = false; // sets word found - true/false
 			ArrayList list;
-			System.IO.StreamReader indexFile = new System.IO.StreamReader(@"C:\Program Files\WordNet\2.1\dict\index." + pos);
+			System.IO.StreamReader indexFile = new System.IO.StreamReader(@"C:\Program Files\WordNet\3.0\dict\index." + pos);
 			//StreamWriter foundNouns = new StreamWriter(@"C:\found " + pos + ".txt");
 			StreamWriter lostNouns = new StreamWriter(@"C:\lost " + pos + ".txt");
 
@@ -165,14 +165,14 @@ namespace BinSearchTest
 
 		private void testbinsearch(string pos)
 		{
-			System.IO.StreamReader indexFile = new System.IO.StreamReader(@"C:\Program Files\WordNet\2.1\dict\" + pos);
+			System.IO.StreamReader indexFile = new System.IO.StreamReader(@"C:\Program Files\WordNet\3.0\dict\" + pos);
 //			StreamWriter foundNouns = new StreamWriter(@"C:\found nouns.txt");
 			StreamWriter lostNouns = new StreamWriter(@"C:\lost " + pos + ".txt");
 
 			string currentLine = indexFile.ReadLine();
 			string indexLine = string.Empty;
 
-			System.IO.StreamReader fp = new System.IO.StreamReader(@"C:\Program Files\WordNet\2.1\dict\index." + pos);
+			System.IO.StreamReader fp = new System.IO.StreamReader(@"C:\Program Files\WordNet\3.0\dict\index." + pos);
 
 			while (currentLine != null)
 			{

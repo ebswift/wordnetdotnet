@@ -356,6 +356,13 @@ namespace Wnlib
                                                                                     senses.Add(cursyn);
                                          */
 										break;
+									//WN3.0
+									case "PERTPTR":
+										cursyn.strsns(sense + 1);
+										prflag = true;
+										cursyn.tracePtrs(PointerType.of("PERTPTR"), pos, depth);
+										break;
+										
 									case "CLASSIFICATION":
 										goto case "CLASS";
 									case "CLASS":
