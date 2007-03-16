@@ -27,7 +27,7 @@
 Imports Wnlib
 
 Public Partial Class MainForm
-    Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
+    Private dictpath As String = "C:\Program Files\WordNet\3.0\dict\"
     Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
 
 	Public Sub New()

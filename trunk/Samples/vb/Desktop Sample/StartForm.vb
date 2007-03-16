@@ -71,7 +71,7 @@ Namespace wnb
         
 #Region "FormVariables"
         Private f3 As AdvancedOptions
-        Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
+        Private dictpath As String = "C:\Program Files\WordNet\3.0\dict\"
         Private wnc As WordNetClasses.WN = New WordNetClasses.WN(dictpath)
         Private pbobject As Object = New Object
 

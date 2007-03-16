@@ -30,7 +30,7 @@
 ' To change this template use Tools | Options | Coding | Edit Standard Headers.
 '
 Partial Public Class WordNetColourFormat
-    Public Event CanvasNavigating(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
+    Public Event CanvasNavigating(ByVal sender As Object, ByVal url As String) 'ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
 
 	' define the CSS for the display elements
 	Private m_cssbody As String = "font-family:'Verdana';font-size:10pt;"
@@ -59,7 +59,20 @@ Partial Public Class WordNetColourFormat
 	''' <param name="sender"></param>
 	''' <param name="e"></param>
     Public Sub NavigateCanvas(ByVal sender As Object, ByVal e As System.Windows.Forms.WebBrowserNavigatingEventArgs)
-        RaiseEvent CanvasNavigating(sender, e)
+    	Dim tmpstr As String
+    	
+        tmpstr = e.Url.ToString()
+        tmpstr = Replace(tmpstr, "about:blank", "")
+        tmpstr = Replace(tmpstr, "about:", "")
+
+        tmpstr = Replace(tmpstr, "%20", " ")
+
+        If tmpstr <> "" Then
+        	'e.Url = tmpstr
+            e.Cancel = True
+        	
+        	RaiseEvent CanvasNavigating(sender, tmpstr)
+        End If
     End Sub
 
 	''' <summary>

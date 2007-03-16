@@ -29,7 +29,7 @@
 Imports WordNetClasses.WN
 
 Public Partial Class MainForm
-    Private dictpath As String = "C:\Program Files\WordNet\2.1\dict\"
+    Private dictpath As String = "C:\Program Files\WordNet\3.0\dict\"
 
 	Public Sub New()
 		' The Me.InitializeComponent call is required for Windows Forms designer support.
