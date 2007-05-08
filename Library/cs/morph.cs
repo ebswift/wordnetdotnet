@@ -49,9 +49,10 @@ namespace Wnlib
 								   "", "", "e", "e"
 							   };
 		static int[] offsets = { 0, 8, 8, 16 };  
+		static int[] cnts = { 8, 8, 8, 4 }; // 0 changed to 8 - Troy
+
 //		static int[] offsets = { 0, 8, 16 };   // 7 Nov 2006 - contributed bug fix by Saurabh Abichandani
 //		static int[] offsets = { 0, 0, 8, 16 }; // TODO: investigate this - wordnet "morph.c" defines this as being correct but we are using the above
-		static int[] cnts = { 8, 8, 8, 4 }; // 0 changed to 8 - Troy
 //		static int[] cnts = { 8, 8, 4 };    // 7 Nov 2006 - contributed bug fix by Saurabh Abichandani
 		
 		static string[] prepositions = 
