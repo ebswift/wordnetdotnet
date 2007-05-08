@@ -311,7 +311,7 @@ namespace Wnlib
 							cursyn.str("     =>","\n",1,0,1,1);
 							cursyn.tracePtrs(PointerType.of("HYPERPTR"),cursyn.pos,0);
 						} 
-						else if (fpos.name=="adverb") // adverb pointing to adjective
+						else if (fpos.name=="adv") // adverb pointing to adjective
 						{
 							cursyn.str("     =>","\n",0,0,(pos.clss=="SATELLITE")?0:1,1);
 							// cursyn.traceptrs(HYPERPTR,pos,0);
