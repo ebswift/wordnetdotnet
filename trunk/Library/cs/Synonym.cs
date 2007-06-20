@@ -22,7 +22,6 @@
  * */
 
 using System;
-using Wnlib;
 
 namespace Wnlib
 {
@@ -34,7 +33,11 @@ namespace Wnlib
 		public string Word;
 		public int Sense;
 		public Lexeme Synset;
+
 		public Synonym(string w, int s)
-		{this.Word=w; this.Sense=s;}
+		{
+			this.Word = w;
+			this.Sense = s;
+		}
 	}
 }

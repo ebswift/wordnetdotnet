@@ -41,42 +41,43 @@ namespace WnLexicon
 		{
 			get
 			{
-				if( senseCounts == null ) return 0;
+				if (senseCounts == null)
+					return 0;
 				int strength = 0;
-				foreach( int i in senseCounts )
+				foreach (int i in senseCounts)
 					strength += i;
 				return strength;
 			}
 		}
 
-		public static bool operator == ( WordInfo a, WordInfo b )
+		public static bool operator ==(WordInfo a, WordInfo b)
 		{
-			if( (a == null) && (b == null) )
+			if ((a == null) && (b == null))
 				return true;
 
-			if( (a == null) != (b == null) )
+			if ((a == null) != (b == null))
 				return false;
 
-			if( a.partOfSpeech != b.partOfSpeech )
+			if (a.partOfSpeech != b.partOfSpeech)
 				return false;
 
-			if( (a.senseCounts == null) != (b.senseCounts == null) )
+			if ((a.senseCounts == null) != (b.senseCounts == null))
 				return false;
 
-			if( a.senseCounts != null && b.senseCounts != null )
-				return a.senseCounts.Equals( b.senseCounts );
+			if (a.senseCounts != null && b.senseCounts != null)
+				return a.senseCounts.Equals(b.senseCounts);
 
 			return true;
 		}
 
-		public static bool operator != ( WordInfo a, WordInfo b )
+		public static bool operator !=(WordInfo a, WordInfo b)
 		{
-			return !( a == b );
+			return !(a == b);
 		}
 
-		public override bool Equals( object obj )
+		public override bool Equals(object obj)
 		{
-			if( obj is WordInfo )
+			if (obj is WordInfo)
 				return this == (WordInfo)obj;
 			else
 				return false;
@@ -112,7 +113,7 @@ namespace WnLexicon
 
 		/// <summary>This gets used a lot, so I decided to cache it in static memory.</summary>
 		private static Wnlib.PartsOfSpeech[] enums =
-			(Wnlib.PartsOfSpeech[])Enum.GetValues( typeof( Wnlib.PartsOfSpeech ) );
+			(Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
 
 		/*--------
 		 * Methods
@@ -129,14 +130,14 @@ namespace WnLexicon
 		/// because WordNet was most likely not intended to be used this way. However, it is
 		/// accurate enough for most applications.
 		/// </remarks>
-		public static WordInfo FindWordInfo( string word, bool includeMorphs )
+		public static WordInfo FindWordInfo(string word, bool includeMorphs)
 		{
 			word = word.ToLower();
-			WordInfo wordinfo = lookupWord( word );
+			WordInfo wordinfo = lookupWord(word);
 
 			// include morphology if nothing was found on the original word
-			if( wordinfo.Strength == 0 && includeMorphs )
-				wordinfo = lookupWordMorphs( word );
+			if (wordinfo.Strength == 0 && includeMorphs)
+				wordinfo = lookupWordMorphs(word);
 
 			return wordinfo;
 		}
@@ -151,69 +152,69 @@ namespace WnLexicon
 		/// WordNet. Synonyms in this sense are merely words in the same SynSet as the given
 		/// word. Hypernyms are found by tracing the pointers in a given synset.
 		/// </remarks>
-		public static string[] FindSynonyms( string word, Wnlib.PartsOfSpeech pos, bool includeMorphs )
+		public static string[] FindSynonyms(string word, Wnlib.PartsOfSpeech pos, bool includeMorphs)
 		{
 			// get an index to a synset collection
 			word = word.ToLower();
-			Wnlib.Index index = Wnlib.Index.lookup( word, Wnlib.PartOfSpeech.of( pos ) );
+			Wnlib.Index index = Wnlib.Index.lookup(word, Wnlib.PartOfSpeech.of(pos));
 
 			// none found?
-			if( index == null )
+			if (index == null)
 			{
-				if( !includeMorphs )
+				if (!includeMorphs)
 					return null;
 
 				// check morphs
-				Wnlib.MorphStr morphs = new Wnlib.MorphStr( word, Wnlib.PartOfSpeech.of( pos ) );
+				Wnlib.MorphStr morphs = new Wnlib.MorphStr(word, Wnlib.PartOfSpeech.of(pos));
 				string morph = "";
-				while( ( morph = morphs.next() ) != null )
+				while ((morph = morphs.next()) != null)
 				{
-					index = Wnlib.Index.lookup( morph, Wnlib.PartOfSpeech.of( pos ) );
-					if( index != null )
+					index = Wnlib.Index.lookup(morph, Wnlib.PartOfSpeech.of(pos));
+					if (index != null)
 						break;
 				}
 			}
 
 			// still none found?
-			if( index == null )
+			if (index == null)
 				return null;
 
 			// at this point we will always have a valid index
-			return lookupSynonyms( index );
+			return lookupSynonyms(index);
 		}
 
-		private static string[] lookupSynonyms( Wnlib.Index index )
+		private static string[] lookupSynonyms(Wnlib.Index index)
 		{
 			// OVERVIEW: For each sense, grab the synset associated with our index.
 			//           Then, add the lexemes in the synset to a list.
 
-			ArrayList synonyms = new ArrayList( 10 );
+			ArrayList synonyms = new ArrayList(10);
 
 			// for each sense...
-			for( int s=0; s<index.offs.Length; s++ )
+			for (int s = 0; s < index.offs.Length; s++)
 			{
 				// read in the word and its pointers
-				Wnlib.SynSet synset = new Wnlib.SynSet( index.offs[s], index.pos, index.wd, null, s );
+				Wnlib.SynSet synset = new Wnlib.SynSet(index.offs[s], index.pos, index.wd, null, s);
 
 				// build a string out of the words
-				for( int i=0; i<synset.words.Length; i++ )
+				for (int i = 0; i < synset.words.Length; i++)
 				{
-					string word = synset.words[i].word.Replace( "_", " " );
+					string word = synset.words[i].word.Replace("_", " ");
 
 					// if the word is capitalized, that means it's a proper noun. We don't want those.
-					if( word[0] <= 'Z' )
+					if (word[0] <= 'Z')
 						continue;
 
 					// add it to the list if it's a different word
-					if( string.Compare( word, index.wd, true ) != 0 )
-						synonyms.Add( word );
+					if (string.Compare(word, index.wd, true) != 0)
+						synonyms.Add(word);
 				}
 			}
 
-			return (string[])synonyms.ToArray( typeof( string ) );
+			return (string[])synonyms.ToArray(typeof(string));
 		}
 
-		private static WordInfo lookupWord( string word )
+		private static WordInfo lookupWord(string word)
 		{
 			// OVERVIEW: For each part of speech, look for the word.
 			//           Compare relative strengths of the synsets in each category
@@ -234,35 +235,35 @@ namespace WnLexicon
 			wordinfo.partOfSpeech = Wnlib.PartsOfSpeech.Unknown;
 
 			// for each part of speech...
-			Wnlib.PartsOfSpeech[] enums = (Wnlib.PartsOfSpeech[])Enum.GetValues( typeof( Wnlib.PartsOfSpeech ) );
+			Wnlib.PartsOfSpeech[] enums = (Wnlib.PartsOfSpeech[])Enum.GetValues(typeof(Wnlib.PartsOfSpeech));
 			wordinfo.senseCounts = new int[enums.Length];
-			for( int i=0; i<enums.Length; i++ )
+			for (int i = 0; i < enums.Length; i++)
 			{
 				// get a valid part of speech
 				Wnlib.PartsOfSpeech pos = enums[i];
-				if( pos == Wnlib.PartsOfSpeech.Unknown )
+				if (pos == Wnlib.PartsOfSpeech.Unknown)
 					continue;
 
 				// get an index to a synset collection
-				Wnlib.Index index = Wnlib.Index.lookup( word, Wnlib.PartOfSpeech.of( pos ) );
+				Wnlib.Index index = Wnlib.Index.lookup(word, Wnlib.PartOfSpeech.of(pos));
 
 				// none found?
-				if( index == null )
+				if (index == null)
 					continue;
 
 				// does this part of speech have a higher sense count?
 				wordinfo.senseCounts[i] = index.sense_cnt;
-				if( wordinfo.senseCounts[i] > maxCount )
+				if (wordinfo.senseCounts[i] > maxCount)
 				{
 					maxCount = wordinfo.senseCounts[i];
 					wordinfo.partOfSpeech = pos;
 				}
 			}
-	
+
 			return wordinfo;
 		}
 
-		private static WordInfo lookupWordMorphs( string word )
+		private static WordInfo lookupWordMorphs(string word)
 		{
 			// OVERVIEW: This functions only gets called when the word was not found with
 			//           an exact match. So, enumerate all the parts of speech, then enumerate
@@ -273,27 +274,27 @@ namespace WnLexicon
 			ArrayList wordinfos = new ArrayList();
 
 			// for each part of speech...
-			for( int i=0; i<enums.Length; i++ )
+			for (int i = 0; i < enums.Length; i++)
 			{
 				// get a valid part of speech
 				Wnlib.PartsOfSpeech pos = enums[i];
-				if( pos == Wnlib.PartsOfSpeech.Unknown )
+				if (pos == Wnlib.PartsOfSpeech.Unknown)
 					continue;
 
 				// generate morph list
-				Wnlib.MorphStr morphs = new Wnlib.MorphStr( word, Wnlib.PartOfSpeech.of( pos ) );
+				Wnlib.MorphStr morphs = new Wnlib.MorphStr(word, Wnlib.PartOfSpeech.of(pos));
 				string morph = "";
-				while( ( morph = morphs.next() ) != null )
+				while ((morph = morphs.next()) != null)
 				{
 					// get an index to a synset collection
-					Wnlib.Index index = Wnlib.Index.lookup( morph, Wnlib.PartOfSpeech.of( pos ) );
+					Wnlib.Index index = Wnlib.Index.lookup(morph, Wnlib.PartOfSpeech.of(pos));
 
 					// none found?
-					if( index == null )
+					if (index == null)
 						continue;
 
 					// save the wordinfo
-					WordInfo wordinfo = getMorphInfo( wordinfos, morph );
+					WordInfo wordinfo = getMorphInfo(wordinfos, morph);
 					wordinfo.senseCounts[i] = index.sense_cnt;
 				}
 			}
@@ -301,29 +302,29 @@ namespace WnLexicon
 			// search the wordinfo list for the best match
 			WordInfo bestWordInfo = new WordInfo();
 			int maxStrength = 0;
-			foreach( WordInfo wordinfo in wordinfos )
+			foreach (WordInfo wordinfo in wordinfos)
 			{
 				// for each part of speech...
 				int maxSenseCount = 0;
 				int strength = 0;
-				for( int i=0; i<enums.Length; i++ )
+				for (int i = 0; i < enums.Length; i++)
 				{
 					// get a valid part of speech
 					Wnlib.PartsOfSpeech pos = enums[i];
-					if( pos == Wnlib.PartsOfSpeech.Unknown )
+					if (pos == Wnlib.PartsOfSpeech.Unknown)
 						continue;
 
 					// determine part of speech and strength
 					strength += wordinfo.senseCounts[i];
-					if( wordinfo.senseCounts[i] > maxSenseCount )
+					if (wordinfo.senseCounts[i] > maxSenseCount)
 					{
 						maxSenseCount = wordinfo.senseCounts[i];
 						wordinfo.partOfSpeech = pos;
-					}			
+					}
 				}
 
 				// best match?
-				if( strength > maxStrength )
+				if (strength > maxStrength)
 				{
 					maxStrength = strength;
 					bestWordInfo = wordinfo;
@@ -333,19 +334,19 @@ namespace WnLexicon
 			return bestWordInfo;
 		}
 
-		private static WordInfo getMorphInfo( ArrayList morphinfos, string morph )
+		private static WordInfo getMorphInfo(ArrayList morphinfos, string morph)
 		{
 			// Attempt to find the morph string in the list.
 			// NOTE: Since the list should never get very large, a selection search will work just fine
-			foreach( WordInfo morphinfo in morphinfos )
-				if( morphinfo.text == morph )
+			foreach (WordInfo morphinfo in morphinfos)
+				if (morphinfo.text == morph)
 					return morphinfo;
 
 			// if not found, create a new one
 			WordInfo wordinfo = new WordInfo();
 			wordinfo.text = morph;
 			wordinfo.senseCounts = new int[enums.Length];
-			return (WordInfo)morphinfos[morphinfos.Add( wordinfo )];
+			return (WordInfo)morphinfos[morphinfos.Add(wordinfo)];
 		}
 	}
 }

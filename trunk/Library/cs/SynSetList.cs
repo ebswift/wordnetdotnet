@@ -30,11 +30,11 @@ namespace Wnlib
 	/// <summary>
 	/// 
 	/// </summary>
-	[Serializable]	
+	[Serializable]
 	public class SynSetList : CollectionBase
 	{
 		public bool isDirty = false;
-		
+
 		public SynSetList()
 		{
 		}
@@ -49,38 +49,47 @@ namespace Wnlib
 			isDirty = true;
 			return List.Add(item);
 		}
+
 		public void Insert(int index, SynSet item)
 		{
 			List.Insert(index, item);
 		}
+
 		public void Remove(SynSet item)
 		{
 			isDirty = true;
 			List.Remove(item);
-		} 
+		}
+
 		public bool Contains(SynSet item)
 		{
 			return List.Contains(item);
 		}
+
 		public int IndexOf(SynSet item)
 		{
 			return List.IndexOf(item);
 		}
+
 		public void CopyTo(SynSet[] array, int index)
 		{
 			List.CopyTo(array, index);
-			
 		}
-		
+
 		public SynSet this[int index]
 		{
-			get { return (SynSet)List[index]; }
-			set { List[index] = value; }
+			get
+			{
+				return (SynSet)List[index];
+			}
+			set
+			{
+				List[index] = value;
+			}
 		}
 
 		public virtual void Dispose()
 		{
-			
 		}
 	}
 }

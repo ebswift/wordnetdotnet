@@ -6,7 +6,6 @@
     <ProjectGuid>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</ProjectGuid>
     <AssemblyName>WordNetClasses</AssemblyName>
     <OutputType>Library</OutputType>
-    <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
     <NoConfig>false</NoConfig>
     <DebugType>Full</DebugType>
     <RegisterForComInterop>False</RegisterForComInterop>
@@ -19,30 +18,32 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <NoStdLib>false</NoStdLib>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <Optimize>false</Optimize>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>obj\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <NoStdLib>false</NoStdLib>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <Optimize>true</Optimize>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>bin\Release\</OutputPath>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -66,10 +67,6 @@
     <Compile Include="wnhelp.cs" />
     <Compile Include="wordnet.cs" />
     <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

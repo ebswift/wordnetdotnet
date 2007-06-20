@@ -29,7 +29,7 @@ namespace Wnlib
 	/// Summary description for Lexeme.
 	/// </summary>
 	[Serializable]
-	public class Lexeme 
+	public class Lexeme
 	{
 		public string word;  // word in synset
 		public int uniq;     // unique id in lexicographer file
@@ -37,7 +37,7 @@ namespace Wnlib
 		public SemCor semcor; // information from sense.index
 
 		public Lexeme()
-		{ 
+		{
 		}
 	}
 }
