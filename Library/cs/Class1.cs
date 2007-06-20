@@ -22,7 +22,7 @@
  * */
 
 using System.Collections;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using Wnlib;
 
 namespace WordNetClasses
@@ -32,50 +32,51 @@ namespace WordNetClasses
 	/// </summary>
 	public class WN
 	{
-        public static bool hasmatch = false; // determines whether morphs are considered
+		public static bool hasmatch = false; // determines whether morphs are considered
 
-        public WN( string dictpath )
+		public WN(string dictpath)
 		{
 			//Wnlib.WNDB(dictpath);
 			WNCommon.path = dictpath;
 		}
 
-		public void OverviewFor( string t, string p, ref bool b, ref SearchSet obj, ArrayList list)
+		public void OverviewFor(string t, string p, ref bool b, ref SearchSet obj, ArrayList list)
 		{
 			PartOfSpeech pos = Wnlib.PartOfSpeech.of(p);
-			SearchSet ss = Wnlib.WNDB.is_defined(t,pos);
-			MorphStr ms = new Wnlib.MorphStr(t,pos);
-            bool checkmorphs = false;
+			SearchSet ss = Wnlib.WNDB.is_defined(t, pos);
+			MorphStr ms = new Wnlib.MorphStr(t, pos);
+			bool checkmorphs = false;
 
-			checkmorphs = AddSearchFor(t,pos, list); // do a search
+			checkmorphs = AddSearchFor(t, pos, list); // do a search
 			string m;
 
-            if(checkmorphs)
-                WN.hasmatch = true;
+			if (checkmorphs)
+				WN.hasmatch = true;
 
-            if(! hasmatch) {
-			    // loop through morphs (if there are any)
-			    while ((m=ms.next())!=null)
-				    if (m!=t) 
-				    {
-					    ss = ss+WNDB.is_defined(m,pos);
-					    AddSearchFor(m,pos, list);
-				    }
-            }
+			if (!hasmatch)
+			{
+				// loop through morphs (if there are any)
+				while ((m = ms.next()) != null)
+					if (m != t)
+					{
+						ss = ss + WNDB.is_defined(m, pos);
+						AddSearchFor(m, pos, list);
+					}
+			}
 			b = ss.NonEmpty;
 			obj = ss;
 		}
 
-		bool AddSearchFor(string s,PartOfSpeech pos, ArrayList list)
+		bool AddSearchFor(string s, PartOfSpeech pos, ArrayList list)
 		{
-			Search se = new Search(s,false,pos,new SearchType(false,"OVERVIEW"),0);
-            if(se.lexemes.Count > 0)
-			    list.Add(se);
+			Search se = new Search(s, false, pos, new SearchType(false, "OVERVIEW"), 0);
+			if (se.lexemes.Count > 0)
+				list.Add(se);
 
-            if(se.lexemes.Count > 0)
-                return true; // results were found
-            else
-                return false;
+			if (se.lexemes.Count > 0)
+				return true; // results were found
+			else
+				return false;
 		}
 
 	}

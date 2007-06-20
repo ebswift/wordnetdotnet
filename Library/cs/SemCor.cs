@@ -35,20 +35,21 @@ namespace Wnlib
 	{
 		public int semcor = 0;
 
-        public SemCor() {
-            // empty constructor for serialization
-        }
+		public SemCor()
+		{
+			// empty constructor for serialization
+		}
 
 		public SemCor(Lexeme lex, int hereiam)
 		{
 			// left-pad the integer with 0's into a string
 			string key = hereiam.ToString("d8") + " " + lex.wnsns;
 
-            System.IO.StreamReader indexFile = new System.IO.StreamReader(Wnlib.WNDB.path + @"\index.sense");
+			StreamReader indexFile = WNDB.GetStreamReader(WNDB.path + @"\index.sense");
 
 			// locate our word and key via a binary search
-			string semline = Wnlib.WNDB.binSearchSemCor(key, lex.word, indexFile);
-			string [] lexinfo = semline.Split(' ');
+			string semline = WNDB.binSearchSemCor(key, lex.word, indexFile);
+			string[] lexinfo = semline.Split(' ');
 			semcor = Convert.ToInt16(lexinfo[lexinfo.GetUpperBound(0)]);
 
 			// TDMS 18 Nov 2005 - added file close
