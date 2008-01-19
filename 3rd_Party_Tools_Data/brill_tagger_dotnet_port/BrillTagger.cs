@@ -247,7 +247,7 @@ namespace BrillTagger
 				} else {
 					SR3 = null;
 				}
-					if ((SubRule.Length == 5)) 
+					if ((SubRule.Length >= 5)) 
 				{
 					SR4 = SubRule[4];
 				} else {
