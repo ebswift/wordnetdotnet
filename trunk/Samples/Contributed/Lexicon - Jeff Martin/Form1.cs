@@ -61,7 +61,7 @@ namespace Lexicon_Sample
 			//
 
 			// TDMS - 14 July 2005 - initialise the WordNet path
-			Wnlib.WNCommon.path = "C:\\Program Files\\WordNet\\2.1\\dict\\";
+			Wnlib.WNCommon.path = "C:\\Program Files (x86)\\WordNet\\3.0\\dict\\";
 		}
 
 		/// <summary>
