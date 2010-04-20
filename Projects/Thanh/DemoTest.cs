@@ -24,7 +24,27 @@ namespace WordsMatching
         void Test_1()
         {
             SentenceSimilarity semsim = new SentenceSimilarity();
+
             float score = 0;
+
+            System.Console.WriteLine("Monkey: ");
+
+            score = semsim.GetScore(
+            "monkey",
+            "animal");
+            System.Console.WriteLine("animal: " + score);
+
+            score = semsim.GetScore(
+            "monkey",
+            "mineral");
+            System.Console.WriteLine("mineral: " + score);
+
+            score = semsim.GetScore(
+            "monkey",
+            "vegetable");
+            System.Console.WriteLine("vegetable: " + score);
+
+            /*
             score = semsim.GetScore(
             "flora",
             "person");
@@ -40,7 +60,7 @@ namespace WordsMatching
             "boy",
             "animal");
             System.Console.WriteLine("Score: " + (score == 0.71F));
-            
+            */
         }
         public DemoTest() //NUnit missing! 
 		{

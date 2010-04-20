@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <RootNamespace>WordNetControls</RootNamespace>
@@ -7,6 +7,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <MyType>Windows</MyType>
     <ProjectGuid>{D794B3DE-0081-4CDD-994F-3E3AC648C4AB}</ProjectGuid>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
