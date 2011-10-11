@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -8,17 +8,16 @@
     <OutputType>WinExe</OutputType>
     <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
     <NoConfig>false</NoConfig>
-    <ProjectGuid>{8FC56310-E0E6-4EF8-9094-E6E4C61934A1}</ProjectGuid>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
+    <ProjectGuid>{BD485C1D-234F-4142-8118-F8298A82D5C8}</ProjectGuid>
+    <FileUpgradeFlags />
     <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <UpgradeBackupLocation />
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <OptionExplicit>On</OptionExplicit>
     <OptionStrict>Off</OptionStrict>
     <OptionCompare>Binary</OptionCompare>
     <OptionInfer>Off</OptionInfer>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <WarningLevel>1</WarningLevel>
@@ -42,25 +41,29 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedOptions.vb">
+    <Compile Include="AdvancedOptions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="MyNamespaceSupportForCSharp.cs" />
+    <Compile Include="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="AdvancedOptions.resx">
-      <DependentUpon>AdvancedOptions.vb</DependentUpon>
+      <DependentUpon>AdvancedOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="AssemblyInfo.vb" />
-    <Compile Include="StartForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <EmbeddedResource Include="StartForm.resx">
-      <DependentUpon>StartForm.vb</DependentUpon>
+      <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -68,10 +71,10 @@
       <Project>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</Project>
       <Name>WordNet.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controls\WordNetControls\WordNetControls.vbproj">
-      <Project>{D794B3DE-0081-4CDD-994F-3E3AC648C4AB}</Project>
+    <ProjectReference Include="..\Controls\WordNetControls\WordNetControls.csproj">
+      <Project>{8050E39B-0F64-40FA-8696-FE03AE14A698}</Project>
       <Name>WordNetControls</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.Targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
