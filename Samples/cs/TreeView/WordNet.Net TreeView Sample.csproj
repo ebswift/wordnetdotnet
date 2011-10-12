@@ -21,7 +21,7 @@
     <WarningLevel>1</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
-    <OutputPath>.\</OutputPath>
+    <OutputPath>obj\Debug\</OutputPath>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <NoWarn>42353,42354,42355</NoWarn>
     <DebugType>Full</DebugType>
@@ -79,6 +79,12 @@
       <Project>{8050E39B-0F64-40FA-8696-FE03AE14A698}</Project>
       <Name>WordNetControls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\license.txt">
+      <Link>license.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>
