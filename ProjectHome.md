@@ -1,0 +1,1 @@
+Complete .Net Framework API for accessing the WordNet database.  See the wiki for more information.
