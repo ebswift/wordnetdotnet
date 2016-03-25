@@ -52,20 +52,27 @@ namespace Wnlib
 		internal bool prlexid = false;
 		public int taggedSenses;
 		public const int ALLSENSES = 0;
+        private CustomGrep customgrep = null;
 
 		public Search(string w, bool doMorphs, string p, string s, int sn)
 			: this(w, doMorphs, PartOfSpeech.of(p), new SearchType(s), sn)
 		{
 		}
 
-		public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn)
-			: this(w, p, s, sn)
+		public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn) : this(w, p, s, sn)
 		{
 			if (p != null)
 				do_search(doMorphs);
 		}
 
-		internal Search(string w, PartOfSpeech p, SearchType s, int sn)
+        public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn, CustomGrep cg) : this(w, p, s, sn)
+        {
+            customgrep = cg;
+            if (p != null)
+                do_search(doMorphs);
+        }
+
+        internal Search(string w, PartOfSpeech p, SearchType s, int sn)
 		{
 			word = w;
 			pos = p;
@@ -149,24 +156,28 @@ namespace Wnlib
 			Index idx = null;
 			int depth = sch.rec ? 1 : 0;
 			senses = new SynSetList();
-			switch (sch.ptp.mnemonic)
-			{
-				case "OVERVIEW":
-					WNOverview();
-					break;
-				case "FREQ":
-					if (countSenses == null)
-						countSenses = new ArrayList();
-					while ((idx = ixs.next()) != null)
-					{
-						countSenses.Add(idx.offs.Length);
-						buf += "Sense " + countSenses.Count + ": " +
-							idx.offs.Length;
-					}
-					break;
-				case "WNGREP":
-					strings = WNDB.wngrep(word, pos);
-					for (int wi = 0; wi < strings.Count; wi++)
+            switch (sch.ptp.mnemonic)
+            {
+                case "OVERVIEW":
+                    WNOverview();
+                    break;
+                case "FREQ":
+                    if (countSenses == null)
+                        countSenses = new ArrayList();
+                    while ((idx = ixs.next()) != null)
+                    {
+                        countSenses.Add(idx.offs.Length);
+                        buf += "Sense " + countSenses.Count + ": " +
+                            idx.offs.Length;
+                    }
+                    break;
+                case "WNGREP":
+                    if (!(customgrep == null)) {
+                        strings = customgrep.wngrep(word, pos);
+                    } else {
+                        strings = WNDB.wngrep(word, pos);
+                    }
+                    for (int wi = 0; wi < strings.Count; wi++)
 						buf += (string)strings[wi] + "\n";
 					break;
 				case "VERBGROUP":
@@ -650,4 +661,13 @@ namespace Wnlib
 			new AdjMarker("PREDICATIVE", "(predicate)");
 		}
 	}
+
+    // use this class to override wngrep from util.cs
+    public class CustomGrep
+    {
+        public virtual ArrayList wngrep(string wordPassed, PartOfSpeech pos)
+        {
+            return new ArrayList();
+        }
+    }
 }

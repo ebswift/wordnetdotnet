@@ -19,7 +19,8 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <NoStdLib />
@@ -67,13 +68,89 @@
       <DependentUpon>StartForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="dict\adj.exc" />
+    <None Include="dict\adv.exc" />
+    <None Include="dict\cntlist" />
+    <None Include="dict\cntlist.rev" />
+    <None Include="dict\cousin.exc" />
+    <None Include="dict\data.adj" />
+    <None Include="dict\data.adv" />
+    <None Include="dict\data.noun" />
+    <None Include="dict\data.verb" />
+    <None Include="dict\dbfiles\adj.all" />
+    <None Include="dict\dbfiles\adj.pert" />
+    <None Include="dict\dbfiles\adj.ppl" />
+    <None Include="dict\dbfiles\adv.all" />
+    <None Include="dict\dbfiles\cntlist" />
+    <None Include="dict\dbfiles\noun.act" />
+    <None Include="dict\dbfiles\noun.animal" />
+    <None Include="dict\dbfiles\noun.artifact" />
+    <None Include="dict\dbfiles\noun.attribute" />
+    <None Include="dict\dbfiles\noun.body" />
+    <None Include="dict\dbfiles\noun.cognition" />
+    <None Include="dict\dbfiles\noun.communication" />
+    <None Include="dict\dbfiles\noun.event" />
+    <None Include="dict\dbfiles\noun.feeling" />
+    <None Include="dict\dbfiles\noun.food" />
+    <None Include="dict\dbfiles\noun.location" />
+    <None Include="dict\dbfiles\noun.motive" />
+    <None Include="dict\dbfiles\noun.object" />
+    <None Include="dict\dbfiles\noun.person" />
+    <None Include="dict\dbfiles\noun.phenomenon" />
+    <None Include="dict\dbfiles\noun.plant" />
+    <None Include="dict\dbfiles\noun.possession" />
+    <None Include="dict\dbfiles\noun.process" />
+    <None Include="dict\dbfiles\noun.quantity" />
+    <None Include="dict\dbfiles\noun.relation" />
+    <None Include="dict\dbfiles\noun.shape" />
+    <None Include="dict\dbfiles\noun.state" />
+    <None Include="dict\dbfiles\noun.substance" />
+    <None Include="dict\dbfiles\noun.time" />
+    <None Include="dict\dbfiles\noun.Tops" />
+    <None Include="dict\dbfiles\verb.body" />
+    <None Include="dict\dbfiles\verb.change" />
+    <None Include="dict\dbfiles\verb.cognition" />
+    <None Include="dict\dbfiles\verb.communication" />
+    <None Include="dict\dbfiles\verb.competition" />
+    <None Include="dict\dbfiles\verb.consumption" />
+    <None Include="dict\dbfiles\verb.creation" />
+    <None Include="dict\dbfiles\verb.emotion" />
+    <None Include="dict\dbfiles\verb.Framestext" />
+    <None Include="dict\dbfiles\verb.motion" />
+    <None Include="dict\dbfiles\verb.perception" />
+    <None Include="dict\dbfiles\verb.possession" />
+    <None Include="dict\dbfiles\verb.social" />
+    <None Include="dict\dbfiles\verb.stative" />
+    <None Include="dict\dbfiles\verb.weather" />
+    <None Include="dict\frames.vrb" />
+    <None Include="dict\index.adj" />
+    <None Include="dict\index.adv" />
+    <None Include="dict\index.noun" />
+    <None Include="dict\index.sense" />
+    <None Include="dict\index.verb" />
+    <None Include="dict\log.grind.2.1" />
+    <None Include="dict\log.grind.3.1" />
+    <None Include="dict\noun.exc" />
+    <None Include="dict\sentidx.vrb" />
+    <None Include="dict\sents.vrb" />
+    <None Include="dict\verb.exc" />
+    <None Include="dict\verb.Framestext" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Library\cs\WordNet.Net.csproj">
       <Project>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</Project>
       <Name>WordNet.Net</Name>
       <Private />
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dict\dbfiles\noun.group" />
+    <Content Include="dict\dbfiles\verb.contact" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.Targets" />
 </Project>
