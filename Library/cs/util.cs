@@ -106,29 +106,29 @@ namespace Wnlib
 
 		static Opt()
 		{
-			new Opt("-synsa", "SIMPTR", "ADJ", 0, "Similarity");
+			new Opt("-synsa", "SIMPTR", "ADJ", 0, "Similarity");   // 0
 			new Opt("-antsa", "ANTPTR", "ADJ", 1, "Antonyms");
 			new Opt("-perta", "PERTPTR", "ADJ", 0, "Pertainyms");
 			new Opt("-attra", "ATTRIBUTE", "ADJ", 2, "Attributes");
 			new Opt("-domna", "CLASSIFICATION", "ADJ", 3, "Domain");
-			new Opt("-domta", "CLASS", "ADJ", 4, "Domain Terms");
+			new Opt("-domta", "CLASS", "ADJ", 4, "Domain Terms");  // 5
 			new Opt("-famla", "FREQ", "ADJ", 5, "Familiarity");
 			new Opt("-grepa", "WNGREP", "ADJ", 6, "Grep");
 
 			new Opt("-synsn", "HYPERPTR", "NOUN", 0, "Synonyms/Hypernyms (Ordered by Estimated Frequency): brief");
 			// WN1.6			new Opt( "-simsn", "RELATIVES", "NOUN", 1, "Synonyms (Grouped by Similarity of Meaning)" );
 			new Opt("-antsn", "ANTPTR", "NOUN", 2, "Antonyms");
-			new Opt("-coorn", "COORDS", "NOUN", 3, "Coordinate Terms (sisters)");
+			new Opt("-coorn", "COORDS", "NOUN", 3, "Coordinate Terms (sisters)");   // 10
 			new Opt("-hypen", "-HYPERPTR", "NOUN", 4, "Synonyms/Hypernyms (Ordered by Estimated Frequency): full");
 			new Opt("-hypon", "HYPOPTR", "NOUN", 5, "Hyponyms");
 			new Opt("-treen", "-HYPOPTR", "NOUN", 6, "Hyponyms Tree");
 			new Opt("-holon", "HOLONYM", "NOUN", 7, "Holonyms");
-			new Opt("-sprtn", "ISPARTPTR", "NOUN", 7, "Part Holonyms");
+			new Opt("-sprtn", "ISPARTPTR", "NOUN", 7, "Part Holonyms");  // 15
 			new Opt("-smemn", "ISMEMBERPTR", "NOUN", 7, "Member Holonyms");
 			new Opt("-ssubn", "ISSTUFFPTR", "NOUN", 7, "Substance Holonyms");
 			new Opt("-hholn", "-HHOLONYM", "NOUN", 8, "Holonyms Tree");
 			new Opt("-meron", "MERONYM", "NOUN", 9, "Meronyms");
-			new Opt("-subsn", "HASSTUFFPTR", "NOUN", 9, "Substance Meronyms");
+			new Opt("-subsn", "HASSTUFFPTR", "NOUN", 9, "Substance Meronyms");  // 20
 			new Opt("-partn", "HASPARTPTR", "NOUN", 9, "Part Meronyms");
 			new Opt("-membn", "HASMEMBERPTR", "NOUN", 9, "Member Meronyms");
 			new Opt("-hmern", "-HMERONYM", "NOUN", 10, "Meronyms Tree");
@@ -139,7 +139,7 @@ namespace Wnlib
 			// the commandline version of wordnet 2.1 still references this as derivation so there is some conflict here
 			// TODO: resolve conflict
 			//new Opt("-nomnn", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms"); // modified TDMS 26/8/05 - derivation->nominalization
-			//new Opt("-derin", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms"); // modified TDMS 26/8/05 - derivation->nominalization
+			//new Opt("-derin", "NOMINALIZATIONS", "NOUN", 11, "Derived Forms");  // 25 // modified TDMS 26/8/05 - derivation->nominalization
 			new Opt( "-nomnn", "DERIVATION", "NOUN", 11, "Derived Forms" ); // TDMS 26/8/05 - replaced by above
 			new Opt( "-derin", "DERIVATION", "NOUN", 11, "Derived Forms" ); // TDMS 26/8/05 - replaced by above
 
@@ -147,18 +147,18 @@ namespace Wnlib
 			new Opt("-domtn", "CLASS", "NOUN", 14, "Domain Terms");
 			new Opt("-attrn", "ATTRIBUTE", "NOUN", 12, "Attributes");
 			new Opt("-famln", "FREQ", "NOUN", 15, "Familiarity");
-			new Opt("-grepn", "WNGREP", "NOUN", 16, "Grep");
+			new Opt("-grepn", "WNGREP", "NOUN", 16, "Grep");  // 30
 
 			new Opt("-synsv", "HYPERPTR", "VERB", 0, "Synonyms/Hypernyms (Ordered by Estimated Frequency): brief");
 			new Opt("-simsv", "RELATIVES", "VERB", 1, "Synonyms (Grouped by Similarity of Meaning)");
 			new Opt("-antsv", "ANTPTR", "VERB", 2, "Antonyms");
 			new Opt("-coorv", "COORDS", "VERB", 3, "Coordinate Terms (sisters)");
-			new Opt("-hypev", "-HYPERPTR", "VERB", 4, "Synonyms/Hypernyms (Ordered by Estimated Frequency): full");
+			new Opt("-hypev", "-HYPERPTR", "VERB", 4, "Synonyms/Hypernyms (Ordered by Estimated Frequency): full");  // 35
 			new Opt("-hypov", "HYPOPTR", "VERB", 5, "Troponyms (hyponyms)");
 			new Opt("-treev", "-HYPOPTR", "VERB", 5, "Troponyms (hyponyms)");
 			new Opt("-tropv", "-HYPOPTR", "VERB", 5, "Troponyms (hyponyms)");
 			new Opt("-entav", "ENTAILPTR", "VERB", 6, "Entailment");
-			new Opt("-causv", "CAUSETO", "VERB", 7, "\'Cause To\'");
+			new Opt("-causv", "CAUSETO", "VERB", 7, "\'Cause To\'");  // 40
 
 			// TDMS 26/8/05 - this has been modified inline with WordNet 2.1, however it is not verified
 			// the nomnv and deriv codes need to be verified as being identified correctly
@@ -171,19 +171,19 @@ namespace Wnlib
 
 			new Opt("-domnv", "CLASSIFICATION", "VERB", 10, "Domain");
 			new Opt("-domtv", "CLASS", "VERB", 11, "Domain Terms");
-			new Opt("-framv", "FRAMES", "VERB", 9, "Sample Sentences");
+			new Opt("-framv", "FRAMES", "VERB", 9, "Sample Sentences");  // 45
 			new Opt("-famlv", "FREQ", "VERB", 12, "Familiarity");
 			new Opt("-grepv", "WNGREP", "VERB", 13, "Grep");
 
 			new Opt("-synsr", "SYNS", "ADV", 0, "Synonyms");
 			new Opt("-antsr", "ANTPTR", "ADV", 1, "Antonyms");
-			new Opt("-pertr", "PERTPTR", "ADV", 0, "Pertainyms");
+			new Opt("-pertr", "PERTPTR", "ADV", 0, "Pertainyms");  //  50
 			new Opt("-domnr", "CLASSIFICATION", "ADV", 2, "Domain");
 			new Opt("-domtr", "CLASS", "ADV", 3, "Domain Terms");
 			new Opt("-famlr", "FREQ", "ADV", 4, "Familiarity");
 			new Opt("-grepr", "WNGREP", "ADV", 5, "Grep");
 
-			new Opt("-over", "OVERVIEW", "ALL_POS", -1, "Overview");
+			new Opt("-over", "OVERVIEW", "ALL_POS", -1, "Overview");  // 55
 		}
 	}
 

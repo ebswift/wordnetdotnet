@@ -54,25 +54,27 @@ namespace Wnlib
 		public const int ALLSENSES = 0;
         private CustomGrep customgrep = null;
 
-		public Search(string w, bool doMorphs, string p, string s, int sn)
-			: this(w, doMorphs, PartOfSpeech.of(p), new SearchType(s), sn)
+		public Search(string theWord, bool doMorphs, string thePartOfSpeech, string theSearchType, int sn)
+			: this(theWord, doMorphs, PartOfSpeech.of(thePartOfSpeech), new SearchType(theSearchType), sn)
 		{
 		}
 
-		public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn) : this(w, p, s, sn)
+		public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn)
+			: this(w, p, s, sn)
 		{
 			if (p != null)
 				do_search(doMorphs);
 		}
 
-        public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn, CustomGrep cg) : this(w, p, s, sn)
+        public Search(string w, bool doMorphs, PartOfSpeech p, SearchType s, int sn, CustomGrep cg) 
+			: this(w, p, s, sn)
         {
             customgrep = cg;
             if (p != null)
                 do_search(doMorphs);
         }
 
-        internal Search(string w, PartOfSpeech p, SearchType s, int sn)
+		internal Search(string w, PartOfSpeech p, SearchType s, int sn)
 		{
 			word = w;
 			pos = p;
@@ -98,13 +100,13 @@ namespace Wnlib
 		/// </summary>
 		/// <param name="m">Specify if morphs should be searched</param>
 		/// <param name="p">The Part Of Speech to perform the search on</param>
-		public void do_search(bool m, string p)
+		public void do_search(bool doMorphs, string thePartOfSpeech)
 		{
 			if (parts == null)
 				parts = new Hashtable();
-			Search s = new Search(word, PartOfSpeech.of(p), sch, whichsense);
-			s.do_search(m);
-			parts[p] = s;
+			Search s = new Search(word, PartOfSpeech.of(thePartOfSpeech), sch, whichsense);
+			s.do_search(doMorphs);
+			parts[thePartOfSpeech] = s;
 			buf += s.buf;
 		}
 
@@ -156,28 +158,28 @@ namespace Wnlib
 			Index idx = null;
 			int depth = sch.rec ? 1 : 0;
 			senses = new SynSetList();
-            switch (sch.ptp.mnemonic)
-            {
-                case "OVERVIEW":
-                    WNOverview();
-                    break;
-                case "FREQ":
-                    if (countSenses == null)
-                        countSenses = new ArrayList();
-                    while ((idx = ixs.next()) != null)
-                    {
-                        countSenses.Add(idx.offs.Length);
-                        buf += "Sense " + countSenses.Count + ": " +
-                            idx.offs.Length;
-                    }
-                    break;
-                case "WNGREP":
+			switch (sch.ptp.mnemonic)
+			{
+				case "OVERVIEW":
+					WNOverview();
+					break;
+				case "FREQ":
+					if (countSenses == null)
+						countSenses = new ArrayList();
+					while ((idx = ixs.next()) != null)
+					{
+						countSenses.Add(idx.offs.Length);
+						buf += "Sense " + countSenses.Count + ": " +
+							idx.offs.Length;
+					}
+					break;
+				case "WNGREP":
                     if (!(customgrep == null)) {
                         strings = customgrep.wngrep(word, pos);
                     } else {
-                        strings = WNDB.wngrep(word, pos);
+						strings = WNDB.wngrep(word, pos);
                     }
-                    for (int wi = 0; wi < strings.Count; wi++)
+					for (int wi = 0; wi < strings.Count; wi++)
 						buf += (string)strings[wi] + "\n";
 					break;
 				case "VERBGROUP":
