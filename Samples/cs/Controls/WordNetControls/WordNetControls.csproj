@@ -11,7 +11,7 @@
     <FileUpgradeFlags />
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <RemoveIntegerChecks>False</RemoveIntegerChecks>
     <OptionExplicit>On</OptionExplicit>
     <OptionStrict>Off</OptionStrict>
@@ -20,6 +20,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <NoWarn>1591</NoWarn>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -86,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Library\cs\WordNet.Net.csproj">
-      <Project>{F12805B0-D74A-4E5B-A482-7C7CCB69D572}</Project>
+      <Project>{f12805b0-d74a-4e5b-a482-7c7ccb69d572}</Project>
       <Name>WordNet.Net</Name>
     </ProjectReference>
   </ItemGroup>

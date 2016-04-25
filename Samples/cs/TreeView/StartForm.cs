@@ -103,7 +103,7 @@ namespace wnb
 		internal System.Windows.Forms.MenuItem MenuItem17;
 		#region "FormVariables"
 		private AdvancedOptions f3;
-		private static string dictpath = @"..\..\..\..\..\WordNet\";
+		private static string dictpath = @"..\..\..\..\..\WordNet\dict\";
 		private WordNetClasses.WN wnc = new WordNetClasses.WN(dictpath);
 
 		private object pbobject = new object();
