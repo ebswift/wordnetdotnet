@@ -29,7 +29,7 @@
 using System;
 using System.Text;
 
-namespace nullpointer.Metaphone
+namespace Metaphone
 {
     /// <summary>Subclass of DoubleMetaphone, Adam Nelson's (anelson@nullpointer.net)
     ///     C# implementation of Lawrence Phillips' Double Metaphone algorithm,

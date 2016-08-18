@@ -26,7 +26,7 @@
 using System;
 using System.Text;
 
-namespace nullpointer.Metaphone
+namespace Metaphone
 {
     /// <summary>Implements the Double Metaphone phonetic matching algorithm published
     ///     by Lawrence Phillips in June 2000 C/C++ Users Journal. 

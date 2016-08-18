@@ -94,13 +94,13 @@ namespace Wnlib
 			buf = buf.Substring(0, lastholomero);
 		}
 
-		/// <summary>
-		/// Performs a search based on the parameters setup
-		/// in the Search constructor.
-		/// </summary>
-		/// <param name="m">Specify if morphs should be searched</param>
-		/// <param name="p">The Part Of Speech to perform the search on</param>
-		public void do_search(bool doMorphs, string thePartOfSpeech)
+        /// <summary>
+        /// Performs a search based on the parameters setup
+        /// in the Search constructor.
+        /// </summary>
+        /// <param name="doMorphs">Specify if morphs should be searched</param>
+        /// <param name="thePartOfSpeech">The Part Of Speech to perform the search on</param>
+        public void do_search(bool doMorphs, string thePartOfSpeech)
 		{
 			if (parts == null)
 				parts = new Hashtable();
