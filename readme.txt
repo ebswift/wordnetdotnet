@@ -1,3 +1,5 @@
+!!! When checking out or checking in, set CRLF conversion to False, otherwise it __will__ break the dictionary... !!!
+
 The top-level directory structure is as follows:
 
 3rd_Party_Tools_Data -> tools unrelated to the WordNet.Net library, but having some use in processing words.
