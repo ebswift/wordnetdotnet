@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2005 Malcolm Crowe, Troy Simpson 
+ * 
+ * Project Home: http://www.ebswift.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * 
+ * */
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -5,11 +26,6 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic.ApplicationServices;
 using Microsoft.VisualBasic.CompilerServices;
 using Microsoft.VisualBasic.Devices;
-
-// This file was created by the VB to C# converter (SharpDevelop 4.4.2.9749).
-// It contains classes for supporting the VB "My" namespace in C#.
-// If the VB application does not use the "My" namespace, or if you removed the usage
-// after the conversion to C#, you can delete this file.
 
 namespace WordNet.My
 {
