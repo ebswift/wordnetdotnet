@@ -1,0 +1,2 @@
+# maintain lf as the line ending in dictionary files
+*.* text eol=lf
