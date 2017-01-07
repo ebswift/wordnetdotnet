@@ -34,7 +34,8 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Metaphone;
-using ebswift;
+//using ebswift;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace EnableDT_Classes
 {
@@ -109,7 +110,8 @@ namespace EnableDT_Classes
 					//				if (line.IndexOf(word)>=0)
 					try 
 					{
-						if (ebswift.ebString.vbLike(line, word))
+						//if (ebswift.ebString.vbLike(line, word))
+                        if (LikeOperator.LikeString(line, word, Microsoft.VisualBasic.CompareMethod.Text))
 							r.Add(line.Replace("_"," "));
 					} 
 					catch 

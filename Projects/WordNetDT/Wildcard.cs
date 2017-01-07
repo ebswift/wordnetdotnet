@@ -928,7 +928,8 @@ namespace WordNet
                     //				if (line.IndexOf(word)>=0)
                     try
                     {
-                        if (ebswift.ebString.vbLike(line, word))
+                        //if (ebswift.ebString.vbLike(line, word))
+                        if (LikeOperator.LikeString(line, word, Microsoft.VisualBasic.CompareMethod.Text))
                             r.Add(line.Replace("_", " "));
                     }
                     catch
