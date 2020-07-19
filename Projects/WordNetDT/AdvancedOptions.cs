@@ -159,6 +159,7 @@ namespace WordNet
             this.radioSBoth.TabIndex = 6;
             this.radioSBoth.Tag = "ON";
             this.radioSBoth.Text = "Show with searches and overview";
+            this.radioSBoth.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // radioSon
             // 
@@ -169,6 +170,7 @@ namespace WordNet
             this.radioSon.TabIndex = 5;
             this.radioSon.Tag = "on";
             this.radioSon.Text = "Show with searches";
+            this.radioSon.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // radioSoff
             // 
@@ -181,6 +183,7 @@ namespace WordNet
             this.radioSoff.TabStop = true;
             this.radioSoff.Tag = "off";
             this.radioSoff.Text = "Don\'t show";
+            this.radioSoff.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -205,6 +208,7 @@ namespace WordNet
             this.radioOBoth.TabIndex = 6;
             this.radioOBoth.Tag = "ON";
             this.radioOBoth.Text = "Show with searches and overview";
+            this.radioOBoth.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // radioOon
             // 
@@ -215,6 +219,7 @@ namespace WordNet
             this.radioOon.TabIndex = 5;
             this.radioOon.Tag = "on";
             this.radioOon.Text = "Show with searches";
+            this.radioOon.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // radioOoff
             // 
@@ -227,6 +232,7 @@ namespace WordNet
             this.radioOoff.TabStop = true;
             this.radioOoff.Tag = "off";
             this.radioOoff.Text = "Don\'t show";
+            this.radioOoff.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -251,6 +257,7 @@ namespace WordNet
             this.radioABoth.TabIndex = 6;
             this.radioABoth.Tag = "ON";
             this.radioABoth.Text = "Show with searches and overview";
+            this.radioABoth.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // radioAon
             // 
@@ -261,6 +268,7 @@ namespace WordNet
             this.radioAon.TabIndex = 5;
             this.radioAon.Tag = "on";
             this.radioAon.Text = "Show with searches";
+            this.radioAon.CheckedChanged += new System.EventHandler(this.radioAoff_CheckedChanged);
             // 
             // radioAoff
             // 

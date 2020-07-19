@@ -208,7 +208,22 @@ namespace Wnlib
 				}
 				f = st.next();
 			}
-			defn = s.Substring(s.IndexOf('|') + 1);
+			defn = "";
+			
+			if (WNOpt.opt("-o").flag)
+			{
+				defn = " (Synset offset:" + hereiam + ") ";
+			}
+			if (WNOpt.opt("-a").flag)
+			{
+				defn += " (" + WNDB.lexfiles[fnum] + ") ";
+			}
+			if (WNOpt.opt("-g").flag)
+			{
+				search.buf += " -- " + defn;
+			}
+			
+			defn += s.Substring(s.IndexOf('|') + 1);
 		}
 
 		internal bool has(PointerType p)
@@ -704,10 +719,10 @@ namespace Wnlib
 			/* Precede synset with additional information as indicated
 			   by flags */
 			if (WNOpt.opt("-o").flag)
-				search.buf += "(" + hereiam + ") ";
+				search.buf += " <Synset offset:" + hereiam + "> ";
 			if (WNOpt.opt("-a").flag)
 			{
-				search.buf += "<" + WNDB.lexfiles[fnum] + "> ";
+				search.buf += " <i><font color=green>" + WNDB.lexfiles[fnum] + "</font></i> ";
 				search.prlexid = true;
 			}
 			else
@@ -738,10 +753,10 @@ namespace Wnlib
 			int i, wdcnt;
 			bool first = true;
 			if (WNOpt.opt("-o").flag)
-				search.buf += "(" + hereiam + ") ";
+				search.buf += " <Synset offset:" + hereiam + "> ";
 			if (WNOpt.opt("-a").flag)
 			{
-				search.buf += "<" + WNDB.lexfiles[fnum] + "> ";
+				search.buf += " <i><font color='green'>" + WNDB.lexfiles[fnum] + "</font></i> ";
 				search.prlexid = true;
 			}
 			else

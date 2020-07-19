@@ -168,10 +168,6 @@
       <Project>{51062c63-d7cc-466d-8a1b-d516db56047e}</Project>
       <Name>Metaphone.NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\3rd_Party_Tools_Data\vbLike\vbLike.vbproj">
-      <Project>{6a5bd5a1-3c25-4542-b883-5c4008c8d2f8}</Project>
-      <Name>vbLike</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Library\cs\WordNet.Net.csproj">
       <Project>{f12805b0-d74a-4e5b-a482-7c7ccb69d572}</Project>
       <Name>WordNet.Net</Name>
