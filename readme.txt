@@ -14,4 +14,4 @@ Samples -> Sample implementations of the WordNet.Net library.
 
 Tools -> Tools related more to analysing the WordNet database using the API, contributed extras code, and whatever other resources might be available.
 
-For further information see http://www.ebswift.com/wordnetnet.html
+
